@@ -4,9 +4,11 @@ import {useState} from "react";
 import PoliciesList from "./components/policy/Lists";
 import CreateNewPolicy from "./components/policy/create-policy/CreatePolicy";
 import PolicyDetail from "./components/policy/Details";
+import {ObjectContext, UserContext} from "../../../../context";
 
-const NewPolicyModule = ({beneficiary, corporate}) => {
+const NewPolicyModule = () => {
   const [view, setView] = useState("lists");
+  const {user} = useContext(UserContext);
 
   const createNewPolicy = () => {
     setView("create");
@@ -25,8 +27,8 @@ const NewPolicyModule = ({beneficiary, corporate}) => {
         <PoliciesList
           createNewPolicy={createNewPolicy}
           showDetails={showDetails}
-          beneficiary={beneficiary}
-          corporate={corporate}
+          //beneficiary={beneficiary}
+         corporate={user.currentEmployee.facilityDetail._id}
         />
       )}
 
@@ -35,8 +37,8 @@ const NewPolicyModule = ({beneficiary, corporate}) => {
       {view === "details" && (
         <PolicyDetail
           goBack={handleReturn}
-          beneficiary={beneficiary}
-          corporate={corporate}
+          //beneficiary={beneficiary}
+          corporate={user.currentEmployee.facilityDetail._id} 
         />
       )}
     </Box>

@@ -10,16 +10,16 @@ import ChangePolicyPrincipal from "./edit-policy/ChangePrincipal";
 import AddDependentToPolicy from "./edit-policy/AddDependent";
 import PolicyAddProvider from "./edit-policy/AddProvider";
 import ChangePolicySponsor from "./edit-policy/ChangeSponsor";
+import DefaultClientDetail from "../../../../components/client-detail/Client-Detail";
+import DefaultFacilityDetail from "../../../../components/facility-detail/Facility-Detail";
 //import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 //import Claims from "./Claims";
 import {
   EnrolleSchema,
-  EnrolleSchema2,
+  sponsorColumns,
   EnrolleSchema3,
   returnDependentModel,
   returnProviderModel,
-  sponsorColumns,
-  ProviderSchema,
   EnrolleSchema4,
   EnrolleSchemaProvider,
   EnrolleSchema5,
@@ -39,14 +39,17 @@ import ModalBox from "../../../../components/modal";
 import {SponsorSearch} from "../../../helpers/FacilitySearch";
 import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
+import ReactCustomSelectComponent from "../../../../components/react-custom-select";
 
-const PolicyDetail = ({setShowModal}) => {
+const PolicyDetail = ({goBack, beneficiary}) => {
+  const [clientDetail, setClientDetail] = useState(null);
+  const [facilityDetail, setFacilityDetail] = useState(null);
   const [view, setView] = useState("details");
   const [fetchingPlans, setFetchingPlans] = useState(false);
   const [healthPlans, setHealthPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [edit, setEdit] = useState(false);
-  //const [hmo, setHmo] = useState(null);
+  const [hmo, setHmo] = useState(null);
   const [subSponsor, setSubSponsor] = useState(null);
   const [premium, setPremium] = useState({
     amount: "",
@@ -61,21 +64,35 @@ const PolicyDetail = ({setShowModal}) => {
   const [modal, setModal] = useState(null);
   const {register, reset, control, handleSubmit, watch} = useForm({
     defaultValues: {
+      plan_type: state.PolicyModule.selectedPolicy?.planType,
       sponsor_type: state.PolicyModule.selectedPolicy.sponsorshipType,
+      active: {
+        label: state.PolicyModule.selectedPolicy.active ? "Active" : "Inactive",
+        value: state.PolicyModule.selectedPolicy.active,
+      },
+      //approved: state.PolicyModule.selectedPolicy.approved,
+      isPaid: {
+        label: state.PolicyModule.selectedPolicy.isPaid ? "Paid" : "Unpaid",
+        value: state.PolicyModule.selectedPolicy.isPaid,
+      },
+      plan: {
+        ...state.PolicyModule.selectedPolicy.plan,
+        value: state?.PolicyModule?.selectedPolicy?.plan?.planName,
+        label: state?.PolicyModule?.selectedPolicy?.plan?.planName,
+      },
     },
   });
 
   const sponsor_type = watch("sponsor_type");
-  const planName = watch("plan_name");
+  const plan = watch("plan");
+  //const planName = watch("plan_name");
   const planType = watch("plan_type");
+  const isActive = watch("active");
+  const isPaid = watch("isPaid");
+  //const isApproved = watch("approved");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
-  const hmo=state.PolicyModule.selectedPolicy.organization
-  
 
-  console.log(state.PolicyModule.selectedPolicy)
-  //state.ManagedCareModule.selectedClient
-
-  const getHealthPlans = async () => {
+  const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
     const facility = user.currentEmployee.facilityDetail;
     const orgId = isHMO ? facility._id : hmo._id;
@@ -90,39 +107,46 @@ const PolicyDetail = ({setShowModal}) => {
     });
 
     const data = resp.data;
+    console.log(data);
     setHealthPlans(data);
     setFetchingPlans(false);
-  };
+  }, [hmo]);
 
- /*  useEffect(() => {
+  useEffect(() => {
     getHealthPlans();
-  }, [getHealthPlans]); */
+  }, [getHealthPlans]);
 
   useEffect(() => {
     const prevPolicy = state.PolicyModule.selectedPolicy;
 
-    setSubSponsor(policy.sponsor);
-    getHealthPlans()
+    console.log(prevPolicy);
 
-    const initFormValue = {
-      status: prevPolicy?.approved ? "Approved" : "Pending",
-      plan_type: prevPolicy?.planType,
-      plan_name: prevPolicy?.plan?.planName,
-      sponsor_type: prevPolicy.sponsorshipType,
-    };
-    reset(initFormValue);
+    setSubSponsor(prevPolicy.sponsor);
 
     setPolicy(prevPolicy);
-  }, []);
+  }, [state.PolicyModule]);
 
   const getPremiumPrice = useCallback(() => {
-    if (!planName) return;
-    const selectedPlan = healthPlans.find(item => item.planName === planName);
-    setSelectedPlan(selectedPlan);
+    //console.log(plan);
+    if (!plan || plan === undefined || fetchingPlans) return;
+    const selectedPlan = plan.premiums
+      ? plan
+      : healthPlans.find(item => item.planName === plan.value);
 
     const activePremiun = selectedPlan?.premiums.find(
       item => item.planType === planType
     );
+
+    setState(prev => ({
+      ...prev,
+      PolicyModule: {
+        ...prev.PolicyModule,
+        selectedPolicy: {
+          ...prev.PolicyModule.selectedPolicy,
+          plan: selectedPlan,
+        },
+      },
+    }));
 
     //console.log(activePremiun);
 
@@ -132,7 +156,7 @@ const PolicyDetail = ({setShowModal}) => {
         activePremiun?.premiumDurationType || activePremiun?.premiumDurationTwo
       }`,
     });
-  }, [policy, healthPlans, planName, planType]);
+  }, [healthPlans, plan, planType, fetchingPlans]);
 
   useEffect(() => {
     getPremiumPrice();
@@ -150,13 +174,35 @@ const PolicyDetail = ({setShowModal}) => {
   };
 
   const cancelEditPolicy = () => {
+    const oldPolicy = state.PolicyModule.preservedPolicy;
+
+    const oldValues = {
+      sponsor_type: oldPolicy.sponsorshipType,
+      active: {
+        label: oldPolicy.active ? "Active" : "Inactive",
+        value: oldPolicy.active,
+      },
+      //approved: state.PolicyModule.selectedPolicy.approved,
+      isPaid: {
+        label: oldPolicy.isPaid ? "Paid" : "Unpaid",
+        value: oldPolicy.isPaid,
+      },
+      // plan: {
+      //   ...oldPolicy.plan,
+      //   value: oldPolicy?.plan?.planName,
+      //   label: oldPolicy?.plan?.planName,
+      // },
+    };
+
     setState(prev => ({
       ...prev,
       PolicyModule: {
         ...prev.PolicyModule,
-        selectedPolicy: state.PolicyModule.preservedPolicy,
+        selectedPolicy: oldPolicy,
       },
     }));
+
+    reset(oldValues);
     setEdit(false);
   };
 
@@ -201,14 +247,17 @@ const PolicyDetail = ({setShowModal}) => {
   const providerModel = returnProviderModel(removeProvider, !edit);
 
   const handleUpdatePolicyDetails = data => {
+    // return console.log(data);
     showActionLoader();
     const policy = state.PolicyModule.selectedPolicy;
 
     const updatedPolicy = {
       ...policy,
-      plan: selectedPlan,
+      plan: plan,
+      active: isActive.value,
+      isPaid: isPaid.value,
       planType: planType,
-      sponsor: subSponsor,
+      sponsor: data.sponsor_type === "Self" ? "" : subSponsor,
       sponsorshipType: data.sponsor_type,
     };
 
@@ -240,9 +289,8 @@ const PolicyDetail = ({setShowModal}) => {
     const employee = user.currentEmployee;
 
     const policyDetails = {
+      ...policy,
       approved: true,
-      active: true,
-      isPaid: true,
       approvalDate: new Date(),
       approvedby: {
         employeename: `${employee?.firstname} ${employee?.lastname}`,
@@ -257,11 +305,48 @@ const PolicyDetail = ({setShowModal}) => {
           status: "Policy Approved",
         },
       ],
-      ...policy,
     };
     //console.log(policyDetails);
     await policyServer
-      .patch(docId, policyDetails)
+      .patch(policy._id, policyDetails)
+      .then(res => {
+        setState(prev => ({
+          ...prev,
+          PolicyModule: {...prev.PolicyModule, selectedPolicy: res},
+        }));
+        toast.success("Policy Approved");
+      })
+      .catch(err => {
+        //console.log(err);
+        toast.error("Error Approving Policy" + err);
+      });
+  };
+
+  const disapprovePolicy = async () => {
+    const policy = state.PolicyModule.selectedPolicy;
+    const employee = user.currentEmployee;
+
+    const policyDetails = {
+      ...policy,
+      approved: false,
+      approvalDate: new Date(),
+      approvedby: {
+        employeename: `${employee?.firstname} ${employee?.lastname}`,
+        employeeId: employee?._id,
+      },
+      statushx: [
+        ...policy?.statushx,
+        {
+          date: new Date(),
+          employeename: `${employee?.firstname} ${employee?.lastname}`,
+          employeeId: employee?._id,
+          status: "Policy Disapproved",
+        },
+      ],
+    };
+    //console.log(policyDetails);
+    await policyServer
+      .patch(policy._id, policyDetails)
       .then(res => {
         setState(prev => ({
           ...prev,
@@ -313,6 +398,56 @@ const PolicyDetail = ({setShowModal}) => {
       inputType: "TEXT",
     },
   ];
+
+  const onBeneficiaryRowClick = (row, type) => {
+    setClientDetail({...row, clientType: type});
+    setView("client");
+  };
+
+  const onFacilityRowClicked = row => {
+    setFacilityDetail(row);
+    setView("facility");
+  };
+
+  const handleUpdateClient = update => {
+    showActionLoader();
+
+    const prevPolicy = policy;
+
+    const isPrincipal = clientDetail.clientType.toLowerCase() === "principal";
+    const dependents = prevPolicy.dependantBeneficiaries;
+
+    const updatedPolicy = isPrincipal
+      ? {...prevPolicy, principal: update}
+      : {
+          ...prevPolicy,
+          dependantBeneficiaries: dependents.map(item => {
+            if (item._id === update._id) {
+              return update;
+            } else {
+              return item;
+            }
+          }),
+        };
+
+    // return console.log(updatedPolicy);
+
+    policyServer
+      .patch(prevPolicy._id, updatedPolicy)
+      .then(res => {
+        //console.log(res);
+        setState(prev => ({
+          ...prev,
+          PolicyModule: {...prev.PolicyModule, selectedPolicy: res},
+        }));
+        hideActionLoader();
+        toast.success("Beneficiary Updated Successfully.");
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(`Failed to update Beneficiary ${err}`);
+      });
+  };
 
   return (
     <Box>
@@ -394,20 +529,20 @@ const PolicyDetail = ({setShowModal}) => {
           }}
           gap={1}
         >
-          <GlobalCustomButton onClick={setShowModal(0)}>
+          <GlobalCustomButton onClick={goBack}>
             <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
             Back
           </GlobalCustomButton>
 
           <Typography
             sx={{
-              fontSize: "0.95rem",
+              fontSize: "0.85rem",
               fontWeight: "600",
             }}
           >
-            {policy?.principal?.firstname} {policy?.principal?.lastname}'s
-            Policy Details
+            Policy Details For -
           </Typography>
+          <FormsHeaderText text={`${policy.policyNo}`} />
         </Box>
 
         {edit && (
@@ -459,15 +594,22 @@ const PolicyDetail = ({setShowModal}) => {
               Policy Details
             </GlobalCustomButton>
 
-            <GlobalCustomButton onClick={handleEditPolicy}>
-              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-              Edit Details
-            </GlobalCustomButton>
+            {view === "details" && (
+              <GlobalCustomButton onClick={handleEditPolicy}>
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Edit Details
+              </GlobalCustomButton>
+            )}
 
-            {!policy.approved && (
-              <GlobalCustomButton onClick={approvePolicy} color="warning">
+            {!policy.approved ? (
+              {/* <GlobalCustomButton onClick={approvePolicy} color="success">
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Approve Policy
+              </GlobalCustomButton> */}
+            ) : (
+              <GlobalCustomButton onClick={disapprovePolicy} color="warning">
+                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                Disapprove Policy
               </GlobalCustomButton>
             )}
 
@@ -504,351 +646,367 @@ const PolicyDetail = ({setShowModal}) => {
       <Box
         sx={{
           width: "100%",
-          height: "calc(100vh - 10px)",
-          overflow: "scroll",
+          height: beneficiary ? "calc(100vh - 220px)" : "calc(100vh - 150px)",
+          overflowY: "scroll",
         }}
       >
-        <Box p={2}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Box
-                sx={{
-                  width: "100%",
-                }}
-              >
-                <SimpleRadioInput
-                  //value={"Self"}
-                  value={sponsor_type}
-                  defaultValue={sponsor_type}
-                  
-                  //disabled={!edit}
-                  register={register("sponsor_type")}
-                  options={[
-                    {
-                      label: "Self",
-                      value: "Self",
-                    },
-                    {
-                      label: "Company",
-                      value: "Company",
-                    },
-                  ]}
+        {view === "client" && (
+          <DefaultClientDetail
+            detail={clientDetail}
+            updateClient={handleUpdateClient}
+            goBack={() => setView("details")}
+          />
+        )}
+
+        {view === "facility" && (
+          <DefaultFacilityDetail detail={facilityDetail} />
+        )}
+
+        {view === "details" && (
+          <>
+            <Box p={2}>
+              <Grid container spacing={2}>
+                <Grid item md={4}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                    }}
+                  >
+                    <SimpleRadioInput
+                      //value={"Self"}
+                      value={sponsor_type}
+                      defaultValue={sponsor_type}
+                      //disabled={!edit}
+                      register={register("sponsor_type")}
+                      options={[
+                        {
+                          label: "Self",
+                          value: "Self",
+                        },
+                        {
+                          label: "Company",
+                          value: "Company",
+                        },
+                      ]}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item md={4}>
+                  <CustomSelect
+                    disabled={!edit}
+                    control={control}
+                    name="plan_type"
+                    label="Plan Type"
+                    options={[
+                      {value: "Individual", label: "Individual"},
+                      {value: "Family", label: "Family"},
+                    ]}
+                    required
+                    important
+                  />
+                </Grid>
+
+                <Grid item md={4}>
+                  <ReactCustomSelectComponent
+                    disabled={!edit}
+                    control={control}
+                    isLoading={fetchingPlans}
+                    label="Plan Type"
+                    name="plan"
+                    placeholder="Select healthplan..."
+                    options={healthPlans.map(item => {
+                      return {
+                        label: `${item.planName}`,
+                        value: item.planName,
+                        ...item,
+                      };
+                    })}
+                  />
+                </Grid>
+
+                <Grid item md={isHMO ? 4 : 4}>
+                  <Input
+                    value={premium?.amount}
+                    disabled
+                    label={`${policy?.planType} Price`}
+                  />
+                </Grid>
+                <Grid item md={isHMO ? 4 : 4}>
+                  <Input
+                    value={premium?.duration}
+                    disabled
+                    label={`${policy?.planType} Premium Duration`}
+                  />
+                </Grid>
+
+                <Grid item md={4}>
+                  <ReactCustomSelectComponent
+                    disabled={!edit}
+                    control={control}
+                    isLoading={fetchingPlans}
+                    name="active"
+                    label="Activity Status"
+                    placeholder="Status..."
+                    options={[
+                      {
+                        label: "Active",
+                        value: true,
+                      },
+                      {
+                        label: "Inactive",
+                        value: false,
+                      },
+                    ]}
+                  />
+                </Grid>
+
+                <Grid item md={4}>
+                  <ReactCustomSelectComponent
+                    disabled={!edit}
+                    label="Payment Status"
+                    control={control}
+                    isLoading={fetchingPlans}
+                    name="isPaid"
+                    placeholder="Status..."
+                    options={[
+                      {
+                        label: "Paid",
+                        value: true,
+                      },
+                      {
+                        label: "Unpaid",
+                        value: false,
+                      },
+                    ]}
+                  />
+                </Grid>
+
+                {policy?.approved && (
+                  <>
+                    <Grid item xs={12} sm={6} md={4} lg={4}>
+                      <Input
+                        value={dayjs(policy?.approvalDate).format(
+                          "MMMM DD, YYYY"
+                        )}
+                        disabled
+                        label={`Approval Date`}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4} lg={4}>
+                      <Input
+                        value={policy?.approvedby?.employeename}
+                        disabled
+                        label={`Approved by`}
+                      />
+                    </Grid>
+                  </>
+                )}
+
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                  <Input
+                    value={dayjs(policy?.validitystarts).format(
+                      "MMMM DD, YYYY"
+                    )}
+                    disabled
+                    label={`Validity Start`}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                  <Input
+                    value={dayjs(policy?.validityEnds).format("MMMM DD, YYYY")}
+                    disabled
+                    label={`Validity End`}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                  <Input
+                    value={dayjs(policy?.Date_JoinScheme).format(
+                      "MMMM DD, YYYY"
+                    )}
+                    disabled
+                    label={`Date Joined`}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            {sponsor_type === "Company" && (
+              <Box p={2}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                  mb={1.5}
+                >
+                  <FormsHeaderText text="Sponsor Details" />
+
+                  <GlobalCustomButton
+                    onClick={() => setModal("sponsor")}
+                    disabled={!edit}
+                  >
+                    {policy?.sponsor ? "Change Sponsor" : "Add Sponsor"}
+                  </GlobalCustomButton>
+                </Box>
+
+                <CustomTable
+                  title={""}
+                  columns={sponsorColumns}
+                  data={
+                    policy?.sponsor?.organizationDetail
+                      ? [policy?.sponsor?.organizationDetail]
+                      : [policy?.sponsor]
+                  }
+                  // data={
+                  //   policy.sponsor ? [policy?.sponsor?.organizationDetail] : []
+                  // }
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={onFacilityRowClicked}
+                  progressPending={false}
+                  CustomEmptyData="You have no Sponsor yet."
                 />
               </Box>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.policyNo}
-                disabled
-                label={`Policy No`}
-              />
-            </Grid>
+            )}
 
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                disabled={!edit}
-                control={control}
-                name="plan_type"
-                label="Plan Type"
-                options={[
-                  {value: "Individual", label: "Individual"},
-                  {value: "Family", label: "Family"},
-                ]}
-                required
-                important
+            <Box p={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Principal Details" />
+
+                <GlobalCustomButton
+                  onClick={() => setModal("principal")}
+                  disabled={!edit}
+                >
+                  Change Principal
+                </GlobalCustomButton>
+              </Box>
+
+              <CustomTable
+                title={""}
+                columns={EnrolleSchema3}
+                data={[policy?.principal]}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={data => onBeneficiaryRowClick(data, "principal")}
+                progressPending={false}
+                CustomEmptyData="You have no Principal yet."
               />
-            </Grid>
-            {edit?
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                name="plan_name"
-                label="Choose Plan"
-                disabled={!edit}
-                options={
-                  fetchingPlans ? [] : healthPlans.map(item => item.planName)
+            </Box>
+
+            {planType === "Family" && (
+              <Box p={2}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                  mb={1.5}
+                >
+                  <FormsHeaderText text="Dependants List" />
+
+                  <GlobalCustomButton
+                    onClick={() => setModal("dependent")}
+                    disabled={!edit}
+                  >
+                    Add Dependant
+                  </GlobalCustomButton>
+                </Box>
+
+                <CustomTable
+                  title={""}
+                  columns={dependentModel}
+                  data={policy?.dependantBeneficiaries}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={data =>
+                    onBeneficiaryRowClick(data, "dependent")
+                  }
+                  progressPending={false}
+                  CustomEmptyData="You have no Dependants yet."
+                />
+              </Box>
+            )}
+
+            <Box p={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Providers List" />
+
+                <GlobalCustomButton
+                  onClick={() => setModal("provider")}
+                  disabled={!edit}
+                >
+                  Add Provider
+                </GlobalCustomButton>
+              </Box>
+
+              <CustomTable
+                title={""}
+                columns={providerModel}
+                data={policy?.providers}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={row =>
+                  onFacilityRowClicked(row.organizationDetail)
                 }
-                required
-                important
-                control={control}
-                //register={register("plan_name")}
+                progressPending={false}
+                CustomEmptyData="You have no Providers yet."
               />
-            </Grid>:
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.plan?.planName}
-                disabled
-                label={`Plan`}
-              />
-            </Grid>}
-{/* 
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={premium?.amount}
-                disabled
-                label={`${policy?.planType} Price`}
-              />
-            </Grid> */}
-           {/*  <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={premium?.duration}
-                disabled
-                label={`${policy?.planType} Premium Duration`}
-              />
-            </Grid> */}
-            {edit?
-             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                disabled={!edit}
-                control={control}
-                name="approved"
-                label="Approved"
-                options={[
-                  {value: false, label: "Pending"},
-                  {value: true, label: "Approve"},
-                ]}
-                required
-                important
-              />
-            </Grid>:
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.approved?"Approved":"Pending"}
-                disabled
-                label={`Approved`}
-              />
-            </Grid>}
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.approvalDate}
-                disabled
-                label={`Approval Date`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.approvedby?.employeename}
-                disabled
-                label={`Approved by`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.isPaid?"Yes":"No"}
-                disabled
-                label={`Paid`}
-              />
-            </Grid> 
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={dayjs(policy?.validitystarts).format("DD-MM-YYYY")}
-                disabled
-                label={`Validity Start`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={dayjs(policy?.validityEnds).format("DD-MM-YYYY")}
-                disabled
-                label={`Validity End`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={dayjs(policy?.Date_JoinScheme).format("DD-MM-YYYY")}
-                disabled
-                label={`Date Joined`}
-              />
-            </Grid>
-          
-            {edit?
-             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <CustomSelect
-                disabled={!edit}
-                control={control}
-                name="active"
-                label="Active"
-                options={[
-                  {value: false, label: "Inactive"},
-                  {value: true, label: "Active"},
-                ]}
-                required
-                important
-              />
-            </Grid>:
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Input
-                value={policy?.active?"Active":"Inactive"}
-                disabled
-                label={`Active`}
-              />
-            </Grid> }
-
-          </Grid>
-        </Box>
-
-        {sponsor_type === "Company" && (
-          <Box p={2}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              mb={1.5}
-            >
-              <FormsHeaderText text="Sponsor Details" />
-
-              <GlobalCustomButton
-                onClick={() => setModal("sponsor")}
-                disabled={!edit}
-              >
-                {policy?.sponsor ? "Change Sponsor" : "Add Sponsor"}
-              </GlobalCustomButton>
             </Box>
 
-            <CustomTable
-              title={""}
-              columns={sponsorColumns}
-              data={policy?.sponsor?.organizationDetail ? [policy?.sponsor?.organizationDetail] : [policy?.sponsor]}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => {}}
-              progressPending={false}
-              CustomEmptyData="You have no Sponsor yet."
-            />
-          </Box>
-        )}
-
-        <Box p={2}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            mb={1.5}
-          >
-            <FormsHeaderText text="Principal Details" />
-
-            <GlobalCustomButton
-              onClick={() => setModal("principal")}
-              disabled={!edit}
-            >
-              Change Principal
-            </GlobalCustomButton>
-          </Box>
-
-          <CustomTable
-            title={""}
-            columns={EnrolleSchema3}
-            data={[policy?.principal]}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={() => {}}
-            progressPending={false}
-            CustomEmptyData="You have no Principal yet."
-          />
-        </Box>
-
-        {planType === "Family" && (
-          <Box p={2}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              mb={1.5}
-            >
-              <FormsHeaderText text="Dependants List" />
-
-              <GlobalCustomButton
-                onClick={() => setModal("dependent")}
-                disabled={!edit}
+            <Box p={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
               >
-                Add Dependant
-              </GlobalCustomButton>
-            </Box>
+                <FormsHeaderText text="Policy Status History" />
 
-            <CustomTable
-              title={""}
-              columns={dependentModel}
-              data={policy?.dependantBeneficiaries}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={() => {}}
-              progressPending={false}
-              CustomEmptyData="You have no Dependants yet."
-            />
-          </Box>
-        )}
-
-        <Box p={2}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            mb={1.5}
-          >
-            <FormsHeaderText text="Providers List" />
-
-            <GlobalCustomButton
-              onClick={() => setModal("provider")}
-              disabled={!edit}
-            >
-              Add Provider
-            </GlobalCustomButton>
-          </Box>
-
-          <CustomTable
-            title={""}
-            columns={ProviderSchema}
-            data={policy?.providers}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={() => {}}
-            progressPending={false}
-            CustomEmptyData="You have no Providers yet."
-          />
-        </Box>
-
-        <Box p={2}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            mb={1.5}
-          >
-            <FormsHeaderText text="Policy Status History" />
-
-            {/* <GlobalCustomButton
+                {/* <GlobalCustomButton
             onClick={() => console.log("provider")}
             disabled={!edit}
           >
             Clear History
           </GlobalCustomButton> */}
-          </Box>
+              </Box>
 
-          <CustomTable
-            title={""}
-            columns={statushxColums}
-            data={policy?.statushx}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={() => {}}
-            progressPending={false}
-            CustomEmptyData="Policy has no Status"
-          />
-        </Box>
+              <CustomTable
+                title={""}
+                columns={statushxColums}
+                data={policy?.statushx}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={() => {}}
+                progressPending={false}
+                CustomEmptyData="Policy has no Status"
+              />
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );

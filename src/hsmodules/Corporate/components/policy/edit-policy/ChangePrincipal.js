@@ -317,7 +317,7 @@ const ChangePolicyPrincipal = ({closeModal}) => {
       } else {
         const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
           data.dob
-        ).format("DD-MM-YYY")}@healthstack.africa`;
+        ).format("DD/MM/YYY")}@healthstack.africa`;
 
         const clientData = {
           ...data,
