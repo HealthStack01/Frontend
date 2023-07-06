@@ -220,7 +220,7 @@ export default function EncounterRight() {
         "Preventive Care" && <PreventiveCare />}
          {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Lab" && <DentalLab />}
-        {state.DocumentClassModule.selectedDocumentClass.name ===
+      {state.DocumentClassModule.selectedDocumentClass.name ===
         "Physiotherapy Medical Screening" && <MedicalScreeningForm />}
             {state.DocumentClassModule.selectedDocumentClass.name ===
         "Physiotherapy History & Interview Form" && <PhysiotherapyHistory />}
@@ -869,7 +869,7 @@ export function LabNoteCreate() {
       type: "Point",
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
-    // console.log(document)
+    // console.log(document)??????????
 
     if (
       document.location === undefined ||
