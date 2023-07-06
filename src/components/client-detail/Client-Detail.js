@@ -49,22 +49,44 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
 
   return (
     <Box>
-      {showHeader && (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #f8f8f8",
+          backgroundColor: "#f8f8f8",
+          position: "sticky",
+          zIndex: 99,
+          top: 0,
+          left: 0,
+        }}
+        mb={2}
+        p={2}
+      >
         <Box
           sx={{
             display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-            borderBottom: "1px solid #f8f8f8",
-            backgroundColor: "#f8f8f8",
-            position: "sticky",
-            zIndex: 99,
-            top: 0,
-            left: 0,
+            alignItems: "center",
           }}
-          mb={2}
-          p={2}
+          gap={1}
         >
+          <GlobalCustomButton onClick={goBack}>
+            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            Back
+          </GlobalCustomButton>
+
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Details for Client - {detail?.firstname} {detail?.lastname}'s
+          </Typography>
+        </Box>
+
+        {edit && (
           <Box
             sx={{
               display: "flex",
@@ -72,116 +94,96 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
             }}
             gap={1}
           >
-            <GlobalCustomButton onClick={goBack}>
-              <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
-              Back
+            <GlobalCustomButton
+              color="success"
+              onClick={handleSubmit(handleUpdateClient)}
+            >
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Update Client
             </GlobalCustomButton>
 
-            <Typography
-              sx={{
-                fontSize: "0.95rem",
-                fontWeight: "600",
-              }}
-            >
-              Details for Client - {detail?.firstname} {detail?.lastname}'s
-            </Typography>
+            <GlobalCustomButton color="warning" onClick={handleCancelUpdate}>
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Cancel Update
+            </GlobalCustomButton>
           </Box>
+        )}
 
-          {edit && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              gap={1}
-            >
-              <GlobalCustomButton
-                color="success"
-                onClick={handleSubmit(handleUpdateClient)}
-              >
+        {!edit && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+            gap={1}
+          >
+            {view === "details" && (
+              <GlobalCustomButton onClick={() => setEdit(true)}>
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Update Client
+                Edit Client
               </GlobalCustomButton>
+            )}
 
-              <GlobalCustomButton color="warning" onClick={handleCancelUpdate}>
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Cancel Update
-              </GlobalCustomButton>
-            </Box>
-          )}
-
-          {!edit && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              gap={1}
+            <GlobalCustomButton
+              onClick={() => setView("details")}
+              sx={
+                view === "details"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
             >
-              {view === "details" && (
-                <GlobalCustomButton onClick={() => setEdit(true)}>
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Client Details
+            </GlobalCustomButton>
+
+            {showHeader && (
+              <>
+                <GlobalCustomButton
+                  onClick={() => setView("policies")}
+                  sx={
+                    view === "policies"
+                      ? {
+                          backgroundColor: "#ffffff",
+                          color: "#000000",
+                          "&:hover": {
+                            backgroundColor: "#ffffff",
+                          },
+                        }
+                      : {}
+                  }
+                >
                   <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                  Edit Client
+                  Policies
                 </GlobalCustomButton>
-              )}
 
-              <GlobalCustomButton
-                onClick={() => setView("details")}
-                sx={
-                  view === "details"
-                    ? {
-                        backgroundColor: "#ffffff",
-                        color: "#000000",
-                        "&:hover": {
+                <GlobalCustomButton
+                  onClick={() => setView("claims")}
+                  sx={
+                    view === "claims"
+                      ? {
                           backgroundColor: "#ffffff",
-                        },
-                      }
-                    : {}
-                }
-              >
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Client Details
-              </GlobalCustomButton>
-
-              <GlobalCustomButton
-                onClick={() => setView("policies")}
-                sx={
-                  view === "policies"
-                    ? {
-                        backgroundColor: "#ffffff",
-                        color: "#000000",
-                        "&:hover": {
-                          backgroundColor: "#ffffff",
-                        },
-                      }
-                    : {}
-                }
-              >
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Policies
-              </GlobalCustomButton>
-
-              <GlobalCustomButton
-                onClick={() => setView("claims")}
-                sx={
-                  view === "claims"
-                    ? {
-                        backgroundColor: "#ffffff",
-                        color: "#000000",
-                        "&:hover": {
-                          backgroundColor: "#ffffff",
-                        },
-                      }
-                    : {}
-                }
-              >
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                Claims
-              </GlobalCustomButton>
-            </Box>
-          )}
-        </Box>
-      )}
+                          color: "#000000",
+                          "&:hover": {
+                            backgroundColor: "#ffffff",
+                          },
+                        }
+                      : {}
+                  }
+                >
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Claims
+                </GlobalCustomButton>
+              </>
+            )}
+          </Box>
+        )}
+      </Box>
 
       {view === "policies" && <NewPolicyModule beneficiary={detail} />}
 

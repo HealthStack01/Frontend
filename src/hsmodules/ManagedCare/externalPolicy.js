@@ -45,8 +45,8 @@ import {
   EnrolleSchema5,
   principalData,
 } from "./schema";
-
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1740,8 +1740,8 @@ export function ClientCreate({closeModal}) {
                         register={register("gender", {required: true})}
                         onBlur={checkClient}
                         options={[
-                          { label: 'Male', value: 'Male' },
-                          { label: 'Female', value: 'Female' },
+                          {label: "Male", value: "Male"},
+                          {label: "Female", value: "Female"},
                         ]}
                         errorText={errors?.gender?.message}
                       />

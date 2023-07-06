@@ -693,7 +693,7 @@ export function PrescriptionList({standalone}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
-              List of Presciptions
+              List of Presciption
             </h2>
           </div>
 

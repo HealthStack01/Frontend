@@ -11,23 +11,31 @@ import {ObjectContext, UserContext} from "../../../../context";
 import client from "../../../../feathers";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../../ui/styled/styles";
+import {updateOnCreated} from "../../../../functions/Updates";
 
 import dayjs from "dayjs";
 
-const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
+const PoliciesList = ({
+  createNewPolicy,
+  showDetails,
+  beneficiary,
+  corporate,
+  corporateOrg,
+}) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
   const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   const {user, setUser} = useContext(UserContext);
   const [status, setStatus] = useState("approved");
+  const [total, setTotal] = useState();
 
   const handleCreateNew = async () => {
     createNewPolicy();
   };
 
   const handleRow = policy => {
-    // return console.log(policy);
+    //return console.log(policy);
     setState(prev => ({
       ...prev,
       PolicyModule: {
@@ -156,17 +164,52 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
     if (beneficiary) {
       query["principal._id"] = beneficiary._id;
     }
-    const resp = await policyServer.find({
-      query: query,
-    });
-    setPolicies(resp.data);
+
+    if (corporate) {
+      query = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $or: [
+          {"sponsor.facilityName": corporate.facilityName},
+          {"sponsor._id": corporate._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    if (corporateOrg) {
+      query = {
+        $or: [
+          {"sponsor.facilityName": corporateOrg.facilityName},
+          {"sponsor._id": corporateOrg._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    policyServer
+      .find({
+        query: query,
+      })
+      .then(resp => {
+        setPolicies(resp.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        toast.error(`Something went wrong! ${err}`);
+      });
     setLoading(false);
+    setTotal(resp.total)
   }, [status]);
 
   useEffect(() => {
     getPolicies();
 
-    policyServer.on("created", obj => getPolicies());
+    policyServer.on("created", obj => {
+      const newPolicies = updateOnCreated();
+      setPolicies(newPolicies);
+    });
     policyServer.on("updated", obj => getPolicies());
     policyServer.on("patched", obj => getPolicies());
     policyServer.on("removed", obj => getPolicies());
@@ -345,6 +388,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
           )}
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
             {status === "approved" ? "Approved" : "Pending"} Policies
+            ({total})
           </h2>
 
           {status === "approved" && (
@@ -368,7 +412,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
           )}
         </div>
 
-        {!beneficiary && (
+        {!beneficiary && !corporate && (
           <Box
             sx={{
               display: "flex",
@@ -391,7 +435,10 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
       <Box
         style={{
-          height: beneficiary ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
+          height:
+            beneficiary || corporate
+              ? "calc(100vh - 240px)"
+              : "calc(100vh - 140px)",
           overflowY: "scroll",
         }}
       >

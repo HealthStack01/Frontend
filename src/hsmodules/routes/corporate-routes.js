@@ -1,6 +1,6 @@
 import {lazy} from "react";
 
-const Policy = lazy(() => import("../Corporate/Policy"));
+const Policy = lazy(() => import("../Corporate/CorpPolicynew"));
 //const ExternalPolicy = lazy(() => import("../Corporate/externalPolicy"));
 const Beneficiary = lazy(() => import("../Corporate/Beneficiary"));
 //const TarrifList = lazy(() => import("../Corporate/Tarrifs"));

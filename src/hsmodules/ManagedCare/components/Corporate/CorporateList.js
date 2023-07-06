@@ -15,25 +15,34 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState();
   const [organizationClients, setOrganizationClients] = useState([]);
 
   const handleCreateNew = async () => {
     showCreate();
   };
 
-  const handleRow = async facility => {
+  const handleRow = data => {
+    //console.log(data);
+    setState(prev => ({
+      ...prev,
+      ManagedCareCorporate: {
+        ...prev.ManagedCareCorporate,
+        selectedCorporate: data,
+      },
+    }));
     showDetails();
   };
 
   const handleSearch = val => {
     if (val.trim() === "" && val.length < 3) return;
-    orgServ
+    orgClientServer
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           relationshiptype: "sponsor",
           $search: val,
-          $limit: 10,
+          //$limit: 10,
           $sort: {
             createdAt: -1,
           },
@@ -42,6 +51,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
       .then(res => {
         console.log(res);
         setOrganizationClients(res.data);
+        
       })
       .catch(err => {
         console.log(err);
@@ -50,21 +60,33 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
   };
 
   const getOrganizationClients = useCallback(() => {
+    // const preservedList = state.ManagedCareCorporate.preservedList;
+    // if (preservedList.length > 0) return setOrganizationClients(preservedList);
+
     setLoading(true);
     orgClientServer
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           relationshiptype: "sponsor",
+          $limit:1000,
           $sort: {
             createdAt: -1,
-          },
+          }, 
         },
       })
       .then(res => {
         console.log(res.data);
         setOrganizationClients(res.data);
         setLoading(false);
+        setTotal(res.total)
+        setState(prev => ({
+          ...prev,
+          ManagedCareCorporate: {
+            ...prev.ManagedCareCorporate,
+            preservedList: res.data,
+          },
+        }));
       })
       .catch(err => {
         setLoading(false);
@@ -72,6 +94,10 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
         toast.error(`Something went wrong! ${err}`);
       });
   }, [user]);
+
+  // const updateLists = useCallback(() => {
+  //       const preservedList = state.ManagedCareCorporate.preservedList;
+  // }, [])
 
   useEffect(() => {
     getOrganizationClients();
@@ -200,6 +226,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
         >
           <FilterMenu onSearch={handleSearch} />
           <FormsHeaderText text="Lists of Corporate Organizations" />
+          ({total})
         </Box>
 
         <Box>

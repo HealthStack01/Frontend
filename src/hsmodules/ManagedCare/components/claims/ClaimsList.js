@@ -27,6 +27,7 @@ const ClaimsListComponent = ({
   showDetail,
   client_id,
   beneficiary,
+  corporate,
 }) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
@@ -62,9 +63,11 @@ const ClaimsListComponent = ({
     setLoading(true);
     if (user.currentEmployee) {
       let query = {
-        "hmopayer._id": user.currentEmployee.facilityDetail._id,
-
-        $limit: 100,
+        $or: [
+          {"provider._id": user.currentEmployee.facilityDetail._id},
+          {"hmopayer._id": user.currentEmployee.facilityDetail._id},
+        ],
+        // $limit: 100,
         $sort: {
           createdAt: -1,
         },
@@ -73,9 +76,26 @@ const ClaimsListComponent = ({
       if (client_id) {
         query = {
           "beneficiary._id": client_id,
-          "provider._id": user.currentEmployee.facilityDetail._id,
+          $or: [
+            {"provider._id": user.currentEmployee.facilityDetail._id},
+            {"hmopayer._id": user.currentEmployee.facilityDetail._id},
+          ],
+          //$limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        };
+      }
 
-          $limit: 100,
+      if (corporate) {
+        query = {
+          "provider._id": user.currentEmployee.facilityDetail._id,
+          $or: [
+            {"sponsor.facilityName": corporate.facilityName},
+            {"sponsor._id": corporate._id},
+            {"hmopayer._id": corporate._id},
+          ],
+          //$limit: 100,
           $sort: {
             createdAt: -1,
           },
@@ -338,15 +358,14 @@ const ClaimsListComponent = ({
                 List of Claims
               </h2>
             </div>
-            <Box>
-              {handleCreateNew && (
-                <GlobalCustomButton
-                  onClick={handleCreateNew}
-                  color="primary"
-                  text="Add Claims"
-                />
-              )}
-            </Box>
+
+            {!corporate && (
+              <Box>
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  Add New Claim
+                </GlobalCustomButton>
+              </Box>
+            )}
           </TableMenu>
 
           <Box

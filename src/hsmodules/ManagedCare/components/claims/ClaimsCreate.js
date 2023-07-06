@@ -31,8 +31,6 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
 import ReactCustomSearchSelectComponent from "../../../../components/react-custom-select/ReactSearchSelect";
 
-const random = require("random-string-generator");
-
 const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const claimsServer = client.service("claims");
   const clientServer = client.service("client");

@@ -12,7 +12,7 @@ import client from "../../feathers";
 import {ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 
-const NewBeneficiary = () => {
+const NewBeneficiaryModule = ({corporate}) => {
   const [createBandModal, setCreateBandModal] = useState(false);
   const policyServer = client.service("policy");
   const [patient, setPatient] = useState(null);
@@ -71,7 +71,10 @@ const NewBeneficiary = () => {
     <Box>
       {view === "lists" && (
         <Box>
-          <BeneficiariesList showDetail={showBeneficairyDetails} />
+          <BeneficiariesList
+            showDetail={showBeneficairyDetails}
+            corporate={corporate}
+          />
         </Box>
       )}
 
@@ -89,4 +92,4 @@ const NewBeneficiary = () => {
   );
 };
 
-export default NewBeneficiary;
+export default NewBeneficiaryModule;

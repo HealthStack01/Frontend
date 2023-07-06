@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
-var random = require("random-string-generator");
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -36,6 +36,7 @@ import {
 } from "@mui/material";
 import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import { generateRandomString } from "../helpers/generateString";
 
 export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
@@ -302,7 +303,7 @@ export function ProductExitCreate({closeModal}) {
         const today = new Date().toLocaleString();
 
         setDate(today);
-        const invoiceNo = random(6, "uppernumeric");
+        const invoiceNo = generateRandomString(6);
         setDocumentNo(invoiceNo);
         setType("Sales");
       })
@@ -320,7 +321,7 @@ export function ProductExitCreate({closeModal}) {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
     return () => {};
   }, []);

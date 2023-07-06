@@ -8,7 +8,8 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";

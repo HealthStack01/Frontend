@@ -8,7 +8,8 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
-var random = require("random-string-generator");
+const random = generateRandomString;
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 

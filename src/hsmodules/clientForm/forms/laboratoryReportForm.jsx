@@ -880,15 +880,30 @@ export function Haematology() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={1} mt={1}>
+      {/* Recommendation field */}
+      <Grid container spacing={1} mt={2}>
+        <Typography
+          variant="p"
+          sx={{
+            color: "blue",
+            fontSize: "14px",
+            fontWeight: "bold",
+            marginBottom: "4px",
+          }}
+        >
+          Recommendation
+        </Typography>
         <Grid item xs={12} sm={12}>
           <Textarea
             placeholder="Recommendation"
-            name="recommendation"
+            name="Recommendation"
             type="text"
-            register={register("recommendation")}
+            register={register("Recommendation")}
           />
         </Grid>
+      </Grid>
+
+      <Grid container spacing={1} mt={1}>
         <Grid item xs={12} sm={2}>
           <input
             type="radio"

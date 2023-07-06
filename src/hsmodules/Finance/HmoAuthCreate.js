@@ -8,8 +8,6 @@ import {UserContext, ObjectContext} from "../../context";
 
 import {toast} from "react-toastify";
 
-var random = require("random-string-generator");
-
 import PaymentsIcon from "@mui/icons-material/Payments";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
@@ -19,9 +17,9 @@ import {Box, Button, Grid, Typography} from "@mui/material";
 
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {generateRandomString} from "../helpers/generateString";
 
 // eslint-disable-next-line
-
 
 export default function HMOAuthCreate({closeModal, handleGoBack}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
@@ -72,8 +70,8 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
-  const [fullpay, setFullpay]=useState([]);
-  const [sponsor, setSponsor]=useState();
+  const [fullpay, setFullpay] = useState([]);
+  const [sponsor, setSponsor] = useState();
   const {state, setState} = useContext(ObjectContext);
   let medication = state.financeModule.selectedFinance;
 
@@ -89,7 +87,6 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
-
 
   ////console.log(state.financeModule.state)
 
@@ -231,15 +228,13 @@ export default function HMOAuthCreate({closeModal, handleGoBack}) {
         medication?.participantInfo?.client?.lastname
     );
     setProductItem(state.financeModule.selectedBills);
-    
-       
- let paytype= medication.participantInfo.client.paymentinfo
- let hmo = paytype.filter(el =>( el.paymentmode === "HMO" ||el.paymentmode === "Company Cover"));
- setSponsor(hmo[0])
-console.log(hmo[0])
-  
-      
-  
+
+    let paytype = medication.participantInfo.client.paymentinfo;
+    let hmo = paytype.filter(
+      el => el.paymentmode === "HMO" || el.paymentmode === "Company Cover"
+    );
+    setSponsor(hmo[0]);
+    console.log(hmo[0]);
 
     // const paymentoptions= []
     //const info = medication.participantInfo.client.paymentinfo
@@ -284,9 +279,8 @@ console.log(hmo[0])
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
-
 
     getFacilities();
     SubwalletServ.on("created", obj => getFacilities());
@@ -310,30 +304,23 @@ console.log(hmo[0])
 
   const handleUpdate = async (bill, e) => {
     //disable approve button
- 
-   
-   
-   // updatedbill[i].checked=false
-    
+
+    // updatedbill[i].checked=false
 
     // todo: update bill to fully paid
     let item = await productItem.findIndex(el => el._id === bill._id);
-    productItem[item].checked=false
-    console.log( productItem[item])
+    productItem[item].checked = false;
+    console.log(productItem[item]);
 
-  
-   // bill.billing_status = "Fully Paid";
-    productItem[item].billing_status="Fully Paid"
-    setFullpay(prev=>prev.concat(productItem[item]))
+    // bill.billing_status = "Fully Paid";
+    productItem[item].billing_status = "Fully Paid";
+    setFullpay(prev => prev.concat(productItem[item]));
     getTotal();
-    toast.success(
-      "Bill approved successfully"
-    ); 
-    console.log(fullpay)
-    console.log("medication:",medication)
-    }
+    toast.success("Bill approved successfully");
+    console.log(fullpay);
+    console.log("medication:", medication);
+  };
 
- 
   const handlePayment = async () => {
     //1. check if there is sufficient amount
     //2. call single end point for billspayment?invoice
@@ -345,44 +332,38 @@ console.log(hmo[0])
     //2.3 mark orders as paid
 
     //2.4 mark bills as paid
-  
-
-   
 
     //transform
-   fullpay.forEach(el => {
-
-        const payObj = {
-          amount: el.proposedpayment.amount,
-          mode: "Full",
-          date: new Date().toLocaleString(),
-        };
-        el.paymentInfo.paymentDetails.push(payObj);
-      
+    fullpay.forEach(el => {
+      const payObj = {
+        amount: el.proposedpayment.amount,
+        mode: "Full",
+        date: new Date().toLocaleString(),
+      };
+      el.paymentInfo.paymentDetails.push(payObj);
     });
 
     let allItems = fullpay;
-    console.log(allItems)
+    console.log(allItems);
 
     allItems.forEach(el => {
       el.paymentInfo.balance = el.proposedpayment.balance;
       el.paymentInfo.paidup = el.proposedpayment.paidup;
       el.paymentInfo.amountpaid = el.proposedpayment.amount;
 
-     /*  if (el.paymentInfo.balance === 0) {
+      /*  if (el.paymentInfo.balance === 0) {
         el.billing_status = "Fully Paid";
       } else {
         el.billing_status = "Part Payment";
       } */
-    
+
       el.checked = false;
-    
     });
 
     // filter out apprroved from unapproved bills
-    const remain=productItem.filter(bill=>bill.checked==true)
-    console.log(remain)
-    setProductItem(remain)
+    const remain = productItem.filter(bill => bill.checked == true);
+    console.log(remain);
+    setProductItem(remain);
 
     const obj = {
       clientId: medication.participantInfo.client._id, //sending money
@@ -398,38 +379,35 @@ console.log(hmo[0])
       facilityName: user.employeeData[0].facilityDetail.facilityName,
       subwallet: subWallet,
       amountPaid: totalamount,
-      paymentmode:sponsor.paymentmode,
-      sponsorId:sponsor.organizationId,
-      policy:sponsor.policy,
-      sponsor:sponsor
-
+      paymentmode: sponsor.paymentmode,
+      sponsorId: sponsor.organizationId,
+      policy: sponsor.policy,
+      sponsor: sponsor,
     };
 
-   console.log(obj)
+    console.log(obj);
 
     InvoiceServ.create(obj)
       .then(async resp => {
-       // setProductItem([]);
-       setFullpay([])
-        toast.success(
-          "Approval successful");
-          console.log(medication)
-       const newProductEntryModule = {
-          selectedBills:productItem,
-          selectedFinance: (productItem.length>0)?medication:{} ,
+        // setProductItem([]);
+        setFullpay([]);
+        toast.success("Approval successful");
+        console.log(medication);
+        const newProductEntryModule = {
+          selectedBills: productItem,
+          selectedFinance: productItem.length > 0 ? medication : {},
           show: "create",
         };
         await setState(prevstate => ({
           ...prevstate,
           finance: newProductEntryModule,
-        })); 
+        }));
         //goback
       })
       .catch(err => {
-        toast.error( "Error occurred with payment " + err)
-        
-        });
-      };
+        toast.error("Error occurred with payment " + err);
+      });
+  };
 
   const paymentCreateSchema = [
     {
@@ -460,25 +438,23 @@ console.log(hmo[0])
       required: true,
       inputType: "TEXT",
     },
-  
+
     {
       name: "Amount",
       width: "200px",
       key: "sn",
       description: "amount",
       selector: row => (
-       
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Amount:</b>{" "}
-            {row.paymentInfo.amountDue.toFixed(2)}
-          </div>
-       
+        <div style={{display: "flex", marginBottom: "8px"}}>
+          <b style={{marginRight: "3px"}}>Amount:</b>{" "}
+          {row.paymentInfo.amountDue.toFixed(2)}
+        </div>
       ),
       sortable: true,
       required: true,
       inputType: "NUMBER",
     },
-      {
+    {
       name: "Type",
       width: "200px",
       key: "sn",
@@ -486,7 +462,7 @@ console.log(hmo[0])
       selector: row => (
         <Box sx={{display: "flex", flexDirection: "column"}} gap={0.5}>
           <div>
-           {/*  <div style={{marginBottom: "5px"}}>
+            {/*  <div style={{marginBottom: "5px"}}>
               <Input
                 type="text"
                 name={row._id}
@@ -496,14 +472,14 @@ console.log(hmo[0])
               />
             </div> */}
             <GlobalCustomButton
-              onClick={(e )=> handleUpdate(row, e,)}
+              onClick={e => handleUpdate(row, e)}
               disabled={!row.checked}
               color="primary"
             >
               Approve
             </GlobalCustomButton>
 
-           {/*  <GlobalCustomButton
+            {/*  <GlobalCustomButton
               onClick={e => handleUpdate(row, e)}
               color="secondary"
             >
@@ -515,14 +491,12 @@ console.log(hmo[0])
       sortable: true,
       required: true,
       inputType: "TEXT",
-    }, 
+    },
   ];
 
   return (
     <>
       <div style={{width: "100%"}}>
-      
-
         <Box
           sx={{
             display: "flex",
@@ -539,13 +513,15 @@ console.log(hmo[0])
             Back
           </GlobalCustomButton>
           <Box>
-          <Typography sx={{fontSize: "1.75rem", fontWeight: "600"}}>
+            <Typography sx={{fontSize: "1.75rem", fontWeight: "600"}}>
               Client Name: {source}
             </Typography>
             <Typography>
-             Client ID:{sponsor?.clientId} {" "} HMO:{sponsor?.organizationName}{" "}  Plan:{sponsor?.plan} {" "}  Principal:{sponsor?.principalName} {" "} Principal ID:{sponsor?.principalId} {" "} 
+              Client ID:{sponsor?.clientId} HMO:{sponsor?.organizationName}{" "}
+              Plan:{sponsor?.plan} Principal:{sponsor?.principalName} Principal
+              ID:{sponsor?.principalId}{" "}
             </Typography>
-           {/*  <Typography>
+            {/*  <Typography>
               HMO:{sponsor?.organizationName}
 
             </Typography>
@@ -571,7 +547,7 @@ console.log(hmo[0])
                 color: "2d2d2d",
               }}
             >
-             Aprrove Bills for{" "}
+              Aprrove Bills for{" "}
               <span
                 style={{
                   textTransform: "capitalize",
@@ -613,7 +589,7 @@ console.log(hmo[0])
             </Box>
           </Box>
 
-         {/*  <Box>
+          {/*  <Box>
             <GlobalCustomButton onClick={() => setDepositModal(true)}>
               <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
               Make Deposit
@@ -646,7 +622,6 @@ console.log(hmo[0])
                 striped
                 onRowClicked={row => row}
                 progressPending={loading}
-                
               />
             </div>
             <Box
@@ -657,12 +632,17 @@ console.log(hmo[0])
               }}
               gap={1}
             >
-             {(productItem.length>0) && <GlobalCustomButton onClick={handlePayment} disabled={fullpay.length===0}>
-                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                Save
-              </GlobalCustomButton>}
+              {productItem.length > 0 && (
+                <GlobalCustomButton
+                  onClick={handlePayment}
+                  disabled={fullpay.length === 0}
+                >
+                  <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                  Save
+                </GlobalCustomButton>
+              )}
 
-           {/*    <GlobalCustomButton
+              {/*    <GlobalCustomButton
                 sx={{
                   backgroundColor: "#6c584c",
                   "&:hover": {backgroundColor: "#6c584c;"},
@@ -672,7 +652,7 @@ console.log(hmo[0])
                 Pay with Wallet
               </GlobalCustomButton> */}
 
-             {/*  <GlobalCustomButton
+              {/*  <GlobalCustomButton
                 onClick={() => {
                   handleFlutterPayment({
                     callback: response => {
@@ -694,7 +674,7 @@ console.log(hmo[0])
                 Pay with Flutterwave
               </GlobalCustomButton> */}
 
-            {/*   <PaystackConsumer {...componentProps}>
+              {/*   <PaystackConsumer {...componentProps}>
                 {({initializePayment}) => (
                   <GlobalCustomButton
                     onClick={() => initializePayment(handleSuccess, closeModal)}
