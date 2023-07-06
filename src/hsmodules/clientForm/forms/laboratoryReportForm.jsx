@@ -227,7 +227,14 @@ export default function LaboratoryReportForm() {
 }
 
 export function Haematology() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -422,423 +429,458 @@ export function Haematology() {
     transition: "0.4s",
   };
 
+  const fullBloodCountSchema = [
+    {
+      label: "Hb",
+      name: "full_blood_count_Hb",
+      des: "Range: 12-16",
+    },
+    {
+      label: "WBC (CMM)",
+      name: "full_blood_count_WBC",
+      des: "Range: 3000-11000",
+    },
+    {
+      label: "Platelet",
+      name: "full_blood_count_Platelet",
+      des: "Range: 150000-400000",
+    },
+    {
+      label: "RBC",
+      name: "full_blood_count_RBC",
+      des: "Range: 12-16",
+    },
+    {
+      label: "MCV (FL)",
+      name: "full_blood_count_MCV",
+      des: "Range: 34-55",
+    },
+    {
+      label: "MCH",
+      name: "full_blood_count_MCH",
+      des: "Range: 27-32",
+    },
+    {
+      label: "Haematocrit (HCT)",
+      name: "full_blood_count_Haematocrit",
+      des: "Range 0.37- 0.54",
+    },
+  ];
+
+  const differentialWhiteBloodCellCountSchema = [
+    {
+      label: "Neutrophils (%)",
+      name: "differential_white_blood_cell_count_Neutrophils",
+      des: "Range: 40-70",
+    },
+    {
+      label: "Basophils (%)",
+      name: "differential_white_blood_cell_count_Basophils",
+      des: "Range: 0-1",
+    },
+    {
+      label: "Lymphocytes (%)",
+      name: "differential_white_blood_cell_count_Lymphocytes",
+      des: "Range: 20-50",
+    },
+    {
+      label: "Monocytes (%)",
+      name: "differential_white_blood_cell_count_Monocytes",
+      des: "Range: 2-30",
+    },
+    {
+      label: "Eosinophils (%)",
+      name: "differential_white_blood_cell_count_Eosinophils",
+      des: "Range: 20-50",
+    },
+    {
+      label: "Meta-Myelocyte",
+      name: "differential_white_blood_cell_count_Meta_Myelocyte",
+      des: "",
+    },
+    {
+      label: "Pro-Myelocyte",
+      name: "differential_white_blood_cell_count_Pro_Myelocyte",
+      des: "",
+    },
+    {
+      label: "Nucleated RBC",
+      name: "differential_white_blood_cell_count_Nucleated_RBC",
+      des: "",
+    },
+  ];
+
+  const redBloodCellStudiesSchema = [
+    {
+      label: "ESR (MM/HR)",
+      name: "red_blood_cell_studies_ESR",
+      des: "Range: 0-07",
+    },
+    {
+      label: "MCHC (G/DL)",
+      name: "red_blood_cell_studies_MCHC",
+      des: "Range: 31-34",
+    },
+    {
+      label: "Reticulocytes (%)",
+      name: "red_blood_cell_studies_Reticulocytes",
+      des: "Range: 0-3",
+    },
+    {
+      label: "Rhesus",
+      name: "red_blood_cell_studies_Rhesus",
+      des: "",
+    },
+    {
+      label: "Haematocrit (HCT)",
+      name: "red_blood_cell_studies_Haematocrit",
+      des: "",
+    },
+    {
+      label: "Plateletcrit (PCT)",
+      name: "red_blood_cell_studies_Plateletcrit",
+      des: "",
+    },
+    {
+      label: "PLCR",
+      name: "red_blood_cell_studies_PLCR",
+      des: "",
+    },
+    {
+      label: "Blood Group",
+      name: "red_blood_cell_studies_Blood_Group",
+      des: "",
+    },
+    {
+      label: "HB",
+      name: "red_blood_cell_studies_HB",
+      des: "",
+    },
+    {
+      label: "Genotype",
+      name: "red_blood_cell_studies_Genotype",
+      des: "",
+    },
+    {
+      label: "Haemoglobin",
+      name: "red_blood_cell_studies_Haemoglobin",
+      des: "",
+    },
+    {
+      label: "Haemoglobin",
+      name: "red_blood_cell_studies_Haemoglobin",
+      des: "",
+    },
+    {
+      label: "Red cell distribution Width",
+      name: "red_blood_cell_studies_Red_cell_distribution_Width",
+      des: "",
+    },
+    {
+      label: " Mean Platelet Volume",
+      name: "red_blood_cell_studies_ Mean_Platelet_Volume",
+      des: "",
+    },
+    {
+      label: "Platelet cell distribution Width",
+      name: "red_blood_cell_studies_Platelet_cell_distribution_Width",
+      des: "",
+    },
+  ];
+
+  const combsTestSchema = [
+    {
+      label: "Direct Comb",
+      name: "combs_test_Direct_Comb",
+    },
+    {
+      label: "Indirect Comb",
+      name: "combs_test_Indirect_Comb",
+    },
+  ];
+
+  const coagulationStudiesSchema = [
+    {
+      label: "Prothrombin Time",
+      name: "coagulation_studies_Prothrombin_Time",
+    },
+    {
+      label: "aPPT",
+      name: "coagulation_studies_aPPT",
+    },
+    {
+      label: "D-Dimer",
+      name: "coagulation_studies_D_Dimer",
+    },
+
+    {
+      label: "Malaria Parasite",
+      name: "coagulation_studies_Malaria_parasite",
+    },
+    {
+      label: "PT INR",
+      name: "coagulation_studies_PT_INR",
+    },
+    {
+      label: "Fibrinogen",
+      name: "coagulation_studies_Fibrinogen",
+    },
+  ];
+
+  const classes = useStyles();
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p style={{ fontWeight: "700" }} className="label is-small">
         HEAMATOLOGY
       </p>
+
+      {/* specimen details field */}
+      <Grid container spacing={0.1} mt={1}>
+        <Typography
+          variant="p"
+          sx={{
+            color: "blue",
+            fontSize: "14px",
+            fontWeight: "bold",
+            marginBottom: "4px",
+          }}
+        >
+          SPECIMEN Details
+        </Typography>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={3}>
+            <Input
+              label="Specimen"
+              name="specimen"
+              type="text"
+              register={register("specimen", { required: false })}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Input
+              label="Date Of Request"
+              name="request_date"
+              type="text"
+              register={register("request_date", { required: true })}
+              defaultValue={dayjs(order.createdAt).format("DD/MM/YYYY hh:mm A")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <MuiCustomDatePicker
+              control={control}
+              label="Date Of Collection"
+              name="collection_date"
+              required={true}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Input
+              label="Time Of Collection"
+              name="collection_time"
+              type="time"
+              register={register("collection_time", { required: false })}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Input
+              label="Volume"
+              name="volume"
+              type="text"
+              register={register("volume", { required: false })}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={1} mt={2}>
+        {/*  Full blood count (Total white blood cell count) */}
+        <Grid item xs={12} sm={12}>
+          {" "}
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Full blood count (Total white blood cell count)
+          </Typography>
+          <Grid container alignItems="center" mt={1}>
+            {fullBloodCountSchema.map((data, index) => (
+              <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={7}>
+                    <Input
+                      label={data.label}
+                      name={data.name}
+                      type="text"
+                      register={register(`${data.name}`, {
+                        required: false,
+                      })}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Typography>
+                      {" "}
+                      <label className={classes.boldLabel}>
+                        {data.des}
+                      </label>{" "}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/*  Differential White Blood Cell Count */}
+        <Grid item xs={12} sm={12}>
+          {" "}
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            Differential White Blood Cell Count
+          </Typography>
+          <Grid container alignItems="center" mt={1}>
+            {differentialWhiteBloodCellCountSchema.map((data, index) => (
+              <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={7}>
+                    <Input
+                      label={data.label}
+                      name={data.name}
+                      type="text"
+                      register={register(`${data.name}`, {
+                        required: false,
+                      })}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Typography>
+                      {" "}
+                      <label className={classes.boldLabel}>
+                        {data.des}
+                      </label>{" "}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/*  Red blood Cell Studies */}
+        <Grid item xs={12} sm={12}>
+          {" "}
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Red Blood Cell Studies
+          </Typography>
+          <Grid container alignItems="center" spacing={2} mt={1}>
+            {redBloodCellStudiesSchema.map((data, index) => (
+              <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={7}>
+                    <Input
+                      label={data.label}
+                      name={data.name}
+                      type="text"
+                      register={register(`${data.name}`, {
+                        required: false,
+                      })}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Typography>
+                      {" "}
+                      <label className={classes.boldLabel}>
+                        {data.des}
+                      </label>{" "}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/* Combs Test */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Combs Test
+          </Typography>
+          <Grid container spacing={2} alignItems="center" mt={0.5}>
+            {combsTestSchema.map((data, index) => (
+              <Grid key={index} item xs={12} sm={4}>
+                <Input
+                  label={data.label}
+                  name={data.name}
+                  type="text"
+                  register={register(`${data.name}`, {
+                    required: false,
+                  })}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/* Coagulation Studies*/}
+        <Grid container spacing={0.1} mt={1}>
+          {" "}
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Coagulation Studies
+          </Typography>
+          <Grid container spacing={2} alignItems="center" mt={0.5}>
+            {coagulationStudiesSchema.map((data, index) => (
+              <Grid key={index} item xs={12} sm={4}>
+                <Input
+                  label={data.label}
+                  name={data.name}
+                  type="text"
+                  register={register(`${data.name}`, {
+                    required: false,
+                  })}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
+
       <Grid container spacing={1} mt={1}>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="hb"
-              type="text"
-              {...register("hb")}
-              onChange={(e) => setHb(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="hb"
-              style={
-                hb
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              HB (G/DL), Range: 12-16
-            </label>
-          </InputBox>
-          {hb < 12 || hb > 16 ? (
-            <p style={{ color: "red" }}>
-              {hb < 12 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="pvc"
-              type="text"
-              {...register("pvc")}
-              onChange={(e) => setPvc(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="pvc"
-              style={
-                pvc
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              PVC (%) Range: 36-45
-            </label>
-          </InputBox>
-          {pvc < 36 || pvc > 45 ? (
-            <p style={{ color: "red" }}>
-              {pvc < 36 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="wbc"
-              type="text"
-              {...register("wbc")}
-              onChange={(e) => setWbc(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="wbc"
-              style={
-                wbc
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              WBC (CMM), Range: 3000-11000
-            </label>
-          </InputBox>
-          {wbc < 3000 || wbc > 11000 ? (
-            <p style={{ color: "red" }}>
-              {wbc < 3000 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="esr"
-              type="text"
-              {...register("esr")}
-              onChange={(e) => setEsr(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="esr"
-              style={
-                esr
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              ESR (MM/HR), Range: 0.07
-            </label>
-          </InputBox>
-          {esr < 0.07 ? (
-            <p style={{ color: "red" }}>
-              <span>Low</span>
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="platelets"
-              type="text"
-              {...register("platelets")}
-              onChange={(e) => setPlatelets(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="platelets"
-              style={
-                platelets
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              PLATELETS, Range: 150000-400000
-            </label>
-          </InputBox>
-          {platelets < 150000 || platelets > 400000 ? (
-            <p style={{ color: "red" }}>
-              {platelets < 150000 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="rectics"
-              type="text"
-              {...register("rectics")}
-              onChange={(e) => setRectics(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="rectics"
-              style={
-                rectics
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              RECTICS (%), Range: 0.3
-            </label>
-          </InputBox>
-          {rectics < 0.3 ? (
-            <p style={{ color: "red" }}>
-              <span>Low</span>
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="rbc"
-              type="text"
-              {...register("rbc")}
-              onChange={(e) => setRbc(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="rbc"
-              style={
-                rbc
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              RBC, Range: 4.6-12
-            </label>
-          </InputBox>
-          {rbc < 4.6 || rbc > 12 ? (
-            <p style={{ color: "red" }}>
-              {rbc < 4.6 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="mcv"
-              type="text"
-              {...register("mcv")}
-              onChange={(e) => setMcv(e.target.value)}
-              style={inputStyle}
-            />
-            <label
-              htmlFor="mcv"
-              style={
-                mcv
-                  ? { ...labelStyle, top: "-1rem", fontSize: "0.8rem" }
-                  : labelStyle
-              }
-            >
-              MCV (FL), Range: 34-55
-            </label>
-          </InputBox>
-          {mcv < 34 || mcv > 55 ? (
-            <p style={{ color: "red" }}>
-              {mcv < 34 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="mchc"
-              type="text"
-              {...register("mchc")}
-              onChange={(e) => setMchc(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="mchc" style={labelStyle}>
-              MCHC (G/DL), Range: 31-34
-            </label>
-          </InputBox>
-          {mchc < 31 || mchc > 34 ? (
-            <p style={{ color: "red" }}>
-              {mchc < 31 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="mch"
-              type="text"
-              {...register("mch")}
-              onChange={(e) => setMch(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="mch" style={labelStyle}>
-              MCH, Range: 27-32
-            </label>
-          </InputBox>
-          {mch < 27 || mch > 32 ? (
-            <p style={{ color: "red" }}>
-              {mch < 27 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="neutrophils"
-              type="text"
-              {...register("neutrophils")}
-              onChange={(e) => setNeutrophils(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="neutrophils" style={labelStyle}>
-              NEUTROPHILS (%), Range: 40-70
-            </label>
-          </InputBox>
-          {neutrophils < 40 || neutrophils > 70 ? (
-            <p style={{ color: "red" }}>
-              {neutrophils < 40 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="lymphocytes"
-              type="text"
-              {...register("lymphocytes")}
-              onChange={(e) => setLymphocytes(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="lymphocytes" style={labelStyle}>
-              LYMPHOCYTES (%), Range: 20-50
-            </label>
-          </InputBox>
-          {lymphocytes < 20 || lymphocytes > 50 ? (
-            <p style={{ color: "red" }}>
-              {lymphocytes < 20 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="monocytes"
-              type="text"
-              {...register("monocytes")}
-              onChange={(e) => setMonocytes(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="monocytes" style={labelStyle}>
-              MONOCYTES (%), Range: 2-30
-            </label>
-          </InputBox>
-          {monocytes < 2 || monocytes > 30 ? (
-            <p style={{ color: "red" }}>
-              {monocytes < 2 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="eosinophils"
-              type="text"
-              {...register("eosinophils")}
-              onChange={(e) => setEosinophils(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="eosinophils" style={labelStyle}>
-              EOSINOPHILS (%), Range: 1-6
-            </label>
-          </InputBox>
-          {eosinophils < 1 || eosinophils > 6 ? (
-            <p style={{ color: "red" }}>
-              {eosinophils < 1 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <InputBox>
-            <input
-              name="basophils"
-              type="text"
-              {...register("basophils")}
-              onChange={(e) => setBasophils(e.target.value)}
-              style={inputStyle}
-            />
-            <label htmlFor="basophils" style={labelStyle}>
-              BASOPHILS (%), Range: 0-1
-            </label>
-          </InputBox>
-          {basophils < 0 || basophils > 1 ? (
-            <p style={{ color: "red" }}>
-              {basophils < 0 ? <span>Low</span> : <span>High</span>}
-            </p>
-          ) : (
-            <p style={{ color: "green" }}>Normal</p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Input
-            label="Pro-Myelocyte"
-            name="proMyelocyte"
-            type="text"
-            register={register("proMyelocyte")}
-          />
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Input
-            label="Meta-Myelocyte"
-            name="metaMyelocyte"
-            type="text"
-            register={register("metaMyelocyte")}
-          />
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Input
-            label="Nucleated RBC"
-            name="nucleatedRbc"
-            type="text"
-            register={register("nucleatedRbc")}
-          />
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Input
-            label="Genotype"
-            name="genotype"
-            type="text"
-            register={register("genotype")}
-          />
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Input
-            label="Blood Group"
-            name="bloodGroup"
-            type="text"
-            register={register("bloodGroup")}
-          />
-        </Grid>
         <Grid item xs={12} sm={12}>
           <Textarea
             placeholder="Recommendation"
