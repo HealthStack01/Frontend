@@ -46,7 +46,7 @@ const PoliciesList = ({
 
    const handleSearch = val => {
     if (val.length < 3 || val.trim() === "") return;
-   
+   gi
     policyServer
       .find({
         query: {
