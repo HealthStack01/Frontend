@@ -1,5 +1,5 @@
 import {Box, Grid, Typography} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {useForm} from "react-hook-form";
 import Input from "../inputs/basic/Input";
 import dayjs from "dayjs";
@@ -11,6 +11,10 @@ import PoliciesList from "../../hsmodules/ManagedCare/components/policy/Lists";
 import NewPolicyModule from "../../hsmodules/ManagedCare/NewPolicy";
 import Claims from "../../hsmodules/ManagedCare/Claims";
 import {ProviderPrintId} from "../../hsmodules/ManagedCare/components/PrintId";
+import {ObjectContext, UserContext} from "../../context";
+import LinkIcon from "@mui/icons-material/Link";
+import SendLinkViaEmail from "../../hsmodules/ManagedCare/components/beneficiary/SendClientLink";
+
 
 
 const malePlaceholder =
@@ -24,6 +28,9 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
   const [view, setView] = useState("details");
   const [edit, setEdit] = useState(false);
   const [generateIdCardModal, setGenerateIdCardModal] = useState(false);
+  const [sendLinkModal, setSendLinkModal] = useState(false);
+  const {state, setState, hideActionLoader, showActionLoader} =   useContext(ObjectContext);
+  
 
   useEffect(() => {
     //console.log(detail);
@@ -194,6 +201,12 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                   Claims
                 </GlobalCustomButton>
+            <GlobalCustomButton
+              color="info"
+              onClick={() => setSendLinkModal(true)}
+            >
+              <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send Link
+            </GlobalCustomButton>
               </>
             )}
              
@@ -215,6 +228,18 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
             </ModalBox>
           </>
         )}
+         <ModalBox
+        open={sendLinkModal}
+        onClose={() => setSendLinkModal(false)}
+        header={`Send Organization Link`}
+      >
+        <SendLinkViaEmail
+          closeModal={() => setSendLinkModal(false)}
+          defaultToEmail={detail.email}
+          
+          id={detail._id}
+        />
+      </ModalBox>
             <Box
               sx={{
                 display: "flex",
