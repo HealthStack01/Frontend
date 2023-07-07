@@ -48,6 +48,7 @@ const ProfileMenu = () => {
       >
         <UpdateProfilePhoto closeModal={() => setImageUploadModal(false)} />
       </ModalBox>
+      
       <Box sx={{display: "flex", flexDirection: "column"}}>
         <IconButton onClick={handleOpenOptions}>
           <Avatar src={user.currentEmployee.imageurl} />
