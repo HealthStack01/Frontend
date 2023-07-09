@@ -107,17 +107,17 @@ export const ClientMiniSchema = [
     inputType: "TEXT",
   },
 
-  {
-    name: "Age",
-    key: "dob",
-    description: "Date of Birth",
-    selector: row => formatDistanceToNowStrict(new Date(row.dob)),
-    sortable: true,
-    required: true,
-    inputType: "TEXT",
-    width: "100px",
-    center: true,
-  },
+  // {
+  //   name: "Age",
+  //   key: "dob",
+  //   description: "Date of Birth",
+  //   selector: row => formatDistanceToNowStrict(new Date(row.dob)),
+  //   sortable: true,
+  //   required: true,
+  //   inputType: "TEXT",
+  //   width: "100px",
+  //   center: true,
+  // },
 
   {
     name: "Gender",
@@ -231,10 +231,8 @@ export const createClientSchema = yup.object().shape({
     .string()
     .matches(nigerianPhoneRegExp, "Enter a valid phone number (0900000000000).")
     .required("Enter the phone number of the client!"),
-  email: yup
-    .string()
-    .email("Must be a valid email!"),
-    //.required("Email is required!"),
+  email: yup.string().email("Must be a valid email!"),
+  //.required("Email is required!"),
 
   nok_email: yup.string().email("Must be a valid email!"),
 
@@ -252,10 +250,8 @@ export const createClientSchema2 = yup.object().shape({
     .string()
     .matches(nigerianPhoneRegExp, "Enter a valid phone number (0900000000000).")
     .required("Enter the phone number of the client!"),
-  email: yup
-    .string()
-    .email("Must be a valid email!"),
-    //.required("Email is required!"),
+  email: yup.string().email("Must be a valid email!"),
+  //.required("Email is required!"),
 
   nok_email: yup.string().email("Must be a valid email!"),
 
