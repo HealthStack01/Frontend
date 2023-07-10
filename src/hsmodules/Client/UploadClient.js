@@ -36,7 +36,7 @@ const UploadClients = ({createClients}) => {
 
       <Box
         sx={{
-          height: "calc(85vh - 150px)",
+          height: "calc(85vh - 80px)",
           width: "100%",
           overflowY: "auto",
         }}

@@ -827,15 +827,15 @@ export function ClientList({openCreateModal, openDetailModal}) {
       setFacilities(newClients);
     });
     ClientServ.on("updated", obj => {
-      const newClients = updateOnCreated(facilities, obj);
+      const newClients = updateOnUpdated(facilities, obj);
       setFacilities(newClients);
     });
     ClientServ.on("patched", obj => {
-      const newClients = updateOnCreated(facilities, obj);
+      const newClients = updateOnPatched(facilities, obj);
       setFacilities(newClients);
     });
     ClientServ.on("removed", obj => {
-      const newClients = updateOnCreated(facilities, obj);
+      const newClients = updateOnDeleted(facilities, obj);
       setFacilities(newClients);
     });
 
@@ -902,9 +902,9 @@ export function ClientList({openCreateModal, openDetailModal}) {
 
     await ClientServ.create(clientData)
       .then(res => {
-        toast.success(
-          `Client ${data.firstname} ${data.lastname} successfully created`
-        );
+        // toast.success(
+        //   `Client ${data.firstname} ${data.lastname} successfully created`
+        // );
       })
       .catch(err => {
         toast.error(
@@ -913,17 +913,18 @@ export function ClientList({openCreateModal, openDetailModal}) {
       });
   };
 
-  const handleCreateMultipleClients = async patients => {
+  const handleCreateMultipleClients = async data => {
     showActionLoader();
 
-    const promises = patients.map(async doc => {
-      await createClient(doc);
+    const promises = data.map(async item => {
+      await createClient(item);
     });
 
     await Promise.all(promises);
 
     hideActionLoader();
     setUploadModal(false);
+    toast.success(`Sucessfully created ${data.length} Client(s)`);
   };
 
   return (
