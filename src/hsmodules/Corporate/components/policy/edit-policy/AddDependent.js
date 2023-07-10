@@ -22,7 +22,7 @@ import {createClientSchema2} from "../../../../Client/schema";
 
 import {getBase64} from "../../../../helpers/getBase64";
 import dayjs from "dayjs";
-import {ClientSearch} from "../../../../helpers/ClientSearchNofacility";
+import {ClientSearch} from "../../../../helpers/ClientSearch";
 import {Nigeria} from "../../../../app/Nigeria";
 
 const AddDependentToPolicy = ({closeModal}) => {

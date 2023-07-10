@@ -1,21 +1,20 @@
 import {Box, Grid, Typography} from "@mui/material";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {useForm} from "react-hook-form";
 import Input from "../inputs/basic/Input";
 import dayjs from "dayjs";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import ModalBox from "../../components/modal";
 import GlobalCustomButton from "../buttons/CustomButton";
 import PoliciesList from "../../hsmodules/ManagedCare/components/policy/Lists";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import NewPolicyModule from "../../hsmodules/ManagedCare/NewPolicy";
 import Claims from "../../hsmodules/ManagedCare/Claims";
-import axios from "axios";
-import {FileUploader} from "react-drag-drop-files";
-import ModalBox from "../modal";
-import {getBase64} from "../../hsmodules/helpers/getBase64";
-import {toast} from "react-toastify";
-import {ObjectContext} from "../../context";
+import {ProviderPrintId} from "../../hsmodules/ManagedCare/components/PrintId";
+import {ObjectContext, UserContext} from "../../context";
+import LinkIcon from "@mui/icons-material/Link";
+import SendLinkViaEmail from "../../hsmodules/ManagedCare/components/beneficiary/SendClientLink";
 
 const malePlaceholder =
   "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg";
@@ -27,7 +26,10 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
   const {register, reset, handleSubmit} = useForm();
   const [view, setView] = useState("details");
   const [edit, setEdit] = useState(false);
-  const [imageModal, setImageModal] = useState(false);
+  const [generateIdCardModal, setGenerateIdCardModal] = useState(false);
+  const [sendLinkModal, setSendLinkModal] = useState(false);
+  const {state, setState, hideActionLoader, showActionLoader} =
+    useContext(ObjectContext);
 
   useEffect(() => {
     //console.log(detail);
@@ -44,11 +46,8 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
     updateClient(data);
   };
 
-  const handleChangeImageUrl = url => {
-    updateClient({
-      ...detail,
-      imageurl: url,
-    });
+  const handleGenegrateIdCard = () => {
+    setGenerateIdCardModal(true);
   };
 
   const handleCancelUpdate = () => {
@@ -64,6 +63,25 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
 
   return (
     <Box>
+      <ModalBox
+        open={generateIdCardModal}
+        onClose={() => setGenerateIdCardModal(false)}
+      >
+        <ProviderPrintId data={detail} />
+      </ModalBox>
+
+      <ModalBox
+        open={sendLinkModal}
+        onClose={() => setSendLinkModal(false)}
+        header={`Send Organization Link`}
+      >
+        <SendLinkViaEmail
+          closeModal={() => setSendLinkModal(false)}
+          defaultToEmail={detail.email}
+          id={detail._id}
+        />
+      </ModalBox>
+
       <ModalBox
         open={imageModal}
         onClose={() => setImageModal(false)}
@@ -166,6 +184,10 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
               <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
               Client Details
             </GlobalCustomButton>
+            <GlobalCustomButton onClick={handleGenegrateIdCard}>
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Generate ID
+            </GlobalCustomButton>
 
             {showHeader && (
               <>
@@ -203,6 +225,13 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                 >
                   <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                   Claims
+                </GlobalCustomButton>
+                <GlobalCustomButton
+                  color="info"
+                  onClick={() => setSendLinkModal(true)}
+                >
+                  <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send
+                  Link
                 </GlobalCustomButton>
               </>
             )}
@@ -274,7 +303,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
               </Box>
 
               <Grid container spacing={1}>
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("firstname")}
                     label="First Name"
@@ -282,7 +311,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("middlename")}
                     label="Middle Name"
@@ -290,7 +319,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("lastname")}
                     label="Last Name"
@@ -298,7 +327,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("dob")}
                     label="Date of Birth"
@@ -306,7 +335,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("gender")}
                     label="Gender"
@@ -314,7 +343,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("marital_status")}
                     label="Marital Status"
@@ -322,7 +351,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("phone")}
                     label="Phone Number"
@@ -330,7 +359,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("email")}
                     label="Email Address"
@@ -338,7 +367,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("createdAt")}
                     label="Registeration Date"
@@ -350,7 +379,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
 
             <Box>
               <Grid container spacing={1}>
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("profession")}
                     label="Profession"
@@ -358,7 +387,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("religion")}
                     label="Religion"
@@ -366,7 +395,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("policyNo")}
                     label="Policy Number"
@@ -374,7 +403,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("phone")}
                     label="Medical Rec. Number"
@@ -382,7 +411,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("address")}
                     label="Address"
@@ -390,7 +419,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("town")}
                     label="Town"
@@ -398,7 +427,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("lga")}
                     label="Local Governement Area"
@@ -406,7 +435,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("city")}
                     label="City"
@@ -414,7 +443,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("state")}
                     label="State"
@@ -422,7 +451,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("country")}
                     label="Country"
@@ -430,7 +459,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("bloodgroup")}
                     label="Blood Group"
@@ -438,7 +467,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("genotype")}
                     label="Genotype"
@@ -446,7 +475,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("disablilities")}
                     label="Disabilies"
@@ -454,7 +483,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("allergies")}
                     label="Allergies"
@@ -462,7 +491,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("tags")}
                     label="Tags"
@@ -470,7 +499,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("specific_details")}
                     label="Specific Details"
@@ -478,7 +507,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("nok_name")}
                     label="Name of Next of Kin"
@@ -486,7 +515,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("nok_phone")}
                     label="Phone of Next of Kin"
@@ -494,7 +523,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("nok_email")}
                     label="Email of Next of Kin"
@@ -502,7 +531,7 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
 
-                <Grid item lg={3}>
+                <Grid item xs={12} sm={6} lg={3} md={4}>
                   <Input
                     register={register("nok_relationship")}
                     label="Next of Kin Relationship"

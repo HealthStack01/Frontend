@@ -15,6 +15,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState();
   const [organizationClients, setOrganizationClients] = useState([]);
 
   const handleCreateNew = async () => {
@@ -35,7 +36,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
 
   const handleSearch = val => {
     if (val.trim() === "" && val.length < 3) return;
-    orgServ
+    orgClientServer
       .find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
@@ -50,6 +51,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
       .then(res => {
         console.log(res);
         setOrganizationClients(res.data);
+        
       })
       .catch(err => {
         console.log(err);
@@ -67,15 +69,17 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           relationshiptype: "sponsor",
+          $limit:1000,
           $sort: {
             createdAt: -1,
-          },
+          }, 
         },
       })
       .then(res => {
         console.log(res.data);
         setOrganizationClients(res.data);
         setLoading(false);
+        setTotal(res.total)
         setState(prev => ({
           ...prev,
           ManagedCareCorporate: {
@@ -222,6 +226,7 @@ const CorporateListComponent = ({showCreate, showDetails}) => {
         >
           <FilterMenu onSearch={handleSearch} />
           <FormsHeaderText text="Lists of Corporate Organizations" />
+          ({total})
         </Box>
 
         <Box>

@@ -28,6 +28,7 @@ const PoliciesList = ({
   const [loading, setLoading] = useState(false);
   const {user, setUser} = useContext(UserContext);
   const [status, setStatus] = useState("approved");
+  const [total, setTotal] = useState();
 
   const handleCreateNew = async () => {
     createNewPolicy();
@@ -199,6 +200,7 @@ const PoliciesList = ({
         toast.error(`Something went wrong! ${err}`);
       });
     setLoading(false);
+    setTotal(resp.total)
   }, [status]);
 
   useEffect(() => {
@@ -383,6 +385,7 @@ const PoliciesList = ({
           )}
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
             {status === "approved" ? "Approved" : "Pending"} Policies
+            ({total})
           </h2>
 
           {status === "approved" && (
