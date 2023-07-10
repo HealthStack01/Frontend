@@ -204,10 +204,7 @@ const PoliciesList = ({
   useEffect(() => {
     getPolicies();
 
-    policyServer.on("created", obj => {
-      const newPolicies = updateOnCreated();
-      setPolicies(newPolicies);
-    });
+    policyServer.on("created", obj => getPolicies());
     policyServer.on("updated", obj => getPolicies());
     policyServer.on("patched", obj => getPolicies());
     policyServer.on("removed", obj => getPolicies());

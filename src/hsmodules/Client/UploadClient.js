@@ -3,15 +3,18 @@ import {useEffect, useState} from "react";
 import ExcelClientUpload from "../../components/excel-upload/Client-Upload";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {FormsHeaderText} from "../../components/texts";
-import {ClientMiniSchema} from "./schema";
+import {clientsUploadColumns} from "./schema";
 import CustomTable from "../../components/customtable";
+import {toast} from "react-toastify";
 
-const UploadClients = () => {
+const UploadClients = ({createClients}) => {
   const [uploads, setUploads] = useState([]);
 
-  useEffect(() => {
-    console.log(uploads);
-  }, []);
+  const handleCreateClients = () => {
+    if (uploads.length === 0)
+      return toast.error("Can't create empty list of Clients");
+    createClients(uploads);
+  };
   return (
     <Box
       sx={{
@@ -25,6 +28,7 @@ const UploadClients = () => {
           alignItems: "center",
           justifyContent: "space-between",
         }}
+        mb={2}
       >
         <FormsHeaderText text="List of Uploaded Client" />
         <ExcelClientUpload updateState={setUploads} />
@@ -39,8 +43,8 @@ const UploadClients = () => {
       >
         <CustomTable
           title={""}
-          columns={ClientMiniSchema}
-          data={uploads}
+          columns={clientsUploadColumns}
+          data={uploads && uploads}
           pointerOnHover
           highlightOnHover
           striped
@@ -58,9 +62,11 @@ const UploadClients = () => {
         }}
       >
         <GlobalCustomButton color="warning" onClick={() => setUploads([])}>
-          Clear
+          Clear Table
         </GlobalCustomButton>
-        <GlobalCustomButton>Create Client(s)</GlobalCustomButton>
+        <GlobalCustomButton onClick={handleCreateClients}>
+          Create Client(s)
+        </GlobalCustomButton>
       </Box>
     </Box>
   );

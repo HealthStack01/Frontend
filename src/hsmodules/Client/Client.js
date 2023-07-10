@@ -72,6 +72,12 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import axios from "axios";
 
 import {ClientIdCard} from "./ClientIdCard";
+import {
+  updateOnCreated,
+  updateOnDeleted,
+  updateOnPatched,
+  updateOnUpdated,
+} from "../../functions/Updates";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -620,7 +626,8 @@ export function ClientList({openCreateModal, openDetailModal}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [filterEndDate, setFilterEndDate] = useState(new Date());
   const containerScrollRef = useRef(null);
   const [uploadModal, setUploadModal] = useState(false);
@@ -815,10 +822,22 @@ export function ClientList({openCreateModal, openDetailModal}) {
                     getFacilities(user) */
     }
 
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
+    ClientServ.on("created", obj => {
+      const newClients = updateOnCreated(facilities, obj);
+      setFacilities(newClients);
+    });
+    ClientServ.on("updated", obj => {
+      const newClients = updateOnCreated(facilities, obj);
+      setFacilities(newClients);
+    });
+    ClientServ.on("patched", obj => {
+      const newClients = updateOnCreated(facilities, obj);
+      setFacilities(newClients);
+    });
+    ClientServ.on("removed", obj => {
+      const newClients = updateOnCreated(facilities, obj);
+      setFacilities(newClients);
+    });
 
     return () => {};
     // eslint-disable-next-line
@@ -868,6 +887,45 @@ export function ClientList({openCreateModal, openDetailModal}) {
     }
   };
 
+  const createClient = async data => {
+    //return console.log(data);
+
+    const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
+      data.dob
+    ).format("DD/MM/YYY")}@healthstack.africa`;
+
+    const clientData = {
+      ...data,
+      facility: user.currentEmployee.facility,
+      email: data.email || defaultEmail,
+    };
+
+    await ClientServ.create(clientData)
+      .then(res => {
+        toast.success(
+          `Client ${data.firstname} ${data.lastname} successfully created`
+        );
+      })
+      .catch(err => {
+        toast.error(
+          `Sorry, You weren't able to create client ${data.firstname} ${data.lastname} . ${err}`
+        );
+      });
+  };
+
+  const handleCreateMultipleClients = async patients => {
+    showActionLoader();
+
+    const promises = patients.map(async doc => {
+      await createClient(doc);
+    });
+
+    await Promise.all(promises);
+
+    hideActionLoader();
+    setUploadModal(false);
+  };
+
   return (
     <>
       {user ? (
@@ -880,8 +938,15 @@ export function ClientList({openCreateModal, openDetailModal}) {
             />
           </ModalBox>
 
-          <ModalBox open={uploadModal} onClose={() => setUploadModal(false)}>
-            <UploadClients closeModal={() => setUploadModal(false)} />
+          <ModalBox
+            open={uploadModal}
+            onClose={() => setUploadModal(false)}
+            header="Upload and Create Multiple Clients"
+          >
+            <UploadClients
+              closeModal={() => setUploadModal(false)}
+              createClients={handleCreateMultipleClients}
+            />
           </ModalBox>
 
           <PageWrapper

@@ -2,6 +2,7 @@ import React, {useRef} from "react";
 import {Box, Button} from "@mui/material";
 import * as XLSX from "xlsx";
 import GlobalCustomButton from "../buttons/CustomButton";
+import dayjs from "dayjs";
 
 interface componentProps {
   updateState?: Function;
@@ -39,44 +40,35 @@ const ExcelClientUpload = ({updateState, actionButton}: componentProps) => {
         array?.reduce((a, v, i) => ({...a, [keys[i].replace(" ", "")]: v}), {})
       );
 
-      // return console.log(objects);
-      // const newObjects =
-      //   objects &&
-      //   objects.map(obj => {
-      //     return {
-      //       ...obj,
-      //       firstname: obj?.firstname || "",
-      //       middlename: obj.midlename || "",
-      //       lastname: obj.lastname || "",
-      //       gender: obj.gender || "",
-      //       email: obj.email || "",
-      //       phone: obj.phone || "",
-      //       dob: obj.dob || "",
-      //       maritalstauts: obj.maritalstatus || "",
-      //       residentialaddress: obj.address || "",
-      //       lga: obj.lga || "",
-      //       state: obj.state || "",
-      //       country: obj.country || "",
-      //       town: obj.lga || "",
-      //       nextofkinphone: obj.nextofkinphone || "",
-      //       nextofkin: obj.nextofkin || "",
-      //       alive: true,
-      //       // clientLevel: obj.clientLevel || "",
-      //     };
-      //   });
+      //return console.log(objects);
 
-      //console.log(objects);
+      const newObjects = objects.map(obj => {
+        return {
+          ...obj,
+          firstname: obj?.firstname || "",
+          middlename: obj.middlename || "",
+          lastname: obj.lastname || "",
+          gender: obj.gender || "",
+          email: obj.email || "",
+          phone: obj.phone || "",
+          dob: new Date(Date.UTC(0, 0, obj.dob)),
+          maritalstauts: obj.maritalstatus || "",
+          residentialaddress: obj.address || "",
+          lga: obj.lga || "",
+          state: obj.state || "",
+          country: obj.country || "",
+          town: obj.lga || "",
+          nextofkinphone: obj.nextofkinphone || "",
+          nextofkin: obj.nextofkin || "",
+          alive: true,
+          clientLevel: obj.level || "",
+        };
+      });
 
-      // setProductItem(prevProd => prevProd.concat(productItemI));
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
 
-      updateState(prev => prev.concat(objects));
-
-      //console.log(data);
-
-      /* Update state */
-      //this.setState({ data: data, cols: make_cols(ws["!ref"]) });
+      updateState(prev => prev.concat(newObjects));
     };
     if (rABS) reader.readAsBinaryString(file);
     else reader.readAsArrayBuffer(file);
