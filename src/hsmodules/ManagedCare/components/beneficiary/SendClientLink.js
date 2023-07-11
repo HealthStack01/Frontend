@@ -39,7 +39,7 @@ const SendLinkViaEmail = ({
   const [selectedEmail, setSelectedEmail] = useState("");
   const [destinationEmail, setDestinationEmail] = useState(defaultToEmail);
   const [emailBody, setEmailBody] = useState(
-    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/`}>LINK</a>  
+    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/signup/corporate-beneficiary/${id}`}>LINK</a>  
     to create your account and update your details.</p>`
   ); //add /${id}
   const [indvemailBody, setIndvEmailBody] = useState(
@@ -61,7 +61,7 @@ const SendLinkViaEmail = ({
     reset({
       to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
-      subject: "Create Your Organization",
+      subject: "Create Your Account",
       from: selectedEmail,
     });
   }, [selectedEmail, destinationEmail]);
