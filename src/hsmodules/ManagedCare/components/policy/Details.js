@@ -10,6 +10,7 @@ import ChangePolicyPrincipal from "./edit-policy/ChangePrincipal";
 import AddDependentToPolicy from "./edit-policy/AddDependent";
 import PolicyAddProvider from "./edit-policy/AddProvider";
 import ChangePolicySponsor from "./edit-policy/ChangeSponsor";
+import ChangePolicyHMO from "./edit-policy/ChangeHMO";
 import DefaultClientDetail from "../../../../components/client-detail/Client-Detail";
 import DefaultFacilityDetail from "../../../../components/facility-detail/Facility-Detail";
 import Watermark from "@uiw/react-watermark";
@@ -97,7 +98,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
     const facility = user.currentEmployee.facilityDetail;
-    const orgId = isHMO ? facility._id : hmo._id;
+    const orgId = isHMO ? facility._id : policy.organization._id;
 
     const resp = await healthPlanServer.find({
       query: {
@@ -112,7 +113,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
     console.log(data);
     setHealthPlans(data);
     setFetchingPlans(false);
-  }, [hmo]);
+  }, [policy]);
 
   useEffect(() => {
     getHealthPlans();
@@ -121,7 +122,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   useEffect(() => {
     const prevPolicy = state.PolicyModule.selectedPolicy;
 
-    console.log(prevPolicy);
+    //console.log(prevPolicy);
 
     setSubSponsor(prevPolicy.sponsor);
 
@@ -468,6 +469,19 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
           }}
         >
           <ChangePolicyPrincipal
+            closeModal={() => {
+              setModal(null);
+            }}
+          />
+        </ModalBox>
+
+        <ModalBox
+          open={modal === "hmo"}
+          onClose={() => {
+            setModal(null);
+          }}
+        >
+          <ChangePolicyHMO
             closeModal={() => {
               setModal(null);
             }}

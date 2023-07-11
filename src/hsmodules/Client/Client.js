@@ -1,14 +1,14 @@
 /* eslint-disable */
 
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
 import api from "../../utils/api";
-import { DebounceInput } from "react-debounce-input";
+import {DebounceInput} from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "react-toastify";
-import { formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
+import {formatDistanceToNowStrict} from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 // import { AppointmentCreate } from "../Clinic/Appointments";
@@ -18,17 +18,19 @@ import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import "react-datepicker/dist/react-datepicker.css";
-import { v4 as uuidv4 } from "uuid";
+import {v4 as uuidv4} from "uuid";
 import short from "short-uuid";
+import ExcelClientUpload from "../../components/excel-upload/Client-Upload";
+import UploadClients from "./UploadClient";
 
 import dayjs from "dayjs";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import { ClientMiniSchema } from "./schema";
-import { useForm } from "react-hook-form";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import {ClientMiniSchema} from "./schema";
+import {useForm} from "react-hook-form";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -56,26 +58,32 @@ import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
 import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
-import { AppointmentCreate } from "./Appointments";
+import {AppointmentCreate} from "./Appointments";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import ClientListDateFilter from "./DateFilter";
 import MuiClearDatePicker from "../../components/inputs/Date/MuiClearDatePicker";
-import { getBase64 } from "../helpers/getBase64";
-import { FileUploader } from "react-drag-drop-files";
+import {getBase64} from "../helpers/getBase64";
+import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import axios from "axios";
 
-import { ClientIdCard } from "./ClientIdCard";
+import {ClientIdCard} from "./ClientIdCard";
+import {
+  updateOnCreated,
+  updateOnDeleted,
+  updateOnPatched,
+  updateOnUpdated,
+} from "../../functions/Updates";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Client() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -134,10 +142,10 @@ export default function Client() {
   );
 }
 
-export function ClientCreate({ open, setOpen }) {
+export function ClientCreate({open, setOpen}) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
-  const { register, handleSubmit } = useForm({
+  const {register, handleSubmit} = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -170,7 +178,7 @@ export function ClientCreate({ open, setOpen }) {
     setSuccess(false);
 
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         toast({
           message: "Client created succesfully",
           type: "is-success",
@@ -180,7 +188,7 @@ export function ClientCreate({ open, setOpen }) {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -194,14 +202,14 @@ export function ClientCreate({ open, setOpen }) {
 
   // eslint-disable-next-line
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setDate(date);
   };
 
@@ -295,7 +303,7 @@ export function ClientCreate({ open, setOpen }) {
     }
   };
 
-  const checkQuery = (query) => {
+  const checkQuery = query => {
     setPatList([]);
     if (
       !(
@@ -304,9 +312,9 @@ export function ClientCreate({ open, setOpen }) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({ query: query })
+      ClientServ.find({query: query})
 
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -315,7 +323,7 @@ export function ClientCreate({ open, setOpen }) {
             return;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     }
@@ -329,7 +337,7 @@ export function ClientCreate({ open, setOpen }) {
     setBillModal(false);
   };
 
-  const choosen = async (client) => {
+  const choosen = async client => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -349,7 +357,7 @@ export function ClientCreate({ open, setOpen }) {
     //cash payment
   };
 
-  const dupl = (client) => {
+  const dupl = client => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -360,10 +368,10 @@ export function ClientCreate({ open, setOpen }) {
     setPatList([]);
   };
 
-  const reg = async (client) => {
+  const reg = async client => {
     if (
       client.relatedfacilities.findIndex(
-        (el) => el.facility === user.currentEmployee.facilityDetail._id
+        el => el.facility === user.currentEmployee.facilityDetail._id
       ) === -1
     ) {
       //create mpi record
@@ -377,7 +385,7 @@ export function ClientCreate({ open, setOpen }) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then((resp) => {
+        .then(resp => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -385,7 +393,7 @@ export function ClientCreate({ open, setOpen }) {
             pauseOnHover: true,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -400,7 +408,7 @@ export function ClientCreate({ open, setOpen }) {
     //cash payment
   };
 
-  const depen = (client) => {
+  const depen = client => {
     setDependant(true);
   };
 
@@ -442,7 +450,7 @@ export function ClientCreate({ open, setOpen }) {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           e.target.reset();
           /*  setMessage("Created Client successfully") */
@@ -459,7 +467,7 @@ export function ClientCreate({ open, setOpen }) {
           setDependant(false);
           setDate();
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -473,7 +481,7 @@ export function ClientCreate({ open, setOpen }) {
     }
   };
 
-  const users = [{ sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24 }];
+  const users = [{sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24}];
 
   const ClientRegisteredSchema = [
     {
@@ -481,7 +489,7 @@ export function ClientCreate({ open, setOpen }) {
       key: "sn",
       description: "SN",
 
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
     },
     {
@@ -489,7 +497,7 @@ export function ClientCreate({ open, setOpen }) {
       key: "lastname",
       description: "Last Name",
 
-      selector: (row) => row.lastname,
+      selector: row => row.lastname,
       sortable: true,
       required: true,
     },
@@ -499,7 +507,7 @@ export function ClientCreate({ open, setOpen }) {
       key: "firstname",
       description: "First Name",
 
-      selector: (row) => row.firstname,
+      selector: row => row.firstname,
       sortable: true,
       required: true,
     },
@@ -509,7 +517,7 @@ export function ClientCreate({ open, setOpen }) {
       key: "age",
       description: "age",
 
-      selector: (row) => row.age,
+      selector: row => row.age,
       sortable: true,
       required: true,
     },
@@ -519,7 +527,7 @@ export function ClientCreate({ open, setOpen }) {
       key: "gender",
       description: "Gender",
 
-      selector: (row) => row.gender,
+      selector: row => row.gender,
       sortable: true,
       required: true,
     },
@@ -529,7 +537,7 @@ export function ClientCreate({ open, setOpen }) {
       key: "phone",
       description: "phone",
 
-      selector: (row) => row.phone,
+      selector: row => row.phone,
       sortable: true,
       required: true,
     },
@@ -539,15 +547,15 @@ export function ClientCreate({ open, setOpen }) {
       key: "email",
       description: "Enter your name",
 
-      selector: (row) => row.email,
+      selector: row => row.email,
       sortable: true,
       required: true,
     },
     {
       name: "Action",
-      cell: (row) => {
+      cell: row => {
         return (
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{display: "flex", gap: 2}}>
             <Button label="Duplicate" />
             <Button label="Register" />
             <Button label="Dependent" />
@@ -602,7 +610,7 @@ export function ClientCreate({ open, setOpen }) {
   );
 }
 
-export function ClientList({ openCreateModal, openDetailModal }) {
+export function ClientList({openCreateModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -618,9 +626,11 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const [filterEndDate, setFilterEndDate] = useState(new Date());
   const containerScrollRef = useRef(null);
+  const [uploadModal, setUploadModal] = useState(false);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -638,7 +648,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -650,13 +660,13 @@ export function ClientList({ openCreateModal, openDetailModal }) {
     setOpen(false);
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -665,7 +675,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
     openDetailModal();
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     // eslint-disable-next-line
     const field = "firstname";
     //console.log(val);
@@ -720,7 +730,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
               $options: "i",
             },
           },
-          { gender: val },
+          {gender: val},
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -730,13 +740,13 @@ export function ClientList({ openCreateModal, openDetailModal }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -765,7 +775,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
         //   actionLoader: {open: false},
         // }));
       } else {
-        await setFacilities((prevstate) => prevstate.concat(findClient.data));
+        await setFacilities(prevstate => prevstate.concat(findClient.data));
         // setState(prev => ({
         //   ...prev,
         //   actionLoader: {open: false},
@@ -776,7 +786,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+      setPage(page => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -812,10 +822,22 @@ export function ClientList({ openCreateModal, openDetailModal }) {
                     getFacilities(user) */
     }
 
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on("created", obj => {
+      const newClients = updateOnCreated(facilities, obj);
+      setFacilities(newClients);
+    });
+    ClientServ.on("updated", obj => {
+      const newClients = updateOnUpdated(facilities, obj);
+      setFacilities(newClients);
+    });
+    ClientServ.on("patched", obj => {
+      const newClients = updateOnPatched(facilities, obj);
+      setFacilities(newClients);
+    });
+    ClientServ.on("removed", obj => {
+      const newClients = updateOnDeleted(facilities, obj);
+      setFacilities(newClients);
+    });
 
     return () => {};
     // eslint-disable-next-line
@@ -843,7 +865,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
 
   const conditionalRowStyles = [
     {
-      when: (row) => row.alive === false,
+      when: row => row.alive === false,
       style: {
         backgroundColor: "pink",
         color: "white",
@@ -856,13 +878,53 @@ export function ClientList({ openCreateModal, openDetailModal }) {
 
   const handleOnTableScroll = () => {
     if (containerScrollRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } =
+      const {scrollTop, scrollHeight, clientHeight} =
         containerScrollRef.current;
       if (scrollTop + clientHeight === scrollHeight) {
         // TO SOMETHING HERE
         console.log("Reached bottom");
       }
     }
+  };
+
+  const createClient = async data => {
+    //return console.log(data);
+
+    const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
+      data.dob
+    ).format("DD/MM/YYY")}@healthstack.africa`;
+
+    const clientData = {
+      ...data,
+      facility: user.currentEmployee.facility,
+      email: data.email || defaultEmail,
+    };
+
+    await ClientServ.create(clientData)
+      .then(res => {
+        // toast.success(
+        //   `Client ${data.firstname} ${data.lastname} successfully created`
+        // );
+      })
+      .catch(err => {
+        toast.error(
+          `Sorry, You weren't able to create client ${data.firstname} ${data.lastname} . ${err}`
+        );
+      });
+  };
+
+  const handleCreateMultipleClients = async data => {
+    showActionLoader();
+
+    const promises = data.map(async item => {
+      await createClient(item);
+    });
+
+    await Promise.all(promises);
+
+    hideActionLoader();
+    setUploadModal(false);
+    toast.success(`Sucessfully created ${data.length} Client(s)`);
   };
 
   return (
@@ -877,36 +939,27 @@ export function ClientList({ openCreateModal, openDetailModal }) {
             />
           </ModalBox>
 
-          {/* <ModalBox
-            open={dateFilterModal}
-            onClose={() => setDateFilterModal(false)}
-            header="Filter Client By End Date"
+          <ModalBox
+            open={uploadModal}
+            onClose={() => setUploadModal(false)}
+            header="Upload and Create Multiple Clients"
           >
-            <ClientListDateFilter
-              startDate={filterStartDate}
-              setStartDate={setFilterStartDate}
-              endDate={filterEndDate}
-              setEndDate={setFilterEndDate}
-              filterByDate={handleFilterByDate}
+            <UploadClients
+              closeModal={() => setUploadModal(false)}
+              createClients={handleCreateMultipleClients}
             />
-          </ModalBox> */}
-          {/* 
-          <Portal>
-            <ClientForm />
-          </Portal> */}
+          </ModalBox>
 
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <Box style={{ display: "flex", alignItems: "center" }} gap={1}>
-                {handleSearch && (
-                  <div className="inner-table">
-                    <FilterMenu onSearch={handleSearch} />
-                  </div>
-                )}
+              <Box style={{display: "flex", alignItems: "center"}} gap={1}>
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
 
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   List of Clients
                 </h2>
 
@@ -941,10 +994,17 @@ export function ClientList({ openCreateModal, openDetailModal }) {
                   )} */}
                 </Box>
               </Box>
-              <GlobalCustomButton onClick={handleCreateNew}>
-                <PersonAddIcon fontSize="small" sx={{ marginRight: "5px" }} />
-                Create New Client
-              </GlobalCustomButton>
+
+              <Box sx={{display: "flex", alignItems: "center", gap: "20px"}}>
+                <GlobalCustomButton onClick={() => setUploadModal(true)}>
+                  Upload Sheet
+                </GlobalCustomButton>
+
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  <PersonAddIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Create New Client
+                </GlobalCustomButton>
+              </Box>
             </TableMenu>
 
             <div
@@ -978,7 +1038,7 @@ export function ClientList({ openCreateModal, openDetailModal }) {
   );
 }
 
-export function ClientDetail({ closeDetailModal }) {
+export function ClientDetail({closeDetailModal}) {
   const navigate = useNavigate();
   // eslint-disable-next-line
 
@@ -993,8 +1053,8 @@ export function ClientDetail({ closeDetailModal }) {
   // eslint-disable-next-line
 
   const [message, setMessage] = useState("");
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const [editClient, setEditClient] = useState(false);
 
@@ -1002,7 +1062,7 @@ export function ClientDetail({ closeDetailModal }) {
 
   const [success, setSuccess] = useState(false);
 
-  const { register, handleSubmit, setValue, reset, control } = useForm();
+  const {register, handleSubmit, setValue, reset, control} = useForm();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [imageUploadModal, setImageUploadModal] = useState(false);
@@ -1018,7 +1078,7 @@ export function ClientDetail({ closeDetailModal }) {
     setAnchorEl(null);
   };
 
-  const handleOpenOptions = (event) => {
+  const handleOpenOptions = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -1172,7 +1232,7 @@ export function ClientDetail({ closeDetailModal }) {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1187,7 +1247,7 @@ export function ClientDetail({ closeDetailModal }) {
       show: "create",
     };
 
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
+    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
   };
 
   const handleDelete = async () => {
@@ -1196,7 +1256,7 @@ export function ClientDetail({ closeDetailModal }) {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           reset();
 
           toast({
@@ -1207,7 +1267,7 @@ export function ClientDetail({ closeDetailModal }) {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error deleting Client, probable network issues or " + err,
             type: "is-danger",
@@ -1219,30 +1279,30 @@ export function ClientDetail({ closeDetailModal }) {
   };
 
   const handleDeactivateClient = () => {
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
-      actionLoader: { open: true, message: "Deactivating Client" },
+      actionLoader: {open: true, message: "Deactivating Client"},
     }));
     setSuccess(false);
 
-    const newData = { ...Client, active: false };
+    const newData = {...Client, active: false};
 
     ClientServ.patch(Client._id, newData)
-      .then((res) => {
+      .then(res => {
         setConfirmDialog(false);
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          actionLoader: { open: false, message: "" },
+          actionLoader: {open: false, message: ""},
         }));
         toast.success("Client Deactivated succesfully");
 
         changeState();
         closeDetailModal();
       })
-      .catch((err) => {
-        setState((prev) => ({
+      .catch(err => {
+        setState(prev => ({
           ...prev,
-          actionLoader: { open: false, message: "" },
+          actionLoader: {open: false, message: ""},
         }));
         setConfirmDialog(false);
         toast.error(
@@ -1253,18 +1313,18 @@ export function ClientDetail({ closeDetailModal }) {
 
   const handleReactivateClient = () => {
     setSuccess(false);
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
-      actionLoader: { open: true, message: "Reactivating Client" },
+      actionLoader: {open: true, message: "Reactivating Client"},
     }));
 
-    const newData = { ...Client, active: true };
+    const newData = {...Client, active: true};
 
     ClientServ.patch(Client._id, newData)
-      .then((res) => {
-        setState((prev) => ({
+      .then(res => {
+        setState(prev => ({
           ...prev,
-          actionLoader: { open: false, message: "" },
+          actionLoader: {open: false, message: ""},
         }));
         setReactivateConfirm(false);
         toast.success("Client Reactivated succesfully");
@@ -1272,10 +1332,10 @@ export function ClientDetail({ closeDetailModal }) {
         changeState();
         closeDetailModal();
       })
-      .catch((err) => {
-        setState((prev) => ({
+      .catch(err => {
+        setState(prev => ({
           ...prev,
-          actionLoader: { open: false, message: "" },
+          actionLoader: {open: false, message: ""},
         }));
         setReactivateConfirm(false);
         toast.error(
@@ -1301,20 +1361,20 @@ export function ClientDetail({ closeDetailModal }) {
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     // e.preventDefault();
     setUpdatingClient(true);
 
     setSuccess(false);
 
     ClientServ.patch(Client._id, data)
-      .then((res) => {
+      .then(res => {
         setUpdatingClient(false);
         toast.success("Client updated succesfully");
         changeState();
         closeDetailModal();
       })
-      .catch((err) => {
+      .catch(err => {
         setUpdatingClient(false);
         toast.error(`Error updating Client, probable network issues or ${err}`);
       });
@@ -1385,14 +1445,14 @@ export function ClientDetail({ closeDetailModal }) {
           >
             <Box>
               <IconButton onClick={handleOpenOptions}>
-                <Avatar sx={{ width: 80, height: 80 }} src={Client.imageurl} />
+                <Avatar sx={{width: 80, height: 80}} src={Client.imageurl} />
               </IconButton>
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={Boolean(anchorEl)}
                 onClose={handleCloseOptions}
-                anchorOrigin={{ horizontal: "right", vertical: "center" }}
+                anchorOrigin={{horizontal: "right", vertical: "center"}}
               >
                 {/* <MenuItem>View Logo</MenuItem> */}
                 <MenuItem>Remove Image</MenuItem>
@@ -1499,7 +1559,9 @@ export function ClientDetail({ closeDetailModal }) {
           </Box>
         )}
 
-        <Box  sx={{ p:1, flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
+        <Box
+          sx={{p: 1, flexWrap: "wrap", flexDirection: "row", overflow: "auto"}}
+        >
           <form>
             <Grid container spacing={1}>
               {(Client.firstname || editClient) && (
@@ -1554,8 +1616,8 @@ export function ClientDetail({ closeDetailModal }) {
                     name="gender"
                     control={control}
                     options={[
-                      { label: "Male", value: "male" },
-                      { label: "Female", value: "female" },
+                      {label: "Male", value: "male"},
+                      {label: "Female", value: "female"},
                     ]}
                     disabled={!editClient}
                     //errorText={errors?.gender?.message}
@@ -1570,9 +1632,9 @@ export function ClientDetail({ closeDetailModal }) {
                     name="maritalstatus"
                     control={control}
                     options={[
-                      { label: "Single", value: "Single" },
-                      { label: "Married", value: "Married" },
-                      { label: "Widowed", value: "Widowed" },
+                      {label: "Single", value: "Single"},
+                      {label: "Married", value: "Married"},
+                      {label: "Widowed", value: "Widowed"},
                       {
                         label: "Divorced/Seperated",
                         value: "Divorced/Seperated",
@@ -1640,7 +1702,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.address || editClient) && (
-                <Grid item lg={6} md={6} sm={12}  xs={12}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <Input
                     label="Residential Address"
                     //defaultValue={Client.address}
@@ -1717,7 +1779,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.disabilities || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Disabilities"
                     //defaultValue={Client.disabilities}
@@ -1728,7 +1790,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.allergies || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Allergies"
                     //defaultValue={Client.allergies}
@@ -1739,7 +1801,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.comorbidities || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Co-mobidities"
                     //defaultValue={Client.comorbidities}
@@ -1750,7 +1812,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.clientTags || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Tags"
                     //defaultValue={Client.clientTags}
@@ -1761,7 +1823,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.specificDetails || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Specific Details about Client"
                     //defaultValue={Client.specificDetails}
@@ -1772,7 +1834,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_name || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Next of Kin Fullname"
                     //defaultValue={Client.nok_name}
@@ -1783,7 +1845,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_phoneno || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Next of Kin Phone Number"
                     //defaultValue={Client.nok_phoneno}
@@ -1794,7 +1856,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_relationship || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Next of Kin Relationship"
                     //defaultValue={Client.nok_relationship}
@@ -1805,7 +1867,7 @@ export function ClientDetail({ closeDetailModal }) {
               )}
 
               {(Client.nok_email || editClient) && (
-                <Grid item lg={4} md={6} sm={12}  xs={12}>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
                   <Input
                     label="Next of Kin Email Address"
                     //defaultValue={Client.nok_email}
@@ -1932,24 +1994,24 @@ const UploadComponent = ({}) => {
   );
 };
 
-export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
+export const UpdateClientPassport = ({closeModal, selectedClient}) => {
   const ClientServ = client.service("client");
-  const { state, setState, showActionLoader, hideActionLoader } =
+  const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const [file, setFile] = useState(null);
 
-  const handleChange = (file) => {
+  const handleChange = file => {
     //console.log(file);
     //setFile(file);
 
     getBase64(file)
-      .then((res) => {
+      .then(res => {
         //console.log(res);
         setFile(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -1961,10 +2023,10 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
     axios
       .post(
         "https://healthstack-backend.herokuapp.com/upload",
-        { uri: file },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
       )
-      .then(async (res) => {
+      .then(async res => {
         const imageUrl = res.data.url;
         //const employee = user.currentEmployee;
 
@@ -1976,12 +2038,12 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
         const documentId = selectedClient._id;
 
         await ClientServ.patch(documentId, newClient)
-          .then((res) => {
+          .then(res => {
             hideActionLoader();
             closeModal();
             toast.success("Patient Image Updated succesfully");
           })
-          .catch((err) => {
+          .catch(err => {
             hideActionLoader();
 
             toast.error(
@@ -1989,7 +2051,7 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
             );
           });
       })
-      .catch((error) => {
+      .catch(error => {
         hideActionLoader();
         toast.error(
           `An error occured whilst updating your Patient Image ${error}`
@@ -1999,7 +2061,7 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
   };
 
   return (
-    <Box sx={{ width: "400px", maxHeight: "80vw" }}>
+    <Box sx={{width: "400px", maxHeight: "80vw"}}>
       {file ? (
         <Box
           sx={{
@@ -2011,7 +2073,7 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
           <img
             src={file}
             alt="logo"
-            style={{ width: "200px", height: "auto", display: "block" }}
+            style={{width: "200px", height: "auto", display: "block"}}
           />
         </Box>
       ) : (
@@ -2024,7 +2086,7 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
         />
       )}
 
-      <Box sx={{ display: "flex" }} gap={2} mt={2}>
+      <Box sx={{display: "flex"}} gap={2} mt={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
@@ -2038,7 +2100,7 @@ export const UpdateClientPassport = ({ closeModal, selectedClient }) => {
 };
 
 export function ClientModify() {
-  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
+  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -2049,8 +2111,8 @@ export function ClientModify() {
   const ClientServ = client.service("client");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
 
@@ -2160,7 +2222,7 @@ export function ClientModify() {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -2173,7 +2235,7 @@ export function ClientModify() {
       show: "create",
     };
 
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
+    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
@@ -2182,7 +2244,7 @@ export function ClientModify() {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -2199,7 +2261,7 @@ export function ClientModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -2225,7 +2287,7 @@ export function ClientModify() {
     //console.log(data);
 
     ClientServ.patch(Client._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
@@ -2238,7 +2300,7 @@ export function ClientModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -2739,7 +2801,7 @@ export function ClientModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
+export function InputSearch({getSearchfacility, clear}) {
   const ClientServ = client.service("client");
 
   // const facilityServ=client.service('facility')
@@ -2758,7 +2820,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2775,7 +2837,7 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -2793,7 +2855,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -2810,14 +2872,14 @@ export function InputSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
 
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -2851,8 +2913,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
