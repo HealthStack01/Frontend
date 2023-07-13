@@ -429,6 +429,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
     });
     EmployeeServ.on("patched", obj => {
       const newData = updateOnPatched(facilities, obj);
+      //console.log(newData);
       setFacilities(newData);
     });
     EmployeeServ.on("removed", obj => {

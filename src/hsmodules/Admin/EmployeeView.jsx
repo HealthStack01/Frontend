@@ -114,9 +114,9 @@ const EmployeeView = ({open, setOpen, employee}) => {
     //console.log(state)
   };
 
-  const changeState = () => {
+  const changeState = employee => {
     const newEmployeeModule = {
-      selectedEmployee: {},
+      selectedEmployee: employee,
       show: "create",
     };
     setState(prevstate => ({...prevstate, EmployeeModule: newEmployeeModule}));
@@ -136,7 +136,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
         reset();
         setConfirmDialog(false);
         toast.success("Employee deleted succesfully");
-        changeState();
+        changeState({});
       })
       .catch(err => {
         // setMessage("Error deleting Employee, probable network issues "+ err )
@@ -168,7 +168,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
         setUpatingEmployee(false);
         toast.success("Employee Data succesfully updated");
 
-        changeState();
+        changeState(res);
       })
       .catch(err => {
         setUpatingEmployee(false);
