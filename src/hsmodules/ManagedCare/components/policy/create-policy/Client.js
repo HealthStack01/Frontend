@@ -358,20 +358,6 @@ const PolicyClientCreate = ({closeModal}) => {
                     },
                   }));
                 }
-                // if (state.currBeneficiary === "multiple_individuals") {
-                //   res.type = "principal";
-                //   newBeneficiaryModule = {
-                //     principal: state.Beneficiary.principal,
-                //     dependent: state.Beneficiary.dependent,
-                //     others: state.Beneficiary.others,
-                //     individuals: [...state.Beneficiary.individuals, res],
-                //     show: "create",
-                //   };
-                // }
-                // setState(prevstate => ({
-                //   ...prevstate,
-                //   Beneficiary: newBeneficiaryModule,
-                // }));
               })
               .catch(err => {
                 hideActionLoader();
@@ -381,7 +367,6 @@ const PolicyClientCreate = ({closeModal}) => {
               });
           });
       } else {
-        //data.dob = date;
         const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
           data.dob
         ).format("DD/MM/YYY")}@healthstack.africa`;

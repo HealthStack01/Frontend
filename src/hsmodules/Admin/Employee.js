@@ -429,6 +429,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
     });
     EmployeeServ.on("patched", obj => {
       const newData = updateOnPatched(facilities, obj);
+      //console.log(newData);
       setFacilities(newData);
     });
     EmployeeServ.on("removed", obj => {
@@ -537,10 +538,10 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       validator: yup.string().required("Facility not available"),
     },
     {
-      name: "Department",
+      name: "position",
       key: "department",
       description: "Enter department",
-      selector: row => row.department,
+      selector: row => row.position,
       sortable: true,
       required: true,
       inputType: "TEXT",
