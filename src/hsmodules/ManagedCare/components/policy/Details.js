@@ -113,7 +113,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
     console.log(data);
     setHealthPlans(data);
     setFetchingPlans(false);
-  }, [policy]);
+  }, []);
 
   useEffect(() => {
     getHealthPlans();
@@ -318,13 +318,18 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   };
 
   const handlePolicyApproval = async () => {
-    const policy = state.PolicyModule.selectedPolicy;
+    showActionLoader();
+    //const policy = state.PolicyModule.selectedPolicy;
     const prevPolicy = state.PolicyModule.preservedPolicy;
     const employee = user.currentEmployee;
 
+    const statusMsg = policy.approved
+      ? "Policy is Disapproved"
+      : "Policy is Approved";
+
     const policyDetails = {
       ...policy,
-      approved: !prevPolicy.approved,
+      approved: !policy.approved,
       approvalDate: new Date(),
       approvedby: {
         employeename: `${employee?.firstname} ${employee?.lastname}`,
@@ -336,9 +341,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
           date: new Date(),
           employeename: `${employee?.firstname} ${employee?.lastname}`,
           employeeId: employee?._id,
-          status: prevPolicy.approved
-            ? "Policy is disapproved"
-            : "Policy is approved",
+          status: statusMsg,
         },
       ],
     };
@@ -346,14 +349,21 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
     await policyServer
       .patch(policy._id, policyDetails)
       .then(res => {
+        console.log(res);
+        setPolicy(res);
         setState(prev => ({
           ...prev,
-          PolicyModule: {...prev.PolicyModule, selectedPolicy: res},
+          PolicyModule: {
+            ...prev.PolicyModule,
+            selectedPolicy: res,
+            preservedPolicy: res,
+          },
         }));
-        toast.success("Policy Approved");
+        hideActionLoader();
+        toast.success(statusMsg);
       })
       .catch(err => {
-        //console.log(err);
+        hideActionLoader();
         toast.error("Error Approving Policy" + err);
       });
   };
