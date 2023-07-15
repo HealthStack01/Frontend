@@ -26,9 +26,10 @@ const PoliciesList = ({
   const [policies, setPolicies] = useState([]);
   const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {user, setUser} = useContext(UserContext);
   const [status, setStatus] = useState("approved");
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState(0);
 
   const handleCreateNew = async () => {
     createNewPolicy();
@@ -41,6 +42,7 @@ const PoliciesList = ({
       PolicyModule: {
         ...prev.PolicyModule,
         selectedPolicy: policy,
+        preservedPolicy: policy,
       },
     }));
     showDetails();
@@ -153,6 +155,9 @@ const PoliciesList = ({
 
   const getPolicies = useCallback(async () => {
     setLoading(true);
+    setTotal(0);
+    setIsLoading(true);
+
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: status === "approved",
@@ -195,12 +200,13 @@ const PoliciesList = ({
       .then(resp => {
         setPolicies(resp.data);
         setLoading(false);
+        setIsLoading(false);
+        setTotal(resp.data.length);
       })
       .catch(err => {
         toast.error(`Something went wrong! ${err}`);
+        setIsLoading(false);
       });
-    setLoading(false);
-    setTotal(resp.total)
   }, [status]);
 
   useEffect(() => {
@@ -384,8 +390,7 @@ const PoliciesList = ({
             </div>
           )}
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-            {status === "approved" ? "Approved" : "Pending"} Policies
-            ({total})
+            {status === "approved" ? "Approved" : "Pending"} Policies ({total})
           </h2>
 
           {status === "approved" && (
@@ -394,7 +399,7 @@ const PoliciesList = ({
               color="warning"
             >
               <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Show Pending
+              Pending Policies
             </GlobalCustomButton>
           )}
 
@@ -404,7 +409,7 @@ const PoliciesList = ({
               color="secondary"
             >
               <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Show Approved
+              Approved Policies
             </GlobalCustomButton>
           )}
         </div>
@@ -447,7 +452,7 @@ const PoliciesList = ({
           highlightOnHover
           striped
           onRowClicked={handleRow}
-          progressPending={loading}
+          progressPending={isLoading}
           CustomEmptyData={
             status === "approved"
               ? "No Approved Policies"

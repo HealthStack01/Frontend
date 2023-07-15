@@ -8,14 +8,12 @@ import PolicyDetail from "./components/policy/Details";
 const NewPolicyModule = ({beneficiary, corporate, corporateOrg}) => {
   const [view, setView] = useState("lists");
 
-  console.log(corporate);
-
   const createNewPolicy = () => {
     setView("create");
   };
 
   const showDetails = () => {
-    setView("details")
+    setView("details");
   };
 
   const handleReturn = () => {

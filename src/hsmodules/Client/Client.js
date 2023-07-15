@@ -823,8 +823,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
     }
 
     ClientServ.on("created", obj => {
-      const newClients = updateOnCreated(facilities, obj);
-      setFacilities(newClients);
+      // const newClients = updateOnCreated(facilities, obj);
+      // console.log(newClients);
+      // setFacilities(newClients);
+      rest();
     });
     ClientServ.on("updated", obj => {
       const newClients = updateOnUpdated(facilities, obj);
