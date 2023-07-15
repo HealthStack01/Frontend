@@ -612,7 +612,9 @@ const ChangeClientImage = ({closeModal, changeImage}) => {
         const imageUrl = res.data.url;
         //const employee = user.currentEmployee;
         closeModal();
+        hideActionLoader();
         return changeImage(imageUrl);
+
       })
       .catch(error => {
         hideActionLoader();
