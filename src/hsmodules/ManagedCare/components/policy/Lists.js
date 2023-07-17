@@ -307,8 +307,8 @@ const PoliciesList = ({
       key: "sponsor",
       description: "Sponsor name",
       selector: row =>
-        row?.sponsor?.facilityDetail?.facilityName
-          ? row?.sponsor?.facilityDetail?.facilityName
+        row?.sponsor?.organizationDetail?.facilityName
+          ? row?.sponsor?.organizationDetail?.facilityName
           : row?.sponsor?.facilityName,
       sortable: true,
       required: true,

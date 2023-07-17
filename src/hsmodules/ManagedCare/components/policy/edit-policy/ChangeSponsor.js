@@ -30,7 +30,7 @@ const ChangePolicySponsor = ({closeModal}) => {
           ...prev.PolicyModule,
           selectedPolicy: {
             ...prev.PolicyModule.selectedPolicy,
-            sponsor: item,
+            sponsor: item.organizationDetail,
             sponsorshipType: "Company",
           },
         },
