@@ -24,7 +24,7 @@ const ChangePolicySponsor = ({closeModal}) => {
       Object.keys(item).length > 0 && // check if obj is not empty
       item.constructor === Object
     ) {
-      setState(prev => ({
+      setState(prev => ({  
         ...prev,
         PolicyModule: {
           ...prev.PolicyModule,
