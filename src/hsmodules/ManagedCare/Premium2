@@ -15,10 +15,10 @@ import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-//import PaymentCreatePage from "./PaymentCreatePage";
+import PaymentCreatePage from "./PaymentCreatePage";
 import {FormsHeaderText} from "../../components/texts";
 import {ReceiptOutlined} from "@mui/icons-material";
-//import PaymentInvoice from "./PaymentInvoice";
+import PaymentInvoice from "./PaymentInvoice";
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line

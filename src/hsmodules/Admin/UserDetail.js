@@ -507,10 +507,12 @@ export const ChangeEmployeePassword = ({closeModal}) => {
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {register, handleSubmit} = useForm();
+  const ClientServ = client.service("users");
 
   const handleChangePassword = async data => {
     showActionLoader();
     const token = localStorage.getItem("feathers-jwt");
+    
 
     const postObject = {
       action: "passwordChange",
@@ -523,7 +525,7 @@ export const ChangeEmployeePassword = ({closeModal}) => {
       },
     };
 
-    axios
+ /*    axios
       .post(
         "https://healthstack-backend.herokuapp.com/auth-management",
         {
@@ -531,6 +533,8 @@ export const ChangeEmployeePassword = ({closeModal}) => {
         },
         {headers: {Authorization: `Bearer ${token}`}}
       )
+ */
+      ClientServ.patch(user._id, { password: data.new_password})
       .then(() => {
         hideActionLoader();
         closeModal();

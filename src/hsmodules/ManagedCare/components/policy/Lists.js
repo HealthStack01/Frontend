@@ -28,7 +28,7 @@ const PoliciesList = ({
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const {user, setUser} = useContext(UserContext);
-  const [status, setStatus] = useState("approved");
+  const [status, setStatus] = useState("Approved");
   const [total, setTotal] = useState(0);
 
   const handleCreateNew = async () => {
@@ -153,14 +153,150 @@ const PoliciesList = ({
       });
   };
 
+
+  const handleDue = async () => {
+    setStatus("Due")
+    setLoading(true);
+    setTotal(0);
+    setPolicies([]);
+    setIsLoading(true);
+    // Get the current date
+      const currentDate = dayjs();
+
+      // Get the date three months from now
+      const threeMonthsFromNow = currentDate.add(3, 'month').endOf('day');
+
+    let query = {
+      organizationId: user.currentEmployee.facilityDetail._id,
+      approved: true,
+      validityEnds:{
+        $lte: threeMonthsFromNow.toDate(), 
+      },
+      $sort: {
+        createdAt: -1,
+      },
+    };
+
+    if (beneficiary) {
+      query["principal._id"] = beneficiary._id;
+    }
+
+    if (corporate) {
+      query = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $or: [
+          {"sponsor.facilityName": corporate.facilityName},
+          {"sponsor._id": corporate._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    if (corporateOrg) {
+      query = {
+        $or: [
+          {"sponsor.facilityName": corporateOrg.facilityName},
+          {"sponsor._id": corporateOrg._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    policyServer
+      .find({
+        query: query,
+      })
+      .then(resp => {
+        setPolicies(resp.data);
+        setLoading(false);
+        setIsLoading(false);
+        setTotal(resp.data.length);
+      })
+      .catch(err => {
+        toast.error(`Something went wrong! ${err}`);
+        setIsLoading(false);
+      });
+  }
+
+  const handleOverdue = async () => {
+    setStatus("Overdue")
+    setLoading(true);
+    setTotal(0);
+    setPolicies([]);
+    setIsLoading(true);
+    // Get the current date
+      const currentDate = dayjs();
+
+      // Get the date three months from now
+      const threeMonthsFromNow = currentDate.add(3, 'month').endOf('day');
+
+    let query = {
+      organizationId: user.currentEmployee.facilityDetail._id,
+      approved: true,
+      validityEnds:{
+        $lte: currentDate, 
+      },
+      $sort: {
+        createdAt: -1,
+      },
+    };
+
+    if (beneficiary) {
+      query["principal._id"] = beneficiary._id;
+    }
+
+    if (corporate) {
+      query = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $or: [
+          {"sponsor.facilityName": corporate.facilityName},
+          {"sponsor._id": corporate._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    if (corporateOrg) {
+      query = {
+        $or: [
+          {"sponsor.facilityName": corporateOrg.facilityName},
+          {"sponsor._id": corporateOrg._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
+    policyServer
+      .find({
+        query: query,
+      })
+      .then(resp => {
+        setPolicies(resp.data);
+        setLoading(false);
+        setIsLoading(false);
+        setTotal(resp.data.length);
+      })
+      .catch(err => {
+        toast.error(`Something went wrong! ${err}`);
+        setIsLoading(false);
+      });
+  }
+
   const getPolicies = useCallback(async () => {
+    if (status==="Due"|| status=== "Overdue"){
+      return
+    }
     setLoading(true);
     setTotal(0);
     setIsLoading(true);
 
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
-      approved: status === "approved",
+      approved: status === "Approved",
       $sort: {
         createdAt: -1,
       },
@@ -383,19 +519,19 @@ const PoliciesList = ({
         }}
         mb={2}
       >
-        <div style={{display: "flex", alignItems: "center"}}>
+        {/* <div  style={{display: "flex", alignItems: "center"}} > */}
           {handleSearch && (
             <div className="inner-table">
               <FilterMenu onSearch={handleSearch} />
             </div>
           )}
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-            {status === "approved" ? "Approved" : "Pending"} Policies ({total})
+            {`${status}`} Policies ({total})
           </h2>
 
-          {status === "approved" && (
+          {status !== "Pending" && (
             <GlobalCustomButton
-              onClick={() => setStatus("pending")}
+              onClick={() => setStatus("Pending")}
               color="warning"
             >
               <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
@@ -403,17 +539,36 @@ const PoliciesList = ({
             </GlobalCustomButton>
           )}
 
-          {status === "pending" && (
+          {status !== "Approved" && (
             <GlobalCustomButton
-              onClick={() => setStatus("approved")}
+              onClick={() => setStatus("Approved")}
               color="secondary"
             >
               <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
               Approved Policies
             </GlobalCustomButton>
           )}
-        </div>
+        
+        {status !== "Due" && (
+          <GlobalCustomButton
+              onClick={handleDue}
+              color="primary"
+            >
+              <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Due Policies
+            </GlobalCustomButton>
+             )}
+             {status !== "Overdue" && (  
+            <GlobalCustomButton
+              onClick={handleOverdue}
+              color="primary"
+            >
+              <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Overdue Policies
+            </GlobalCustomButton>
+             )}
 
+    {/*   </div> */}
         {!beneficiary && !corporate && (
           <Box
             sx={{
