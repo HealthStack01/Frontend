@@ -79,7 +79,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
     //console.log(premium);
     if (!premium || !calendrical || !length || !heads) return;
 
-    if (calendrical === "Month(s)") {
+    if (calendrical === "Year(s)") {
       const amount = Number(premium) * Number(length);
       //console.log(amount);
       const headsAmount = Number(amount) * Number(heads);
@@ -115,7 +115,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
         </Box>
 
         <Grid container spacing={1}>
-          <Grid item lg={2} md={3} sm={4}>
+          <Grid item lg={3} md={4} sm={6} xs={12}>
             <HealthPlanSearchSelect handleChange={handleOnPlanSelect} />
             <Box
               sx={{

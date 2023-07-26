@@ -5,7 +5,7 @@ import PoliciesList from "./components/policy/Lists";
 import CreateNewPolicy from "./components/policy/create-policy/CreatePolicy";
 import PolicyDetail from "./components/policy/Details";
 
-const NewPolicyModule = ({beneficiary, corporate, corporateOrg}) => {
+const NewPolicyModule = ({beneficiary, corporate, corporateOrg,  origin}) => {
   const [view, setView] = useState("lists");
 
   const createNewPolicy = () => {
@@ -28,6 +28,7 @@ const NewPolicyModule = ({beneficiary, corporate, corporateOrg}) => {
           beneficiary={beneficiary}
           corporate={corporate}
           corporateOrg={corporateOrg}
+          origin={origin}
         />
       )}
 

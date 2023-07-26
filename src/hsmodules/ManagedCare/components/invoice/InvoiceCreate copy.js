@@ -59,7 +59,7 @@ const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
       ...data,
       plans,
       createdAt: new Date(),
-     // dealId: currentDeal._id,
+      dealId: currentDeal._id,
       createdBy: employee.userId,
       createdByName: `${employee.firstname} ${employee.lastname}`,
       customerName: currentDeal.name,
@@ -75,15 +75,15 @@ const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
     };
 
     const notificationObj = {
-      type: "Invoice",
-      title: "New Invoice Created For Renewal",
-      description: `${employee.firstname} ${employee.lastname} Created a new Invoice  for Renewal with ${currentDeal.type} ${currentDeal.name} in CRM`,
+      type: "CRM",
+      title: "New Invoice Created For a Deal",
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoice with ${currentDeal.type} ${currentDeal.name} in CRM`,
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
       senderId: employee._id,
-      pageUrl: "/app/managedcare/invoice",
+      pageUrl: "/app/crm/lead",
       priority: "normal",
-     // dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
+      dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
     };
 
     //return console.log(document);
@@ -124,106 +124,11 @@ const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
       });
   };
 
-const processPlans=()=>{
-  let planObject = {}; 
-  console.log(policies)
-//find unqiue plans
-//count number of heads
-//
-
-const uniqueArr = [...new Set(policies.map(data => data.plan._id))];
-console.log(uniqueArr)
-const arrlength=uniqueArr.length
-let planx=[]
-let planobj={
-  type: "",
-  premium: "",
-  heads: "",
-  calendrical: "",
-  length: "",
-  amount: "",
-  _id: uuidv4(),
-  created_at: new Date(),
-  createdBy: employee.userId,
-  createdByName: `${employee.firstname} ${employee.lastname}`
-}
-
-policies.forEach(el => {
-  const planId = el.plan._id;
-
-    // Check if the planId is already in the planObject
-    if (planObject.hasOwnProperty(planId)) {
-      // If it exists, increment the count
-      planObject[planId].count++;
-      planObject[planId].policy.push(el)
-     // planObject[planId].plans.push(el.plan)
-      if (el.planType==="Family"){
-        planObject[planId].familyplan.push(el.plan)
-      }else(
-        planObject[planId].individualplan.push(el.plan)
-      )
-
-    } else {
-      // If it doesn't exist, add it to the planObject with initial count of 1
-      planObject[planId] = {
-        plan: el.plan,
-        planName:el.plan.planName,
-        planType: el.planType,
-        count: 1,
-        policy: [el],
-        familyplan:[],
-        individualplan:[]
-      }; 
-      if (el.planType==="Family"){
-        planObject[planId].familyplan.push(el.plan)
-      }else(
-        planObject[planId].individualplan.push(el.plan)
-      ) 
-    }
-   });
-
-console.log("planObject",planObject)
-
-const keys = Object.keys(planObject);
-
-keys.forEach((property) => {
-  //console.log(`${property}: ${person[property]}`);
-  if (planObject[property].familyplan.length>0){
-    let planobj={
-      type: planObject[property].plan,
-      premium: "",
-      heads: "",
-      calendrical: "",
-      length: "",
-      amount: "",
-      _id: uuidv4(),
-      created_at: new Date(),
-      createdBy: employee.userId,
-      createdByName: `${employee.firstname} ${employee.lastname}`
-    }
-    
-
-  }
-  if (planObject[property].individualplan.length>0){
-    
-  }
-  
-});
-
-
-/* let planArray=[... planObject]
-console.log(planArray) */
-
-}
-
   useEffect(() => {
   //  const selectedCorp = state.ManagedCareCorporate.selectedCorporate;
     setValue("invoice_number", random(12, "uppernumeric"));
     setValue("date", new Date());
     setValue("total_amount", 0);
-    setValue("subscription_category","Renewal")
-
-    processPlans()
   }, []);
 
   useEffect(() => {
@@ -283,7 +188,7 @@ console.log(planArray) */
             </Box>
 
             <Grid container spacing={1} mb={1.5}>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
+              <Grid item lg={2} md={3} sm={4}>
                 <MuiCustomDatePicker
                   label="Date"
                   disabled={true}
@@ -291,14 +196,14 @@ console.log(planArray) */
                   name="date"
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
+              <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Invoice Number"
                   register={register("invoice_number")}
                   disabled={true}
                 />
               </Grid>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
+              <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Total Amount"
                   register={register("total_amount")}
@@ -307,7 +212,7 @@ console.log(planArray) */
                 />
               </Grid>
 
-              <Grid item lg={3} md={4} sm={6} xs={12}>
+              <Grid item lg={2} md={3} sm={4}>
                 <CustomSelect
                   label="Payment Mode"
                   options={["Cash", "Cheque", "Transfer"]}
@@ -317,7 +222,7 @@ console.log(planArray) */
                 />
               </Grid>
 
-              <Grid item lg={3} md={4} sm={6} xs={12}>
+              <Grid item lg={2} md={3} sm={4}>
                 <CustomSelect
                   label="Payment Option"
                   options={["Annually", "Bi-Annually", "Quarterly"]}
@@ -327,20 +232,13 @@ console.log(planArray) */
                 />
               </Grid>
 
-              <Grid item lg={3} md={4} sm={6} xs={12}>
-                {/* <CustomSelect
+              <Grid item lg={2} md={3} sm={4}>
+                <CustomSelect
                   label="Subscribtion Category"
                   options={["New", "Renewal", "Additional"]}
                   control={control}
                   name="subscription_category"
                   required
-                /> */}
-                 <Input
-                  label="Subscribtion Category"
-                  register={register("subscription_category")}
-                  disabled={true}
-                  type="text"
-              
                 />
               </Grid>
             </Grid>

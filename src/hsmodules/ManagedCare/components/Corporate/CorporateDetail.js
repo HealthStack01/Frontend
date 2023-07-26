@@ -361,7 +361,7 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
         )} */}
 
         {view === "policies" && (
-          <NewPolicyModule corporate={corporate?.organizationDetail} />
+          <NewPolicyModule corporate={corporate?.organizationDetail} origin="corporate" />
         )}
 
         {view === "claims" && (

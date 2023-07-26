@@ -12,8 +12,11 @@ import client from "../../../../feathers";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../../ui/styled/styles";
 import {updateOnCreated} from "../../../../functions/Updates";
-
+import InvoiceCreate from "../invoice/InvoiceCreate";
+import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
+import ModalBox from "../../../../components/modal";
 import dayjs from "dayjs";
+
 
 const PoliciesList = ({
   createNewPolicy,
@@ -21,6 +24,7 @@ const PoliciesList = ({
   beneficiary,
   corporate,
   corporateOrg,
+  origin
 }) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
@@ -30,10 +34,13 @@ const PoliciesList = ({
   const {user, setUser} = useContext(UserContext);
   const [status, setStatus] = useState("Approved");
   const [total, setTotal] = useState(0);
+  const [createModal, setCreateModal] = useState(false);
+  const [plans, setPlans] = useState([]);
 
   const handleCreateNew = async () => {
     createNewPolicy();
   };
+  //console.log("origin", origin)
 
   const handleRow = policy => {
     //return console.log(policy);
@@ -153,6 +160,21 @@ const PoliciesList = ({
       });
   };
 
+  const handleChoseClient = (e, row) => {
+   // console.log(plans)
+    if (e.target.checked) {
+     // console.log("checked", row._id);
+      row.invRenwgen = true;
+      setPlans(plans.concat(row)); // Concatenate and update the plans array
+     // console.log(plans);
+      //update facilities
+    } else {
+      //console.log("unchecked", row._id);
+      row.invRenwgen = false;
+      setPlans(plans.filter((el) => el._id !== row._id)); // Filter and update the plans array
+     // console.log(plans.length);
+    }
+  };
 
   const handleDue = async () => {
     setStatus("Due")
@@ -360,7 +382,173 @@ const PoliciesList = ({
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row, i) => i + 1,
+      selector: (row, i) =>i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "60px",
+    },
+    {
+      name: "Date Joined",
+      key: "createdAt",
+      description: "Date Created",
+      selector: row => dayjs(row?.createdAt).format("DD-MM-YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Principal's Name",
+      key: "principal",
+      description: "Principal Last Name",
+      selector: row =>
+        `${row?.principal?.firstname} - ${row?.principal?.lastname}`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+    {
+      name: "Principal Phone",
+      key: "phone",
+      description: "Phone Number",
+      selector: row => row?.principal?.phone,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+
+    {
+      name: "Principal Email",
+      key: "email",
+      description: "simpa@email.com",
+      selector: row => row?.principal?.email,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+    {
+      name: "Dependents",
+      key: "principal",
+      description: "No of dependents",
+      selector: row => row?.dependantBeneficiaries?.length,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Policy Number",
+      key: "policyNo",
+      description: "Phone Number",
+      selector: row => row?.policyNo,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Sponsor Type",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
+      selector: row => row?.sponsorshipType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Sponsor Name",
+      key: "sponsor",
+      description: "Sponsor name",
+      selector: row =>
+        row?.sponsor?.organizationDetail?.facilityName
+          ? row?.sponsor?.organizationDetail?.facilityName
+          : row?.sponsor?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plan",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
+      selector: row => row?.plan?.planName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Plan Type",
+      key: "plan",
+      description: "Plan",
+      selector: row => row?.planType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    // {
+    //   name: "Provider",
+    //   key: "provider",
+    //   description: "Provider",
+    //   selector: row => row?.providers[0]?.facilityName,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
+    {
+      name: "Providers",
+      key: "provider",
+      description: "Provider",
+      selector: row => row?.providers?.length,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Paid",
+      key: "isPaid",
+      description: "Paid",
+      selector: row => (row?.isPaid ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Active",
+      key: "active",
+      description: "Active",
+      selector: row => (row?.active ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const OverdueSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) =>(
+        <div style={{display: "flex", alignItems: "center"}}>
+        <input
+          type="checkbox"
+          //name={order._id}
+          style={{marginRight: "3px"}}
+         onChange={e => handleChoseClient(e,row)}
+         checked={row.nvRenwgen}
+        />
+        {row.sn}
+      </div>
+      
+      ),
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -568,6 +756,16 @@ const PoliciesList = ({
             </GlobalCustomButton>
              )}
 
+{plans.length>0 && (
+							<GlobalCustomButton onClick={()=>setCreateModal(true)}>
+								<AddCircleOutlineOutlined
+									fontSize='small'
+									sx={{marginRight: '5px'}}
+								/>
+								Create Invoice
+							</GlobalCustomButton>
+						)}
+
     {/*   </div> */}
         {!beneficiary && !corporate && (
           <Box
@@ -601,7 +799,7 @@ const PoliciesList = ({
       >
         <CustomTable
           title={""}
-          columns={PolicySchema}
+          columns={(origin === "corporate") && (status==="Overdue"||status==="Due")?OverdueSchema:PolicySchema}
           data={policies}
           pointerOnHover
           highlightOnHover
@@ -609,12 +807,22 @@ const PoliciesList = ({
           onRowClicked={handleRow}
           progressPending={isLoading}
           CustomEmptyData={
-            status === "approved"
+            status === "Approved"
               ? "No Approved Policies"
               : "No Pending Policies"
           }
         />
       </Box>
+      <ModalBox
+        open={createModal}
+        onClose={() => setCreateModal(false)}
+        header="Create New Invoice"
+        sx={{
+          width:"80%"
+        }}
+      >
+        <InvoiceCreate closeModal={() => setCreateModal(false)} policies={plans} />
+      </ModalBox>
     </Box>
   );
 };
