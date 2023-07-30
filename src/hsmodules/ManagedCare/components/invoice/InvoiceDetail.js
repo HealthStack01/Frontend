@@ -24,7 +24,7 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomTable from "../../../../components/customtable";
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import CustomerDetail, {PageCustomerDetail} from "./CustomerDetail";
 import Plans from "../../Plans";
 import moment from "moment";
 import {FormsHeaderText} from "../../../../components/texts";
@@ -44,7 +44,7 @@ import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
 
 const InvoiceDetail = ({handleGoBack}) => {
-  const dealServer = client.service("deal");
+  const dealServer = client.service("corpinvoices");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -126,14 +126,14 @@ const InvoiceDetail = ({handleGoBack}) => {
     //return toast.error("Unable to add new plan, not operational yet");
 
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
-    const currentDeal = state.DealModule.selectedDeal;
+   // const currentDeal = state.DealModule.selectedDeal;
 
     const newInvoiceDetail = {
       ...invoiceDetail,
       ...data,
     };
 
-    const prevInvoices = currentDeal.invoices;
+    /* const prevInvoices = currentDeal.invoices;
 
     const newInvoices = prevInvoices.map(item => {
       if (item._id === newInvoiceDetail._id) {
@@ -141,26 +141,19 @@ const InvoiceDetail = ({handleGoBack}) => {
       } else {
         return item;
       }
-    });
+    }); */
 
-    const documentId = currentDeal._id;
+    const documentId = invoiceDetail._id;
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId, newInvoiceDetail)
       .then(res => {
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
-        setState(prev => ({
-          ...prev,
-          InvoiceModule: {
-            ...prev.InvoiceModule,
-            selectedInvoice: newInvoiceDetail,
-          },
-        }));
+          InvoiceModule: {...prev.InvoiceModule, selectedInvoice: res}
+        }))
 
         toast.success(`You have successfully updated this Invoice`);
 
@@ -315,14 +308,14 @@ const InvoiceDetail = ({handleGoBack}) => {
       });
   }, []);
 
-  useEffect(() => {
+/*   useEffect(() => {
     getUnreadMessagesCount();
 
     dealServer.on("created", obj => getUnreadMessagesCount());
     dealServer.on("updated", obj => getUnreadMessagesCount());
     dealServer.on("patched", obj => getUnreadMessagesCount());
     dealServer.on("removed", obj => getUnreadMessagesCount());
-  }, [getUnreadMessagesCount]);
+  }, [getUnreadMessagesCount]); */
 
   return (
     <Watermark

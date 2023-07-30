@@ -15,7 +15,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	// eslint-disable-next-line
-	const dealServer = client.service('deal');
+	const dealServer = client.service('corpinvoices');
 	const {state, setState, showActionLoader, hideActionLoader} =
 		useContext(ObjectContext);
 	// eslint-disable-next-line
@@ -24,45 +24,52 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	const [loading, setLoading] = useState(false);
 	const [invoices, setInvoices] = useState([]);
 
-	const getInvoicesForPage = useCallback(async () => {
-		const testId = '60203e1c1ec8a00015baa357';
+	const getInvoicesForPage = async () => {
+		//const testId = '60203e1c1ec8a00015baa357';
 		const facId = user.currentEmployee.facilityDetail._id;
 		setLoading(true);
 
 		const res = await dealServer.find({
 			query: {
 				facilityId: facId,
+				$sort: {
+					createdAt: -1,
+				  },
 			},
 		});
 
 		const deals = res.data;
 
+		/* 
 		const promises = deals.map(async deal => deal.invoices || []);
 
 		const invoices = await Promise.all(promises);
-
-		await setInvoices(invoices.flat(1));
+ 		*/
+		await setInvoices(deals);
 
 		setLoading(false);
-	}, []);
+	};
 
-	useEffect(() => {
-		if (isTab) {
+	 useEffect(() => {
+		getInvoicesForPage()
+		/* if (isTab) {
 			const currentDeal = state.DealModule.selectedDeal;
 			setInvoices(currentDeal.invoices || []);
 		} else {
 			getInvoicesForPage();
-		}
-	}, [state.DealModule, getInvoicesForPage, isTab]);
+		} */
+
+	}, [/* state.DealModule, getInvoicesForPage, isTab */]); 
 
 	const handleRow = async data => {
-		if (isTab) {
+		/* if (isTab) { */
 			setState(prev => ({
 				...prev,
 				InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
 			}));
 			showDetailView();
-		} else {
+
+		/* } else {
 			const id = data.dealId;
 			await dealServer
 				.get(id)
@@ -77,9 +84,9 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 				.catch(err => {
 					toast.error('An error occured trying to view details of invoice');
 					console.log(err);
-				});
+				}); */
 			//console.log("is page");
-		}
+		//}
 	};
 
 	const handleSearch = () => {};
@@ -152,7 +159,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 				textTransform: 'capitalize',
 			},
 		},
-		{
+	/* 	{
 			name: 'Category',
 			key: 'subscription_category',
 			description: 'Enter Telestaff name',
@@ -163,7 +170,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 			style: {
 				textTransform: 'capitalize',
 			},
-		},
+		}, */
 
 		{
 			name: 'Plans',
@@ -238,7 +245,8 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 							</GlobalCustomButton>
 						)}
 					</TableMenu>
-					<div style={{width: '100%', overflow: 'auto'}}>
+					{/* <div style={{width: '100%', overflow: 'auto'}}> */}
+					<div   style={{ width: "100%",height: "calc(100vh - 100px)", overflow: "auto", }}>
 						<CustomTable
 							title={''}
 							columns={InvoiceSchema}

@@ -24,7 +24,7 @@ const InvoiceDetailsTab = () => {
 
   const updateDetail = data => {
     setEditDetail(false);
-    toast.success("You've updted customer detail");
+    toast.success("You've updated customer detail");
   };
 
   useEffect(() => {

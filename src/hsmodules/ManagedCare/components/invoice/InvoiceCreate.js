@@ -27,7 +27,7 @@ import {generateRandomString} from "../../../helpers/generateString";
 const random = generateRandomString;
 
 const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
-  const dealServer = client.service("corpinvoice");
+  const InvoiceServer = client.service("corpinvoices");
   const notificationsServer = client.service("notification");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -51,33 +51,41 @@ const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
   };
 
   const createInvoice = async data => {
-    showActionLoader();
-    const currentDeal = state.DealModule.selectedDeal;
+  //  showActionLoader();
+   // const currentDeal = state.DealModule.selectedDeal;
     const employee = user.currentEmployee;
+    console.log(data)
 
     const document = {
       ...data,
       plans,
-      createdAt: new Date(),
+     // createdAt: new Date(),
      // dealId: currentDeal._id,
       createdBy: employee.userId,
       createdByName: `${employee.firstname} ${employee.lastname}`,
-      customerName: currentDeal.name,
-      customerEmail: currentDeal.email,
-      customerPhone: currentDeal.phone,
-      customerAddress: currentDeal.address,
-      customerCity: currentDeal.city,
-      customerLGA: currentDeal.lga,
-      customerState: currentDeal.state,
-      customerCountry: currentDeal.country,
+      customerName: selectedCorp.facilityName,
+      customerEmail: selectedCorp.facilityEmail,
+      customerPhone: selectedCorp.facilityContactPhone      ,
+      customerAddress: selectedCorp.facilityAddress,
+      customerCity: selectedCorp.facilityCity,
+      customerLGA: selectedCorp.facilityLGA,
+      customerState: selectedCorp.facilityState,
+      customerCountry: selectedCorp.facilityCountry,
+      customerType: selectedCorp.facilityType,
+      customerCategory: selectedCorp.facilityCategory,
+      customer:selectedCorp,
+      customerId:selectedCorp._id,
+      facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
+      faciltyName:user.currentEmployee.facilityDetail.facilityName,
+      facility:user.currentEmployee.facilityDetail,
       status: "Pending",
-      _id: uuidv4(),
+    
     };
 
     const notificationObj = {
       type: "Invoice",
       title: "New Invoice Created For Renewal",
-      description: `${employee.firstname} ${employee.lastname} Created a new Invoice  for Renewal with ${currentDeal.type} ${currentDeal.name} in CRM`,
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoice  for Renewal for  ${selectedCorp.facilityName}`,
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
       senderId: employee._id,
@@ -88,21 +96,21 @@ const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
 
     //return console.log(document);
 
-    const prevInvoices = currentDeal.invoices || [];
+    //const prevInvoices = currentDeal.invoices || [];
 
-    const newInvoices = [document, ...prevInvoices];
+    //const newInvoices = [document, ...prevInvoices];
 
-    const documentId = currentDeal._id;
-    await dealServer
-      .patch(documentId, {invoices: newInvoices})
+    //const documentId = currentDeal._id;
+    await InvoiceServer
+      .create(document)
       .then(async res => {
         await notificationsServer.create(notificationObj);
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+       /*  setState(prev => ({
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
+        })); */
         //closeModal();
         reset({
           subscription_category: "",
@@ -127,6 +135,7 @@ const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
 const processPlans=()=>{
   let planObject = {}; 
   console.log(policies)
+  const employee = user.currentEmployee;
 //find unqiue plans
 //count number of heads
 //
@@ -188,23 +197,53 @@ const keys = Object.keys(planObject);
 
 keys.forEach((property) => {
   //console.log(`${property}: ${person[property]}`);
+
   if (planObject[property].familyplan.length>0){
+   const familypremium= planObject[property].plan.premiums.find(el=>el.planType==="Family")
+    const amount = (+familypremium.premiumAmount)*(+planObject[property].familyplan.length)
+
     let planobj={
-      type: planObject[property].plan,
-      premium: "",
-      heads: "",
-      calendrical: "",
-      length: "",
-      amount: "",
-      _id: uuidv4(),
+      type: planObject[property].planName,
+      kind:"Family",   
+      planId: property,
+      premium: familypremium.premiumAmount,
+      heads: planObject[property].familyplan.length,
+      calendrical: "Year(s)",
+      length: "1",
+      amount: amount,
+      utilizationStatus:"Incomplete",
+      tracking:0,
       created_at: new Date(),
       createdBy: employee.userId,
-      createdByName: `${employee.firstname} ${employee.lastname}`
+      createdByName: `${employee.firstname} ${employee.lastname}`,
+      oldPolicies:planObject[property].familyplan,
     }
     
-
+    handleAddNewPlan(planobj)
   }
   if (planObject[property].individualplan.length>0){
+    const individualpremium= planObject[property].plan.premiums.find(el=>el.planType==="Individual")
+    const amount = (+individualpremium.premiumAmount)*(+planObject[property].individualplan.length)
+
+    let planobj={
+      type: planObject[property].planName,
+      kind:"Individual",    
+      planId: property,
+      premium: individualpremium.premiumAmount,
+      heads: planObject[property].individualplan.length,
+      calendrical: "Year(s)",
+      length: "1",
+      amount: amount,
+      utilizationStatus:"Incomplete",
+      tracking:0,
+      created_at: new Date(),
+      createdBy: employee.userId,
+      createdByName: `${employee.firstname} ${employee.lastname}`,
+      oldPolicies:planObject[property].individualplan,
+
+    }
+    
+    handleAddNewPlan(planobj)
     
   }
   

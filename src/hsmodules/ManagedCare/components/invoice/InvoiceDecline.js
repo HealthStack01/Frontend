@@ -15,7 +15,7 @@ import CustomConfirmationDialog from "../../../../components/confirm-dialog/conf
 
 const InvoiceDeclineReason = ({closeModal}) => {
   const [text, setText] = useState("");
-  const dealServer = client.service("deal");
+  const dealServer = client.service("corpinvoices");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -26,7 +26,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
     //return toast.error("Unable to add new plan, not operational yet");
     const employee = user.currentEmployee;
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
-    const currentDeal = state.DealModule.selectedDeal;
+   // const currentDeal = state.DealModule.selectedDeal;
 
     const newStatusHistory = {
       updatedAt: new Date(),
@@ -45,36 +45,29 @@ const InvoiceDeclineReason = ({closeModal}) => {
       statusHx: [newStatusHistory, ...oldStatusHistory],
     };
 
-    const prevInvoices = currentDeal.invoices;
+   // const prevInvoices = currentDeal.invoices;
 
-    const newInvoices = prevInvoices.map(item => {
+  /*   const newInvoices = prevInvoices.map(item => {
       if (item._id === newInvoiceDetail._id) {
         return newInvoiceDetail;
       } else {
         return item;
       }
-    });
+    }); */
 
-    const documentId = currentDeal._id;
+    const documentId = invoiceDetail._id;
 
     //return console.log(newInvoiceDetail);
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId,  newInvoiceDetail)
       .then(res => {
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
-        setState(prev => ({
-          ...prev,
-          InvoiceModule: {
-            ...prev.InvoiceModule,
-            selectedInvoice: newInvoiceDetail,
-          },
-        }));
+          InvoiceModule: {...prev.InvoiceModule, selectedInvoice: res}
+        }))
         setConfirmDialog(false);
         closeModal();
 

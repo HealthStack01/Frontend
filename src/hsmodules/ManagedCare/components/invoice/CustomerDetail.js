@@ -157,18 +157,18 @@ const CustomerDetail = ({editable}) => {
 export default CustomerDetail;
 
 export const PageCustomerDetail = ({editable}) => {
-  const dealServer = client.service("corpinvoices");
+  const dealServer = client.service("deal");
   const {register, reset, control, handleSubmit, getValues, watch} = useForm();
   const [editCustomer, setEditCustomer] = useState(false);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
 
-    const selectedCorp = state.ManagedCareCorporate.selectedCorporate.organizationDetail;
+    const selectedCorp = state.InvoiceModule.selectedInvoice;
     console.log(selectedCorp)
 
   const updateDetail = async data => {
     showActionLoader();
-  //  const documentId = state.DealModule.selectedDeal._id;
+    const documentId = state.InvoiceModule.selectedInvoice._id;
 
     await dealServer
       .patch(documentId, data)
@@ -176,7 +176,7 @@ export const PageCustomerDetail = ({editable}) => {
         hideActionLoader();
         setState(prev => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
         }));
 
         setEditCustomer(false);
@@ -196,17 +196,17 @@ export const PageCustomerDetail = ({editable}) => {
     //console.log(deal);
 
     const initFormValue = {
-      name: selectedCorp.facilityName,
-      type: selectedCorp.facilityType,
-      phone: selectedCorp.facilityContactPhone,
-      email: selectedCorp.facilityEmail,
-      lga: selectedCorp.facilityLGA,
-      city: selectedCorp.facilityCity,
-      state: selectedCorp.facilityState,
-      address: selectedCorp.facilityAddress,
-      country: selectedCorp.facilityCountry,
+      name: selectedCorp.customerName,
+      type: selectedCorp.customerType,
+      phone: selectedCorp.customerPhone,
+      email: selectedCorp.customerEmail,
+      lga: selectedCorp.customerLGA,
+      city: selectedCorp.customerCity,
+      state: selectedCorp.customerState,
+      address: selectedCorp.customerAddress,
+      country: selectedCorp.customerCountry,
        orgbranch: "",
-      clientclass: selectedCorp.facilityCategory
+      clientclass: selectedCorp.customerCategory
     };
     reset(initFormValue);
   }, []);
