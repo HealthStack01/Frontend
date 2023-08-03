@@ -8,11 +8,12 @@ import InvoiceCreate from "./components/invoice/InvoiceCreate";
 import InvoiceDetail from "./components/invoice/InvoiceDetail";
 import InvoiceList from "./components/invoice/InvoiceList";
 import {Box} from "@mui/material";
+import { Coronavirus } from "@mui/icons-material";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
-const Invoice = ({isTab}) => {
+const Invoice = ({isTab, corporate}) => {
   const {state} = useContext(ObjectContext); //,setState
 
   const [createModal, setCreateModal] = useState(false);
@@ -21,6 +22,7 @@ const Invoice = ({isTab}) => {
   const handleGoBack = () => {
     setCurrentView("lists");
   };
+   
 
   return (
     <Box>
@@ -30,6 +32,7 @@ const Invoice = ({isTab}) => {
           showDetailView={() => setCurrentView("details")}
           showCreateView={() => setCurrentView("create")}
           isTab={isTab}
+          corporate={corporate}
         />
       )}
 

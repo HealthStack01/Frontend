@@ -191,6 +191,9 @@ const PoliciesList = ({
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: true,
+      invRenwgen:{
+        $ne:true
+      },
       validityEnds:{
         $lte: threeMonthsFromNow.toDate(), 
       },
@@ -257,6 +260,9 @@ const PoliciesList = ({
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: true,
+      invRenwgen:{
+        $ne:true,
+      },
       validityEnds:{
         $lte: currentDate, 
       },

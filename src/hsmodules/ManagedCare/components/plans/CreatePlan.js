@@ -26,6 +26,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
   const {user} = useContext(UserContext);
 
   const defaultValues = {
+    name:"",
     type: "",
     premium: "",
     heads: "",
@@ -39,7 +40,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
     const employee = user.currentEmployee;
     const newPlan = {
       ...data,
-      _id: uuidv4(),
+     /*  _id: uuidv4(), */
       created_at: new Date(),
       createdBy: employee.userId,
       createdByName: `${employee.firstname} ${employee.lastname}`,
@@ -56,7 +57,8 @@ export const PageCreatePlan = ({addNewPlan}) => {
   const handleOnPlanSelect = plan => {
     //console.log(plan);
     setSelectedPlan(plan);
-    setValue("type", `${plan?.planName} (${plan.planCategory})`);
+    setValue("name", `${plan?.planName}`)
+    setValue("type", `${plan.planType}`);
     setValue("premium", Number(plan.premiumAmount));
   };
 
@@ -86,7 +88,7 @@ export const PageCreatePlan = ({addNewPlan}) => {
       setValue("amount", headsAmount);
     } else {
       const numOfYears = length;
-      const numOfYearsToMonths = 12 * Number(length);
+      const numOfYearsToMonths =  Number(length)/12;
 
       const amount = Number(premium) * Number(numOfYearsToMonths);
       const headsAmount = Number(amount) * Number(heads);
@@ -189,6 +191,7 @@ export const ModalCreatePlan = ({addNewPlan}) => {
   const {register, handleSubmit, control, getValues, reset} = useForm();
 
   const defaultValues = {
+    name:"",
     type: "",
     premium: "",
     heads: "",
@@ -202,7 +205,7 @@ export const ModalCreatePlan = ({addNewPlan}) => {
 
     const newPlan = {
       ...data,
-      _id: uuidv4(),
+     /*  _id: uuidv4(), */
       created_at: new Date(),
       createdBy: employee.userId,
       createdByName: `${employee.firstname} ${employee.lastname}`,

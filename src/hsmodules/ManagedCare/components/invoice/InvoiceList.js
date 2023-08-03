@@ -11,7 +11,7 @@ import client from '../../../../feathers';
 import {toast} from 'react-toastify';
 import {List, ListItem} from '@mui/material';
 
-const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
+const InvoiceList = ({showCreateView, showDetailView, isTab,corporate}) => {
 	// const { register, handleSubmit, watch, errors } = useForm();
 	// eslint-disable-next-line
 	// eslint-disable-next-line
@@ -28,10 +28,18 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 		//const testId = '60203e1c1ec8a00015baa357';
 		const facId = user.currentEmployee.facilityDetail._id;
 		setLoading(true);
+		let query={}
+		if (!!corporate){
+		query={
+			customerId:corporate._id
+		}	
+		}
 
 		const res = await dealServer.find({
 			query: {
+				...query,
 				facilityId: facId,
+
 				$sort: {
 					createdAt: -1,
 				  },
@@ -39,6 +47,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 		});
 
 		const deals = res.data;
+		console.log(deals)
 
 		/* 
 		const promises = deals.map(async deal => deal.invoices || []);
@@ -190,7 +199,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 							sx={{
 								margin: 0,
 							}}>
-							{item.type}
+							{item.name}
 						</ListItem>
 					))}
 				</List>

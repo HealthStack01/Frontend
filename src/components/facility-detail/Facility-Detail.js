@@ -132,7 +132,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
           </Box>
 
           <Grid container spacing={1}>
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityName")}
                 label="Facility Name"
@@ -140,7 +140,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityOwner")}
                 label="Facility Owner"
@@ -148,7 +148,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityType")}
                 label="Facility Type"
@@ -156,7 +156,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCategory")}
                 label="Facility Category"
@@ -164,7 +164,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityContactPhone")}
                 label="Contact Phone"
@@ -172,7 +172,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityEmail")}
                 label="Contact Email"
@@ -188,7 +188,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityLga")}
                 label="Facility LGA"
@@ -196,7 +196,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            {/* <Grid item lg={4}>
+            {/* <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCountry")}
                 label="Facility Country"
@@ -207,7 +207,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
 
         <Box>
           <Grid container spacing={1}>
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCity")}
                 label="Facility City"
@@ -215,7 +215,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityState")}
                 label="Facility State"
@@ -223,7 +223,7 @@ const DefaultFacilityDetail = ({detail, goBack, editable}) => {
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCountry")}
                 label="Facility Country"

@@ -45,6 +45,7 @@ const InvoiceApproveReason = ({closeModal}) => {
     const newInvoiceDetail = {
       ...invoiceDetail,
       status: "Approved",
+      approved:true,
       statusHx: [newStatusHistory, ...oldStatusHistory],
       approvalHx:[]
     };

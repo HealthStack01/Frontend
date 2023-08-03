@@ -45,6 +45,7 @@ import InvoiceChat from "./InvoiceChat";
 
 const InvoiceDetail = ({handleGoBack}) => {
   const dealServer = client.service("corpinvoices");
+  const polServer = client.service("policy");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -126,6 +127,7 @@ const InvoiceDetail = ({handleGoBack}) => {
     //return toast.error("Unable to add new plan, not operational yet");
 
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    console.log(invoiceDetail)
    // const currentDeal = state.DealModule.selectedDeal;
 
     const newInvoiceDetail = {
@@ -308,6 +310,59 @@ const InvoiceDetail = ({handleGoBack}) => {
       });
   }, []);
 
+const handleRenewal =()=>{  /// move to backend
+  dealServer.patch(state.InvoiceModule.selectedInvoice._id,{
+  utilization:"complete"
+})
+.then(res=>{
+  console.log(state.InvoiceModule.selectedInvoice.plans)
+  let plans= state.InvoiceModule.selectedInvoice.plans
+  plans.forEach(el=>{
+    console.log(el.oldPolicies)
+    let old=el.oldPolicies
+    old.forEach(pol=>{
+      let ogid=pol._id
+      //create newpolicy
+      pol.approved=false
+      delete pol.approvalDate
+      delete pol.approvedby
+      delete pol._id
+      pol.active=false
+      pol.ispaid=false
+      delete pol.validityPeriods
+      delete pol.validitystarts
+      delete pol.validityEnds
+      delete pol.statushx
+      pol.invoice=state.InvoiceModule.selectedInvoice._id
+
+      polServer.create(pol)
+      .then(res=>{
+        polServer.patch(ogid, {
+          invRenwgen:true,
+          invRenwId:res._id 
+        })
+
+      })
+      .catch(err=>{
+        toast.error("Unableto renew plan "+err)
+        console.log(err)
+      })
+      //patch oldpolicy
+     
+
+    })
+
+  })
+  
+    toast.success("Policy Renewed")
+  })
+  .catch(err=>{
+    toast.error("Error updated invoice " +err)
+    console.log(err)
+  })
+ 
+
+}
 /*   useEffect(() => {
     getUnreadMessagesCount();
 
@@ -395,6 +450,18 @@ const InvoiceDetail = ({handleGoBack}) => {
                       Approve
                     </GlobalCustomButton>
                   )}
+                   {invoiceStatus.toLowerCase() == "approved" &&
+                  (
+                    <GlobalCustomButton 
+                    color="primary"
+                    onClick={handleRenewal}>
+                      <ApprovalIcon
+                        fontSize="small"
+                        sx={{marginRight: "5px"}}
+                      />
+                      Renew Policies
+                    </GlobalCustomButton>
+                  )}
               </>
             )}
 
@@ -454,6 +521,7 @@ const InvoiceDetail = ({handleGoBack}) => {
                     <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> Edit
                   </GlobalCustomButton>
                 )}
+
               </Box>
             </Box>
 

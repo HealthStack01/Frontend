@@ -45,6 +45,7 @@ const InvoiceReopenReason = ({closeModal}) => {
     const newInvoiceDetail = {
       ...invoiceDetail,
       status: "Pending",
+      approved:false,
       statusHx: [newStatusHistory, ...oldStatusHistory],
     };
 

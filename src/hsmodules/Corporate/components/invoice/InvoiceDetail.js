@@ -284,7 +284,7 @@ const InvoiceDetail = ({handleGoBack}) => {
     },
   ];
 
-  const getUnreadMessagesCount = useCallback(async () => {
+/*   const getUnreadMessagesCount = useCallback(async () => {
     setUnreadMsgs([]);
     const id = state.DealModule.selectedDeal._id;
     const userId = user.currentEmployee.userId;
@@ -313,16 +313,16 @@ const InvoiceDetail = ({handleGoBack}) => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+ /*  useEffect(() => {
     getUnreadMessagesCount();
 
     dealServer.on("created", obj => getUnreadMessagesCount());
     dealServer.on("updated", obj => getUnreadMessagesCount());
     dealServer.on("patched", obj => getUnreadMessagesCount());
     dealServer.on("removed", obj => getUnreadMessagesCount());
-  }, [getUnreadMessagesCount]);
+  }, [getUnreadMessagesCount]); */
 
   return (
     <Watermark

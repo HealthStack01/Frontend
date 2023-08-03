@@ -151,7 +151,7 @@ let planobj={
   calendrical: "",
   length: "",
   amount: "",
-  _id: uuidv4(),
+ /*  _id: uuidv4(), */
   created_at: new Date(),
   createdBy: employee.userId,
   createdByName: `${employee.firstname} ${employee.lastname}`
@@ -203,11 +203,12 @@ keys.forEach((property) => {
     const amount = (+familypremium.premiumAmount)*(+planObject[property].familyplan.length)
 
     let planobj={
-      type: planObject[property].planName,
-      kind:"Family",   
+      name: planObject[property].planName,
+      type:"Family",   
       planId: property,
       premium: familypremium.premiumAmount,
       heads: planObject[property].familyplan.length,
+      
       calendrical: "Year(s)",
       length: "1",
       amount: amount,
@@ -226,8 +227,8 @@ keys.forEach((property) => {
     const amount = (+individualpremium.premiumAmount)*(+planObject[property].individualplan.length)
 
     let planobj={
-      type: planObject[property].planName,
-      kind:"Individual",    
+      name: planObject[property].planName,
+      type:"Individual",    
       planId: property,
       premium: individualpremium.premiumAmount,
       heads: planObject[property].individualplan.length,
@@ -261,8 +262,10 @@ console.log(planArray) */
     setValue("date", new Date());
     setValue("total_amount", 0);
     setValue("subscription_category","Renewal")
-
-    processPlans()
+    if(policies!==undefined){
+      processPlans()
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -508,7 +511,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
           {...params}
           inputProps={{
             ...params.inputProps,
-            autoComplete: "new-password", // disable autocomplete and autofill
+            autoComplete: false, // disable autocomplete and autofill
           }}
           label={"Choose Your Plan"}
           //ref={inputEl}
@@ -521,7 +524,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
             },
           }}
           InputLabelProps={{
-            Autocomplete: "new-password",
+            Autocomplete: false,
             shrink: true,
             style: {color: "#2d2d2d"},
           }}
