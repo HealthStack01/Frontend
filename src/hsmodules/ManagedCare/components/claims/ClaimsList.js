@@ -365,7 +365,14 @@ const ClaimsListComponent = ({
                   Add New Claim
                 </GlobalCustomButton>
               </Box>
+
             )}
+            <Box>
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  Group By Provider
+                </GlobalCustomButton>
+              </Box>
+             
           </TableMenu>
 
           <Box

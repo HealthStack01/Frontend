@@ -33,7 +33,7 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
   const [planId, setPlanId] = useState("");
   const [emailBody, setEmailBody] = useState("");
 
-  console.log(plan)
+  //console.log(plan)
 
   const selectedemployee =(data)=>{
     setEmailBody(`<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/corporate-beneficiary-signup/${invoiceId}/${planId}`}>LINK</a> 
@@ -56,9 +56,7 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
       });
 
       await setConfig(findConfig.data);
-
-      
-     
+      //console.log(findConfig.data)
     }
   const handleUpdatePlan = async data => {
     showActionLoader();
@@ -94,7 +92,7 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
 
     const prevInvoices = currentDeal.invoices;
 
-    //console.log(prevInvoices);
+    ////console.log(prevInvoices);
 
     const newInvoices = prevInvoices.map(item => {
       if (item._id === newInvoiceDetail._id) {
@@ -104,7 +102,7 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
       }
     });
 
-    //return console.log(newInvoices);
+    //return //console.log(newInvoices);
 
     const documentId = currentDeal._id;
 
@@ -149,10 +147,10 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
 
 
 const  handlesendlink =async ()=>{
-  console.log("invoiceid", invoiceId)
-  console.log("planid", planId)
-  if(config.length>1){
-    setSelectedEmail(config[0])
+
+  if(config.length>0){
+    setSelectedEmail(config[0].emailConfig.username)
+   
   }else{
     toast.error("Email Configuration not set")
     return
@@ -203,7 +201,7 @@ const  handlesendlink =async ()=>{
     })
     .catch(err => {
       
-      console.log(err);
+      //console.log(err);
       toast.error(`Sorry, Failed to send Email ${err}`);
     });
     hideActionLoader();

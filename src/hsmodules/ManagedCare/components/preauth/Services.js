@@ -1,7 +1,6 @@
 import {useContext, useEffect, useState, useCallback} from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
 import {FormsHeaderText} from "../../../../components/texts";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import {useForm} from "react-hook-form";
@@ -19,6 +18,7 @@ import Textarea from "../../../../components/inputs/basic/Textarea";
 import {getServicesColumns} from "./columns";
 import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
+import TarrifSearch from "../../../helpers/TarrifSearch"
 
 const ClaimCreateServices = ({setServices, closeModal}) => {
   const {control, register, reset, handleSubmit, watch, setValue} = useForm({
@@ -78,10 +78,11 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
             label="Service Name"
             register={register("service", {required: true})}
           /> */}
-          <SearchTariffService handleServiceChange={handleGetService} />
+        {/*   <SearchTariffService handleServiceChange={handleGetService} /> */}
+          <TarrifSearch getSearchfacility={handleGetService} />
         </Grid>
 
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Input
             register={register("unitprice")}
             label="Unit Price"
@@ -256,7 +257,7 @@ export const SearchTariffService = ({handleServiceChange}) => {
             {...params}
             inputProps={{
               ...params.inputProps,
-              autoComplete: "new-password", // disable autocomplete and autofill
+              autoComplete: false, // disable autocomplete and autofill
             }}
             label={"Search for Service"}
             //ref={inputEl}
@@ -269,7 +270,7 @@ export const SearchTariffService = ({handleServiceChange}) => {
               },
             }}
             InputLabelProps={{
-              Autocomplete: "new-password",
+              Autocomplete: false,
               shrink: true,
               style: {color: "#2d2d2d"},
             }}

@@ -141,7 +141,14 @@ const processPlans=()=>{
 //
 
 const uniqueArr = [...new Set(policies.map(data => data.plan._id))];
-console.log(uniqueArr)
+const uniqueplan= [...new Set(policies.map(data => data.plan.planName ))]
+const uniqueplanid= [...new Set(policies.map(data => data.plan.planId ))]
+
+console.log("uniqueArr",uniqueArr)
+console.log("uniqueplan",uniqueplan)
+console.log("uniqueplanid",uniqueplanid)
+
+
 const arrlength=uniqueArr.length
 let planx=[]
 let planobj={
@@ -158,7 +165,7 @@ let planobj={
 }
 
 policies.forEach(el => {
-  const planId = el.plan._id;
+  const planId = el.plan._id?el.plan._id:el.plan.planId;
 
     // Check if the planId is already in the planObject
     if (planObject.hasOwnProperty(planId)) {

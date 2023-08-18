@@ -301,7 +301,7 @@ const VitalSignChart = () => {
       name: "BP",
       key: "BP",
       description: "Diastolic BP",
-      selector: row => row.Systolic_BP / row.Diastolic_BP,
+      selector: row => `${row.Systolic_BP} / ${row.Diastolic_BP}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
