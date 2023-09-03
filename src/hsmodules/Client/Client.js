@@ -70,6 +70,8 @@ import {getBase64} from "../helpers/getBase64";
 import {FileUploader} from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import axios from "axios";
+import PolicyDetail from "../Corporate/components/policy/Details";
+import NewBeneficiaryModule from "../ManagedCare/FindBeneficiary"
 
 import {ClientIdCard} from "./ClientIdCard";
 import {
@@ -643,6 +645,7 @@ export function ClientList({openCreateModal, openDetailModal}) {
   const [total, setTotal] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
+  const [showHmo, setShowHmo] = useState(false);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
@@ -929,6 +932,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
     toast.success(`Sucessfully created ${data.length} Client(s)`);
   };
 
+  const handleHmo =()=>{
+    setShowHMO(true)
+  }
+
   return (
     <>
       {user ? (
@@ -939,6 +946,11 @@ export function ClientList({openCreateModal, openDetailModal}) {
               open={open}
               setOpen={handleCloseModal}
             />
+          </ModalBox>
+          <ModalBox open={showHmo} onClose={()=>setShowHmo(false)} width="85%" 
+          header="Find HMO Patient"
+          >
+            <NewBeneficiaryModule />
           </ModalBox>
 
           <ModalBox
@@ -998,6 +1010,10 @@ export function ClientList({openCreateModal, openDetailModal}) {
               </Box>
 
               <Box sx={{display: "flex", alignItems: "center", gap: "20px"}}>
+              <GlobalCustomButton onClick={()=>setShowHmo(true)}>
+                <PersonAddIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Find HMO Patient
+                </GlobalCustomButton>
                 <GlobalCustomButton onClick={() => setUploadModal(true)}>
                   Upload Sheet
                 </GlobalCustomButton>

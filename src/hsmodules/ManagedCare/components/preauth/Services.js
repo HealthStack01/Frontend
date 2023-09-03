@@ -47,12 +47,12 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
       amount: 0,
       quantity: 0,
       unitprice: 0,
-      service: {},
+      service: {},  
     });
   };
 
   const handleGetService = data => {
-    //console.log(data);
+    console.log(data);
     setService(data);
     setValue("unitprice", data ? data.price : 0);
   };

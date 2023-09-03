@@ -44,7 +44,7 @@ import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
 import ReactCustomSelectComponent from "../../../../components/react-custom-select";
 
-const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
+const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
   const [clientDetail, setClientDetail] = useState(null);
   const [facilityDetail, setFacilityDetail] = useState(null);
   const [view, setView] = useState("details");
@@ -559,10 +559,10 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
             }}
             gap={1}
           >
-            <GlobalCustomButton onClick={goBack}>
+          { !provider && <GlobalCustomButton onClick={goBack}>
               <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
               Back
-            </GlobalCustomButton>
+            </GlobalCustomButton>}
 
             <Typography
               sx={{
@@ -598,7 +598,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
             </Box>
           )}
 
-          {!edit && (
+          {!edit && !provider && (
             <Box
               sx={{
                 display: "flex",

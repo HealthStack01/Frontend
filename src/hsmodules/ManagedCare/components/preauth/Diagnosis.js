@@ -49,7 +49,7 @@ const ClaimCreateDiagnosis = ({setDiagnosis, closeModal}) => {
       }}
     >
       <Grid container spacing={2} mb={2}>
-        <Grid item lg={12}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
           <CustomSelect
             important
             label="Diagnosis Type"
@@ -66,7 +66,7 @@ const ClaimCreateDiagnosis = ({setDiagnosis, closeModal}) => {
           />
         </Grid>
 
-        <Grid item lg={12}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
           <Input
             important
             label="Diagnosis"
@@ -76,7 +76,7 @@ const ClaimCreateDiagnosis = ({setDiagnosis, closeModal}) => {
           />
         </Grid>
 
-        <Grid item lg={12}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
           <Icd11Search getSearchfacility={handleGetService} clear={clear} /> 
         </Grid>
       </Grid>

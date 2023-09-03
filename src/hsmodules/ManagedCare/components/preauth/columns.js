@@ -133,7 +133,7 @@ export const getServicesColumns = (deleteAction, omitDelete = true) => {
       name: "Service Name",
       key: "item",
       description: "Item",
-      selector: row => row.service.serviceName,
+      selector: row => row.service?.serviceName,
       sortable: true,
       inputType: "TEXT",
       style: {

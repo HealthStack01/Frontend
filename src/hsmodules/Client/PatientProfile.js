@@ -37,6 +37,7 @@ import ClientClaims from "../ManagedCare/ClientClaims";
 import ClientHealthPlan from "../ManagedCare/ClientHealthPlan";
 import PolicyDetail from "../ManagedCare/components/policy/ClientDetails";
 import ClientBenefits from "./ClientBenefits"
+import Referral from "../ManagedCare/Referral"
 
 export default function PatientProfile() {
   const {state, setState} = useContext(ObjectContext); //,setState
@@ -50,6 +51,7 @@ export default function PatientProfile() {
   const [intoleranceModal, setIntoleranceModal] = useState(false);
   const [benefitsModal, setBenefitsModal] = useState(false);
   const [claimsModal, setClaimsModal] = useState(false);
+  const [referralModal, setReferralModal] = useState(false);
   const [policyModal, setPolicyModal] = useState(false);
   const [preauthModal, setPreauthModal] = useState(false);
   const [problemModal, setProblemModal] = useState(false);
@@ -212,6 +214,11 @@ export default function PatientProfile() {
       title: "Claims",
       action: () => navigate(`/app/clients/claims/${client._id}`),
       hide: !isHMO,
+    },
+    {
+      title: "Referral",
+      action: () => setReferralModal(true),
+      hide: false,
     },
     {
       title: "Appointment History",
@@ -505,6 +512,15 @@ export default function PatientProfile() {
         header="Preauthorization"
       >
         <ClientPreauthorization closeModal={() => setPreauthModal(false)} />
+      </ModalBox>
+       {/* ******************************************* Referral ********************************************** */}
+
+       <ModalBox
+        open={referralModal}
+        onClose={() => setReferralModal(false)}
+        header="Referral"
+      >
+        <Referral closeModal={() => setReferralModal(false)} />
       </ModalBox>
 
       {/* ******************************************* Claims ********************************************** */}
