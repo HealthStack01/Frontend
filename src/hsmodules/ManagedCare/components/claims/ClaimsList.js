@@ -30,6 +30,7 @@ const ClaimsListComponent = ({
   client_id,
   beneficiary,
   corporate,
+  noGroup
 }) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
@@ -63,6 +64,7 @@ const ClaimsListComponent = ({
         ...prev.ClientModule,
         selectedClient: claim.beneficiary,
       },
+      
     }));
 
     showDetail();
@@ -560,9 +562,10 @@ const ClaimsListComponent = ({
               </h2>
             </div>
             <Box>
-                <GlobalCustomButton onClick={handleProvider}>
+               {!noGroup && <GlobalCustomButton onClick={handleProvider}>
                   {provider.current?"Ungroup":"Group by Provider"}
-                </GlobalCustomButton>
+                </GlobalCustomButton>}
+
               </Box>
              {  (chosen.length>0) &&<>
               <GlobalCustomButton

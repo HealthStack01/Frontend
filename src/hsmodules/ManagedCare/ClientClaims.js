@@ -28,7 +28,9 @@ export default function Claims({standAlone}) {
       },
     }));
   };
-
+  useEffect(() => {
+    console.log("client", state.ClientModule.selectedClient)
+  }, []);
   return (
     <Box>
       {view === "list" && (
@@ -37,6 +39,7 @@ export default function Claims({standAlone}) {
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
             client_id={client_id}
+            noGroup={true}
           />
         </Box>
       )}
@@ -48,6 +51,7 @@ export default function Claims({standAlone}) {
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
             client_id={client_id}
+            beneficiary={state.ClientModule.selectedClient}
           />
         </Box>
       )}

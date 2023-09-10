@@ -25,7 +25,7 @@ import { Portal } from "@mui/material";
 import { BottomWrapper, GridWrapper, HeadWrapper } from "../app/styles";
 import { GrayWrapper } from "../app/styles";
 import ViewText from "../../components/viewtext";
-import BandView from "../Admin/BandView";
+import BandView from "./BandView";
 import { BandForm } from "./BandForm";
 import { BandSchema } from "./ui-components/schema";
 import CloseIcon from "@mui/icons-material/Close";
@@ -221,10 +221,6 @@ export function BandList({ showCreateModal }) {
   const [plan, setPlan] = useState();
   const [currFacility, setCurrFacility] = useState()
   const provRef=useRef()
-  const [pdfContent, setPdfContent] = useState([]);
-  const [hList, setHList] = useState([]);
-  const [pList, setPList] = useState([]);
-  
   
 
   const handleCreateNew = async () => {
@@ -749,417 +745,247 @@ let n=0
     /*  let pageText={}
      pageText.items=[] */
      const providerMatches = [];
-     
-     const contentArray = [];
+
       for (let pageNumber = +start ; pageNumber <= +end; pageNumber++) {
         let pageExtractedText=[]
        
         const page = await pdf.getPage(pageNumber);
         
          const pageText = await page.getTextContent();
-
-         let data ={
-          page:pageNumber,
-          content:pageText
-         }
-
-         contentArray.push(data)
-        /*  console.log("starting new page")
+         console.log("starting new page")
          console.log(pageNumber,pageText)
-         const currentHosp={}; */
+         const currentHosp={};
         //pageText.items= [...pageText.items, ...apageText.items]
 
        // console.log ("allpages",pageText.items)
       
         //loop through 
-       
-      
-      console.log("end of page", pageNumber)
-      console.log(contentArray)
-      setPdfContent(contentArray)
-      //provRef.current={}
-   
-    }
-    console.log("end of document",pdfContent)
-    toast.success("Content Upload complete")
-   
-    } catch (error) {
-      console.error('Error extracting text:', error);
-    }
-
-    extractFacilities(pdfContent)
-  };
-
-  const extractFacilities =(pdfContentx)=>{
-    let facil=pdfContentx
-
-    let hosplist=[]
-    let patList=[]
-    const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/; //facilitycode
-    const pattern2= /^\d{7,8}$/; //policyNo
-
-    facil.forEach((sheet,p)=>{
-      let providerInfo={}
-      sheet.content.items.forEach((item,i)=>{
-       
-        if ((pattern.test(item.str)) && (i===4)) {
-           providerInfo={
-            code:item.str,
-            name: `${sheet.content.items[i+2].str} ${sheet.content.items[i+3].str}`,
-            address:`${sheet.content.items[i+4].str} ${sheet.content.items[i+5].str}`,
-            pagenumber:sheet.page,
-            index:i,
-            patients:[]
-          }
-          providerInfo.totalP= providerInfo.patients.length
-          hosplist.push(providerInfo)
-          setHList(providerInfo)
-        //  console.log("hosp", hosplist)
-        }
-
-        if (pattern2.test(item.str)) {
-          let currentPolicy={
-            principal:{},
-            dependents:[],
-            number:item.str,
-            family:`${sheet.content.items[i-1].str}`,
-            page:sheet.page,
-           // provider:providerInfo
-
-          }
-          let  nchild=1
-          for (let n = i+1; n < sheet.content.items.length-1; n++) {
-            let stuff=sheet.content.items[n].str
-           if (stuff.includes("CHILD")) {
-             // console.log("child found")
-              stuff="Child"
-            }
-            if (pattern2.test(stuff)){
-             // console.log("new family",n)
-              providerInfo.patients.push(currentPolicy)
-              patList.push(currentPolicy)
-              break
-            }
-            
-            switch(stuff){
-              case 'PRINCIPAL':
-             //   console.log("principal",n)
-                let principal={
-                  firstname:`${sheet.content.items[n+7].str}`,
-                  lastname:`${sheet.content.items[n+2].str}`,
-                  gender:`${sheet.content.items[n+5].str}`,
-                  dob:`${sheet.content.items[n+6].str}`,
-                  code:`${sheet.content.items[n+4].str}`,
-                  policyNo:`${item.str}-0`
-
-                }
-                currentPolicy.principal=principal
-                if ((n+16)>=sheet.content.items.length-1){
-                  providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                }
-                // code block
-                break
-              case 'SPOUSE':
-               
-                let spouse={
-                  firstname:`${sheet.content.items[n+7].str}`,
-                  lastname:`${sheet.content.items[n+2].str}`,
-                  gender:`${sheet.content.items[n+5].str}`,
-                  dob:`${sheet.content.items[n+6].str}`,
-                  code:`${sheet.content.items[n+4].str}`,
-                  relationship:"Spouse",
-                  policyNo:`${item.str}-1`
-
-                }
-               // console.log("spouse",n)
-                currentPolicy.dependents.push(spouse)
-                if ((n+16)>=sheet.content.items.length-1){
-                  providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                }
-                // code block
-                break;
-              case 'Child':
-                 // console.log("child",n)
-                 nchild++
-                  let child={
-                    firstname:`${sheet.content.items[n+7].str}`,
-                    lastname:`${sheet.content.items[n+2].str}`,
-                    gender:`${sheet.content.items[n+5].str}`,
-                    dob:`${sheet.content.items[n+6].str}`,
-                    code:`${sheet.content.items[n+4].str}`,
-                    relationship:"Child",
-                    policyNo:`${item.str}-${nchild}`
-
-                  }
-                  
-                  currentPolicy.dependents.push(child)
-                  if ((n+16)>=sheet.content.items.length-1){
-                    console.log("end of items  on page")
-                    providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                  }
-                  // code block
-                  break;
-              case 'GIFSHIP':
-                    console.log("GIFSHIP",n)
-                    let gimfis={
-                      firstname:`${sheet.content.items[n+6].str}`,
-                      lastname:`${sheet.content.items[n+2].str}`,
-                      gender:`${sheet.content.items[n+4].str}`,
-                      dob:`${sheet.content.items[n+5].str}`,
-                      code:"GIFSHIP",
-                      gifship:true,
-                      policyNo:`${item.str}-0`
-
-                    }
-
-                    currentPolicy.principal=gimfis
-                    if ((n+16)>=sheet.content.items.length-1){
-                      providerInfo.patients.push(currentPolicy)
-                      patList.push(currentPolicy)
-                      break
-                    }
-                    // code block
-                    break
-            }
-            setPList(patList)
-        }
-
-
-        }
+         pageText.items.forEach(async(item,i) =>{
         
+          //escape if str is irrelevant
+          if (item.str==="Issued by NHIS"||item.str==="HEALTHCARE INTERNATIONAL LIMITED"||item.str===''||item.str===" "||item.str==="8/1/2023"
+          ||item.str==="page"){
+            //console.log("dummies")
+            return
+          }
+          let x=i-2
+          if (x>0){
 
-      })
-
-    })
-    console.log("hosp list",hList)
-    console.log("patient list",pList)
-
-  }
-  const analyse=async(pageText)=>{
-    
-    pageText.items.forEach(async(item,i) =>{
-        
-      //escape if str is irrelevant
-      if (item.str==="Issued by NHIS"||item.str==="HEALTHCARE INTERNATIONAL LIMITED"||item.str===''||item.str===" "||item.str==="8/1/2023"
-      ||item.str==="page"){
-        //console.log("dummies")
-        return
-      }
-      let x=i-2
-      if (x>0){
-
-       if (  pageText.items[x].str==="page"){
-       // console.log("dummies")
-        return
-       }
-      }
-      //find hospital fro top of page
-      
-      const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/;
-      if (pattern.test(item.str)) {
-        let man=[]
-     
-        console.log("Provider Match found! " + item.str );
-        if(i===4){
-       
-         // if(currentHosp.id!==item.str){
-            //check that facility does not exist in db
-            console.log("this is a different code")
-
-            currentHosp.id=item.str
-            currentHosp.name= `${pageText.items[i+2].str} ${pageText.items[i+3].str}`
-            currentHosp.address= `${pageText.items[i+4].str} ${pageText.items[i+5].str}`
-
-            const providerInfo={
-              id:item.str,
-              name: `${pageText.items[i+2].str} ${pageText.items[i+3].str}`,
-              address:`${pageText.items[i+4].str} ${pageText.items[i+5].str}`,
-              pagenumber:pageNumber,
-              index:i
-            }
-         //   console.log("providerinfo", providerInfo)
-           
-            
-
-               if (provRef.current && provRef.current.code){
-                        if( provRef.current.code===providerInfo.id){
-                          
-                          console.log("Same provider already")
-                      }else{
-                         console.log("Provider was created different from current")
-                      await  createfacility(providerInfo)
-                       
-                      }
-                    }else {
-                        await createfacility(providerInfo)
-                        console.log("Provider was created")
-                      }
-
-            console.log(provRef.current)
-            man.push(provRef.current)
-            providerInfo.providers=man 
-            providerMatches.push(providerInfo);
-           
-         //   console.log("providers list 2 ", providerMatches)
-           
-            /*  console.log("check " + item.str,)
-             console.log("current",currentHosp)
-             setCurrFacility(providerInfo) */
-        }
-            
-          }else{
-
-            
-      //find policy number
-      const pattern2= /^\d{7,8}$/
-      if (pattern2.test(item.str)) {
-        npol++
-       // let provider=currentHosp
-        console.log(npol+" Policy Number Match found! " + item.str);
-        console.log("providers list ", providerMatches)
-        //creating policy
-       // console.log("position",i)
-        let currentPolicy={
+           if (  pageText.items[x].str==="page"){
+           // console.log("dummies")
+            return
+           }
+          }
+          //find hospital fro top of page
           
-          principal:{},
-          dependents:[]
-        }
+          const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/;
+          if (pattern.test(item.str)) {
+            let man=[]
          
-            currentPolicy.number=item.str
-            currentPolicy.family=`${pageText.items[i-1].str}`
-          //  currentPolicy.facility=currHosp
-          //  console.log("currentpolicy1",currentPolicy)
-            //add benefiiaries
-           let  nchild=1
-            for (let n = i+1; n < pageText.items.length-1; n++) {
-              let stuff=pageText.items[n].str
-             if (stuff.includes("CHILD")) {
-               // console.log("child found")
-                stuff="Child"
-              }
-              if (pattern2.test(stuff)){
-                console.log("new family",n)
-                let x=pageNumber-1
-                currentPolicy.facility=providerMatches[x]
-               policyarray.push(currentPolicy)
-              createpolicy(currentPolicy)
-                break
-              }
+            console.log("Provider Match found! " + item.str );
+            if(i===4){
+           
+             // if(currentHosp.id!==item.str){
+                //check that facility does not exist in db
+                console.log("this is a different code")
+
+                currentHosp.id=item.str
+                currentHosp.name= `${pageText.items[i+2].str} ${pageText.items[i+3].str}`
+                currentHosp.address= `${pageText.items[i+4].str} ${pageText.items[i+5].str}`
+
+                const providerInfo={
+                  id:item.str,
+                  name: `${pageText.items[i+2].str} ${pageText.items[i+3].str}`,
+                  address:`${pageText.items[i+4].str} ${pageText.items[i+5].str}`,
+                  pagenumber:pageNumber,
+                  index:i
+                }
+             //   console.log("providerinfo", providerInfo)
+               
+                
+
+                   if (provRef.current && provRef.current.code){
+                            if( provRef.current.code===providerInfo.id){
+                              
+                              console.log("Same provider already")
+                          }else{
+                             console.log("Provider was created different from current")
+                          await  createfacility(providerInfo)
+                           
+                          }
+                        }else {
+                            await createfacility(providerInfo)
+                            console.log("Provider was created")
+                          }
+
+                console.log(provRef.current)
+                man.push(provRef.current)
+                providerInfo.providers=man 
+                providerMatches.push(providerInfo);
+               
+             //   console.log("providers list 2 ", providerMatches)
+               
+                /*  console.log("check " + item.str,)
+                 console.log("current",currentHosp)
+                 setCurrFacility(providerInfo) */
+            }
+                
+              }else{
+
+                
+          //find policy number
+          const pattern2= /^\d{7,8}$/
+          if (pattern2.test(item.str)) {
+            npol++
+           // let provider=currentHosp
+            console.log(npol+" Policy Number Match found! " + item.str);
+            console.log("providers list ", providerMatches)
+            //creating policy
+           // console.log("position",i)
+            let currentPolicy={
               
-              switch(stuff){
-                case 'PRINCIPAL':
-               //   console.log("principal",n)
-                  let principal={
-                    firstname:`${pageText.items[n+7].str}`,
-                    lastname:`${pageText.items[n+2].str}`,
-                    gender:`${pageText.items[n+5].str}`,
-                    dob:`${pageText.items[n+6].str}`,
-                    code:`${pageText.items[n+4].str}`,
-                    policyNo:`${item.str}-0`
-
+              principal:{},
+              dependents:[]
+            }
+             
+                currentPolicy.number=item.str
+                currentPolicy.family=`${pageText.items[i-1].str}`
+              //  currentPolicy.facility=currHosp
+              //  console.log("currentpolicy1",currentPolicy)
+                //add benefiiaries
+               let  nchild=1
+                for (let n = i+1; n < pageText.items.length-1; n++) {
+                  let stuff=pageText.items[n].str
+                 if (stuff.includes("CHILD")) {
+                   // console.log("child found")
+                    stuff="Child"
                   }
-                  currentPolicy.principal=principal
-                  if ((n+16)>=pageText.items.length-1){
-                   // console.log("end of items  on page")
-                   let x=pageNumber-1
-                   currentPolicy.facility=providerMatches[x]
-                    policyarray.push(currentPolicy)
-                    createpolicy(currentPolicy)
-                  //  console.log("z="+ (n+16))
-                    // create policy
-                  }
-                  // code block
-                  break
-                case 'SPOUSE':
-                 
-                  let spouse={
-                    firstname:`${pageText.items[n+7].str}`,
-                    lastname:`${pageText.items[n+2].str}`,
-                    gender:`${pageText.items[n+5].str}`,
-                    dob:`${pageText.items[n+6].str}`,
-                    code:`${pageText.items[n+4].str}`,
-                    relationship:"Spouse",
-                    policyNo:`${item.str}-1`
-
-                  }
-                 // console.log("spouse",n)
-                  currentPolicy.dependents.push(spouse)
-                  if ((n+16)>=pageText.items.length-1){
-                    console.log("end of items  on page")
+                  if (pattern2.test(stuff)){
+                    console.log("new family",n)
                     let x=pageNumber-1
                     currentPolicy.facility=providerMatches[x]
-                    policyarray.push(currentPolicy)
+                   policyarray.push(currentPolicy)
                   createpolicy(currentPolicy)
-                    //console.log("z="+ (n+16))
+                    break
                   }
-                  // code block
-                  break;
-                case 'Child':
-                   // console.log("child",n)
-                   nchild++
-                    let child={
-                      firstname:`${pageText.items[n+7].str}`,
-                      lastname:`${pageText.items[n+2].str}`,
-                      gender:`${pageText.items[n+5].str}`,
-                      dob:`${pageText.items[n+6].str}`,
-                      code:`${pageText.items[n+4].str}`,
-                      relationship:"Child",
-                      policyNo:`${item.str}-${nchild}`
-
-                    }
-                    
-                    currentPolicy.dependents.push(child)
-                    if ((n+16)>=pageText.items.length-1){
-                      console.log("end of items  on page")
-                      let x=pageNumber-1
-                      currentPolicy.facility=providerMatches[x]
-                      policyarray.push(currentPolicy)
-                      createpolicy(currentPolicy)
-                     // console.log("z="+ (n+16))
-                    }
-                    // code block
-                    break;
-                case 'GIFSHIP':
-                      console.log("GIFSHIP",n)
-                      let gimfis={
-                        firstname:`${pageText.items[n+6].str}`,
+                  
+                  switch(stuff){
+                    case 'PRINCIPAL':
+                   //   console.log("principal",n)
+                      let principal={
+                        firstname:`${pageText.items[n+7].str}`,
                         lastname:`${pageText.items[n+2].str}`,
-                        gender:`${pageText.items[n+4].str}`,
-                        dob:`${pageText.items[n+5].str}`,
-                        code:"GIFSHIP",
-                        gifship:true,
+                        gender:`${pageText.items[n+5].str}`,
+                        dob:`${pageText.items[n+6].str}`,
+                        code:`${pageText.items[n+4].str}`,
                         policyNo:`${item.str}-0`
 
                       }
+                      currentPolicy.principal=principal
+                      if ((n+16)>=pageText.items.length-1){
+                       // console.log("end of items  on page")
+                       let x=pageNumber-1
+                       currentPolicy.facility=providerMatches[x]
+                        policyarray.push(currentPolicy)
+                        createpolicy(currentPolicy)
+                      //  console.log("z="+ (n+16))
+                        // create policy
+                      }
+                      // code block
+                      break
+                    case 'SPOUSE':
+                     
+                      let spouse={
+                        firstname:`${pageText.items[n+7].str}`,
+                        lastname:`${pageText.items[n+2].str}`,
+                        gender:`${pageText.items[n+5].str}`,
+                        dob:`${pageText.items[n+6].str}`,
+                        code:`${pageText.items[n+4].str}`,
+                        relationship:"Spouse",
+                        policyNo:`${item.str}-1`
 
-                      currentPolicy.principal=gimfis
+                      }
+                     // console.log("spouse",n)
+                      currentPolicy.dependents.push(spouse)
                       if ((n+16)>=pageText.items.length-1){
                         console.log("end of items  on page")
                         let x=pageNumber-1
                         currentPolicy.facility=providerMatches[x]
                         policyarray.push(currentPolicy)
-                       createpolicy(currentPolicy)
-                       // console.log("z="+ (n+16))
-                        // create policy
+                      createpolicy(currentPolicy)
+                        //console.log("z="+ (n+16))
                       }
                       // code block
-                      break
-              }
-          }
-       //  console.log("policyarray", policyarray)
-         // currentPolicy.providers.push(currentPolicy)
-        // console.log("policy", currentPolicy)
-      }
-    }
-    });
+                      break;
+                    case 'Child':
+                       // console.log("child",n)
+                       nchild++
+                        let child={
+                          firstname:`${pageText.items[n+7].str}`,
+                          lastname:`${pageText.items[n+2].str}`,
+                          gender:`${pageText.items[n+5].str}`,
+                          dob:`${pageText.items[n+6].str}`,
+                          code:`${pageText.items[n+4].str}`,
+                          relationship:"Child",
+                          policyNo:`${item.str}-${nchild}`
+  
+                        }
+                        
+                        currentPolicy.dependents.push(child)
+                        if ((n+16)>=pageText.items.length-1){
+                          console.log("end of items  on page")
+                          let x=pageNumber-1
+                          currentPolicy.facility=providerMatches[x]
+                          policyarray.push(currentPolicy)
+                          createpolicy(currentPolicy)
+                         // console.log("z="+ (n+16))
+                        }
+                        // code block
+                        break;
+                    case 'GIFSHIP':
+                          console.log("GIFSHIP",n)
+                          let gimfis={
+                            firstname:`${pageText.items[n+6].str}`,
+                            lastname:`${pageText.items[n+2].str}`,
+                            gender:`${pageText.items[n+4].str}`,
+                            dob:`${pageText.items[n+5].str}`,
+                            code:"GIFSHIP",
+                            gifship:true,
+                            policyNo:`${item.str}-0`
+    
+                          }
 
-  }
+                          currentPolicy.principal=gimfis
+                          if ((n+16)>=pageText.items.length-1){
+                            console.log("end of items  on page")
+                            let x=pageNumber-1
+                            currentPolicy.facility=providerMatches[x]
+                            policyarray.push(currentPolicy)
+                           createpolicy(currentPolicy)
+                           // console.log("z="+ (n+16))
+                            // create policy
+                          }
+                          // code block
+                          break
+                  }
+              }
+           //  console.log("policyarray", policyarray)
+             // currentPolicy.providers.push(currentPolicy)
+            // console.log("policy", currentPolicy)
+          }
+        }
+        });
+    
+      
+      console.log("end of page", pageNumber)
+      //provRef.current={}
+   
+    }
+    console.log("end of document")
+    } catch (error) {
+      console.error('Error extracting text:', error);
+    }
+  };
 
   const findstuff =async()=>{
     const healthplan=await planServ.get('6425c3255694e80014037e74')
@@ -1585,8 +1411,7 @@ let n=0
           </Box>
       </div>
     </div>
-    
-       {pdfContent.length>0 ? (
+      {/* {facilities ? (
         <>
           <ModalBox open={open} onClose={handleCloseModal}>
             <BandView
@@ -1598,7 +1423,7 @@ let n=0
           <PageWrapper
             style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
-            {/* <TableMenu>
+            <TableMenu>
               <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
@@ -1619,7 +1444,7 @@ let n=0
                   Add New
                 </GlobalCustomButton>
               )}
-            </TableMenu> */}
+            </TableMenu>
 
             <div
               style={{
@@ -1636,7 +1461,7 @@ let n=0
                   overflowY: "auto",
                 }}
               >
-                {/* <CustomTable
+                <CustomTable
                   title={""}
                   columns={BandSchema}
                   data={facilities}
@@ -1645,24 +1470,14 @@ let n=0
                   striped
                   onRowClicked={handleRowClicked}
                   progressPending={loading}
-                /> */}
-                {
-                  pdfContent.map((pageContent, index)=>(
-                    <div key={index}>
-                      <p>Page {index + 1} Content:</p>
-                      <p> {pageContent.page}</p>
-                      <pre>{pageContent.content?.items?.str}</pre>
-                    </div>
-                  ))
-                }
-
+                />
               </Box>
             </div>
           </PageWrapper>
         </>
       ) : (
-        <div>loading content</div>
-      )} 
+        <div>loading</div>
+      )} */}
     </>
   );
 }

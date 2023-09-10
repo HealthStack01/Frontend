@@ -20,7 +20,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import {ProviderPrintId} from "../../hsmodules/ManagedCare/components/PrintId";
 import SendLinkViaEmail from "../../hsmodules/ManagedCare/components/beneficiary/SendClientLink";
 import PolicyDetail from "../../hsmodules/ManagedCare/components/policy/Details";
-import {AppointmentCreate} from "../../hsmodules/Client/Appointments";
+import AppointmentCreate from "../appointment/components/AppointmentCreate";
 
 const placeholder =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
@@ -149,7 +149,7 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
               fontWeight: "600",
             }}
           >
-            Details for Client - {detail?.firstname} {detail?.lastname}'s
+            Details for Client - {detail?.firstname} {detail?.lastname}
           </Typography>
         </Box>
 

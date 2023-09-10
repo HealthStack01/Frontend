@@ -32,6 +32,10 @@ const BeneficiariesList = ({showDetail, corporate}) => {
         ClientModule:{
           selectedClient:item
       },
+      AppointmentModule: {
+        ...prev.AppointmentModule,
+        selectedPatient:item,
+      },
     }));
     showDetail(item);
   };

@@ -474,14 +474,14 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         >
           <Grid container spacing={2} mb={2}>
             <Grid item lg={8} md={7}>
-              {/* <ClientSearch
+              <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
                 patient={beneficiary}
-              /> */}
+              />
 
-              <ReactCustomSearchSelectComponent
+             {/*  <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}
                 isLoading={fetchingClients}
@@ -494,7 +494,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                     ...item,
                   };
                 })}
-              />
+              /> */}
             </Grid>
 
             <Grid item lg={4} md={5}>

@@ -100,8 +100,8 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
         active:true
       }
     })
-    console.log(bandx.data[0])
-    console.log(bandx.data[0].band)
+    console.log("band",bandx.data[0])
+    console.log("actualband",bandx.data[0].band)
     if (bandx.data[0].band==""){
       setBand("NHIS") 
     }else{
@@ -122,7 +122,7 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
     let hmoid=hmopolicy[0].organizationId
 
     findband()
-   // console.log(mode);
+    console.log(facid,policy);
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -155,7 +155,7 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
                 dest_org: user.currentEmployee.facilityDetail._id, */
                 //hmo,hosp,band,
                 //facility: user.currentEmployee.facilityDetail._id,
-                band:band,
+                //band:band,
                 $limit: 10,
                /*  $sort: {
                   createdAt: -1,

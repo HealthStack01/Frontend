@@ -19,6 +19,7 @@ import Textarea from "../../../../components/inputs/basic/Textarea";
 import {getServicesColumns} from "./columns";
 import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
+import TarrifSearch from "../../../helpers/TarrifSearch"
 
 const ClaimCreateServices = ({setServices, closeModal}) => {
   const {control, register, reset, handleSubmit, watch, setValue} = useForm({
@@ -78,7 +79,8 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
             label="Service Name"
             register={register("service", {required: true})}
           /> */}
-          <SearchTariffService handleServiceChange={handleGetService} />
+         {/*  <SearchTariffService handleServiceChange={handleGetService} /> */}
+         <TarrifSearch getSearchfacility={handleGetService} />
         </Grid>
 
         <Grid item xs={12} md={6} lg={4}>
