@@ -1,9 +1,9 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {DocumentClassList} from "./DocumentClass";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+import { DocumentClassList } from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -15,20 +15,20 @@ import Drawer from "@mui/material/Drawer";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import {ChartClassList} from "./DocumentClass";
-import EndEncounter, {EndEncounterList} from "./EndEncounter";
+import { ChartClassList } from "./DocumentClass";
+import EndEncounter, { EndEncounterList } from "./EndEncounter";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {format, formatDistanceToNowStrict} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import VideoConference from "../utils/VideoConference";
-import Prescription, {PrescriptionCreate} from "./Prescription";
+import Prescription, { PrescriptionCreate } from "./Prescription";
 import LabOrders from "./LabOrders";
 import AdmitOrders from "./AdmitOrders";
 import DischargeOrders from "./DischargeOrders";
 import RadiologyOrders from "./RadiologyOrders";
-import ReactToPrint, {useReactToPrint} from "react-to-print";
-import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
+import { Box, Collapse, Grid, IconButton, Typography } from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
@@ -54,12 +54,12 @@ import {
   DoctorsNotePrintOut,
 } from "./print-outs/Print-Outs";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
-import {AppointmentCreate} from "../Appointment/generalAppointment";
+import { AppointmentCreate } from "../Appointment/generalAppointment";
 import DocumentationScheduleAppointment from "./ScheduleAppointment";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import dayjs from "dayjs";
 
-export default function EncounterMain({nopresc, chosenClient}) {
+export default function EncounterMain({ nopresc, chosenClient }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -75,10 +75,10 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
 
   const [showEncounterModal, setShowEncounterModal] = useState(false);
@@ -94,7 +94,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
   const open = Boolean(showActions);
 
-  const handleShowActions = event => {
+  const handleShowActions = (event) => {
     setShowActions(event.currentTarget);
   };
   const handleHideActions = () => {
@@ -126,7 +126,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
       selectedClinic: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
@@ -144,7 +144,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         selectedNote: Clinic,
         show: true,
       };
-      await setState(prevstate => ({
+      await setState((prevstate) => ({
         ...prevstate,
         NoteModule: newClinicModule,
       }));
@@ -153,14 +153,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
       //console.log(Clinic);
 
-      const newFacilities = await facilities.map(facility => {
+      const newFacilities = await facilities.map((facility) => {
         //CHECK IF CURRENT FACILITY IS SELECTED FACILITY
         if (facility._id === selectedFacilityId) {
           //IF CURRENT FACILITY IS CURRENTLY SELECTED, TOGGLE SHOW KEY
 
           return facility.show
-            ? {...facility, show: false}
-            : {...facility, show: true};
+            ? { ...facility, show: false }
+            : { ...facility, show: true };
 
           //return ;
         } else {
@@ -186,7 +186,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         show: "detail",
         encounter_right: true,
       };
-      await setState(prevstate => ({
+      await setState((prevstate) => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
@@ -197,7 +197,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
     handleRow(selectedClinic);
   }, [selectedClinic]);
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "documentname";
     console.log(val);
     ClinicServ.find({
@@ -215,13 +215,13 @@ export default function EncounterMain({nopresc, chosenClient}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Clinic  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Clinic, probable network issues " + err);
         setError(true);
@@ -299,17 +299,17 @@ export default function EncounterMain({nopresc, chosenClient}) {
       show: "list",
       encounter_right: false,
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
     if (user) {
     } else {
     }
-    ClinicServ.on("created", obj => getFacilities(page));
-    ClinicServ.on("updated", obj => getFacilities(page));
-    ClinicServ.on("patched", obj => getFacilities(page));
-    ClinicServ.on("removed", obj => getFacilities(page));
+    ClinicServ.on("created", (obj) => getFacilities(page));
+    ClinicServ.on("updated", (obj) => getFacilities(page));
+    ClinicServ.on("patched", (obj) => getFacilities(page));
+    ClinicServ.on("removed", (obj) => getFacilities(page));
 
     return () => {
       const newDocumentClassModule = {
@@ -318,30 +318,30 @@ export default function EncounterMain({nopresc, chosenClient}) {
         show: "list",
         encounter_right: false,
       };
-      setState(prevstate => ({
+      setState((prevstate) => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
     };
   }, []);
 
-  const handleDelete = doc => {
+  const handleDelete = (doc) => {
     showActionLoader();
     ClinicServ.remove(docToDelete._id)
-      .then(res => {
+      .then((res) => {
         hideActionLoader();
         toast.success(`${docToDelete?.documentname} Deleted succesfully`);
         setSuccess(false);
         setConfirmationDialog(false);
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error("Error deleting Adult Asthma Questionnaire " + err);
       });
     // }
   };
 
-  const handleConfirmDelete = doc => {
+  const handleConfirmDelete = (doc) => {
     if (!user?.currentEmployee?.roles?.includes("Delete Documents"))
       return toast.error("You don't have permission to delete Documents");
 
@@ -360,20 +360,20 @@ export default function EncounterMain({nopresc, chosenClient}) {
       show: "",
       encounter_right: false,
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EndEncounterModule: newDocumentClassModule,
     }));
     //console.log(state)
   };
 
-  const DocumentToRender = ({Clinic, index}) => {
+  const DocumentToRender = ({ Clinic, index }) => {
     switch (Clinic.documentname.toLowerCase()) {
       case "admission order": {
         return Clinic.status.toLowerCase() !== "draft" ? (
           <AdmissionOrderDocument
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         ) : null;
       }
@@ -381,7 +381,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         return Clinic.status.toLowerCase() !== "draft" ? (
           <DischargeOrderComponent
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         ) : null;
       }
@@ -390,7 +390,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         return Clinic.status.toLowerCase() !== "draft" ? (
           <MedicationListDocument
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         ) : null;
       }
@@ -399,7 +399,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         return Clinic.status.toLowerCase() !== "draft" ? (
           <PediatricPulmonologyForm
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         ) : null;
       }
@@ -408,7 +408,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         return Clinic.status.toLowerCase() !== "draft" ? (
           <AdultAthsmaQuestionaire
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         ) : null;
       }
@@ -417,28 +417,28 @@ export default function EncounterMain({nopresc, chosenClient}) {
         return (
           <PrescriptionDocument
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         );
       case "radiology orders":
         return (
           <RadiologyOrdersDocument
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         );
       case "lab orders":
         return (
           <LabOrdersDocument
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         );
       case "billed orders":
         return (
           <BilledOrdersDocument
             Clinic={Clinic}
-            ref={el => (myRefs.current[index] = el)}
+            ref={(el) => (myRefs.current[index] = el)}
           />
         );
 
@@ -520,7 +520,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
             type="text"
             minLength={3}
             debounceTimeout={400}
-            onChange={e => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </Box>
 
@@ -608,7 +608,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       <MenuItem
                         key={i}
                         onClick={action.action}
-                        sx={{fontSize: "0.8rem"}}
+                        sx={{ fontSize: "0.8rem" }}
                       >
                         {action.title}
                       </MenuItem>
@@ -799,9 +799,9 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     Clinic.documentname !== "Pediatric Pulmonology Form" &&
                     Clinic.status !== "Draft" && (
                       <div>
-                        <Box sx={{display: "none"}}>
+                        <Box sx={{ display: "none" }}>
                           <DoctorsNotePrintOut
-                            ref={el => (myRefs.current[i] = el)}
+                            ref={(el) => (myRefs.current[i] = el)}
                             data={Clinic.documentdetail}
                             Clinic={Clinic}
                           />
@@ -811,12 +811,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
                             ([keys, value], i) => (
                               <>
                                 <Box
-                                  sx={{height: "auto", width: "100%"}}
+                                  sx={{ height: "auto", width: "100%" }}
                                   key={i}
                                 >
                                   <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                      <Box sx={{display: "flex"}}>
+                                      <Box sx={{ display: "flex" }}>
                                         <Typography
                                           sx={{
                                             fontSize: "0.75rem",
@@ -848,44 +848,81 @@ export default function EncounterMain({nopresc, chosenClient}) {
                           )
                         ) : (
                           <div className="field">
-  <table style={{ width: "100%", borderCollapse: "collapse" }}>
-    <thead>
-      <tr>
-        <th style={{ backgroundColor: "#0E305D", color: "#ffffff", padding: "10px", textAlign: "left", fontSize: 14 }}>
-        Document Field
-        </th>
-        <th style={{ backgroundColor: " #0E305D", color: "#ffffff", padding: "10px", textAlign: "left", fontSize: 14 }}>
-        Field Values
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
-        <tr key={i}>
-          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 14 }}>
-            {keys}
-          </td>
-          <td style={{ border: "1px solid #e0e0e0", padding: "10px", fontSize: 13 }}>{value} {" "}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-    )}
-  </div>
-)}
+                            <table
+                              style={{
+                                width: "100%",
+                                borderCollapse: "collapse",
+                              }}
+                            >
+                              <thead>
+                                <tr>
+                                  <th
+                                    style={{
+                                      backgroundColor: "#0E305D",
+                                      color: "#ffffff",
+                                      padding: "10px",
+                                      textAlign: "left",
+                                      fontSize: 14,
+                                    }}
+                                  >
+                                    Document Field
+                                  </th>
+                                  <th
+                                    style={{
+                                      backgroundColor: " #0E305D",
+                                      color: "#ffffff",
+                                      padding: "10px",
+                                      textAlign: "left",
+                                      fontSize: 14,
+                                    }}
+                                  >
+                                    Field Values
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {Object.entries(Clinic.documentdetail).map(
+                                  ([keys, value], i) => (
+                                    <tr key={i}>
+                                      <td
+                                        style={{
+                                          border: "1px solid #e0e0e0",
+                                          padding: "10px",
+                                          fontSize: 14,
+                                        }}
+                                      >
+                                        {keys}
+                                      </td>
+                                      <td
+                                        style={{
+                                          border: "1px solid #e0e0e0",
+                                          padding: "10px",
+                                          fontSize: 13,
+                                        }}
+                                      >
+                                        {value}{" "}
+                                      </td>
+                                    </tr>
+                                  )
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-<DocumentToRender Clinic={Clinic} index={i} />
-</Collapse>
-</>
-))}
-</Box>
-</Box>
+                  <DocumentToRender Clinic={Clinic} index={i} />
+                </Collapse>
+              </>
+            ))}
+          </Box>
+        </Box>
         <Drawer
           anchor={"right"}
           open={state.DocumentClassModule.encounter_right}
           onClose={() => {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               DocumentClassModule: {
                 ...prev.DocumentClassModule,
@@ -894,7 +931,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
             }));
           }}
         >
-          <Box item sx={{width: "650px"}}>
+          <Box item sx={{ width: "650px" }}>
             <Box
               sx={{
                 width: "100%",
