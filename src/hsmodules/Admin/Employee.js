@@ -24,11 +24,18 @@ import {createEmployeeSchema} from "./ui-components/schema";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {EmployeeForm} from "./EmployeeForm";
 import EmployeeView from "./EmployeeView";
-import {Avatar, Portal} from "@mui/material";
+import {Avatar, Box, Portal} from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import {returnAvatarString} from "../helpers/returnAvatarString";
+import UploadEmployeeComponent from "./UploadEmployees";
+import {
+  updateOnCreated,
+  updateOnDeleted,
+  updateOnPatched,
+  updateOnUpdated,
+} from "../../functions/Updates";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -279,10 +286,12 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [open, setOpen] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
 
   const handleCreateNew = async () => {
     const newEmployeeModule = {
@@ -410,14 +419,23 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    EmployeeServ.on("created", obj => getFacilities());
-    EmployeeServ.on("updated", obj => getFacilities());
-    EmployeeServ.on("patched", obj => {
-      getFacilities();
-
-      //console.log(facilities.filter(el=>(el._id=selectedEmployee._id)))
+    EmployeeServ.on("created", obj => {
+      const newData = updateOnCreated(facilities, obj);
+      setFacilities(newData);
     });
-    EmployeeServ.on("removed", obj => getFacilities());
+    EmployeeServ.on("updated", obj => {
+      const newData = updateOnUpdated(facilities, obj);
+      setFacilities(newData);
+    });
+    EmployeeServ.on("patched", obj => {
+      const newData = updateOnPatched(facilities, obj);
+      //console.log(newData);
+      setFacilities(newData);
+    });
+    EmployeeServ.on("removed", obj => {
+      const newData = updateOnDeleted(facilities, obj);
+      setFacilities(newData);
+    });
     return () => {};
   }, []);
 
@@ -520,10 +538,10 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
       validator: yup.string().required("Facility not available"),
     },
     {
-      name: "Department",
+      name: "position",
       key: "department",
       description: "Enter department",
-      selector: row => row.department,
+      selector: row => row.position,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -541,10 +559,58 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
     },
   ];
 
+  const createEmployee = async data => {
+   
+   
+    const employeeData = {
+      ...data,
+      createdby: user._id,
+      facility: user.currentEmployee.facility,
+      imageurl: "",
+      roles: ["Communication"],
+    };
+
+    await EmployeeServ.create(employeeData)
+      .then(res => {
+        // toast.success(
+        //   `Employee ${data.firstname} ${data.lastname} successfully created`
+        // );
+      })
+      .catch(err => {
+        toast.error(
+          `Sorry, You weren't able to create an Employee ${data.firstname} ${data.lastname}. ${err}`
+        );
+      });
+  };
+
+  const createMultipleEmployees = async data => {
+    showActionLoader();
+
+    const promises = data.map(async item => {
+      await createEmployee(item);
+    });
+
+    await Promise.all(promises);
+
+    hideActionLoader();
+    setUploadModal(false);
+    toast.success(`Sucessfully created ${data.length} Employee(s)`);
+  };
+
   return (
     <>
       {user ? (
         <>
+          <ModalBox
+            open={uploadModal}
+            onClose={() => setUploadModal(false)}
+            header="Upload and Create Multiple Employees"
+          >
+            <UploadEmployeeComponent
+              closeModal={() => setUploadModal(false)}
+              createEmployees={createMultipleEmployees}
+            />
+          </ModalBox>
           <Portal>
             <ModalBox open={open} onClose={handleCloseModal} width="100%">
               <EmployeeView
@@ -554,7 +620,6 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
               />
             </ModalBox>
           </Portal>
-
           <PageWrapper
             style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
@@ -570,10 +635,19 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
                 </h2>
               </div>
 
-              <GlobalCustomButton onClick={handleCreateNew}>
-                <PersonAddAltIcon fontSize="small" sx={{marginRight: "5px"}} />
-                Add New Employee
-              </GlobalCustomButton>
+              <Box sx={{display: "flex", alignItems: "center", gap: "20px"}}>
+                <GlobalCustomButton onClick={() => setUploadModal(true)}>
+                  Upload Sheet
+                </GlobalCustomButton>
+
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  <PersonAddAltIcon
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Add New Employee
+                </GlobalCustomButton>
+              </Box>
             </TableMenu>
 
             <div

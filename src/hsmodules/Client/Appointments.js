@@ -129,6 +129,7 @@ export function AppointmentCreate({ showModal, setShowModal, openBill }) {
   const [chosen2, setChosen2] = useState();
   const appClass = ["On-site", "Teleconsultation", "Home Visit"];
   const Client = state.AppointmentModule.selectedAppointment;
+  console.log("selected",state.ClientModule.selectedClient)
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{

@@ -1,6 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import {IconButton, Typography} from '@mui/material';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
+import SendIcon from "@mui/icons-material/Send";
 import moment from 'moment';
 import dayjs from 'dayjs';
 
@@ -463,6 +464,18 @@ export const getPlansColumns = (action, disableAction, omitDelete) => {
 		//   required: true,
 		//   inputType: "TEXT",
 		// },
+		{
+			name: 'Plan Name',
+			key: 'file_name',
+			description: 'Enter Date',
+			selector: row => row.name,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+			style: {
+				textTransform: 'capitalize',
+			},
+		},
 
 		{
 			name: 'Plan Type',
@@ -532,7 +545,7 @@ export const getPlansColumns = (action, disableAction, omitDelete) => {
 			inputType: 'TEXT',
 		},
 
-		{
+		/* {
 			name: 'Del',
 			width: '80px',
 			center: true,
@@ -550,8 +563,113 @@ export const getPlansColumns = (action, disableAction, omitDelete) => {
 			required: true,
 			inputType: 'NUMBER',
 			omit: omitDelete,
-		},
+		}, */
 	];
 
 	return plansColumns;
+};
+export const getPlansListColumns = (action, disableAction, omitDelete) => {
+	const plansListColumns = [
+		// {
+		//   name: "S/N",
+		//   width: "50px",
+		//   style: {color: "#0364FF"},
+		//   key: "sn",
+		//   description: "Enter Date",
+		//   selector: (row, i) => i + 1,
+		//   sortable: true,
+		//   required: true,
+		//   inputType: "TEXT",
+		// },
+
+		{
+			name: 'Plan Type',
+			key: 'file_name',
+			description: 'Enter Date',
+			selector: row => row.type,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+			style: {
+				textTransform: 'capitalize',
+			},
+		},
+
+		{
+			name: 'Date',
+			style: {color: '#0364FF'},
+			key: 'created_at',
+			description: 'Enter Date',
+			selector: row => moment(row.created_at).format('L'),
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Duration',
+			style: {color: '#0364FF'},
+			key: 'no_of_months',
+			description: 'Enter Date',
+			selector: row => `${row.length} ${row.calendrical}`,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Premium',
+			style: {color: '#0364FF'},
+			key: 'premium',
+			description: 'Enter Date',
+			selector: row => `${row.premium}`,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Number of Heads',
+			style: {color: '#0364FF'},
+			key: 'no_of_heads',
+			description: 'Enter Date',
+			selector: row => `${row.heads}`,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		{
+			name: 'Amount(₦)',
+			style: {color: '#0364FF'},
+			key: 'amount',
+			description: 'Enter Date',
+			selector: row => row.amount,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+		},
+
+		/* {
+			name: 'Del',
+			width: '80px',
+			center: true,
+			key: 'action',
+			description: 'Enter Date',
+			selector: row => (
+				<IconButton
+					onClick={() => action(row)}
+					disabled={disableAction}
+					color='error'>
+					<DeleteOutline fontSize='small' />
+				</IconButton>
+			),
+			sortable: true,
+			required: true,
+			inputType: 'NUMBER',
+			omit: omitDelete,
+		}, */
+	];
+
+	return plansListColumns;
 };

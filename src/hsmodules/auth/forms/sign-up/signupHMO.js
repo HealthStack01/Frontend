@@ -155,6 +155,7 @@ const OrganizationSignupHMO = () => {
     //create it in corpinvoice
     deal.invoices.map(async(inv,i) => {
       console.log("starting 2")
+      
       inv.customerId=res._id
       inv.customer=res
       inv.facility=deal.facility

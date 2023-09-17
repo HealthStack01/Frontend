@@ -142,6 +142,14 @@ const AppointmentDetail = ({closeModal, module}) => {
   };
 
   const hanldeAttendToClient = async () => {
+    if (appointment?.client?.paymentinfo?.some(checkHMO)) {
+     console.log(appointment)
+      if (!appointment.verified){
+        toast.error("Appointment has not been verified")
+        return
+      }
+     
+    } 
     if (appointment.client) {
       await setState(prev => ({
         ...prev,

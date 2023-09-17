@@ -10,6 +10,7 @@ import ChangePolicyPrincipal from "./edit-policy/ChangePrincipal";
 import AddDependentToPolicy from "./edit-policy/AddDependent";
 import PolicyAddProvider from "./edit-policy/AddProvider";
 import ChangePolicySponsor from "./edit-policy/ChangeSponsor";
+import ChangePolicyHMO from "./edit-policy/ChangeHMO";
 import DefaultClientDetail from "../../../../components/client-detail/Client-Detail";
 import DefaultFacilityDetail from "../../../../components/facility-detail/Facility-Detail";
 import Watermark from "@uiw/react-watermark";
@@ -43,7 +44,7 @@ import {ProviderPrintout} from "../Printout";
 import dayjs from "dayjs";
 import ReactCustomSelectComponent from "../../../../components/react-custom-select";
 
-const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
+const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
   const [clientDetail, setClientDetail] = useState(null);
   const [facilityDetail, setFacilityDetail] = useState(null);
   const [view, setView] = useState("details");
@@ -97,7 +98,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
     const facility = user.currentEmployee.facilityDetail;
-    const orgId = isHMO ? facility._id : hmo._id;
+    const orgId = isHMO ? facility._id : policy.organization._id;
 
     const resp = await healthPlanServer.find({
       query: {
@@ -112,7 +113,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
     console.log(data);
     setHealthPlans(data);
     setFetchingPlans(false);
-  }, [hmo]);
+  }, []);
 
   useEffect(() => {
     getHealthPlans();
@@ -121,7 +122,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   useEffect(() => {
     const prevPolicy = state.PolicyModule.selectedPolicy;
 
-    console.log(prevPolicy);
+    //console.log(prevPolicy);
 
     setSubSponsor(prevPolicy.sponsor);
 
@@ -317,13 +318,18 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
   };
 
   const handlePolicyApproval = async () => {
-    const policy = state.PolicyModule.selectedPolicy;
+    showActionLoader();
+    //const policy = state.PolicyModule.selectedPolicy;
     const prevPolicy = state.PolicyModule.preservedPolicy;
     const employee = user.currentEmployee;
 
+    const statusMsg = policy.approved
+      ? "Policy is Disapproved"
+      : "Policy is Approved";
+
     const policyDetails = {
       ...policy,
-      approved: !prevPolicy.approved,
+      approved: !policy.approved,
       approvalDate: new Date(),
       approvedby: {
         employeename: `${employee?.firstname} ${employee?.lastname}`,
@@ -335,9 +341,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
           date: new Date(),
           employeename: `${employee?.firstname} ${employee?.lastname}`,
           employeeId: employee?._id,
-          status: prevPolicy.approved
-            ? "Policy is disapproved"
-            : "Policy is approved",
+          status: statusMsg,
         },
       ],
     };
@@ -345,14 +349,21 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
     await policyServer
       .patch(policy._id, policyDetails)
       .then(res => {
+        console.log(res);
+        setPolicy(res);
         setState(prev => ({
           ...prev,
-          PolicyModule: {...prev.PolicyModule, selectedPolicy: res},
+          PolicyModule: {
+            ...prev.PolicyModule,
+            selectedPolicy: res,
+            preservedPolicy: res,
+          },
         }));
-        toast.success("Policy Approved");
+        hideActionLoader();
+        toast.success(statusMsg);
       })
       .catch(err => {
-        //console.log(err);
+        hideActionLoader();
         toast.error("Error Approving Policy" + err);
       });
   };
@@ -475,6 +486,19 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
         </ModalBox>
 
         <ModalBox
+          open={modal === "hmo"}
+          onClose={() => {
+            setModal(null);
+          }}
+        >
+          <ChangePolicyHMO
+            closeModal={() => {
+              setModal(null);
+            }}
+          />
+        </ModalBox>
+
+        <ModalBox
           open={modal === "sponsor"}
           onClose={() => {
             setModal(null);
@@ -535,10 +559,10 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
             }}
             gap={1}
           >
-            <GlobalCustomButton onClick={goBack}>
+          { !provider && <GlobalCustomButton onClick={goBack}>
               <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
               Back
-            </GlobalCustomButton>
+            </GlobalCustomButton>}
 
             <Typography
               sx={{
@@ -574,7 +598,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg}) => {
             </Box>
           )}
 
-          {!edit && (
+          {!edit && !provider && (
             <Box
               sx={{
                 display: "flex",

@@ -1,5 +1,5 @@
 import {Box, Grid, Typography} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import Input from "../inputs/basic/Input";
 import dayjs from "dayjs";
@@ -7,11 +7,18 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import GlobalCustomButton from "../buttons/CustomButton";
 import PoliciesList from "../../hsmodules/ManagedCare/components/policy/Lists";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import NewPolicyModule from "../../hsmodules/ManagedCare/NewPolicy";
 import Claims from "../../hsmodules/ManagedCare/Claims";
-
-const malePlaceholder =
-  "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg";
+import axios from "axios";
+import {FileUploader} from "react-drag-drop-files";
+import ModalBox from "../modal";
+import {getBase64} from "../../hsmodules/helpers/getBase64";
+import {toast} from "react-toastify";
+import {ObjectContext, UserContext} from "../../context";
+import LinkIcon from "@mui/icons-material/Link";
+import {ProviderPrintId} from "../../hsmodules/ManagedCare/components/PrintId";
+import SendLinkViaEmail from "../../hsmodules/ManagedCare/components/beneficiary/SendClientLink";
 
 const placeholder =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
@@ -20,6 +27,9 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
   const {register, reset, handleSubmit} = useForm();
   const [view, setView] = useState("details");
   const [edit, setEdit] = useState(false);
+  const [imageModal, setImageModal] = useState(false);
+  const [generateIdCardModal, setGenerateIdCardModal] = useState(false);
+  const [sendLinkModal, setSendLinkModal] = useState(false);
 
   useEffect(() => {
     //console.log(detail);
@@ -36,6 +46,17 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
     updateClient(data);
   };
 
+  const handleChangeImageUrl = url => {
+    updateClient({
+      ...detail,
+      imageurl: url,
+    });
+  };
+
+  const handleGenegrateIdCard = () => {
+    setGenerateIdCardModal(true);
+  };
+
   const handleCancelUpdate = () => {
     const defaultValues = {
       ...detail,
@@ -49,6 +70,35 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
 
   return (
     <Box>
+      <ModalBox
+        open={generateIdCardModal}
+        onClose={() => setGenerateIdCardModal(false)}
+      >
+        <ProviderPrintId data={detail} />
+      </ModalBox>
+
+      <ModalBox
+        open={sendLinkModal}
+        onClose={() => setSendLinkModal(false)}
+        header={`Send Organization Link`}
+      >
+        <SendLinkViaEmail
+          closeModal={() => setSendLinkModal(false)}
+          defaultToEmail={detail.email}
+          id={detail._id}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={imageModal}
+        onClose={() => setImageModal(false)}
+        header="Change client profile photo"
+      >
+        <ChangeClientImage
+          closeModal={() => setImageModal(false)}
+          changeImage={handleChangeImageUrl}
+        />
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -179,6 +229,18 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                   Claims
                 </GlobalCustomButton>
+                <GlobalCustomButton
+                  color="info"
+                  onClick={() => setSendLinkModal(true)}
+                >
+                  <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send
+                  Link
+                </GlobalCustomButton>
+
+                <GlobalCustomButton onClick={handleGenegrateIdCard}>
+                  <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                  Generate ID
+                </GlobalCustomButton>
               </>
             )}
           </Box>
@@ -200,13 +262,42 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
               mb={2}
             >
               <Box
+                onClick={() => setImageModal(true)}
                 sx={{
                   width: "8rem",
                   height: "calc(2.55rem * 3)",
                   border: "1px solid #bbbbbb",
                   p: 0.5,
+                  position: "relative",
+                  "&:hover": {
+                    background: "gray",
+                    cursor: "pointer",
+                    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                  },
                 }}
               >
+                {/* <Box
+                  sx={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    left: "0",
+                    right: 0,
+                    zIndex: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "transparent",
+                    "&:hover": {
+                      background: "gray",
+                      cursor: "pointer",
+                    },
+                  }}
+                >
+                  <GlobalCustomButton variant="text">
+                    Change Image
+                  </GlobalCustomButton>
+                </Box> */}
                 <img
                   src={detail.imageurl || placeholder}
                   alt=""
@@ -465,3 +556,121 @@ const DefaultClientDetail = ({detail, goBack, showHeader, updateClient}) => {
 };
 
 export default DefaultClientDetail;
+
+const UploadComponent = ({}) => {
+  return (
+    <Box
+      sx={{
+        width: "350px",
+        height: "300px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        border: "1px dashed gray",
+        cursor: "pointer",
+        borderRadius: "7.5px",
+      }}
+    >
+      <FileUploadOutlinedIcon />
+      <Typography sx={{fontSize: "0.8rem"}}>
+        Select Logo Image or Drag and Drop here
+      </Typography>
+    </Box>
+  );
+};
+
+const ChangeClientImage = ({closeModal, changeImage}) => {
+  const [file, setFile] = useState(null);
+  const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
+
+  const handleChange = file => {
+    //console.log(file);
+    //setFile(file);
+
+    getBase64(file)
+      .then(res => {
+        //console.log(res);
+        setFile(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleUploadImage = async () => {
+    if (file === null) return toast.error("Please select an Image to upload");
+    showActionLoader();
+    const token = localStorage.getItem("feathers-jwt");
+    axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/upload",
+        {uri: file},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+      .then(async res => {
+        const imageUrl = res.data.url;
+        //const employee = user.currentEmployee;
+        closeModal();
+        hideActionLoader();
+        return changeImage(imageUrl);
+
+      })
+      .catch(error => {
+        hideActionLoader();
+        toast.error(
+          `An error occured whilst updating your Patient Image ${error}`
+        );
+        console.log(error);
+      });
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "400px",
+        maxHeight: "80vw",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {file ? (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={file}
+            alt="logo"
+            style={{width: "350px", height: "350px", display: "block"}}
+          />
+        </Box>
+      ) : (
+        <FileUploader
+          multiple={false}
+          handleChange={handleChange}
+          name="upload"
+          types={["jpeg", "png", "jpg"]}
+          children={<UploadComponent />}
+        />
+      )}
+
+      <Box sx={{display: "flex"}} gap={2} mt={2}>
+        <GlobalCustomButton color="error" onClick={closeModal}>
+          Cancel
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
+          onClick={handleUploadImage}
+          disabled={file === null}
+        >
+          Upload Image
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};

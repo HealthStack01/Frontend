@@ -31,6 +31,11 @@ import { BandSchema } from "./ui-components/schema";
 import CloseIcon from "@mui/icons-material/Close";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import { Document, Page, pdfjs } from 'react-pdf';
+import { polygon } from "leaflet";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 //const data = require("../../data/hci/activeClients.json"); 
 
@@ -190,6 +195,7 @@ export function BandList({ showCreateModal }) {
   const ClientServ = client.service("client");
   const policyServ = client.service("policy");
   const InvoiceServ = client.service('corpinvoices');
+  const planServ = client.service('healthplan');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -205,10 +211,21 @@ export function BandList({ showCreateModal }) {
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
-  const [start, setStart] = useState('');
-  const [end, setEnd] = useState('');
-
-
+  const [start, setStart] = useState(1);
+  const [end, setEnd] = useState(1);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [text, setText] = useState([]);
+  const [file, setFile] = useState(null);
+  const [sponsor, setSponsor] = useState();
+  const [plan, setPlan] = useState();
+  const [currFacility, setCurrFacility] = useState()
+  const provRef=useRef()
+  const [pdfContent, setPdfContent] = useState([]);
+  const [hList, setHList] = useState([]);
+  const [pList, setPList] = useState([]);
+  
+  
 
   const handleCreateNew = async () => {
     const newBandModule = {
@@ -323,7 +340,9 @@ export function BandList({ showCreateModal }) {
   };
 
   useEffect(() => {
-    getFacilities();
+    //getFacilities();
+    findstuff()
+    
 
     BandServ.on("created", (obj) => getFacilities());
     BandServ.on("updated", (obj) => getFacilities());
@@ -334,7 +353,7 @@ export function BandList({ showCreateModal }) {
 
   //todo: pagination and vertical scroll bar
 
-  const handleFileUpload =  async(event) => {
+  const handleFileUpload3 =  async(event) => {
    
 
 
@@ -695,18 +714,879 @@ let n=0
               
       }
 
+      //read file
+      //read page
+      // get words
+      // check words
+      //create object for -client + policy
+
+      
+    
+    
+  const handleFileUpload = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+  };
+
+  const extractTextFromPDF = async () => {
+    try {
+      if (!file) {
+        console.error('No file uploaded.');
+        return;
+      }
+
+      const pdfData = new Uint8Array(await file.arrayBuffer());
+      const pdf = await pdfjs.getDocument({ data: pdfData }).promise;
+      const numPages = 1 //pdf.numPages;
+      //let extractedText = '';
+     let extractedText = [];
+    
+     let policyarray=[]
+     let currentbenef={}
+     let provider={}
+     let npol=0
+     console.log(start,end)
+    /*  let pageText={}
+     pageText.items=[] */
+     const providerMatches = [];
+     
+     const contentArray = [];
+      for (let pageNumber = +start ; pageNumber <= +end; pageNumber++) {
+        let pageExtractedText=[]
+       
+        const page = await pdf.getPage(pageNumber);
+        
+         const pageText = await page.getTextContent();
+
+         let data ={
+          page:pageNumber,
+          content:pageText
+         }
+
+         contentArray.push(data)
+        /*  console.log("starting new page")
+         console.log(pageNumber,pageText)
+         const currentHosp={}; */
+        //pageText.items= [...pageText.items, ...apageText.items]
+
+       // console.log ("allpages",pageText.items)
+      
+        //loop through 
+       
+      
+      console.log("end of page", pageNumber)
+      console.log(contentArray)
+      setPdfContent(contentArray)
+      //provRef.current={}
+   
+    }
+    console.log("end of document",pdfContent)
+    toast.success("Content Upload complete")
+   
+    } catch (error) {
+      console.error('Error extracting text:', error);
+    }
+
+    extractFacilities(pdfContent)
+  };
+
+  const extractFacilities =(pdfContentx)=>{
+    let facil=pdfContentx
+
+    let hosplist=[]
+    let patList=[]
+    const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/; //facilitycode
+    const pattern2= /^\d{7,8}$/; //policyNo
+
+    facil.forEach((sheet,p)=>{
+      let providerInfo={}
+      sheet.content.items.forEach((item,i)=>{
+       
+        if ((pattern.test(item.str)) && (i===4)) {
+           providerInfo={
+            code:item.str,
+            name: `${sheet.content.items[i+2].str} ${sheet.content.items[i+3].str}`,
+            address:`${sheet.content.items[i+4].str} ${sheet.content.items[i+5].str}`,
+            pagenumber:sheet.page,
+            index:i,
+            patients:[]
+          }
+          providerInfo.totalP= providerInfo.patients.length
+          hosplist.push(providerInfo)
+          setHList(providerInfo)
+        //  console.log("hosp", hosplist)
+        }
+
+        if (pattern2.test(item.str)) {
+          let currentPolicy={
+            principal:{},
+            dependents:[],
+            number:item.str,
+            family:`${sheet.content.items[i-1].str}`,
+            page:sheet.page,
+           // provider:providerInfo
+
+          }
+          let  nchild=1
+          for (let n = i+1; n < sheet.content.items.length-1; n++) {
+            let stuff=sheet.content.items[n].str
+           if (stuff.includes("CHILD")) {
+             // console.log("child found")
+              stuff="Child"
+            }
+            if (pattern2.test(stuff)){
+             // console.log("new family",n)
+              providerInfo.patients.push(currentPolicy)
+              patList.push(currentPolicy)
+              break
+            }
+            
+            switch(stuff){
+              case 'PRINCIPAL':
+             //   console.log("principal",n)
+                let principal={
+                  firstname:`${sheet.content.items[n+7].str}`,
+                  lastname:`${sheet.content.items[n+2].str}`,
+                  gender:`${sheet.content.items[n+5].str}`,
+                  dob:`${sheet.content.items[n+6].str}`,
+                  code:`${sheet.content.items[n+4].str}`,
+                  policyNo:`${item.str}-0`
+
+                }
+                currentPolicy.principal=principal
+                if ((n+16)>=sheet.content.items.length-1){
+                  providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                }
+                // code block
+                break
+              case 'SPOUSE':
+               
+                let spouse={
+                  firstname:`${sheet.content.items[n+7].str}`,
+                  lastname:`${sheet.content.items[n+2].str}`,
+                  gender:`${sheet.content.items[n+5].str}`,
+                  dob:`${sheet.content.items[n+6].str}`,
+                  code:`${sheet.content.items[n+4].str}`,
+                  relationship:"Spouse",
+                  policyNo:`${item.str}-1`
+
+                }
+               // console.log("spouse",n)
+                currentPolicy.dependents.push(spouse)
+                if ((n+16)>=sheet.content.items.length-1){
+                  providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                }
+                // code block
+                break;
+              case 'Child':
+                 // console.log("child",n)
+                 nchild++
+                  let child={
+                    firstname:`${sheet.content.items[n+7].str}`,
+                    lastname:`${sheet.content.items[n+2].str}`,
+                    gender:`${sheet.content.items[n+5].str}`,
+                    dob:`${sheet.content.items[n+6].str}`,
+                    code:`${sheet.content.items[n+4].str}`,
+                    relationship:"Child",
+                    policyNo:`${item.str}-${nchild}`
+
+                  }
+                  
+                  currentPolicy.dependents.push(child)
+                  if ((n+16)>=sheet.content.items.length-1){
+                    console.log("end of items  on page")
+                    providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                  }
+                  // code block
+                  break;
+              case 'GIFSHIP':
+                    console.log("GIFSHIP",n)
+                    let gimfis={
+                      firstname:`${sheet.content.items[n+6].str}`,
+                      lastname:`${sheet.content.items[n+2].str}`,
+                      gender:`${sheet.content.items[n+4].str}`,
+                      dob:`${sheet.content.items[n+5].str}`,
+                      code:"GIFSHIP",
+                      gifship:true,
+                      policyNo:`${item.str}-0`
+
+                    }
+
+                    currentPolicy.principal=gimfis
+                    if ((n+16)>=sheet.content.items.length-1){
+                      providerInfo.patients.push(currentPolicy)
+                      patList.push(currentPolicy)
+                      break
+                    }
+                    // code block
+                    break
+            }
+            setPList(patList)
+        }
+
+
+        }
+        
+
+      })
+
+    })
+    console.log("hosp list",hList)
+    console.log("patient list",pList)
+
+  }
+  const analyse=async(pageText)=>{
+    
+    pageText.items.forEach(async(item,i) =>{
+        
+      //escape if str is irrelevant
+      if (item.str==="Issued by NHIS"||item.str==="HEALTHCARE INTERNATIONAL LIMITED"||item.str===''||item.str===" "||item.str==="8/1/2023"
+      ||item.str==="page"){
+        //console.log("dummies")
+        return
+      }
+      let x=i-2
+      if (x>0){
+
+       if (  pageText.items[x].str==="page"){
+       // console.log("dummies")
+        return
+       }
+      }
+      //find hospital fro top of page
+      
+      const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/;
+      if (pattern.test(item.str)) {
+        let man=[]
+     
+        console.log("Provider Match found! " + item.str );
+        if(i===4){
+       
+         // if(currentHosp.id!==item.str){
+            //check that facility does not exist in db
+            console.log("this is a different code")
+
+            currentHosp.id=item.str
+            currentHosp.name= `${pageText.items[i+2].str} ${pageText.items[i+3].str}`
+            currentHosp.address= `${pageText.items[i+4].str} ${pageText.items[i+5].str}`
+
+            const providerInfo={
+              id:item.str,
+              name: `${pageText.items[i+2].str} ${pageText.items[i+3].str}`,
+              address:`${pageText.items[i+4].str} ${pageText.items[i+5].str}`,
+              pagenumber:pageNumber,
+              index:i
+            }
+         //   console.log("providerinfo", providerInfo)
+           
+            
+
+               if (provRef.current && provRef.current.code){
+                        if( provRef.current.code===providerInfo.id){
+                          
+                          console.log("Same provider already")
+                      }else{
+                         console.log("Provider was created different from current")
+                      await  createfacility(providerInfo)
+                       
+                      }
+                    }else {
+                        await createfacility(providerInfo)
+                        console.log("Provider was created")
+                      }
+
+            console.log(provRef.current)
+            man.push(provRef.current)
+            providerInfo.providers=man 
+            providerMatches.push(providerInfo);
+           
+         //   console.log("providers list 2 ", providerMatches)
+           
+            /*  console.log("check " + item.str,)
+             console.log("current",currentHosp)
+             setCurrFacility(providerInfo) */
+        }
+            
+          }else{
+
+            
+      //find policy number
+      const pattern2= /^\d{7,8}$/
+      if (pattern2.test(item.str)) {
+        npol++
+       // let provider=currentHosp
+        console.log(npol+" Policy Number Match found! " + item.str);
+        console.log("providers list ", providerMatches)
+        //creating policy
+       // console.log("position",i)
+        let currentPolicy={
+          
+          principal:{},
+          dependents:[]
+        }
+         
+            currentPolicy.number=item.str
+            currentPolicy.family=`${pageText.items[i-1].str}`
+          //  currentPolicy.facility=currHosp
+          //  console.log("currentpolicy1",currentPolicy)
+            //add benefiiaries
+           let  nchild=1
+            for (let n = i+1; n < pageText.items.length-1; n++) {
+              let stuff=pageText.items[n].str
+             if (stuff.includes("CHILD")) {
+               // console.log("child found")
+                stuff="Child"
+              }
+              if (pattern2.test(stuff)){
+                console.log("new family",n)
+                let x=pageNumber-1
+                currentPolicy.facility=providerMatches[x]
+               policyarray.push(currentPolicy)
+              createpolicy(currentPolicy)
+                break
+              }
+              
+              switch(stuff){
+                case 'PRINCIPAL':
+               //   console.log("principal",n)
+                  let principal={
+                    firstname:`${pageText.items[n+7].str}`,
+                    lastname:`${pageText.items[n+2].str}`,
+                    gender:`${pageText.items[n+5].str}`,
+                    dob:`${pageText.items[n+6].str}`,
+                    code:`${pageText.items[n+4].str}`,
+                    policyNo:`${item.str}-0`
+
+                  }
+                  currentPolicy.principal=principal
+                  if ((n+16)>=pageText.items.length-1){
+                   // console.log("end of items  on page")
+                   let x=pageNumber-1
+                   currentPolicy.facility=providerMatches[x]
+                    policyarray.push(currentPolicy)
+                    createpolicy(currentPolicy)
+                  //  console.log("z="+ (n+16))
+                    // create policy
+                  }
+                  // code block
+                  break
+                case 'SPOUSE':
+                 
+                  let spouse={
+                    firstname:`${pageText.items[n+7].str}`,
+                    lastname:`${pageText.items[n+2].str}`,
+                    gender:`${pageText.items[n+5].str}`,
+                    dob:`${pageText.items[n+6].str}`,
+                    code:`${pageText.items[n+4].str}`,
+                    relationship:"Spouse",
+                    policyNo:`${item.str}-1`
+
+                  }
+                 // console.log("spouse",n)
+                  currentPolicy.dependents.push(spouse)
+                  if ((n+16)>=pageText.items.length-1){
+                    console.log("end of items  on page")
+                    let x=pageNumber-1
+                    currentPolicy.facility=providerMatches[x]
+                    policyarray.push(currentPolicy)
+                  createpolicy(currentPolicy)
+                    //console.log("z="+ (n+16))
+                  }
+                  // code block
+                  break;
+                case 'Child':
+                   // console.log("child",n)
+                   nchild++
+                    let child={
+                      firstname:`${pageText.items[n+7].str}`,
+                      lastname:`${pageText.items[n+2].str}`,
+                      gender:`${pageText.items[n+5].str}`,
+                      dob:`${pageText.items[n+6].str}`,
+                      code:`${pageText.items[n+4].str}`,
+                      relationship:"Child",
+                      policyNo:`${item.str}-${nchild}`
+
+                    }
+                    
+                    currentPolicy.dependents.push(child)
+                    if ((n+16)>=pageText.items.length-1){
+                      console.log("end of items  on page")
+                      let x=pageNumber-1
+                      currentPolicy.facility=providerMatches[x]
+                      policyarray.push(currentPolicy)
+                      createpolicy(currentPolicy)
+                     // console.log("z="+ (n+16))
+                    }
+                    // code block
+                    break;
+                case 'GIFSHIP':
+                      console.log("GIFSHIP",n)
+                      let gimfis={
+                        firstname:`${pageText.items[n+6].str}`,
+                        lastname:`${pageText.items[n+2].str}`,
+                        gender:`${pageText.items[n+4].str}`,
+                        dob:`${pageText.items[n+5].str}`,
+                        code:"GIFSHIP",
+                        gifship:true,
+                        policyNo:`${item.str}-0`
+
+                      }
+
+                      currentPolicy.principal=gimfis
+                      if ((n+16)>=pageText.items.length-1){
+                        console.log("end of items  on page")
+                        let x=pageNumber-1
+                        currentPolicy.facility=providerMatches[x]
+                        policyarray.push(currentPolicy)
+                       createpolicy(currentPolicy)
+                       // console.log("z="+ (n+16))
+                        // create policy
+                      }
+                      // code block
+                      break
+              }
+          }
+       //  console.log("policyarray", policyarray)
+         // currentPolicy.providers.push(currentPolicy)
+        // console.log("policy", currentPolicy)
+      }
+    }
+    });
+
+  }
+
+  const findstuff =async()=>{
+    const healthplan=await planServ.get('6425c3255694e80014037e74')
+    console.log(healthplan)
+    setPlan(healthplan)
+    
+    // find sponsor
+    const nhissponsor = await facilityServ.get('64f955b57a5c490014d34987')
+    console.log(nhissponsor)
+    setSponsor(nhissponsor)
+  }
+
+  const createfacility=async(facilityinfo)=>{
+  console.log("facility info", facilityinfo)
+    
+    
+             const facility = await orgServ.find({
+                  query:{
+                    code:facilityinfo.id,
+                    facility: user.currentEmployee.facilityDetail._id,
+                    relationshiptype: "managedcare"
+                  }
+                 }) 
+                 
+              if (facility.total>0){
+                 let provider=facility.data[0].organizationDetail
+                  console.log("Provider found in db", provider)
+                  provider.code=facilityinfo.id
+                  provRef.current=provider
+                }else{
+                  console.log("creating new provider for :" +facilityinfo.id,facilityinfo.name)
+                
+               
+                //create new facility
+               // set new facility as current provider
+              let abc=facilityinfo.name.split(" ")
+              let ab2=abc.join("")
+              let facilitydata={
+                            
+                facilityCAC:"",
+                
+              
+                facilityName:facilityinfo.name,
+              
+                facilityOwner: "",
+              
+                facilityType: "Hospital",
+              
+                facilityCategory:"NHIS",
+              
+                facilityCountry: "Nigeria",
+              
+                facilityState: "",
+              
+                facilityLGA: "",
+              
+                facilityCity:"", 
+              
+                facilityAddress:facilityinfo.address,
+              
+                facilityContactPhone:"08077777777",
+              
+                facilityEmail:`admin@${ab2}.nhis`,
+                facilityModules: [
+                  "Admin",
+                  "Client",
+                  "Clinic",
+                  "Appointment",
+                  "Check-In",
+                  "Ward",
+                  "Laboratory",
+                  "Radiology",
+                  "Pharmacy",
+                  "Theatre",
+                  "Blood Bank",
+                  "Inventory",
+                  "Communication",
+                  "Immunization",
+                  "Finance",
+                  "Accounting",
+                  "Complaints",
+                  "Referral",
+                  "Epidemiology",
+                  "Engagement"
+                ],
+                  }
+              let admindata ={
+                firstname:"Admin",
+                lastname:"Admin",
+                phone: "08077777777",
+                email: `admin@${ab2}.nhis`,
+
+                profession: "Admin",
+                position: "Admin",
+              
+                department: "Admin",
+                deptunit: "Admin",
+                password: "Admin",
+              roles:['Admin', 'Complaint', 'Corporate', 'Communication']
+
+
+              }
+
+              const facilityDocument = {
+              ...facilitydata,
+              hasEmployee: true,
+              employeeData:admindata
+              }
+
+          await  facilityServ.create(facilityDocument)
+          .then(async(resp)=>{
+          //create relationship
+          let holder=resp
+          console.log("facility created #",resp)
+          //provider=resp
+          resp.code=facilityinfo.id
+          provRef.current=resp
+          let obj = {
+            facility: user.currentEmployee.facilityDetail._id,
+            organization: resp._id,
+            relationshiptype: "managedcare",
+            status: "Approved",
+            code:facilityinfo.id,
+            band:"NHIA"
+            
+          };
+          await orgServ
+                    .create(obj)
+                    .then((res) => {
+                      console.log("res", res);
+                    console.log("Organization added succesfully"); 
+                    })
+                    .catch((err) => {
+                      console.log("Error adding organization " + err);
+                    });
+                  })
+                  .catch((err)=>{
+                    console.log("facility not created :" + err)
+                  })
+            }
+         
+          }
+  const createsponsor= async()=>{
+
+ 
+      let facilitydata={
+            
+        facilityCAC:"",
+        
+      
+        facilityName:"National Health Insurance Agency",
+      
+        facilityOwner: "",
+      
+        facilityType: "Corporate",
+      
+        facilityCategory:"SME",
+      
+        facilityCountry: "Nigeria",
+      
+        facilityState: "Abuja",
+      
+        facilityLGA: "",
+      
+        facilityCity:"Abuja", 
+      
+        facilityAddress:" Plot 297, P.O.W. Mafemi Crescent, Off Solomon Lar Way, Utako District, Abuja.",
+      
+        facilityContactPhone:"08059282008",
+      
+        facilityEmail:"admin@nhia.gov.ng",
+        facilityModules: ['Admin', 'Complaint', 'Corporate', 'Communication']
+          }
+      let admindata ={
+        firstname:"Admin",
+        lastname:"Admin",
+        phone: "08083280131",
+        email: "admin@nhia.gov.ng",
+
+        profession: "Admin",
+        position: "Admin",
+      
+        department: "Admin",
+        deptunit: "Admin",
+        password: "Admin",
+      roles:['Admin', 'Complaint', 'Corporate', 'Communication']
+
+
+      }
+
+        const facilityDocument = {
+          ...facilitydata,
+          hasEmployee: true,
+          employeeData:admindata
+        }
+
+   await  facilityServ.create(facilityDocument)
+    .then(async(resp)=>{
+      //create relationship
+      let holder=resp
+      console.log("facility created #",resp)
+      let obj = {
+        facility: user.currentEmployee.facilityDetail._id,
+        organization: resp._id,
+        relationshiptype: "sponsor",
+        status: "Approved",
+        code:"NHIA"
+        
+      };
+  
+     // console.log("query", query);
+  //create organizatuonal relationship
+      await orgServ
+        .create(obj)
+        .then((res) => {
+          console.log("res", res);
+         console.log("Organization added succesfully"); 
+        })
+        .catch((err) => {
+          console.log("Error adding organization " + err);
+        });
+      })
+      .catch((err)=>{
+        console.log("facility not created :" + err)
+      })
+    }
+
+    const createpolicy=async(policy)=>{
+     
+      console.log("policy",policy)
+      const xpol = await policyServ.find({
+        query:{
+          policyNo:policy.number
+
+        }
+       }) 
+       
+    if (xpol.total>0){
+      return
+      }else{
+
+      
+     /*  if (provRef.current && provRef.current.code){
+        if( provRef.current.code===policy.facility.id){
+           
+          console.log("Same provider already")
+      }else{
+      await  createfacility(policy.facility)
+         console.log("Provider was created")
+      }
+    }else {
+        await createfacility(policy.facility)
+         console.log("Provider was created")
+      }
+ */
+      policy.principal.type="Principal"
+      policy.dependents.forEach(el=>{
+        el.type="dependent"
+      })
+
+      let dependents=[]
+      let principal1=policy.principal
+      let genNo=""
+      let faci={}
+      let principal={}
+    
+      policy.beneficiaries=[
+        principal1,
+        ...policy.dependents
+       
+      ]
+     
+        for (const benfi of policy.beneficiaries){
+          let dob
+          faci=benfi
+          if(!!faci.dob){
+            dob=faci.dob.split(" ")
+          }else{
+            dob="01/01/1960"
+          }
+          
+        // console.log(dob)
+            let client={
+              firstname: faci.firstname, 
+              middlename:"",
+              lastname:faci.lastname,
+              dob:faci.dob?dob[0]:"1/01/1960" ,
+              gender:faci.gender==="M"?"Male":"Female",
+              maritalstatus: "",
+              religion: "",
+              phone:"08000000000",
+              email: `${faci.lastname}.${faci.lastname}@nhia-enrollee.ng`, //unique: true
+              bloodgroup: "",
+              genotype:"",
+              clientTags:"nhia beneficiary",
+              facility:user.currentEmployee.facilityDetail._id ,
+              address:"",
+            }
+      
+             await  ClientServ.create(client)
+             .then(async(resp)=>{
+              resp.policyNo=benfi.policyNo
+              if (benfi.type== "Principal"){
+                resp.type="Principal"
+                principal=resp
+               
+                genNo=policy.policyNo
+              }else{
+                resp.type="Dependent"
+                
+                dependents.push(resp)
+              }
+             
+             // create policy 
+             
+               console.log("policy created")
+
+             })
+             .catch((err) => {
+               console.log("Error creating client " + err);
+             });
+
+        
+          }
+          let provi=[] 
+         /*  let provider={  //consider creating facilities
+            facilityName:faci.providers[0].name,
+              code:faci.providers[0].id, 
+          } */
+          
+
+              provi.push( provRef.current) 
+ //create policy
+                  let policydata = {
+                    policyNo: policy.number,
+                    organizationType:user.currentEmployee.facilityDetail.facilityType,
+                      
+                    organizationId:user.currentEmployee.facilityDetail._id,
+                    
+                    organizationName:user.currentEmployee.facilityDetail.facilityName,
+                    
+                    organization:user.currentEmployee.facilityDetail,
+                    
+                    principal: principal,
+                    dependantBeneficiaries: dependents,
+                    providers:provi , //
+                    sponsorshipType:"Company",
+                    sponsor:sponsor, /* {facilityName:faci.CustomerName, //nhis
+                               code:faci.CustomerID   }, */
+                    plan: plan,/* {
+                      planName:"NHIS",
+                      planId:faci.PlanID
+                    }, */
+                    planType: policy.dependents.length>0?"Family":"Individual",
+
+                  //  validityPeriods:[ { type: String,  }],
+                  validitystarts:"01/01/2023",
+                  validityEnds:"01/01/2030",
+                  Date_JoinScheme:new Date(),
+                    active: true,
+                    isPaid: true,
+                    approved:true,
+                    statushx: [
+                      {
+                        date: new Date(),
+                        employeename: `${user.currentEmployee.firstname} ${user.currentEmployee.lastname}`,
+                        employeeId: user.currentEmployee._id,
+                        status: "Policy Created",
+                      }
+                  ]
+                  }
+                 
+                  await policyServ
+                    .create(policydata)
+                    .then((res) => {
+                    console.log("policy created succesfully",res);
+                    //console.log("policy #"+n,policy)
+                    })
+                    .catch((err) => {
+                      console.log("Error creating policy " + err);
+                    });
+
+        
+    }
+  }
 
   return (
     <>
-    {/* <Box sx={{ gap:2}}>
+      <Box sx={{ gap:2}}>
       <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
       <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
-     <GlobalCustomButton onClick={handleupdateOrg}>
-          test
+    {/*  <GlobalCustomButton onClick={findstuff}>
+         create sponsor
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton> 
-      </Box> */}
-      {facilities ? (
+        </GlobalCustomButton>  */}
+      </Box> 
+      <div className="text-extraction">
+      <h2>PDF Text Extraction</h2>
+      <input type="file" accept=".pdf" onChange={handleFileUpload} />
+      <button onClick={extractTextFromPDF}>Extract Text</button>
+      <div className="extracted-text">
+        <h3>Extracted Text:</h3>
+        <Box sx={{
+          height:"50%",
+          width:"80%",
+          overflow:"auto"
+        }}>
+          <div>
+           {/*  {text} */}
+           <ul>
+           {/*  {text.map((page, pageIndex) => (
+              <li key={pageIndex}>
+                <h4>Page {pageIndex + 1}:</h4>
+                <ul>
+                  {page.extract.map((row, rowIndex) => (
+                    <li key={rowIndex}>{row}</li>
+                  ))}
+                </ul>
+              </li>
+            ))} */}
+          </ul>
+          </div>
+          </Box>
+      </div>
+    </div>
+    
+       {pdfContent.length>0 ? (
         <>
           <ModalBox open={open} onClose={handleCloseModal}>
             <BandView
@@ -718,7 +1598,7 @@ let n=0
           <PageWrapper
             style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
-            <TableMenu>
+            {/* <TableMenu>
               <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
@@ -739,7 +1619,7 @@ let n=0
                   Add New
                 </GlobalCustomButton>
               )}
-            </TableMenu>
+            </TableMenu> */}
 
             <div
               style={{
@@ -756,7 +1636,7 @@ let n=0
                   overflowY: "auto",
                 }}
               >
-                <CustomTable
+                {/* <CustomTable
                   title={""}
                   columns={BandSchema}
                   data={facilities}
@@ -765,14 +1645,24 @@ let n=0
                   striped
                   onRowClicked={handleRowClicked}
                   progressPending={loading}
-                />
+                /> */}
+                {
+                  pdfContent.map((pageContent, index)=>(
+                    <div key={index}>
+                      <p>Page {index + 1} Content:</p>
+                      <p> {pageContent.page}</p>
+                      <pre>{pageContent.content?.items?.str}</pre>
+                    </div>
+                  ))
+                }
+
               </Box>
             </div>
           </PageWrapper>
         </>
       ) : (
-        <div>loading</div>
-      )}
+        <div>loading content</div>
+      )} 
     </>
   );
 }

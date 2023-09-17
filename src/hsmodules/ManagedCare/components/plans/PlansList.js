@@ -142,6 +142,7 @@ const PlansList = ({
       )}
 
       <Box mt={1} mb={1}>
+      <div style={{width: "100%",height: "calc(100vh - 170px)",overflow: "auto",}}>
         <CustomTable
           title={"Plans List"}
           columns={plansColumns}
@@ -157,6 +158,7 @@ const PlansList = ({
           }
           progressPending={false}
         />
+        </div>
       </Box>
     </Box>
   );

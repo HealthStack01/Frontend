@@ -463,6 +463,18 @@ export const getPlansColumns = (action, disableAction, omitDelete) => {
 		//   required: true,
 		//   inputType: "TEXT",
 		// },
+		{
+			name: 'Plan Name',
+			key: 'file_name',
+			description: 'Enter Date',
+			selector: row => row.name,
+			sortable: true,
+			required: true,
+			inputType: 'TEXT',
+			style: {
+				textTransform: 'capitalize',
+			},
+		},
 
 		{
 			name: 'Plan Type',

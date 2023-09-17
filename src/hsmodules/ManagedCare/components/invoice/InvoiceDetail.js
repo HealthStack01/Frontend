@@ -24,7 +24,7 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomTable from "../../../../components/customtable";
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import CustomerDetail, {PageCustomerDetail} from "./CustomerDetail";
 import Plans from "../../Plans";
 import moment from "moment";
 import {FormsHeaderText} from "../../../../components/texts";
@@ -44,7 +44,8 @@ import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
 
 const InvoiceDetail = ({handleGoBack}) => {
-  const dealServer = client.service("deal");
+  const dealServer = client.service("corpinvoices");
+  const polServer = client.service("policy");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -126,14 +127,15 @@ const InvoiceDetail = ({handleGoBack}) => {
     //return toast.error("Unable to add new plan, not operational yet");
 
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
-    const currentDeal = state.DealModule.selectedDeal;
+    console.log(invoiceDetail)
+   // const currentDeal = state.DealModule.selectedDeal;
 
     const newInvoiceDetail = {
       ...invoiceDetail,
       ...data,
     };
 
-    const prevInvoices = currentDeal.invoices;
+    /* const prevInvoices = currentDeal.invoices;
 
     const newInvoices = prevInvoices.map(item => {
       if (item._id === newInvoiceDetail._id) {
@@ -141,26 +143,19 @@ const InvoiceDetail = ({handleGoBack}) => {
       } else {
         return item;
       }
-    });
+    }); */
 
-    const documentId = currentDeal._id;
+    const documentId = invoiceDetail._id;
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
+      .patch(documentId, newInvoiceDetail)
       .then(res => {
         hideActionLoader();
         //setContacts(res.contacts);
         setState(prev => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
-        setState(prev => ({
-          ...prev,
-          InvoiceModule: {
-            ...prev.InvoiceModule,
-            selectedInvoice: newInvoiceDetail,
-          },
-        }));
+          InvoiceModule: {...prev.InvoiceModule, selectedInvoice: res}
+        }))
 
         toast.success(`You have successfully updated this Invoice`);
 
@@ -315,14 +310,67 @@ const InvoiceDetail = ({handleGoBack}) => {
       });
   }, []);
 
-  useEffect(() => {
+const handleRenewal =()=>{  /// move to backend
+  dealServer.patch(state.InvoiceModule.selectedInvoice._id,{
+  utilization:"complete"
+})
+.then(res=>{
+  console.log(state.InvoiceModule.selectedInvoice.plans)
+  let plans= state.InvoiceModule.selectedInvoice.plans
+  plans.forEach(el=>{
+    console.log(el.oldPolicies)
+    let old=el.oldPolicies
+    old.forEach(pol=>{
+      let ogid=pol._id
+      //create newpolicy
+      pol.approved=false
+      delete pol.approvalDate
+      delete pol.approvedby
+      delete pol._id
+      pol.active=false
+      pol.ispaid=false
+      delete pol.validityPeriods
+      delete pol.validitystarts
+      delete pol.validityEnds
+      delete pol.statushx
+      pol.invoice=state.InvoiceModule.selectedInvoice._id
+
+      polServer.create(pol)
+      .then(res=>{
+        polServer.patch(ogid, {
+          invRenwgen:true,
+          invRenwId:res._id 
+        })
+
+      })
+      .catch(err=>{
+        toast.error("Unableto renew plan "+err)
+        console.log(err)
+      })
+      //patch oldpolicy
+     
+
+    })
+
+  })
+  
+    toast.success("Policy Renewed")
+  })
+  .catch(err=>{
+    toast.error("Error updated invoice " +err)
+    console.log(err)
+  })
+ 
+
+}
+/*   useEffect(() => {
     getUnreadMessagesCount();
 
     dealServer.on("created", obj => getUnreadMessagesCount());
     dealServer.on("updated", obj => getUnreadMessagesCount());
     dealServer.on("patched", obj => getUnreadMessagesCount());
     dealServer.on("removed", obj => getUnreadMessagesCount());
-  }, [getUnreadMessagesCount]);
+  }, [getUnreadMessagesCount]); */
 
   return (
     <Watermark
@@ -402,6 +450,18 @@ const InvoiceDetail = ({handleGoBack}) => {
                       Approve
                     </GlobalCustomButton>
                   )}
+                   {invoiceStatus.toLowerCase() == "approved" &&
+                  (
+                    <GlobalCustomButton 
+                    color="primary"
+                    onClick={handleRenewal}>
+                      <ApprovalIcon
+                        fontSize="small"
+                        sx={{marginRight: "5px"}}
+                      />
+                      Renew Policies
+                    </GlobalCustomButton>
+                  )}
               </>
             )}
 
@@ -461,6 +521,7 @@ const InvoiceDetail = ({handleGoBack}) => {
                     <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> Edit
                   </GlobalCustomButton>
                 )}
+
               </Box>
             </Box>
 

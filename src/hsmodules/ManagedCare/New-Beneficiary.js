@@ -15,6 +15,7 @@ import {toast} from "react-toastify";
 const NewBeneficiaryModule = ({corporate}) => {
   const [createBandModal, setCreateBandModal] = useState(false);
   const policyServer = client.service("policy");
+  const clientServer = client.service("client");
   const [patient, setPatient] = useState(null);
   const [view, setView] = useState("lists");
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
@@ -25,6 +26,7 @@ const NewBeneficiaryModule = ({corporate}) => {
   };
 
   const handleUpdateClient = update => {
+    const prevUpdate = update;
     delete update.plan;
     delete update.policy;
     delete update.clientType;
@@ -56,12 +58,15 @@ const NewBeneficiaryModule = ({corporate}) => {
 
     policyServer
       .patch(prevPolicy._id, updatedPolicy)
-      .then(res => {
-        console.log(res);
-        hideActionLoader();
-        toast.success("Beneficiary Updated Successfully.");
+      .then(() => {
+        return clientServer.patch(update._id, {...update}).then(res => {
+          console.log(res);
+          hideActionLoader();
+          setPatient(prevUpdate);
+          toast.success("Beneficiary Updated Successfully.");
+        });
       })
-      .catch(error => {
+      .catch(err => {
         hideActionLoader();
         toast.error(`Failed to update Beneficiary ${err}`);
       });
