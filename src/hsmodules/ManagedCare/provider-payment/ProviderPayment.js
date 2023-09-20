@@ -9,18 +9,18 @@ import dayjs from "dayjs";
 
 const options = [
   {
-    name: "Queued List",
+    name: "Queued",
     value: "Queued for Payment",
     type: "warning",
   },
   {
-    name: "Instructions Sent",
+    name: "Instructions",
     value: "Payment Instruction Sent",
     type: "info",
   },
   {
     name: "Paid",
-    value: "Paid list",
+    value: "Paid",
     type: "success",
   },
 ];
@@ -124,9 +124,9 @@ const ManagedCareProviderPayment = () => {
       sortable: true,
     },
     {
-      name: "Date/Time",
+      name: "Month",
       inputType: "HIDDEN",
-      selector: row => dayjs(row.dateCreated).format("DD/MM/YYYY"),
+      selector: row => dayjs(row.dateCreated).format("MMM, YYYY"),
       sortable: true,
     },
 
@@ -245,6 +245,11 @@ const ManagedCareProviderPayment = () => {
     },
   ];
 
+  const changeType = type => {
+    setType(type);
+    setSelectedPayment(null);
+  };
+
   return (
     <Box p={2}>
       <Box
@@ -277,8 +282,19 @@ const ManagedCareProviderPayment = () => {
           {options.map(item => (
             <GlobalCustomButton
               key={item.name}
-              onClick={() => setType(item.value)}
+              onClick={() => changeType(item.value)}
               color={item.type}
+              sx={
+                type === item.value
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
             >
               {item.name}
             </GlobalCustomButton>
