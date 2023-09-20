@@ -10,7 +10,7 @@ import InvoiceList from "./components/invoice/InvoiceList";
 import {Box} from "@mui/material";
 import PlansList from "./components/plans/PlansList";
 import {ModalCreatePlan} from "./components/plans/CreatePlan";
-import PlanDetail from "./components/plans/PlanDetail";
+import SendPlanDetail from "./components/plans/SendPlanDetail";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -24,6 +24,7 @@ const Plans = ({
 }) => {
   const {state, setState} = useContext(ObjectContext);
   const [detailModal, setDetailModal] = useState(false);
+  const [sendDetailModal, setSendDetailModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
@@ -33,7 +34,7 @@ const Plans = ({
       ...prev,
       InvoiceModule: {...prev.InvoiceModule, selectedPlan: plan},
     }));
-    setDetailModal(true);
+    setSendDetailModal(true);
   };
 
   return (
@@ -59,12 +60,13 @@ const Plans = ({
       </ModalBox>
 
       <ModalBox
-        open={detailModal}
-        onClose={() => setDetailModal(false)}
-        header="Plan Detail"
+        open={sendDetailModal}
+        onClose={() => setSendDetailModal(false)}
+        header="Send Plan Link"
+        width="80%"
       >
-        <PlanDetail
-          closeModal={() => setDetailModal(false)}
+        <SendPlanDetail
+          closeModal={() => setSendDetailModal(false)}
           plan={selectedPlan}
           updatePlan={updatePlan}
         />

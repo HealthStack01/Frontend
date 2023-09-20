@@ -157,15 +157,18 @@ const CustomerDetail = ({editable}) => {
 export default CustomerDetail;
 
 export const PageCustomerDetail = ({editable}) => {
-  const dealServer = client.service("deal");
+  const dealServer = client.service("corpinvoices");
   const {register, reset, control, handleSubmit, getValues, watch} = useForm();
   const [editCustomer, setEditCustomer] = useState(false);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
 
+    const selectedCorp = state.ManagedCareCorporate.selectedCorporate.organizationDetail;
+    console.log(selectedCorp)
+
   const updateDetail = async data => {
     showActionLoader();
-    const documentId = state.DealModule.selectedDeal._id;
+  //  const documentId = state.DealModule.selectedDeal._id;
 
     await dealServer
       .patch(documentId, data)
@@ -188,21 +191,22 @@ export const PageCustomerDetail = ({editable}) => {
   };
 
   useEffect(() => {
-    const deal = state.DealModule.selectedDeal;
+   // const deal = state.DealModule.selectedDeal;
+   // const selectedCorp = state.ManagedCareCorporate.selectedCorporate.organizationDetail;
     //console.log(deal);
 
     const initFormValue = {
-      name: deal.name,
-      type: deal.type,
-      phone: deal.phone,
-      email: deal.email,
-      lga: deal.lga,
-      city: deal.city,
-      state: deal.state,
-      address: deal.address,
-      country: deal.country,
-      orgbranch: deal.orgbranch,
-      clientclass: deal.clientclass,
+      name: selectedCorp.facilityName,
+      type: selectedCorp.facilityType,
+      phone: selectedCorp.facilityContactPhone,
+      email: selectedCorp.facilityEmail,
+      lga: selectedCorp.facilityLGA,
+      city: selectedCorp.facilityCity,
+      state: selectedCorp.facilityState,
+      address: selectedCorp.facilityAddress,
+      country: selectedCorp.facilityCountry,
+       orgbranch: "",
+      clientclass: selectedCorp.facilityCategory
     };
     reset(initFormValue);
   }, []);
@@ -258,7 +262,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={2} md={2} sm={6} xs={6}>
+        <Grid item lg={4} md={4} sm={6} xs={6}>
           <CustomSelect
             options={["Individual", "Corporate"]}
             label="Customer Type"
@@ -268,7 +272,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={3} md={3} sm={6} xs={6}>
+        <Grid item lg={3} md={4} sm={6} xs={12}>
           <Input
             register={register("phone", {required: true})}
             label="Customer Number"
@@ -277,7 +281,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={3} md={3} sm={6}>
+        <Grid item lg={3} md={3} sm={6} xs={6}>
           <Input
             register={register("email", {required: true})}
             label="Customer Email"
@@ -286,7 +290,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={4} md={6} sm={8}>
+        <Grid item lg={4} md={6} sm={8} xs={12}> 
           <Input
             register={register("address", {required: true})}
             label="Customer Address"
@@ -295,7 +299,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={2} md={3} sm={4}>
+        <Grid item lg={2} md={3} sm={4} xs={6}>
           <Input
             register={register("lga", {required: true})}
             label="LGA"
@@ -304,7 +308,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={2} md={3} sm={4}>
+        <Grid item lg={3} md={3} sm={4} xs={6}>
           <Input
             register={register("city", {required: true})}
             label="City"
@@ -313,7 +317,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={2} md={4} sm={4}>
+        <Grid item lg={3} md={4} sm={4} xs={6}>
           <Input
             register={register("state", {required: true})}
             label="State"
@@ -322,7 +326,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={2} md={4} sm={4}>
+        <Grid item lg={2} md={4} sm={4} xs={6}>
           <Input
             register={register("country", {required: true})}
             label="Country"
@@ -331,7 +335,7 @@ export const PageCustomerDetail = ({editable}) => {
           />
         </Grid>
 
-        <Grid item lg={4} md={6} sm={6}>
+        <Grid item lg={4} md={6} sm={6} xs={6}>
           <Input
             register={register("clientclass", {required: true})}
             label="Customer Class"
@@ -341,7 +345,7 @@ export const PageCustomerDetail = ({editable}) => {
         </Grid>
 
         {type === "corporate" && (
-          <Grid item lg={4} md={6} sm={6}>
+          <Grid item lg={4} md={6} sm={6} xs={6}>
             <Input
               register={register("orgbranch", {required: true})}
               label="Organization Branch"

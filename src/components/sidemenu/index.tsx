@@ -2,7 +2,7 @@ import {Avatar} from "@mui/material";
 import React, {useEffect, useState, useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {ObjectContext, UserContext} from "../../context";
-
+import client from "../../feathers";
 import MenuItem from "../menuitem";
 import {Lists} from "../menuitem/style";
 import {MainMenu, Sidemenu, TopSection} from "./styles";
@@ -357,6 +357,7 @@ export const menuItems = [
     subMenus: [
       {name: "Organizations", to: "/app/global-admin/organizations"},
       {name: "Facility Transactions", to: "/app/global-admin/transactions"},
+      {name: "Login Analytics", to: "/app/global-admin/logins"},
     ],
   },
   {
@@ -426,7 +427,23 @@ function SideMenu({isOpen}) {
   const sortedMenuItems = menuItems.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
+const cleanup=async()=>{
 
+  let logObj={
+    user: user,
+    facility:user.employeeData[0].facilityDetail,
+    type:"logout"
+  }
+
+    await client.service("logins").create(logObj)
+
+ let onlineObj={
+  lastLogin: new Date(),
+  online:false
+ }
+    await client.service("users").patch(user._id, onlineObj)
+
+}
   //const orgModules = state.facilityDetail
 
   //const organitionMenuItems = orgModules.filter(item => orgModules.includes(item.name) )
@@ -523,6 +540,7 @@ function SideMenu({isOpen}) {
             subMenus={[]}
             onClick={() => {
               localStorage.setItem("user", "");
+              cleanup()
             }}
           />
         </Lists>

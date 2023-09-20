@@ -560,6 +560,8 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
   ];
 
   const createEmployee = async data => {
+   
+   
     const employeeData = {
       ...data,
       createdby: user._id,

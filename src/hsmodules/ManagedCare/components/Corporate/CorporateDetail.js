@@ -19,6 +19,7 @@ import CustomConfirmationDialog from "../../../../components/confirm-dialog/conf
 import NewPolicyModule from "../../NewPolicy";
 import NewBeneficiaryModule from "../../New-Beneficiary";
 import ClaimsModule from "../../Claims";
+import Invoice from "../../Invoice"
 import PremiumModule from "../../Premium";
 import CorporateChatComponent from "./CorporateChat";
 import ReactCustomSearchSelectComponent from "../../../../components/react-custom-select/ReactSearchSelect";
@@ -267,7 +268,22 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
             >
               Policies
             </GlobalCustomButton>
-
+            <GlobalCustomButton
+              onClick={() => setView("invoices")}
+              sx={
+                view === "invoices"
+                  ? {
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              Invoices
+            </GlobalCustomButton>
             <GlobalCustomButton
               onClick={() => setView("beneficiaries")}
               sx={
@@ -361,7 +377,7 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
         )} */}
 
         {view === "policies" && (
-          <NewPolicyModule corporate={corporate?.organizationDetail} />
+          <NewPolicyModule corporate={corporate?.organizationDetail} origin="corporate" />
         )}
 
         {view === "claims" && (
@@ -369,6 +385,7 @@ const CorporateDetailsComponent = ({goBack, beneficiary}) => {
         )}
 
         {view === "premiums" && <PremiumModule />}
+        {view === "invoices" && <Invoice corporate={corporate?.organizationDetail} isTab={true}/>}
 
         {view === "beneficiaries" && (
           <NewBeneficiaryModule corporate={corporate?.organizationDetail} />

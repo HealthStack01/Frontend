@@ -34,6 +34,9 @@ import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-di
 import ModuleList from "./ModuleList";
 import EmployeeLocation from "./EmployeeLocation";
 import {Avatar, IconButton} from "@mui/material";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import PasswordInput from "../../components/inputs/basic/Password";
+import PasswordIcon from "@mui/icons-material/Password";
 
 // import { createClientSchema } from "./schema";
 
@@ -58,6 +61,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
   const [updatingEmployee, setUpatingEmployee] = useState(false);
   const [showRoles, setShowRoles] = useState(false);
   const [locationModal, setLocationModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
 
   // const Employee =state.EmployeeModule.selectedEmployee
 
@@ -187,6 +191,14 @@ const EmployeeView = ({open, setOpen, employee}) => {
         type="danger"
         message={`Are you sure you want to delete this employee ${employee.firstname} ${employee.lastname}?`}
       />
+       <ModalBox
+        open={passwordModal}
+        onClose={() => setPasswordModal(false)}
+        header={`Change Password  for ${employee.firstname} ${employee.lastname}`}
+       
+      >
+        <ChangeEmployeePassword2 closeModal={() => setPasswordModal(false)}   employee={employee}/>
+      </ModalBox>
 
       <ModalBox
         open={showRoles}
@@ -226,6 +238,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
           <Box sx={{display: "flex"}} gap={1}>
             {!editing ? (
               <>
+
                 <GlobalCustomButton
                   disabled={editing}
                   onClick={() => {
@@ -249,6 +262,13 @@ const EmployeeView = ({open, setOpen, employee}) => {
                 >
                   <BadgeIcon fontSize="small" sx={{marginRight: "5px"}} />
                   Set Employee Locations
+                </GlobalCustomButton>
+                <GlobalCustomButton
+                  onClick={() => setPasswordModal(true)}
+                  color="info"
+                >
+                <DriveFileRenameOutlineIcon fontSize="small" />
+                  Change Password
                 </GlobalCustomButton>
               </>
             ) : (
@@ -407,3 +427,92 @@ const EmployeeView = ({open, setOpen, employee}) => {
 };
 
 export default EmployeeView;
+
+export const ChangeEmployeePassword2 = ({closeModal, employee}) => {
+  const userServ=client.service("users")
+  const {user} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {register, handleSubmit} = useForm();
+
+  const handleChangePassword = async data => {
+    showActionLoader();
+    const token = localStorage.getItem("feathers-jwt");
+
+    const postObject = {
+      action: "passwordChange",
+      value: {
+        user: {
+          email: user.currentEmployee.email,
+        },
+        oldPassword: data.old_password,
+        password: data.new_password,
+      },
+    };
+/* 
+     axios
+      .post(
+        "https://healthstack-backend.herokuapp.com/auth-management",
+        {
+          ...postObject,
+        },
+        {headers: {Authorization: `Bearer ${token}`}}
+      )  */
+      userServ.patch(employee.userId, { password: data.new_password} )
+      .then(() => {
+        hideActionLoader();
+        closeModal();
+        toast.success("You have successfully updated your account password");
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error(`There was an error updating your account ${err}`);
+      });
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "500px",
+      }}
+    >
+      <form>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+
+        {/*   <PasswordInput
+            label="Old Password"
+            important
+            register={register("old_password", {
+              required: "Please provide your old password",
+            })}
+          /> */}
+
+          <PasswordInput
+            important
+            label="New Password"
+            register={register("new_password", {
+              required: "Please provide your employee's new password",
+            })}
+          />
+        </Box>
+      </form>
+
+      <Box mt={2}>
+        <GlobalCustomButton
+          color="success"
+          onClick={handleSubmit(handleChangePassword)}
+        >
+          <PasswordIcon fontSize="small" sx={{marginRight: "5px"}} /> Update
+          Password
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};

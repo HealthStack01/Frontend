@@ -39,7 +39,7 @@ const SendLinkViaEmail = ({
   const [selectedEmail, setSelectedEmail] = useState("");
   const [destinationEmail, setDestinationEmail] = useState(defaultToEmail);
   const [emailBody, setEmailBody] = useState(
-    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/`}>LINK</a>  
+    `<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/signup/corporate-beneficiary/${id}`}>LINK</a>  
     to create your account and update your details.</p>`
   ); //add /${id}
   const [indvemailBody, setIndvEmailBody] = useState(
@@ -61,7 +61,7 @@ const SendLinkViaEmail = ({
     reset({
       to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
-      subject: "Create Your Organization",
+      subject: "Create Your Account",
       from: selectedEmail,
     });
   }, [selectedEmail, destinationEmail]);
@@ -77,13 +77,13 @@ const SendLinkViaEmail = ({
   };
 
   const handleSendEmail = async data => {
-    
+    let document={}
     if (emailBody === "")
       return toast.error("Please, You cannot send an empty Email");
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
 if (orgType!=="individual"){
-   const document = {
+  document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
       html: emailBody,
@@ -92,7 +92,7 @@ if (orgType!=="individual"){
       ...data,
     };
   }else{
-    const document = {
+  document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
       html: indvemailBody,

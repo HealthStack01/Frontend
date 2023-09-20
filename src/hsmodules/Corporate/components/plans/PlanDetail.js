@@ -138,7 +138,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
         </Box>
 
         <Grid container spacing={1}>
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <CustomSelect
               label="Plan Type"
               options={["Family", "HMO", "Free", "Personal"]}
@@ -148,7 +148,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
             />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <Input
               register={register("premium", {required: true})}
               label="Premium"
@@ -157,7 +157,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
             />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <Input
               register={register("heads", {required: true})}
               label="No of Heads"
@@ -167,7 +167,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
             />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <CustomSelect
               label="Duration Calendrical"
               options={["Week(s)", "Month(s)", "Year(s)"]}
@@ -177,7 +177,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
             />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <Input
               register={register("length", {required: true})}
               label="Duration Legnth"
@@ -187,7 +187,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
             />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <Input
               register={register("amount", {required: true})}
               label="Amount"

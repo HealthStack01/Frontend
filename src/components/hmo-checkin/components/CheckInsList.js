@@ -158,6 +158,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
 
       setAppointments(res.data);
       setLoading(false);
+      console.log(res.data)
     }
   }, [state.employeeLocation, isCheckedIn]);
 
@@ -202,7 +203,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Provider",
       key: "firstname",
       description: "First Name",
-      selector: row => `${row.firstname} ${row.lastname}`,
+      selector: row => `${row.facilityDetail.facilityName}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
