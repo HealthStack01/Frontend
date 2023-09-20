@@ -259,7 +259,7 @@ export const menuItems = [
       },
       {
         name: "Provider payment",
-        to: "/app/managed-care/providerpayment",
+        to: "/app/managed-care/provider-payment",
       },
       {name: "Report", to: "/app/managed-care/report"},
       {name: "Dashboard", to: "/app/managed-care/dashboard"},

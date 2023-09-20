@@ -202,15 +202,7 @@ const ClaimsListComponent = ({
         textTransform: "capitalize",
       },
     },
-    // {
-    //   name: "Type",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.claimtype,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
+
     {
       name: "Sponsor",
       key: "healthcare plan",
@@ -220,15 +212,7 @@ const ClaimsListComponent = ({
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Plan",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.healthcare_Plan,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
+
     {
       name: "Provider",
       key: "hospital name",
@@ -244,7 +228,6 @@ const ClaimsListComponent = ({
       key: "status",
       description: "Enter  Status",
       selector: row => row?.status,
-      //cell: row => returnCell(row.status),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -254,7 +237,7 @@ const ClaimsListComponent = ({
       key: "status",
       description: "Enter  Status",
       selector: row => (row?.task?.length > 0 ? row.task[0].title : ""),
-      //cell: row => returnCell(row.status),
+
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -267,7 +250,6 @@ const ClaimsListComponent = ({
         row?.task?.length > 0
           ? `${row.task[0].employee.firstname} ${row.task[0].employee.lastname}`
           : "",
-      //cell: row => returnCell(row.status),
       sortable: true,
       required: true,
       inputType: "TEXT",
