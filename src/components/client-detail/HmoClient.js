@@ -52,6 +52,7 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
   }
 
   const handleUpdateClient = data => {
+    console.log("this is here",data)
     updateClient(data);
   };
 
@@ -277,6 +278,7 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
       <Box p={2}>
         {view === "details" && (
           <>
+          <form onSubmit={handleSubmit(handleUpdateClient)}>
             <Box
               sx={{
                 display: "flex",
@@ -332,7 +334,7 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   }}
                 />
               </Box>
-
+                
               <Grid container spacing={1}>
                 <Grid item lg={4}>
                   <Input
@@ -436,7 +438,7 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
 
                 <Grid item lg={3}>
                   <Input
-                    register={register("phone")}
+                    register={register("mrn")}
                     label="Medical Rec. Number"
                     disabled={!edit}
                   />
@@ -570,7 +572,9 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
                   />
                 </Grid>
               </Grid>
+              
             </Box>
+            </form>
           </>
         )}
       </Box>

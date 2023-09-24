@@ -8,6 +8,7 @@ import {ObjectContext, UserContext} from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
 import {ClientSearch} from "../../../helpers/ClientSearch";
+import {FacilitySearch} from "../../../helpers/hospitalSearch";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
 import {FormsHeaderText} from "../../../../components/texts";
@@ -40,6 +41,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [clearClientSearch, setClearClientSearch] = useState(false);
+  const [clearClientSearch2, setClearClientSearch2] = useState(false);
   const [complaints, setComplaints] = useState([]);
   const [complaintModal, setComplaintModal] = useState(false);
   const [diagnosis, setDiagnosis] = useState([]);
@@ -77,6 +79,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   });
 
   const clientSelected = watch("selected_client");
+  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
 
   useEffect(() => {
     if (beneficiary) {
@@ -193,6 +196,18 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     //
   };
 
+  const handleSelectOrg = organ =>{
+    console.log("organization chosen", organ)
+    setState(prev => ({
+      ...prev,
+      OrganizationModule: {
+        
+        selectedOrganization: organ,
+      },
+    }));
+
+  }
+
   useEffect(() => {
     handleSelectClient(clientSelected);
   }, [clientSelected]);
@@ -210,7 +225,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     await createId()
     const employee = user.currentEmployee;
     const facility = employee.facilityDetail;
-    const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
+    
 
     const clinical_data = data;
 
@@ -528,7 +543,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={8} md={7}>
+            <Grid item lg={6} md={6} sm={6} xs={12}>
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
@@ -551,6 +566,15 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                 })}
               /> */}
             </Grid>
+
+        { user.currentEmployee.facilityDetail.facilityType === "HMO" &&   <Grid item lg={6} md={6} sm={6} xs={12}>
+              < FacilitySearch
+                clear={clearClientSearch2}
+                getSearchfacility={handleSelectOrg}
+                /* id={client_id}
+                patient={beneficiary} */
+              />
+            </Grid>}
 
             <Grid item lg={4} md={5}>
               <CustomSelect
