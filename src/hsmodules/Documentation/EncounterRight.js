@@ -50,7 +50,14 @@ import { usePosition } from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import { Box, getValue } from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
+
+// new
 import CustomSelect from "../../components/inputs/basic/Select";
+import CustomTable from "../../components/customtable";
+import Icd11Search from "../helpers/icd11search";
+import ModalBox from "../../components/modal";
+import ClaimCreateDiagnosis from "../Corporate/components/claims/Diagnosis";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import {
   Button,
   Grid,
@@ -578,7 +585,7 @@ export function VitalSignCreate() {
 }
 
 export function ClinicalNoteCreate() {
-  const { register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
+  const { control, register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -592,6 +599,77 @@ export function ClinicalNoteCreate() {
   const { state, setState } = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmationDialog, setConfirmationDialog] = useState(false);
+  //new diagonsis
+  const [data, setData] = useState([]);
+  const [icd, setIcd] = useState([]);
+  const [clear, setClear] = useState(false);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [diagnosisModal, setDiagnosisModal] = useState(false);
+
+  const columnSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.diagnosis,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  // const handleGetService = (param) => {
+  //   //console.log(data);
+  //   setIcd(param);
+  //   // setValue("unitprice", data ? data.price : 0);
+  // };
+
+  // const handleAddDiagnosis = (data) => {
+  //   const diagnosis = {
+  //     ...data,
+  //     ...icd,
+  //     // _id: uuidv4(),
+  //   };
+  //   setDiagnosis((prev) => [diagnosis, ...prev]);
+  //   toast.success("Diagnosis successfully listed.");
+  //   reset({
+  //     type: null,
+  //     diagnosis: null,
+  //     code: "",
+  //   });
+  // };
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -622,6 +700,10 @@ export function ClinicalNoteCreate() {
   const document_name = state.DocumentClassModule.selectedDocumentClass.name;
 
   const onSubmit = (data, e) => {
+    console.log("start now", {
+      data,
+      diagnosis,
+    });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -631,7 +713,17 @@ export function ClinicalNoteCreate() {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+
+    // const dataDetail = {
+    //   ...data,
+    //   diagnosis,
+    // };
+    data.diagnosis = diagnosis;
     document.documentdetail = data;
+
+    console.log("start now document", {
+      documentdetail: document.documentdetail,
+    });
     document.documentname =
       state.DocumentClassModule.selectedDocumentClass.name;
     document.documentClassId =
@@ -682,10 +774,14 @@ export function ClinicalNoteCreate() {
     } else {
       ClientServ.create(document)
         .then((res) => {
-          // console.log("Clinincal note data", res)
+          console.log("Clinincal note data", res);
+          setDiagnosis([]);
+
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
+
+          console.log("goood");
           setSuccess(true);
           toast.success("Documentation created succesfully");
           setSuccess(false);
@@ -721,6 +817,18 @@ export function ClinicalNoteCreate() {
           message={`You are about to save this document ${document_name}`}
           confirmationAction={handleSubmit(onSubmit)}
         />
+
+        <ModalBox
+          open={diagnosisModal}
+          onClose={() => setDiagnosisModal(false)}
+          header="Add Diagnosis to Claim"
+        >
+          <ClaimCreateDiagnosis
+            closeModal={() => setDiagnosisModal(false)}
+            setDiagnosis={setDiagnosis}
+          />
+        </ModalBox>
+
         <Box
           sx={{
             display: "flex",
@@ -755,14 +863,101 @@ export function ClinicalNoteCreate() {
                 placeholder="Enter clinical findings......"
               />
             </Box>
+            {/*  */}
             <Box>
-              <Textarea
-                register={register("diagnosis")}
-                name=""
-                type="text"
-                label="Diagnosis"
-                placeholder="Enter diagnosis......"
-              />
+              {/* <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: "200",
+                  marginBottom: "8px",
+                }}
+              >
+                Add Diagnosis to form
+              </Typography>
+              <Grid container spacing={2} mb={3} mt={0.2}>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <CustomSelect
+                    // important
+                    label="Diagnosis Type"
+                    control={control}
+                    name="type"
+                    options={[
+                      "Associated diagnosis",
+                      "Co-morbidity Diagnosis",
+                      "Principal diagnosis",
+                      "Provisional Diagnosis",
+                      "Rule-Out Diagnosis ",
+                      "Working Diagnosis",
+                    ]}
+                    required={false}
+                  />
+                </Grid>
+
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <Input
+                    required={false}
+                    // important
+                    label="Diagnosis"
+                    register={register("diagnosis", {
+                      required: "Please enter Diagnosis",
+                    })}
+                  />
+                </Grid>
+
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <Icd11Search
+                    getSearchfacility={handleGetService}
+                    clear={clear}
+                  />
+                </Grid>
+              </Grid> */}
+
+              {/* 
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                }}
+              >
+                <GlobalCustomButton onClick={handleSubmit(handleAddDiagnosis)}>
+                  Save Diagnosis
+                </GlobalCustomButton>
+              </Box> */}
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Diagnosis Data" />
+
+                <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                  <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                  Add Diagnosis
+                </GlobalCustomButton>
+              </Box>
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={columnSchema}
+                  data={diagnosis}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  //conditionalRowStyles={conditionalRowStyles}
+                  progressPending={false}
+                  CustomEmptyData={
+                    <Typography sx={{ fontSize: "0.8rem" }}>
+                      You've not added a Diagnosis yet...
+                    </Typography>
+                  }
+                />
+              </Box>
             </Box>
 
             <Box>

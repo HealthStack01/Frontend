@@ -216,7 +216,15 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+
+        // const responseData = res.data;
+        // const newdocumentDetail = responseData.client.documentDetail.map(
+        //   ({ diagnosis, ...rest }) => rest
+        // );
+
+        // responseData.client.documentDetail = newdocumentDetail;
+        console.log("====>>>>> responseData", { responseData: res.data });
         setFacilities(res.data);
         setMessage(" Clinic  fetched successfully");
         setSuccess(true);
@@ -246,6 +254,31 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       });
       const total = findClinic.total;
       const ulimit = total * page;
+
+      const responseData = findClinic.data;
+
+      const updatedResponseData = responseData.map((item) => {
+        // Create a copy of the object
+        const updatedItem = { ...item };
+
+        // Check if the "documentdetail" key exists and if it has a "diagnosis" key
+        if (
+          updatedItem.documentdetail &&
+          updatedItem.documentdetail.diagnosis
+        ) {
+          // Remove the "diagnosis" key from the "documentdetail" object
+          delete updatedItem.documentdetail.diagnosis;
+        }
+
+        return updatedItem;
+      });
+
+      console.log("====>>>>> findClinic.data updatedResponseData", {
+        updatedResponseData,
+        responseData: findClinic.data,
+        // newdocumentDetail,
+      });
+
       await setFacilities(findClinic.data);
       //console.log(findClinic.data);
       /*  } */
@@ -737,6 +770,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                           color: "#000000",
                         }}
                       >
+                        {/* heree */}
                         {Clinic.documentname} by {Clinic.createdByname} at{" "}
                         {Clinic.location},{Clinic.facilityname} -{" "}
                         <Typography
@@ -808,43 +842,49 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                         </Box>
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
-                            ([keys, value], i) => (
-                              <>
-                                <Box
-                                  sx={{ height: "auto", width: "100%" }}
-                                  key={i}
-                                >
-                                  <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                      <Box sx={{ display: "flex" }}>
-                                        <Typography
-                                          sx={{
-                                            fontSize: "0.75rem",
-                                            fontWeight: "600",
-                                            color: "#03045e",
-                                            marginRight: "5px",
-                                          }}
-                                        >
-                                          {keys}:
-                                        </Typography>
+                            ([keys, value], i) => {
+                              // if (Array.isArray(value)) {
+                              //   return null; // Skip rendering for arrays
+                              // }
 
-                                        <Typography
-                                          sx={{
-                                            fontSize: "0.75rem",
-                                            color: "#000000",
-                                          }}
-                                        >
-                                          {/* {dayjs(value).isValid()
+                              return (
+                                <>
+                                  <Box
+                                    sx={{ height: "auto", width: "100%" }}
+                                    key={i}
+                                  >
+                                    <Grid container spacing={2}>
+                                      <Grid item xs={12}>
+                                        <Box sx={{ display: "flex" }}>
+                                          <Typography
+                                            sx={{
+                                              fontSize: "0.75rem",
+                                              fontWeight: "600",
+                                              color: "#03045e",
+                                              marginRight: "5px",
+                                            }}
+                                          >
+                                            {keys}:
+                                          </Typography>
+
+                                          <Typography
+                                            sx={{
+                                              fontSize: "0.75rem",
+                                              color: "#000000",
+                                            }}
+                                          >
+                                            {/* {dayjs(value).isValid()
                                             ? dayjs(value).format("DD/MM/YYYY")
                                             : value} */}
-                                          {value}
-                                        </Typography>
-                                      </Box>
+                                            {value}
+                                          </Typography>
+                                        </Box>
+                                      </Grid>
                                     </Grid>
-                                  </Grid>
-                                </Box>
-                              </>
-                            )
+                                  </Box>
+                                </>
+                              );
+                            }
                           )
                         ) : (
                           <div className="field">
@@ -882,28 +922,33 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                               </thead>
                               <tbody>
                                 {Object.entries(Clinic.documentdetail).map(
-                                  ([keys, value], i) => (
-                                    <tr key={i}>
-                                      <td
-                                        style={{
-                                          border: "1px solid #e0e0e0",
-                                          padding: "10px",
-                                          fontSize: 14,
-                                        }}
-                                      >
-                                        {keys}
-                                      </td>
-                                      <td
-                                        style={{
-                                          border: "1px solid #e0e0e0",
-                                          padding: "10px",
-                                          fontSize: 13,
-                                        }}
-                                      >
-                                        {value}{" "}
-                                      </td>
-                                    </tr>
-                                  )
+                                  ([keys, value], i) => {
+                                    // if (Array.isArray(value)) {
+                                    //   return null; // Skip rendering for arrays
+                                    // }
+                                    return (
+                                      <tr key={i}>
+                                        <td
+                                          style={{
+                                            border: "1px solid #e0e0e0",
+                                            padding: "10px",
+                                            fontSize: 14,
+                                          }}
+                                        >
+                                          {keys}
+                                        </td>
+                                        <td
+                                          style={{
+                                            border: "1px solid #e0e0e0",
+                                            padding: "10px",
+                                            fontSize: 13,
+                                          }}
+                                        >
+                                          {value}{" "}
+                                        </td>
+                                      </tr>
+                                    );
+                                  }
                                 )}
                               </tbody>
                             </table>
