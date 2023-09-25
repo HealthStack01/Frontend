@@ -8,6 +8,7 @@ import {ObjectContext, UserContext} from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
 import {ClientSearch} from "../../../helpers/ClientSearch";
+import {FacilitySearch} from "../../../helpers/hospitalSearch";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
 import {FormsHeaderText} from "../../../../components/texts";
@@ -38,6 +39,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [clearClientSearch, setClearClientSearch] = useState(false);
+  const [clearClientSearch2, setClearClientSearch2] = useState(false);
   const [complaints, setComplaints] = useState([]);
   const [complaintModal, setComplaintModal] = useState(false);
   const [diagnosis, setDiagnosis] = useState([]);
@@ -61,6 +63,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
       preauthtype: "Fee for Service",
     },
   });
+  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";  
 
   useEffect(() => {
     setState(prev => ({
@@ -202,7 +205,18 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
     setSelectedAppointment(null);
     setAdmissionModal(false);
   };
+  const handleSelectOrg = organ =>{
+    console.log("organization chosen", organ)
+    setState(prev => ({
+      ...prev,
+      OrganizationModule: {
+        
+        selectedOrganization: organ,
+      },
+    }));
 
+  }
+ 
   return (
     <Box
       sx={{
@@ -335,13 +349,22 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={6} md={5}>
+            <Grid item lg={6} md={6} sm={6} xs={12}> 
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
               />
             </Grid>
+            { user.currentEmployee.facilityDetail.facilityType === "HMO" &&   <Grid item lg={6} md={6} sm={6} xs={12}>
+              < FacilitySearch
+                clear={clearClientSearch2}
+                getSearchfacility={handleSelectOrg}
+                /* id={client_id}
+                patient={beneficiary} */
+              />
+            </Grid>}
+
 
             <Grid item lg={3} md={3.5}>
               <CustomSelect

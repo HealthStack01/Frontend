@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useState, useEffect, useCallback, useContext } from "react";
 import { Box, Grid, Typography } from "@mui/material";
+=======
+import {useState, useEffect, useCallback, useContext, useRef} from "react";
+import {Box, Grid, Typography} from "@mui/material";
+>>>>>>> 8489cb83e8389ab7fa6789f7e9edd5b5b1a023e2
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
@@ -7,7 +12,12 @@ import client from "../../../../feathers";
 import { ObjectContext, UserContext } from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
+<<<<<<< HEAD
 import { ClientSearch } from "../../../helpers/ClientSearch";
+=======
+import {ClientSearch} from "../../../helpers/ClientSearch";
+import {FacilitySearch} from "../../../helpers/hospitalSearch";
+>>>>>>> 8489cb83e8389ab7fa6789f7e9edd5b5b1a023e2
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import { useForm } from "react-hook-form";
 import { FormsHeaderText } from "../../../../components/texts";
@@ -35,10 +45,16 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
   const claimsServer = client.service("claims");
   const clientServer = client.service("client");
   const preAuthServer = client.service("preauth");
+<<<<<<< HEAD
   const { state, setState, showActionLoader, hideActionLoader } =
+=======
+  const orgServer = client.service("organizationclient");
+  const {state, setState, showActionLoader, hideActionLoader} =
+>>>>>>> 8489cb83e8389ab7fa6789f7e9edd5b5b1a023e2
     useContext(ObjectContext);
   const { user, setUser } = useContext(UserContext);
   const [clearClientSearch, setClearClientSearch] = useState(false);
+  const [clearClientSearch2, setClearClientSearch2] = useState(false);
   const [complaints, setComplaints] = useState([]);
   const [complaintModal, setComplaintModal] = useState(false);
   const [diagnosis, setDiagnosis] = useState([]);
@@ -59,6 +75,8 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
   const [commentsInputType, setCommentsInputType] = useState("type");
   const [fetchingClients, setFetchingClients] = useState(false);
   const [clients, setClients] = useState([]);
+  const  claimIdRef=useRef()
+  const  codeRef=useRef()
 
   const { control, handleSubmit, register, reset, watch, setValue } = useForm({
     defaultValues: {
@@ -74,6 +92,7 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
   });
 
   const clientSelected = watch("selected_client");
+  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
 
   useEffect(() => {
     if (beneficiary) {
@@ -93,6 +112,56 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
         },
       }));
     }
+  }, []);
+
+  const createId =async()=>{
+    await findCode()
+
+    const today = new Date();
+
+    // Get day, month, and year components
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = today.getFullYear();
+    let plan =poliy.plan.planName
+    let HMOcode="HM004"
+    let providerCode=codeRef.current
+    let todaydate=`${day}/${month}/${year}`
+    let servicecode=generateRandomString(4)
+    let agentcode= `${user.currentEmployee.firstname.slice(2)}.${user.currentEmployee.lastname}`
+    let treatmentCode= generateRandomString(5)
+
+    if (plan=="NHIS"){
+      claimIdRef.current=`${HMOcode}/${providerCode}/${todaydate}/${servicecode}/${agentcode}/${treatmentCode}`
+    }else{
+      const privatecode=policy.plan._id.slice(-5)
+      claimIdRef.current=`${privatecode}/${todaydate}/${servicecode}/${agentcode}/${treatmentCode}`
+    }
+    
+  }
+
+  const findCode=async()=>{
+    const code= await orgServer.find({
+      query:{
+        facility:policy.organizationId,// hmo
+        organization:facility._id, //secondary org
+        relationshiptype: "managedcare",// 
+
+      }
+    })
+  codeRef.current=code.data[0].code
+  }
+
+  useEffect(() => {
+
+    
+    //find provider code
+    //get today's date
+    //get employee code
+    //get treatement code
+    //get service code
+    //get plan
+   
   }, []);
 
   const getTotalClaimsAmount = useCallback(() => {
@@ -140,6 +209,18 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
     //
   };
 
+  const handleSelectOrg = organ =>{
+    console.log("organization chosen", organ)
+    setState(prev => ({
+      ...prev,
+      OrganizationModule: {
+        
+        selectedOrganization: organ,
+      },
+    }));
+
+  }
+
   useEffect(() => {
     handleSelectClient(clientSelected);
   }, [clientSelected]);
@@ -151,11 +232,13 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
   const handleCreateClaim = async (data) => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
+  
 
     showActionLoader();
-
+    await createId()
     const employee = user.currentEmployee;
     const facility = employee.facilityDetail;
+    
 
     const clinical_data = data;
 
@@ -187,7 +270,7 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      claimid: generateRandomString(12),
+      claimid: claimIdRef.current,
       appointmentid: selectedAppointment,
       admissionid: selectedAdmission,
       geolocation: {
@@ -473,7 +556,7 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={8} md={7}>
+            <Grid item lg={6} md={6} sm={6} xs={12}>
               <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
@@ -496,6 +579,15 @@ const ClaimCreateComponent = ({ handleGoBack, client_id, beneficiary }) => {
                 })}
               /> */}
             </Grid>
+
+        { user.currentEmployee.facilityDetail.facilityType === "HMO" &&   <Grid item lg={6} md={6} sm={6} xs={12}>
+              < FacilitySearch
+                clear={clearClientSearch2}
+                getSearchfacility={handleSelectOrg}
+                /* id={client_id}
+                patient={beneficiary} */
+              />
+            </Grid>}
 
             <Grid item lg={4} md={5}>
               <CustomSelect

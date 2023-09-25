@@ -26,6 +26,7 @@ const NewBeneficiaryModule = ({corporate}) => {
   };
 
   const handleUpdateClient = update => {
+    console.log("upadate",update)
     const prevUpdate = update;
     delete update.plan;
     delete update.policy;
@@ -62,7 +63,7 @@ const NewBeneficiaryModule = ({corporate}) => {
         return clientServer.patch(update._id, {...update}).then(res => {
           console.log(res);
           hideActionLoader();
-          setPatient(prevUpdate);
+          setPatient(res);//prevUpdate
           toast.success("Beneficiary Updated Successfully.");
         });
       })

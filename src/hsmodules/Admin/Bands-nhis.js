@@ -196,6 +196,7 @@ export function BandList({ showCreateModal }) {
   const policyServ = client.service("policy");
   const InvoiceServ = client.service('corpinvoices');
   const planServ = client.service('healthplan');
+  const accServ = client.service('accpersons');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -221,6 +222,15 @@ export function BandList({ showCreateModal }) {
   const [plan, setPlan] = useState();
   const [currFacility, setCurrFacility] = useState()
   const provRef=useRef()
+  const pdfContentRef=useRef()
+  const hlistRef=useRef()
+  const plistRef= useRef()
+  const [pdfContent, setPdfContent] = useState([]);
+  const [hList, setHList] = useState([]);
+  const [pList, setPList] = useState([]);
+  const clientCountRef=useRef()
+  const policyCountRef=useRef()
+  
   
 
   const handleCreateNew = async () => {
@@ -745,247 +755,579 @@ let n=0
     /*  let pageText={}
      pageText.items=[] */
      const providerMatches = [];
+     
+     const contentArray = [];
+     // for (let pageNumber = +start ; pageNumber <= +end; pageNumber++) {
 
-      for (let pageNumber = +start ; pageNumber <= +end; pageNumber++) {
+     let pages=[8877]
+
+     //for (let pageNumber = +start ; pageNumber <= +end; pageNumber++) {
+       for (let q = 0 ; q <= pages.length-1; q++) {
+       let pageNumber=pages[q]
         let pageExtractedText=[]
        
         const page = await pdf.getPage(pageNumber);
         
          const pageText = await page.getTextContent();
-         console.log("starting new page")
+
+         let data ={
+          page:pageNumber,
+          content:pageText
+         }
+
+         contentArray.push(data)
+        /*  console.log("starting new page")
          console.log(pageNumber,pageText)
-         const currentHosp={};
+         const currentHosp={}; */
         //pageText.items= [...pageText.items, ...apageText.items]
 
        // console.log ("allpages",pageText.items)
       
         //loop through 
-         pageText.items.forEach(async(item,i) =>{
-        
-          //escape if str is irrelevant
-          if (item.str==="Issued by NHIS"||item.str==="HEALTHCARE INTERNATIONAL LIMITED"||item.str===''||item.str===" "||item.str==="8/1/2023"
-          ||item.str==="page"){
-            //console.log("dummies")
-            return
+       
+      
+    /*   console.log("end of page", pageNumber)
+      console.log("something",contentArray) */
+     
+      //provRef.current={}
+   
+    }
+   // console.log("end of document",pdfContent)
+     setPdfContent(contentArray)
+
+    // hlistRef.current=contentArray
+    extractFacilities(contentArray)
+    
+   // toast.success("Content Upload complete")
+   
+    } catch (error) {
+      console.error('Error extracting text:', error);
+    }
+
+   
+  };
+
+  const extractFacilities =(pdfContentx)=>{
+   console.log("inside", pdfContentx)
+    let facil=pdfContentx
+
+    let hosplist=[]
+    let patList=[]
+    let providerInfo={}
+    let sheet={}
+    const pattern = /^[A-Z]{2,3}\/\d{4}\/[A-Z]$/; //facilitycode
+    const pattern2= /^\d{4,8}$/; //policyNo
+
+    //facil.forEach((sheet,p)=>{
+      for (let p = 0 ; p <= facil.length-1; p++) {
+     sheet=facil[p]
+     // sheet.content.items.forEach((item,i)=>{
+      let items=sheet.content.items
+        let item={}
+        for (let i = 0 ; i <= items.length-1; i++) {
+          item=items[i]
+
+
+       
+         if ((pattern.test(item.str)) && (i===4)) { 
+       /*  if (i==4){
+
+        item.str="NW/0148/P" */
+
+           providerInfo={
+            code:item.str,
+            name: `${sheet.content.items[i+2].str} ${sheet.content.items[i+3].str}-${item.str}`,
+            address:`${sheet.content.items[i+4].str} ${sheet.content.items[i+5].str}`,
+            pagenumber:sheet.page,
+            index:i,
+            patients:[]
           }
-          let x=i-2
-          if (x>0){
+         // console.log("providerinfo"+i +" "+item.str, providerInfo)
+          providerInfo.totalP= providerInfo.patients.length
+          hosplist.push(providerInfo)
+          setHList(providerInfo)
+        // console.log("hosp: "+p, hosplist)
+        }
 
-           if (  pageText.items[x].str==="page"){
-           // console.log("dummies")
-            return
-           }
+        if (pattern2.test(item.str)) {
+         //   console.log("firstpass" +i, item.str)
+          let currentPolicy={
+            principal:{},
+            dependents:[],
+            number:item.str,
+            family:`${sheet.content.items[i-1].str}`,
+            page:sheet.page,
+           // provider:providerInfo
+
           }
-          //find hospital fro top of page
-          
-          const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/;
-          if (pattern.test(item.str)) {
-            let man=[]
-         
-            console.log("Provider Match found! " + item.str );
-            if(i===4){
-           
-             // if(currentHosp.id!==item.str){
-                //check that facility does not exist in db
-                console.log("this is a different code")
+         // console.log("policy@firstpass", currentPolicy)
+          let  nchild=1
+          for (let n = i+1; n < sheet.content.items.length-1; n++) {
+            let stuff=sheet.content.items[n].str
+           if (stuff.includes("CHILD")) {
+             // console.log("child found") EXTRA 
+              stuff="Child"
+            }
+               if (stuff.includes("EXTRA")) {
+             // console.log("child found")  
+              stuff="Extra"
+            }
+            if (pattern2.test(stuff)){
+             // console.log("new family",n)
+              providerInfo.patients.push(currentPolicy)
+              patList.push(currentPolicy)
+              break
+            }
+            
+            switch(stuff){
+              case 'PRINCIPAL':
+             //   console.log("principal",n)
+                let principal={
+                  firstname:`${sheet.content.items[n+7].str}`,
+                  lastname:`${sheet.content.items[n+2].str}`,
+                  gender:`${sheet.content.items[n+5].str}`,
+                  dob:`${sheet.content.items[n+6].str}`,
+                  code:`${sheet.content.items[n+4].str}`,
+                  policyNo:`${item.str}-0`
 
-                currentHosp.id=item.str
-                currentHosp.name= `${pageText.items[i+2].str} ${pageText.items[i+3].str}`
-                currentHosp.address= `${pageText.items[i+4].str} ${pageText.items[i+5].str}`
-
-                const providerInfo={
-                  id:item.str,
-                  name: `${pageText.items[i+2].str} ${pageText.items[i+3].str}`,
-                  address:`${pageText.items[i+4].str} ${pageText.items[i+5].str}`,
-                  pagenumber:pageNumber,
-                  index:i
                 }
-             //   console.log("providerinfo", providerInfo)
+                currentPolicy.principal=principal
+                if ((n+16)>=sheet.content.items.length-1){
+                  providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                }
+                // code block
+                break
+              case 'SPOUSE':
                
-                
+                let spouse={
+                  firstname:`${sheet.content.items[n+7].str}`,
+                  lastname:`${sheet.content.items[n+2].str}`,
+                  gender:`${sheet.content.items[n+5].str}`,
+                  dob:`${sheet.content.items[n+6].str}`,
+                  code:`${sheet.content.items[n+4].str}`,
+                  relationship:"Spouse",
+                  policyNo:`${item.str}-1`
 
-                   if (provRef.current && provRef.current.code){
-                            if( provRef.current.code===providerInfo.id){
-                              
-                              console.log("Same provider already")
-                          }else{
-                             console.log("Provider was created different from current")
-                          await  createfacility(providerInfo)
-                           
-                          }
-                        }else {
-                            await createfacility(providerInfo)
-                            console.log("Provider was created")
-                          }
+                }
+               // console.log("spouse",n)
+                currentPolicy.dependents.push(spouse)
+                if ((n+16)>=sheet.content.items.length-1){
+                  providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                }
+                // code block
+                break;
+              case 'Child':
+                 // console.log("child",n)
+                 nchild++
+                  let child={
+                    firstname:`${sheet.content.items[n+7].str}`,
+                    lastname:`${sheet.content.items[n+2].str}`,
+                    gender:`${sheet.content.items[n+5].str}`,
+                    dob:`${sheet.content.items[n+6].str}`,
+                    code:`${sheet.content.items[n+4].str}`,
+                    relationship:"Child",
+                    policyNo:`${item.str}-${nchild}`
 
-                console.log(provRef.current)
-                man.push(provRef.current)
-                providerInfo.providers=man 
-                providerMatches.push(providerInfo);
-               
-             //   console.log("providers list 2 ", providerMatches)
-               
-                /*  console.log("check " + item.str,)
-                 console.log("current",currentHosp)
-                 setCurrFacility(providerInfo) */
-            }
-                
-              }else{
-
-                
-          //find policy number
-          const pattern2= /^\d{7,8}$/
-          if (pattern2.test(item.str)) {
-            npol++
-           // let provider=currentHosp
-            console.log(npol+" Policy Number Match found! " + item.str);
-            console.log("providers list ", providerMatches)
-            //creating policy
-           // console.log("position",i)
-            let currentPolicy={
-              
-              principal:{},
-              dependents:[]
-            }
-             
-                currentPolicy.number=item.str
-                currentPolicy.family=`${pageText.items[i-1].str}`
-              //  currentPolicy.facility=currHosp
-              //  console.log("currentpolicy1",currentPolicy)
-                //add benefiiaries
-               let  nchild=1
-                for (let n = i+1; n < pageText.items.length-1; n++) {
-                  let stuff=pageText.items[n].str
-                 if (stuff.includes("CHILD")) {
-                   // console.log("child found")
-                    stuff="Child"
-                  }
-                  if (pattern2.test(stuff)){
-                    console.log("new family",n)
-                    let x=pageNumber-1
-                    currentPolicy.facility=providerMatches[x]
-                   policyarray.push(currentPolicy)
-                  createpolicy(currentPolicy)
-                    break
                   }
                   
-                  switch(stuff){
-                    case 'PRINCIPAL':
-                   //   console.log("principal",n)
-                      let principal={
-                        firstname:`${pageText.items[n+7].str}`,
+                  currentPolicy.dependents.push(child)
+                  if ((n+16)>=sheet.content.items.length-1){
+                    //console.log("end of items  on page")
+                    providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                  }
+                  // code block
+                  break;
+                  case 'EXTRA':
+                 // console.log("child",n)
+                 nchild++
+                  let extra={
+                    firstname:`${sheet.content.items[n+7].str}`,
+                    lastname:`${sheet.content.items[n+2].str}`,
+                    gender:`${sheet.content.items[n+5].str}`,
+                    dob:`${sheet.content.items[n+6].str}`,
+                    code:`${sheet.content.items[n+4].str}`,
+                    relationship:"Extra Dependant",
+                    policyNo:`${item.str}-${nchild}`
+
+                  }
+                  
+                  currentPolicy.dependents.push(extra)
+                  if ((n+16)>=sheet.content.items.length-1){
+                    //console.log("end of items  on page")
+                    providerInfo.patients.push(currentPolicy)
+                  patList.push(currentPolicy)
+                  break
+                  }
+                  // code block
+                  break;
+              case 'GIFSHIP':
+                    //console.log("GIFSHIP",n)
+                    let gimfis={
+                      firstname:`${sheet.content.items[n+6].str}`,
+                      lastname:`${sheet.content.items[n+2].str}`,
+                      gender:`${sheet.content.items[n+4].str}`,
+                      dob:`${sheet.content.items[n+5].str}`,
+                      code:"GIFSHIP",
+                      gifship:true,
+                      policyNo:`${item.str}-0`
+
+                    }
+
+                    currentPolicy.principal=gimfis
+                    if ((n+16)>=sheet.content.items.length-1){
+                      providerInfo.patients.push(currentPolicy)
+                     /*  let patinfo=currentPolicy
+                      patinfo.provider=providerInfo */
+                      patList.push(currentPolicy)
+                      break
+                    }
+                    // code block
+                    break
+            }
+            setPList(patList)
+            plistRef.current=patList
+        }
+
+
+        }
+        
+
+      }
+
+    }
+    console.log("hosp list",hosplist)
+    console.log("patient list",patList)
+//merge facilities
+
+
+
+    check(hosplist)  
+
+
+  }
+
+const check=async(hospList2)=>{
+
+ let facilityinfo={}
+  //hospList2.forEach(async(facilityinfo,i)=>{
+    for (let i = 0 ; i <= hospList2.length-1; i++) {
+ //check provider
+      facilityinfo=hospList2[i]
+
+    /*   if (facilityinfo.name.includes("COTTAGE HOSPITAL/COMPREHENSI")){
+        console.log(facilityinfo)
+      } */
+
+  await createfacility(facilityinfo)
+
+    
+   /*  const facility = await orgServ.find({
+      query:{
+        code:facilityinfo.code,
+        facility: user.currentEmployee.facilityDetail._id,
+        relationshiptype: "managedcare"
+      }
+     }) 
+     
+  if (facility.total>0){
+     let provider=facility.data[0].organizationDetail
+     // console.log("Provider found in db", provider)
+     hospList2[i].providerdetials=provider
+     
+    }else{
+      console.log("creating new provider for :" +facilityinfo.code,facilityinfo.name)
+      hospList2[i].providerdetials={}    
+    } */
+//const pattern = /^.(\\|.{2}\\)/;
+ //check name
+   /*  facilityinfo.patients.forEach((patient,p)=>{
+      try{
+
+  
+      if(typeof patient.principal.firstname !== "string"||patient.principal.firstname==" "){
+       // console.log("principal firstname is not a string ", patient.number)
+        hospList2[i].patients[p].principal.firstname=patient.family
+      }
+      if(typeof patient.principal.lastname !== "string"||patient.principal.lastname==" "){
+      ////  console.log("principal lastname is not a string ", patient.number)
+        hospList2[i].patients[p].principal.lastname=patient.family
+      }
+      if (patient.principal.dob=="OYIO"){
+        console.log(facilityinfo)
+      }
+      if( !patient.principal.dob||!(patient.principal.dob.includes('/')) ){
+      ////  console.log("principal lastname is not a string ", patient.number)
+        hospList2[i].patients[p].principal.dob="01/01/1960"
+      }
+
+     if (patient.dependents.lenght>0){
+      patient.dependents.forEach((dept,d)=>{
+        if(typeof dept.firstname !== "string"){
+        //  console.log("dept firstname is not a string: "+ d, patient.number)
+          hospList2[i].patients[p].dependents[d].firstname=patient.family
+        }
+        if(typeof dept.lastname !== "string"){
+        //  console.log("dept lastname is not a string: " + d, patient.number)
+          hospList2[i].patients[p].dependents[d].lastname=patient.family
+        }
+         if(!dept.dob|| !(dept.dob.includes('/')) ){
+      ////  console.log("principal lastname is not a string ", patient.number)
+        hospList2[i].patients[p].dependents[d].dob="01/01/1960"
+      }
+      if (dept.dob=="OYIO"){
+        console.log(facilityinfo)
+      }
+
+      })
+     }
+    }catch (error) {
+      console.error('Error extracting text:'+ error, patient);
+    }
+
+
+
+    }) */
+
+
+
+
+
+
+
+  }
+
+  console.log("checked" ,hospList2)
+ // createpolicy(hospList2) 
+
+ 
+}
+
+
+  const analyse=async(pageText)=>{
+    
+    pageText.items.forEach(async(item,i) =>{
+        
+      //escape if str is irrelevant
+      if (item.str==="Issued by NHIS"||item.str==="HEALTHCARE INTERNATIONAL LIMITED"||item.str===''||item.str===" "||item.str==="8/1/2023"
+      ||item.str==="page"){
+        //console.log("dummies")
+        return
+      }
+      let x=i-2
+      if (x>0){
+
+       if (  pageText.items[x].str==="page"){
+       // console.log("dummies")
+        return
+       }
+      }
+      //find hospital fro top of page
+      
+      const pattern = /^[A-Z]{2}\/\d{4}\/[A-Z]$/;
+      if (pattern.test(item.str)) {
+        let man=[]
+     
+        console.log("Provider Match found! " + item.str );
+        if(i===4){
+       
+         // if(currentHosp.id!==item.str){
+            //check that facility does not exist in db
+            console.log("this is a different code")
+
+            currentHosp.id=item.str
+            currentHosp.name= `${pageText.items[i+2].str} ${pageText.items[i+3].str}`
+            currentHosp.address= `${pageText.items[i+4].str} ${pageText.items[i+5].str}`
+
+            const providerInfo={
+              id:item.str,
+              name: `${pageText.items[i+2].str} ${pageText.items[i+3].str}`,
+              address:`${pageText.items[i+4].str} ${pageText.items[i+5].str}`,
+              pagenumber:pageNumber,
+              index:i
+            }
+         //   console.log("providerinfo", providerInfo)
+           
+            
+
+               if (provRef.current && provRef.current.code){
+                        if( provRef.current.code===providerInfo.id){
+                          
+                          console.log("Same provider already")
+                      }else{
+                         console.log("Provider was created different from current")
+                      await  createfacility(providerInfo)
+                       
+                      }
+                    }else {
+                        await createfacility(providerInfo)
+                        console.log("Provider was created")
+                      }
+
+            console.log(provRef.current)
+            man.push(provRef.current)
+            providerInfo.providers=man 
+            providerMatches.push(providerInfo);
+           
+         //   console.log("providers list 2 ", providerMatches)
+           
+            /*  console.log("check " + item.str,)
+             console.log("current",currentHosp)
+             setCurrFacility(providerInfo) */
+        }
+            
+          }else{
+
+            
+      //find policy number
+      const pattern2= /^\d{7,8}$/
+      if (pattern2.test(item.str)) {
+        npol++
+       // let provider=currentHosp
+        console.log(npol+" Policy Number Match found! " + item.str);
+        console.log("providers list ", providerMatches)
+        //creating policy
+       // console.log("position",i)
+        let currentPolicy={
+          
+          principal:{},
+          dependents:[]
+        }
+         
+            currentPolicy.number=item.str
+            currentPolicy.family=`${pageText.items[i-1].str}`
+          //  currentPolicy.facility=currHosp
+          //  console.log("currentpolicy1",currentPolicy)
+            //add benefiiaries
+           let  nchild=1
+            for (let n = i+1; n < pageText.items.length-1; n++) {
+              let stuff=pageText.items[n].str
+             if (stuff.includes("CHILD")) {
+               // console.log("child found")
+                stuff="Child"
+              }
+              if (pattern2.test(stuff)){
+                console.log("new family",n)
+                let x=pageNumber-1
+                currentPolicy.facility=providerMatches[x]
+               policyarray.push(currentPolicy)
+              createpolicy(currentPolicy)
+                break
+              }
+              
+              switch(stuff){
+                case 'PRINCIPAL':
+               //   console.log("principal",n)
+                  let principal={
+                    firstname:`${pageText.items[n+7].str}`,
+                    lastname:`${pageText.items[n+2].str}`,
+                    gender:`${pageText.items[n+5].str}`,
+                    dob:`${pageText.items[n+6].str}`,
+                    code:`${pageText.items[n+4].str}`,
+                    policyNo:`${item.str}-0`
+
+                  }
+                  currentPolicy.principal=principal
+                  if ((n+16)>=pageText.items.length-1){
+                   // console.log("end of items  on page")
+                   let x=pageNumber-1
+                   currentPolicy.facility=providerMatches[x]
+                    policyarray.push(currentPolicy)
+                    createpolicy(currentPolicy)
+                  //  console.log("z="+ (n+16))
+                    // create policy
+                  }
+                  // code block
+                  break
+                case 'SPOUSE':
+                 
+                  let spouse={
+                    firstname:`${pageText.items[n+7].str}`,
+                    lastname:`${pageText.items[n+2].str}`,
+                    gender:`${pageText.items[n+5].str}`,
+                    dob:`${pageText.items[n+6].str}`,
+                    code:`${pageText.items[n+4].str}`,
+                    relationship:"Spouse",
+                    policyNo:`${item.str}-1`
+
+                  }
+                 // console.log("spouse",n)
+                  currentPolicy.dependents.push(spouse)
+                  if ((n+16)>=pageText.items.length-1){
+                  //  console.log("end of items  on page")
+                    let x=pageNumber-1
+                    currentPolicy.facility=providerMatches[x]
+                    policyarray.push(currentPolicy)
+                  createpolicy(currentPolicy)
+                    //console.log("z="+ (n+16))
+                  }
+                  // code block
+                  break;
+                case 'Child':
+                   // console.log("child",n)
+                   nchild++
+                    let child={
+                      firstname:`${pageText.items[n+7].str}`,
+                      lastname:`${pageText.items[n+2].str}`,
+                      gender:`${pageText.items[n+5].str}`,
+                      dob:`${pageText.items[n+6].str}`,
+                      code:`${pageText.items[n+4].str}`,
+                      relationship:"Child",
+                      policyNo:`${item.str}-${nchild}`
+
+                    }
+                    
+                    currentPolicy.dependents.push(child)
+                    if ((n+16)>=pageText.items.length-1){
+                     // console.log("end of items  on page")
+                      let x=pageNumber-1
+                      currentPolicy.facility=providerMatches[x]
+                      policyarray.push(currentPolicy)
+                      createpolicy(currentPolicy)
+                     // console.log("z="+ (n+16))
+                    }
+                    // code block
+                    break;
+                case 'GIFSHIP':
+                      console.log("GIFSHIP",n)
+                      let gimfis={
+                        firstname:`${pageText.items[n+6].str}`,
                         lastname:`${pageText.items[n+2].str}`,
-                        gender:`${pageText.items[n+5].str}`,
-                        dob:`${pageText.items[n+6].str}`,
-                        code:`${pageText.items[n+4].str}`,
+                        gender:`${pageText.items[n+4].str}`,
+                        dob:`${pageText.items[n+5].str}`,
+                        code:"GIFSHIP",
+                        gifship:true,
                         policyNo:`${item.str}-0`
 
                       }
-                      currentPolicy.principal=principal
+
+                      currentPolicy.principal=gimfis
                       if ((n+16)>=pageText.items.length-1){
                        // console.log("end of items  on page")
-                       let x=pageNumber-1
-                       currentPolicy.facility=providerMatches[x]
+                        let x=pageNumber-1
+                        currentPolicy.facility=providerMatches[x]
                         policyarray.push(currentPolicy)
-                        createpolicy(currentPolicy)
-                      //  console.log("z="+ (n+16))
+                       createpolicy(currentPolicy)
+                       // console.log("z="+ (n+16))
                         // create policy
                       }
                       // code block
                       break
-                    case 'SPOUSE':
-                     
-                      let spouse={
-                        firstname:`${pageText.items[n+7].str}`,
-                        lastname:`${pageText.items[n+2].str}`,
-                        gender:`${pageText.items[n+5].str}`,
-                        dob:`${pageText.items[n+6].str}`,
-                        code:`${pageText.items[n+4].str}`,
-                        relationship:"Spouse",
-                        policyNo:`${item.str}-1`
-
-                      }
-                     // console.log("spouse",n)
-                      currentPolicy.dependents.push(spouse)
-                      if ((n+16)>=pageText.items.length-1){
-                        console.log("end of items  on page")
-                        let x=pageNumber-1
-                        currentPolicy.facility=providerMatches[x]
-                        policyarray.push(currentPolicy)
-                      createpolicy(currentPolicy)
-                        //console.log("z="+ (n+16))
-                      }
-                      // code block
-                      break;
-                    case 'Child':
-                       // console.log("child",n)
-                       nchild++
-                        let child={
-                          firstname:`${pageText.items[n+7].str}`,
-                          lastname:`${pageText.items[n+2].str}`,
-                          gender:`${pageText.items[n+5].str}`,
-                          dob:`${pageText.items[n+6].str}`,
-                          code:`${pageText.items[n+4].str}`,
-                          relationship:"Child",
-                          policyNo:`${item.str}-${nchild}`
-  
-                        }
-                        
-                        currentPolicy.dependents.push(child)
-                        if ((n+16)>=pageText.items.length-1){
-                          console.log("end of items  on page")
-                          let x=pageNumber-1
-                          currentPolicy.facility=providerMatches[x]
-                          policyarray.push(currentPolicy)
-                          createpolicy(currentPolicy)
-                         // console.log("z="+ (n+16))
-                        }
-                        // code block
-                        break;
-                    case 'GIFSHIP':
-                          console.log("GIFSHIP",n)
-                          let gimfis={
-                            firstname:`${pageText.items[n+6].str}`,
-                            lastname:`${pageText.items[n+2].str}`,
-                            gender:`${pageText.items[n+4].str}`,
-                            dob:`${pageText.items[n+5].str}`,
-                            code:"GIFSHIP",
-                            gifship:true,
-                            policyNo:`${item.str}-0`
-    
-                          }
-
-                          currentPolicy.principal=gimfis
-                          if ((n+16)>=pageText.items.length-1){
-                            console.log("end of items  on page")
-                            let x=pageNumber-1
-                            currentPolicy.facility=providerMatches[x]
-                            policyarray.push(currentPolicy)
-                           createpolicy(currentPolicy)
-                           // console.log("z="+ (n+16))
-                            // create policy
-                          }
-                          // code block
-                          break
-                  }
               }
-           //  console.log("policyarray", policyarray)
-             // currentPolicy.providers.push(currentPolicy)
-            // console.log("policy", currentPolicy)
           }
-        }
-        });
-    
-      
-      console.log("end of page", pageNumber)
-      //provRef.current={}
-   
+       //  console.log("policyarray", policyarray)
+         // currentPolicy.providers.push(currentPolicy)
+        // console.log("policy", currentPolicy)
+      }
     }
-    console.log("end of document")
-    } catch (error) {
-      console.error('Error extracting text:', error);
-    }
-  };
+    });
+
+  }
 
   const findstuff =async()=>{
     const healthplan=await planServ.get('6425c3255694e80014037e74')
@@ -999,12 +1341,12 @@ let n=0
   }
 
   const createfacility=async(facilityinfo)=>{
-  console.log("facility info", facilityinfo)
+  //console.log("facility info", facilityinfo)
     
     
              const facility = await orgServ.find({
                   query:{
-                    code:facilityinfo.id,
+                    code:facilityinfo.code,
                     facility: user.currentEmployee.facilityDetail._id,
                     relationshiptype: "managedcare"
                   }
@@ -1013,11 +1355,11 @@ let n=0
               if (facility.total>0){
                  let provider=facility.data[0].organizationDetail
                   console.log("Provider found in db", provider)
-                  provider.code=facilityinfo.id
-                  provRef.current=provider
+                  /* provider.code=facilityinfo.code
+                  provRef.current=provider */
                 }else{
-                  console.log("creating new provider for :" +facilityinfo.id,facilityinfo.name)
-                
+                 // console.log("creating new provider for :" +facilityinfo.code,facilityinfo.name)
+                const rd=Math.floor(Math.random() * (100 - 10 + 1)) + 10;
                
                 //create new facility
                // set new facility as current provider
@@ -1048,7 +1390,7 @@ let n=0
               
                 facilityContactPhone:"08077777777",
               
-                facilityEmail:`admin@${ab2}.nhis`,
+                facilityEmail:`admin${rd}@${ab2}.nhis`,
                 facilityModules: [
                   "Admin",
                   "Client",
@@ -1076,7 +1418,7 @@ let n=0
                 firstname:"Admin",
                 lastname:"Admin",
                 phone: "08077777777",
-                email: `admin@${ab2}.nhis`,
+                email: `admin${rd}@${ab2}.nhis`,
 
                 profession: "Admin",
                 position: "Admin",
@@ -1095,39 +1437,44 @@ let n=0
               employeeData:admindata
               }
 
+              console.log(facilityDocument)
+
+            
           await  facilityServ.create(facilityDocument)
           .then(async(resp)=>{
           //create relationship
           let holder=resp
           console.log("facility created #",resp)
           //provider=resp
-          resp.code=facilityinfo.id
-          provRef.current=resp
+          /* resp.code=facilityinfo.code
+          provRef.current=resp */
           let obj = {
             facility: user.currentEmployee.facilityDetail._id,
             organization: resp._id,
             relationshiptype: "managedcare",
             status: "Approved",
-            code:facilityinfo.id,
+            code:facilityinfo.code,
             band:"NHIA"
             
           };
           await orgServ
                     .create(obj)
                     .then((res) => {
-                      console.log("res", res);
-                    console.log("Organization added succesfully"); 
+                     /*  console.log("res", res);*/
+                    console.log("Organization added succesfully");  
                     })
                     .catch((err) => {
-                      console.log("Error adding organization " + err);
+                      console.log("Error adding organization " + err,obj);
                     });
                   })
                   .catch((err)=>{
-                    console.log("facility not created :" + err)
+                    console.log("facility rellationship not created :" + err,facilityDocument )
                   })
             }
          
-          }
+          };
+
+
   const createsponsor= async()=>{
 
  
@@ -1205,7 +1552,7 @@ let n=0
          console.log("Organization added succesfully"); 
         })
         .catch((err) => {
-          console.log("Error adding organization " + err);
+          console.log("Error adding organization " + err, obj);
         });
       })
       .catch((err)=>{
@@ -1213,34 +1560,40 @@ let n=0
       })
     }
 
-    const createpolicy=async(policy)=>{
-     
-      console.log("policy",policy)
-      const xpol = await policyServ.find({
-        query:{
-          policyNo:policy.number
 
+    const createpolicy=async(provList)=>{
+          let policy={}
+          let provider={}
+          let newpol=0
+          let newclient=0
+        let  facilityinfo
+      for (let i = 0; i <= provList.length-1; i++) {
+
+        facilityinfo=provList[i]
+
+        const facility = await orgServ.find({
+          query:{
+            code:facilityinfo.code,
+            facility: user.currentEmployee.facilityDetail._id,
+            relationshiptype: "managedcare"
+          }
+         }) 
+         
+      if (facility.total>0){
+          provider=facility.data[0].organizationDetail
+         // console.log("Provider found in db", provider)
+          /* provider.code=facilityinfo.code
+          provRef.current=provider */
+        }else{
+          console.log("facility not yet created ",facilityinfo)
+          provider={}
         }
-       }) 
-       
-    if (xpol.total>0){
-      return
-      }else{
+     
+    for (let p = 0; p <= facilityinfo.patients.length-1; p++) {
+      policy=facilityinfo.patients[p]
+      //console.log("policy",policy)''
 
-      
-     /*  if (provRef.current && provRef.current.code){
-        if( provRef.current.code===policy.facility.id){
-           
-          console.log("Same provider already")
-      }else{
-      await  createfacility(policy.facility)
-         console.log("Provider was created")
-      }
-    }else {
-        await createfacility(policy.facility)
-         console.log("Provider was created")
-      }
- */
+     
       policy.principal.type="Principal"
       policy.dependents.forEach(el=>{
         el.type="dependent"
@@ -1267,6 +1620,7 @@ let n=0
             dob="01/01/1960"
           }
           
+          const rd=Math.floor(Math.random() * (100 - 10 + 1)) + 10;
         // console.log(dob)
             let client={
               firstname: faci.firstname, 
@@ -1277,7 +1631,7 @@ let n=0
               maritalstatus: "",
               religion: "",
               phone:"08000000000",
-              email: `${faci.lastname}.${faci.lastname}@nhia-enrollee.ng`, //unique: true
+              email: `${faci.firstname}.${faci.lastname}${rd}@nhia-enrollee.ng`, //unique: true
               bloodgroup: "",
               genotype:"",
               clientTags:"nhia beneficiary",
@@ -1287,12 +1641,14 @@ let n=0
       
              await  ClientServ.create(client)
              .then(async(resp)=>{
+              newclient++
+              clientCountRef.current=newclient
               resp.policyNo=benfi.policyNo
               if (benfi.type== "Principal"){
                 resp.type="Principal"
                 principal=resp
                
-                genNo=policy.policyNo
+                genNo=policy.number
               }else{
                 resp.type="Dependent"
                 
@@ -1301,7 +1657,7 @@ let n=0
              
              // create policy 
              
-               console.log("policy created")
+             //  console.log("policy created")
 
              })
              .catch((err) => {
@@ -1317,7 +1673,7 @@ let n=0
           } */
           
 
-              provi.push( provRef.current) 
+              provi.push( provider) 
  //create policy
                   let policydata = {
                     policyNo: policy.number,
@@ -1358,34 +1714,50 @@ let n=0
                   ]
                   }
                  
+                   
+             
+            
                   await policyServ
                     .create(policydata)
                     .then((res) => {
-                    console.log("policy created succesfully",res);
+                      newpol++
+                      policyCountRef.current=newpol
+                    //console.log("policy created succesfully",res);
                     //console.log("policy #"+n,policy)
                     })
                     .catch((err) => {
-                      console.log("Error creating policy " + err);
+                      console.log("Error creating policy " + err,policydata );
                     });
 
-        
+                  
     }
   }
+  console.log("finished  creating policies")
+}
+ const addNHIS =async()=>{
+//find all nhis hospitals
+const find=await accServ.find()
+// patch nhisband with the data
+console.log("stuff", find)
+
+ }
+
+
 
   return (
     <>
       <Box sx={{ gap:2}}>
-      <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
-      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
-    {/*  <GlobalCustomButton onClick={findstuff}>
-         create sponsor
+      {/* <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
+      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } /> */}
+      <GlobalCustomButton onClick={addNHIS}>
+         Add to NHIS band
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton>  */}
+        </GlobalCustomButton>  
       </Box> 
       <div className="text-extraction">
-      <h2>PDF Text Extraction</h2>
+     {/*  <h2>PDF Text Extraction</h2>
       <input type="file" accept=".pdf" onChange={handleFileUpload} />
-      <button onClick={extractTextFromPDF}>Extract Text</button>
+      <button onClick={extractTextFromPDF}>Extract Text</button> */}
       <div className="extracted-text">
         <h3>Extracted Text:</h3>
         <Box sx={{
@@ -1411,7 +1783,8 @@ let n=0
           </Box>
       </div>
     </div>
-      {/* {facilities ? (
+    
+       {pdfContent.length>0 ? (
         <>
           <ModalBox open={open} onClose={handleCloseModal}>
             <BandView
@@ -1423,7 +1796,7 @@ let n=0
           <PageWrapper
             style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
-            <TableMenu>
+            {/* <TableMenu>
               <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
@@ -1444,7 +1817,7 @@ let n=0
                   Add New
                 </GlobalCustomButton>
               )}
-            </TableMenu>
+            </TableMenu> */}
 
             <div
               style={{
@@ -1461,7 +1834,14 @@ let n=0
                   overflowY: "auto",
                 }}
               >
-                <CustomTable
+                {/* <div>
+                  <h2>Policy Count</h2>: {policyCountRef.current}
+                </div>
+
+                <div>
+                  <h2>Client Count</h2>: {clientCountRef.current}
+                </div> */}
+                {/* <CustomTable
                   title={""}
                   columns={BandSchema}
                   data={facilities}
@@ -1470,14 +1850,24 @@ let n=0
                   striped
                   onRowClicked={handleRowClicked}
                   progressPending={loading}
-                />
+                /> */}
+                {/*
+                  pdfContent.map((pageContent, index)=>(
+                    <div key={index}>
+                      <p>Page {index + 1} Content:</p>
+                      <p> {pageContent.page}</p>
+                      <pre>{pageContent.content?.items?.str}</pre>
+                    </div>
+                  ))
+                  */}
+
               </Box>
             </div>
           </PageWrapper>
         </>
       ) : (
-        <div>loading</div>
-      )} */}
+        <div>loading content</div>
+      )} 
     </>
   );
 }

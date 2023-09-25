@@ -62,7 +62,7 @@ export const modulesList = [
       },
     ],
   },
- 
+
   {
     value: "Clinic",
     label: "Clinic",
@@ -324,6 +324,25 @@ export const modulesList = [
       {
         value: "Theatre Bill Order Sent",
         label: "Bill Order Sent",
+      },
+    ],
+  },
+
+  {
+    value: "Provider Payment",
+    label: "Provider Payment",
+    children: [
+      {
+        value: "Provider Payment Queued",
+        label: "Queued",
+      },
+      {
+        value: "Provider Payment Instructions",
+        label: "Instructions",
+      },
+      {
+        value: "Provider Payment Paid",
+        label: "Paid",
       },
     ],
   },

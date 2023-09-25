@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import {lazy} from "react";
 //import {PreAuth} from "../ManagedCare/NewPreAuth";
 
 //const Policy = lazy(() => import("../ManagedCare/Policy"));
@@ -37,7 +37,9 @@ const Invoice = lazy(() => import("../ManagedCare/Invoice"));
 const OrganizationClient = lazy(() =>
   import("../ManagedCare/OrganizationClient")
 );
-const ProviderPayment = lazy(() => import("../ManagedCare/ProviderPayment"));
+const ProviderPayment = lazy(() =>
+  import("../ManagedCare/provider-payment/ProviderPayment")
+);
 
 const ComplaintDetails = lazy(() => import("../ManagedCare/ComplaintDetails"));
 const CheckIn = lazy(() => import("../ManagedCare/Checkin"));
@@ -86,6 +88,10 @@ export const managedCareRoutes = [
   {
     path: "/app/managed-care/dashboard",
     Component: ManagedCareFrontDashboard,
+  },
+  {
+    path: "/app/managed-care/provider-payment",
+    Component: ProviderPayment,
   },
   {
     path: "/app/managed-care/HIA",

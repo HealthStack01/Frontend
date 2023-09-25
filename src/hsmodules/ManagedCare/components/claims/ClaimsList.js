@@ -38,12 +38,16 @@ const ClaimsListComponent = ({
   const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [hold, setHold] = useState([]);
+  const [isHMO,setIsHMO] = useState(false);
+  const [facilities, setFacilities] = useState([]);`  `
   const [chosen, setChosen] = useState([]);
   const [selectedFacility, setSelectedFacility] = useState();
+  const [selectAll, setSelectAll] = useState(false);
   const [claimType, setClaimType] = useState("New Claims");
   const [providerGroup, setProviderGroup] = useState([]);
   const provider=useRef(false)
   const [assignModal, setAssignModal] = useState(false);
+  const selectRef=useRef(false)
 
   const handleCreateNew = async () => {
     showCreate();
@@ -75,22 +79,35 @@ const ClaimsListComponent = ({
   };
 
   const handleChoseClient=(e,row)=>{
+    let apmis=state.selectedFacility.claims
+    const index = apmis.findIndex(object => {
+      return object._id === row._id;
+    });
+    
+
     console.log(e)
     if (e.target.checked){
       let newarray= chosen.concat(row)
     setChosen(newarray)
     console.log(newarray)
+    apmis[index].chosen=true
+   
     
     }else{
       let newarray=chosen.filter(el=>el._id!==row._id)
       setChosen(newarray)
       console.log(newarray)
+      apmis[index].chosen=false
     }
 
     setState(prev=>(
       {
         ...prev,
-        selectedClaims:chosen
+        selectedClaims:chosen,
+        selectedFacility:{
+          ...prev.selectedFacility,
+          claims:apmis
+        }
       }
     ))
    
@@ -98,7 +115,22 @@ const ClaimsListComponent = ({
 
   const handlegroup=(facility)=>{
     setSelectedFacility(facility)
+    setChosen([])
     //console.log(facility._id)
+    claims.forEach((el)=>{
+      el.chosen=false
+      
+    })
+    setState(prev=>(
+      {
+        ...prev,
+        selectedClaims:claims
+      }
+      ))
+
+    if(selectRef.current){
+      selectRef.current=false
+    }
 
   }
 
@@ -199,10 +231,55 @@ const ClaimsListComponent = ({
     }
   }, []);
 
+  const handleSectAll =async()=>{
+    //setSelectAll(!selectAll)
+    selectRef.current=!selectRef.current
+   let newarray=[]
+   if (selectRef.current){
+
+  
+    claims.forEach((el)=>{
+      el.chosen=true
+      newarray= newarray.concat(el)
+    })
+    setState(prev=>(
+      {
+        ...prev,
+        selectedClaims:claims
+      }
+      ))
+      setChosen(newarray)
+    }
+    else{
+      claims.forEach((el)=>{
+        el.chosen=false
+        
+      })
+      setState(prev=>(
+        {
+          ...prev,
+          selectedClaims:claims
+        }
+        ))
+      setChosen([])
+
+    }
+  }
+
   useEffect(() => {
     getClaims();
    
   }, [getClaims]);
+
+
+  useEffect(() => {
+    if (user.currentEmployee.facilityDetail.facilityType==="HMO" ){
+      setIsHMO(true)
+    }
+   
+  }, [ ]);
+
+
 
   const returnCell = status => {
     switch (status.toLowerCase()) {
@@ -287,15 +364,7 @@ const ClaimsListComponent = ({
         textTransform: "capitalize",
       },
     },
-    // {
-    //   name: "Type",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.claimtype,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
+
     {
       name: "Sponsor",
       key: "healthcare plan",
@@ -305,15 +374,7 @@ const ClaimsListComponent = ({
       required: true,
       inputType: "HIDDEN",
     },
-    // {
-    //   name: "Plan",
-    //   key: "healthcare plan",
-    //   description: "Enter name of Healthcare Plan",
-    //   selector: row => row?.healthcare_Plan,
-    //   sortable: true,
-    //   required: true,
-    //   inputType: "HIDDEN",
-    // },
+
     {
       name: "Provider",
       key: "hospital name",
@@ -329,7 +390,6 @@ const ClaimsListComponent = ({
       key: "status",
       description: "Enter  Status",
       selector: row => row?.status,
-      //cell: row => returnCell(row.status),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -339,7 +399,7 @@ const ClaimsListComponent = ({
       key: "status",
       description: "Enter  Status",
       selector: row => (row?.task?.length > 0 ? row.task[0].title : ""),
-      //cell: row => returnCell(row.status),
+
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -352,7 +412,6 @@ const ClaimsListComponent = ({
         row?.task?.length > 0
           ? `${row.task[0].employee.firstname} ${row.task[0].employee.lastname}`
           : "",
-      //cell: row => returnCell(row.status),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -561,11 +620,20 @@ const ClaimsListComponent = ({
                 List of Claims
               </h2>
             </div>
-            <Box>
+           {isHMO&&<> <Box  style={{
+                 display: "flex",
+                // width: "100%",
+                 //flex: "1",
+                 justifyContent: "space-between",
+               }}>
                {!noGroup && <GlobalCustomButton onClick={handleProvider}>
                   {provider.current?"Ungroup":"Group by Provider"}
+                </GlobalCustomButton >}
+              
+                { selectedFacility?.claims.length>0  && <GlobalCustomButton style={{margin: "0 10px", fontSize: "0.95rem"}} onClick={handleSectAll}>
+                   {selectRef.current?"Unselect All":"Select All"}
                 </GlobalCustomButton>}
-
+                
               </Box>
              {  (chosen.length>0) &&<>
               <GlobalCustomButton
@@ -575,6 +643,7 @@ const ClaimsListComponent = ({
                 <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
                 Assign Claim
               </GlobalCustomButton>
+              </>}
               </>}
               {/* <GlobalCustomButton onClick={handleCreateNew}>
                  New Claims

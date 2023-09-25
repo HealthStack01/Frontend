@@ -63,7 +63,7 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const [band, setBand]= useState("")
+  const [band, setBand]= useState("NHIS")
   const [productModal, setProductModal] = useState(false);
 
   const dropDownRef = useRef(null);
@@ -121,6 +121,12 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
     let policy=hmopolicy[0] //check for current policy
     let hmoid=hmopolicy[0].organizationId
 
+    const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
+    if (isHMO){
+
+      facid=state.OrganizationModule.selectedOrganization._id
+    }
+
     findband()
     console.log(facid,policy);
     setVal(value);
@@ -139,27 +145,19 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
         //hmo facility Id
         //check if the hmo is a state hmo or not
         //console.log(mode);
+
+
         
         tariffServ
             .find({
               query: {
-                //service
-               /*  'contracts.serviceName': {
-                  $regex: value,
-                  $options: "i",
-                }, */
+               
                 organizationId:hmoid ,
                 'providers.dest_org':facid,
-               /*  facility: mode.detail.organizationId,
-                mode: "HMOCover",
-                dest_org: user.currentEmployee.facilityDetail._id, */
-                //hmo,hosp,band,
-                //facility: user.currentEmployee.facilityDetail._id,
-                //band:band,
+             
+                band:band?band:"NHIS",
                 $limit: 10,
-               /*  $sort: {
-                  createdAt: -1,
-                }, */
+             
               },
             })
             .then(res => {
