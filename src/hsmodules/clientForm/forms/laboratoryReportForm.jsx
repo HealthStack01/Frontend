@@ -286,8 +286,6 @@ export function Haematology() {
       return;
     }
     if (order.report_status !== "Pending") {
-      console.log(order.resultDetail.documentdetail);
-
       Object.entries(order.resultDetail.documentdetail).map(
         ([keys, value], i) =>
           setValue(keys, value, {
@@ -351,9 +349,6 @@ export function Haematology() {
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = reportStatus;
     document.billId = order._id;
-    // document.formType=choosenForm
-    //  console.log(document)
-    //  console.log(order)
 
     if (
       document.location === undefined ||
@@ -2981,10 +2976,10 @@ export function Microbiology() {
   const checkboxCheckedOthersInvestigation = watch("others_investigation");
   const watchantibiotic = watch("antibiotics_susceptibility_drug");
 
-  console.log("===>>>> order details is called", {
-    order: order,
-    draftDoc,
-  });
+  // console.log("===>>>> order details is called", {
+  //   order: order,
+  //   draftDoc,
+  // });
 
   useEffect(() => {
     if (!order.resultDetail?.documentdetail) {
@@ -3001,10 +2996,6 @@ export function Microbiology() {
       return;
     }
     if (order.report_status !== "Pending") {
-      console.log("===>>>> order details", {
-        orderDOC: order.resultDetail.documentdetail,
-      });
-
       setAntibioticsListData(
         order.resultDetail.documentdetail.antibiotics_susceptibility_drug
       );
@@ -3071,10 +3062,10 @@ export function Microbiology() {
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = reportStatus;
     document.billId = order._id;
-    document.geolocation = {
-      type: "Point",
-      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
-    };
+    // document.geolocation = {
+    //   type: "Point",
+    //   coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    // };
     if (
       document.location === undefined ||
       !document.createdByname ||
@@ -3111,14 +3102,8 @@ export function Microbiology() {
     }
 
     if (bill_report_status === "Draft") {
-      console.log("====>>>> draft document after subimmted", {
-        document,
-      });
       ClientServ.patch(order.resultDetail._id, document)
         .then((res) => {
-          console.log("====>>>> client respone", {
-            res,
-          });
           setSuccess(true);
           toast.success("Lab Result updated succesfully");
           setSuccess(false);
