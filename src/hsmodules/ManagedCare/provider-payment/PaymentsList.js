@@ -1,11 +1,13 @@
 import {Box, Typography} from "@mui/material";
-import {useContext, useState, useCallback, useEffect} from "react";
+import {useContext, useState, useCallback, useEffect, useMemo} from "react";
 import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import FilterMenu from "../../../components/utilities/FilterMenu";
 import {ObjectContext, UserContext} from "../../../context";
 import CustomTable from "../../../components/customtable";
 import client from "../../../feathers";
 import dayjs from "dayjs";
+import ModalBox from "../../../components/modal";
+import ProviderPaymentClaimsStatus from "./UpdateClaimsStatus";
 
 const options = [
   {
@@ -55,13 +57,17 @@ const groupClaimsByDateAndId = data => {
 };
 
 const ProvidersPaymentList = ({showClaimsDetail}) => {
+  const claimsServer = client.service("claims");
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState("Queued for Payment");
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [payments, setPayments] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState(null);
-  const claimsServer = client.service("claims");
+  const [statusModal, setStatusModal] = useState(false);
+
+  const [selectedClaims, setSelectedClaims] = useState(false);
+  const [toggleCleared, setToggleCleared] = useState(false);
 
   const title = `${type} List`;
 
@@ -275,8 +281,56 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
     setSelectedPayment(null);
   };
 
+  const handleRowSelected = useCallback(state => {
+    setSelectedClaims(state.selectedRows);
+  }, []);
+
+  const contextActions = useMemo(() => {
+    const handleAction = () => {
+      //setStatusModal(true);
+      console.log(selectedClaims);
+    };
+
+    return (
+      <Box sx={{display: "flex", gap: "10px"}}>
+        {/* <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Que
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Pay
+        </GlobalCustomButton> */}
+
+        <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Update Status
+        </GlobalCustomButton>
+      </Box>
+    );
+  }, [selectedClaims, payments]);
+
+  // const handleUpdateStatus = (claims, status) => {};
+
   return (
     <Box p={2}>
+      <ModalBox
+        open={statusModal}
+        onClose={() => setStatusModal(false)}
+        header={`Update Status for ${selectedClaims?.length} Claim`}
+      >
+        <ProviderPaymentClaimsStatus closeModal={() => setStatusModal(false)} />
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -365,7 +419,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
             }}
           >
             <CustomTable
-              title={""}
+              title={"Claims"}
               columns={claimsColumns}
               data={selectedPayment ? selectedPayment.claims : []}
               pointerOnHover
@@ -373,7 +427,11 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
               striped
               onRowClicked={onClaimsRowClick}
               progressPending={loading}
-              //conditionalRowStyles={conditionalRowStyles}
+              selectable
+              contextActions={contextActions}
+              clearSelectedRows={toggleCleared}
+              conditionalRowStyles={conditionalRowStyles}
+              noHeader={false}
             />
           </Box>
         )}
