@@ -25,23 +25,33 @@ const options = [
   },
 ];
 
-const groupClaimsByDate = data => {
-  const groupedData = {};
+const groupClaimsByDateAndId = data => {
+  const groupedData = [];
 
   data.forEach(obj => {
     const date = new Date(obj.updatedAt);
+    const year = date.getFullYear();
     const month = date.getMonth() + 1;
 
-    if (!groupedData[month]) {
-      groupedData[month] = [];
-    }
+    const key = `${year}-${month}`;
+    const providerId = obj.provider._id;
 
-    groupedData[month].push(obj);
+    // Check if the group already exists in the result array
+    const existingGroup = groupedData.find(
+      group => group.key === key && group.providerId === providerId
+    );
+
+    if (existingGroup) {
+      existingGroup.data.push(obj);
+    } else {
+      // Create a new group if it doesn't exist
+      groupedData.push({key, providerId, data: [obj]});
+    }
   });
 
-  const groupedClaims = Object.values(groupedData);
+  //const groupedClaims = Object.values(groupedData);
 
-  return groupedClaims;
+  return groupedData;
 };
 
 const ProvidersPaymentList = ({showClaimsDetail}) => {
@@ -73,14 +83,15 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 
     const claims = resp.data;
 
-    const claimsGroupedByDate = groupClaimsByDate(claims);
+    const claimsGroupedByDate = groupClaimsByDateAndId(claims);
 
-    const tableData = claimsGroupedByDate.map(item => {
+    const groupedClaimsData = claimsGroupedByDate.map(item => item.data);
+
+    const finalData = groupedClaimsData.map(item => {
       const totalAmounts = item.reduce(
         (sum, obj) => sum + obj.totalamount || 0,
         0
       );
-
       return {
         id: item[0]._id,
         claimsId: item[0].claimid,
@@ -92,7 +103,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
       };
     });
 
-    setPayments(tableData);
+    setPayments(finalData);
 
     setLoading(false);
   }, [type, user]);
