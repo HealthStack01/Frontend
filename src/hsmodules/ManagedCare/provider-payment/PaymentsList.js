@@ -60,7 +60,8 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const claimsServer = client.service("claims");
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState("Queued for Payment");
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [payments, setPayments] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState(null);
@@ -69,7 +70,13 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const title = `${type} List`;
 
   const fetchProviderPayments = useCallback(async () => {
-    setLoading(true);
+    // if (payments.length > 0) {
+    //   showActionLoader();
+    // } else {
+    //   setLoading(true);
+    // }
+    //setLoading(true);
+    showActionLoader();
 
     let query = {
       status: type,
@@ -106,13 +113,35 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
       };
     });
 
-    setPayments(finalData);
+    if (selectedPayment && finalData.length === 0) {
+      setSelectedPayment(null);
+    }
 
-    setLoading(false);
+    setPayments(finalData);
+    // if (payments.length > 0) {
+    //   hideActionLoader();
+    // } else {
+    //   setLoading(false);
+    // }
+
+    hideActionLoader();
   }, [type, user]);
 
   useEffect(() => {
     fetchProviderPayments();
+
+    claimsServer.on("created", obj => {
+      fetchProviderPayments();
+    });
+    claimsServer.on("updated", obj => {
+      fetchProviderPayments();
+    });
+    claimsServer.on("patched", obj => {
+      fetchProviderPayments();
+    });
+    claimsServer.on("removed", obj => {
+      fetchProviderPayments();
+    });
   }, [fetchProviderPayments]);
 
   const handleSearch = () => {};
@@ -423,6 +452,7 @@ const ClaimsTableComoponent = ({
       >
         <ProviderPaymentClaimsStatus
           closeModal={() => setStatusModal(false)}
+          setToggleCleared={setToggleCleared}
           claims={claims}
         />
       </ModalBox>

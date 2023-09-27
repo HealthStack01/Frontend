@@ -58,6 +58,8 @@ const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
 
     hideActionLoader();
     toast.success(`Updated status for ${claims.length} Claim(s)`);
+    closeModal();
+    setToggleCleared(prev => !prev);
     //console.log(data);
   };
 
