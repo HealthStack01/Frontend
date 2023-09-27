@@ -196,6 +196,7 @@ export function BandList({ showCreateModal }) {
   const policyServ = client.service("policy");
   const InvoiceServ = client.service('corpinvoices');
   const planServ = client.service('healthplan');
+  const accServ = client.service('accpersons');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -1733,21 +1734,30 @@ const check=async(hospList2)=>{
   }
   console.log("finished  creating policies")
 }
+ const addNHIS =async()=>{
+//find all nhis hospitals
+const find=await accServ.find()
+// patch nhisband with the data
+console.log("stuff", find)
+
+ }
+
+
 
   return (
     <>
       <Box sx={{ gap:2}}>
-      <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
-      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } />
-    {/*  <GlobalCustomButton onClick={findstuff}>
-         create sponsor
+      {/* <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
+      <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } /> */}
+      <GlobalCustomButton onClick={addNHIS}>
+         Add to NHIS band
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton>  */}
+        </GlobalCustomButton>  
       </Box> 
       <div className="text-extraction">
-      <h2>PDF Text Extraction</h2>
+     {/*  <h2>PDF Text Extraction</h2>
       <input type="file" accept=".pdf" onChange={handleFileUpload} />
-      <button onClick={extractTextFromPDF}>Extract Text</button>
+      <button onClick={extractTextFromPDF}>Extract Text</button> */}
       <div className="extracted-text">
         <h3>Extracted Text:</h3>
         <Box sx={{

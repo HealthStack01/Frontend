@@ -171,38 +171,11 @@ export function LabOrderList({ openReportFormModal }) {
     }));
   };
 
-  const handleSearch = (val) => {
-    const field = "name";
-    //console.log(val)
-    BillServ.find({
+  const handleSearch = async (val) => {
+    console.log("===>>> value", { val });
+    if (val.length < 3 && val.trim() === "") return;
+    const findProductEntry = await BillServ.find({
       query: {
-        "participantInfo.paymentmode.detail.principalName": {
-          $regex: val,
-          $options: "i",
-        },
-        /*  $or:[
-                {
-           
-                } ,
-                {
-            'orderInfo.orderObj.clientname': {
-                        $regex:val,
-                        $options:'i'
-                    
-                    }
-                }
-                ], */
-
-        //order_category:"Prescription",
-        $or: [
-          {
-            "participantInfo.paymentmode.type": "Cash",
-          },
-          {
-            "participantInfo.paymentmode.type": "Family Cover",
-          },
-        ],
-        // 'orderInfo.orderObj.order_category':"Lab Order",
         $or: [
           {
             "orderInfo.orderObj.order_category": "Lab Order",
@@ -211,30 +184,43 @@ export function LabOrderList({ openReportFormModal }) {
             "orderInfo.orderObj.order_category": "Laboratory",
           },
         ],
+        $or: [
+          {
+            "orderInfo.orderObj.clientname": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            "orderInfo.orderObj.order": {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            billing_status: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+          {
+            report_status: {
+              $regex: val,
+              $options: "i",
+            },
+          },
+        ],
         "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
-        billing_status: "Unpaid", // need to set this finally
-        // storeId:state.StoreModule.selectedStore._id,
-        //facility:user.currentEmployee.facilityDetail._id || "",
-        $limit: 20,
+          user?.currentEmployee?.facilityDetail?._id,
+        $limit: 100,
         $sort: {
           createdAt: -1,
         },
       },
-    })
-      .then((res) => {
-        console.log(res);
-        setFacilities(res.groupedOrder);
-        setMessage(" ProductEntry  fetched successfully");
-        setSuccess(true);
-      })
-      .catch((err) => {
-        // console.log(err)
-        setMessage(
-          "Error fetching ProductEntry, probable network issues " + err
-        );
-        setError(true);
-      });
+    });
+
+    console.log("lab bills search", findProductEntry.data);
+    await setFacilities(findProductEntry.data);
   };
   const getFacilities = async () => {
     // console.log("here b4 server")

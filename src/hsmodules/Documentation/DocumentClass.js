@@ -1,28 +1,28 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
+import { UserContext, ObjectContext } from "../../context";
 import documentListForm from "../clientForm/oldDocumentList";
 import chartListForm from "../clientForm/chartList";
 import documentList from "../clientForm/documentList";
 
-import {toast} from "bulma-toast";
+import { toast } from "bulma-toast";
 // eslint-disable-next-line
 const searchfacility = {};
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {fontSize} from "@mui/system";
-import {Box, Checkbox} from "@mui/material";
-import {TableMenu} from "../../ui/styled/global";
+import { fontSize } from "@mui/system";
+import { Box, Checkbox } from "@mui/material";
+import { TableMenu } from "../../ui/styled/global";
 //import ModalBox from "./ui-components/modal";
 
 export default function DocumentClass() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedDocumentClass, setSelectedDocumentClass] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -53,7 +53,7 @@ export default function DocumentClass() {
 }
 
 export function DocumentClassCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -61,11 +61,11 @@ export function DocumentClassCreate() {
   const [facility, setFacility] = useState();
   const DocumentClassServ = client.service("documentclass");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     // buble-up from inputsearch for creating resource
 
     setValue("facility", obj._id, {
@@ -104,7 +104,7 @@ export function DocumentClassCreate() {
     }
     data.locationType = "DocumentClass";
     DocumentClassServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created DocumentClass successfully") */
@@ -117,7 +117,7 @@ export function DocumentClassCreate() {
         });
         setSuccess(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating DocumentClass " + err,
           type: "is-danger",
@@ -139,7 +139,7 @@ export function DocumentClassCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="name"
                   type="text"
                   placeholder="Name of DocumentClass"
@@ -152,16 +152,19 @@ export function DocumentClassCreate() {
 
             <div
               className="field"
-              style={!user.stacker ? {display: "none"} : {}}
+              style={!user.stacker ? { display: "none" } : {}}
             >
               <InputSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <p
+                className="control has-icons-left "
+                style={{ display: "none" }}
+              >
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  ref={register({ required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -184,7 +187,7 @@ export function DocumentClassCreate() {
   );
 }
 
-export function DocumentClassList({standalone, closeModal}) {
+export function DocumentClassList({ standalone, closeModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -199,9 +202,9 @@ export function DocumentClassList({standalone, closeModal}) {
   // eslint-disable-next-line
   const [selectedDocumentClass, setSelectedDocumentClass] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   let classList = documentList;
 
@@ -213,13 +216,13 @@ export function DocumentClassList({standalone, closeModal}) {
       selectedDocumentClass: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
     //console.log(state)
   };
-  const handleRow = async DocumentClass => {
+  const handleRow = async (DocumentClass) => {
     //console.log("b4",state)
 
     //console.log("handlerow",DocumentClass)
@@ -231,7 +234,7 @@ export function DocumentClassList({standalone, closeModal}) {
       show: "detail",
       encounter_right: true,
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
       //sideMenu: {open: false},
@@ -242,7 +245,7 @@ export function DocumentClassList({standalone, closeModal}) {
     }
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     console.log(val);
     DocumentClassServ.find({
@@ -259,13 +262,13 @@ export function DocumentClassList({standalone, closeModal}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" DocumentClass  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage(
           "Error fetching DocumentClass, probable network issues " + err
@@ -320,10 +323,10 @@ export function DocumentClassList({standalone, closeModal}) {
   useEffect(() => {
     getFacilities();
 
-    DocumentClassServ.on("created", obj => getFacilities());
-    DocumentClassServ.on("updated", obj => getFacilities());
-    DocumentClassServ.on("patched", obj => getFacilities());
-    DocumentClassServ.on("removed", obj => getFacilities());
+    DocumentClassServ.on("created", (obj) => getFacilities());
+    DocumentClassServ.on("updated", (obj) => getFacilities());
+    DocumentClassServ.on("patched", (obj) => getFacilities());
+    DocumentClassServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -332,7 +335,7 @@ export function DocumentClassList({standalone, closeModal}) {
     {
       name: "S/N",
       key: "_id",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
@@ -342,7 +345,7 @@ export function DocumentClassList({standalone, closeModal}) {
       name: "Name",
       key: "name",
       description: "Enter name of band",
-      selector: row => row.name,
+      selector: (row) => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -351,7 +354,7 @@ export function DocumentClassList({standalone, closeModal}) {
       name: "Facility",
       key: "facility",
       description: "Enter name of Facility",
-      selector: row => row.facility,
+      selector: (row) => row.facility,
       omit: user.stacker ? false : true,
       sortable: true,
       required: true,
@@ -361,7 +364,7 @@ export function DocumentClassList({standalone, closeModal}) {
       name: "Action",
       key: "action",
       description: "Enter Action",
-      selector: row => row.facility,
+      selector: (row) => row.facility,
       omit: !standalone ? false : true,
       sortable: true,
       required: true,
@@ -380,27 +383,29 @@ export function DocumentClassList({standalone, closeModal}) {
             }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
-                    <FilterMenu onSearch={e => handleSearch(e.target.value)} />
+                    <FilterMenu
+                      onSearch={(e) => handleSearch(e.target.value)}
+                    />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   List of Charts
                 </h2>
               </div>
 
               {!standalone && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
                   onClick={handleCreateNew}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", overflowY: "scroll"}}>
+            <div style={{ width: "100%", overflowY: "scroll" }}>
               <CustomTable
                 title={""}
                 columns={classListSchema}
@@ -421,9 +426,9 @@ export function DocumentClassList({standalone, closeModal}) {
     </>
   );
 }
-console.log("ClassList", )
+console.log("ClassList");
 
-export function ChartClassList({standalone, closeModal}) {
+export function ChartClassList({ standalone, closeModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -438,9 +443,9 @@ export function ChartClassList({standalone, closeModal}) {
   // eslint-disable-next-line
   const [selectedDocumentClass, setSelectedDocumentClass] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   let classList = [];
   classList.push(...chartListForm);
@@ -450,16 +455,16 @@ export function ChartClassList({standalone, closeModal}) {
       selectedDocumentClass: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
     //console.log(state)
   };
-  const handleRow = async DocumentClass => {
+  const handleRow = async (DocumentClass) => {
     //console.log("b4",state)
 
-    //console.log("handlerow",DocumentClass)
+    console.log("handlerow", DocumentClass);
 
     await setSelectedDocumentClass(DocumentClass);
 
@@ -468,7 +473,7 @@ export function ChartClassList({standalone, closeModal}) {
       show: "detail",
       encounter_right: true,
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -478,7 +483,7 @@ export function ChartClassList({standalone, closeModal}) {
     }
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     console.log(val);
     DocumentClassServ.find({
@@ -495,13 +500,13 @@ export function ChartClassList({standalone, closeModal}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" DocumentClass  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage(
           "Error fetching DocumentClass, probable network issues " + err
@@ -556,10 +561,10 @@ export function ChartClassList({standalone, closeModal}) {
   useEffect(() => {
     getFacilities();
 
-    DocumentClassServ.on("created", obj => getFacilities());
-    DocumentClassServ.on("updated", obj => getFacilities());
-    DocumentClassServ.on("patched", obj => getFacilities());
-    DocumentClassServ.on("removed", obj => getFacilities());
+    DocumentClassServ.on("created", (obj) => getFacilities());
+    DocumentClassServ.on("updated", (obj) => getFacilities());
+    DocumentClassServ.on("patched", (obj) => getFacilities());
+    DocumentClassServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -571,7 +576,7 @@ export function ChartClassList({standalone, closeModal}) {
     {
       name: "S/N",
       key: "_id",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
@@ -581,7 +586,7 @@ export function ChartClassList({standalone, closeModal}) {
       name: "Name",
       key: "name",
       description: "Enter name of band",
-      selector: row => row.name,
+      selector: (row) => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -590,7 +595,7 @@ export function ChartClassList({standalone, closeModal}) {
       name: "Facility",
       key: "facility",
       description: "Enter name of Facility",
-      selector: row => row.facility,
+      selector: (row) => row.facility,
       omit: user.stacker ? false : true,
       sortable: true,
       required: true,
@@ -600,7 +605,7 @@ export function ChartClassList({standalone, closeModal}) {
       name: "Action",
       key: "action",
       description: "Enter Action",
-      selector: row => row.facility,
+      selector: (row) => row.facility,
       omit: !standalone ? false : true,
       sortable: true,
       required: true,
@@ -619,27 +624,29 @@ export function ChartClassList({standalone, closeModal}) {
             }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
-                    <FilterMenu onSearch={e => handleSearch(e.target.value)} />
+                    <FilterMenu
+                      onSearch={(e) => handleSearch(e.target.value)}
+                    />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   List of Charts
                 </h2>
               </div>
 
               {!standalone && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
                   onClick={handleCreateNew}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", overflowY: "scroll"}}>
+            <div style={{ width: "100%", overflowY: "scroll" }}>
               <CustomTable
                 title={""}
                 columns={classListSchema}
@@ -671,7 +678,7 @@ export function DocumentClassDetail() {
   //const DocumentClassServ=client.service('/DocumentClass')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const DocumentClass = state.DocumentClassModule.selectedDocumentClass;
 
@@ -680,7 +687,7 @@ export function DocumentClassDetail() {
       selectedDocumentClass: DocumentClass,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -742,7 +749,7 @@ export function DocumentClassDetail() {
 }
 
 export function DocumentClassModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -753,8 +760,8 @@ export function DocumentClassModify() {
   const DocumentClassServ = client.service("documentclass");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const DocumentClass = state.DocumentClassModule.selectedDocumentClass;
 
@@ -800,7 +807,7 @@ export function DocumentClassModify() {
       selectedDocumentClass: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -812,7 +819,7 @@ export function DocumentClassModify() {
       selectedDocumentClass: {},
       show: "create",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -823,7 +830,7 @@ export function DocumentClassModify() {
     const dleteId = DocumentClass._id;
     if (conf) {
       DocumentClassServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted DocumentClass successfully")
@@ -840,7 +847,7 @@ export function DocumentClassModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting DocumentClass, probable network issues "+ err )
           // setError(true)
           toast({
@@ -867,7 +874,7 @@ export function DocumentClassModify() {
     //console.log(data);
 
     DocumentClassServ.patch(DocumentClass._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated DocumentClass successfully")
@@ -880,7 +887,7 @@ export function DocumentClassModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating DocumentClass, probable network issues "+ err )
         // setError(true)
         toast({
@@ -908,7 +915,7 @@ export function DocumentClassModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1023,7 +1030,7 @@ export function DocumentClassModify() {
   );
 }
 
-export function InputSearch({getSearchfacility, clear}) {
+export function InputSearch({ getSearchfacility, clear }) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1040,7 +1047,7 @@ export function InputSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1057,7 +1064,7 @@ export function InputSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1075,7 +1082,7 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -1093,13 +1100,13 @@ export function InputSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1133,8 +1140,8 @@ export function InputSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
