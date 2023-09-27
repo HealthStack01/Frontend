@@ -66,17 +66,18 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const [payments, setPayments] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [toggleCleared, setToggleCleared] = useState(false);
+  const [claims, setClaims] = useState([]);
+  const [rendered, setRendered] = useState(false);
 
   const title = `${type} List`;
 
   const fetchProviderPayments = useCallback(async () => {
-    // if (payments.length > 0) {
-    //   showActionLoader();
-    // } else {
-    //   setLoading(true);
-    // }
+    if (rendered) {
+      showActionLoader();
+    } else {
+      setLoading(true);
+    }
     //setLoading(true);
-    showActionLoader();
 
     let query = {
       status: type,
@@ -92,6 +93,8 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
     const resp = await claimsServer.find({query: query});
 
     const claims = resp.data;
+
+    setClaims(claims);
 
     const claimsGroupedByDate = groupClaimsByDateAndId(claims);
 
@@ -113,18 +116,22 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
       };
     });
 
-    if (selectedPayment && finalData.length === 0) {
+    const isPresent = selectedPayment
+      ? finalData.some(obj => obj._id === selectedPayment._id)
+      : false;
+
+    if (!isPresent) {
       setSelectedPayment(null);
     }
 
     setPayments(finalData);
-    // if (payments.length > 0) {
-    //   hideActionLoader();
-    // } else {
-    //   setLoading(false);
-    // }
+    if (rendered) {
+      hideActionLoader();
+    } else {
+      setLoading(false);
+    }
 
-    hideActionLoader();
+    setRendered(true);
   }, [type, user]);
 
   useEffect(() => {
@@ -134,6 +141,9 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
       fetchProviderPayments();
     });
     claimsServer.on("updated", obj => {
+      // const newClaims = updateOnUpdated(claims, obj);
+
+      // setClaims(newClaims);
       fetchProviderPayments();
     });
     claimsServer.on("patched", obj => {
@@ -300,7 +310,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
           <CustomTable
             title={""}
             columns={paymentColumns}
-            data={payments}
+            data={payments || []}
             pointerOnHover
             highlightOnHover
             striped
@@ -315,7 +325,6 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
             sx={{
               width: "60%",
               height: "calc(100vh - 140px)",
-
               overflowY: "auto",
             }}
           >
