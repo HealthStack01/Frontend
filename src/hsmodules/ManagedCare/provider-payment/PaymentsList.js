@@ -61,12 +61,9 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState("Queued for Payment");
   const {state, setState} = useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [payments, setPayments] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState(null);
-  const [statusModal, setStatusModal] = useState(false);
-
-  const [selectedClaims, setSelectedClaims] = useState(false);
   const [toggleCleared, setToggleCleared] = useState(false);
 
   const title = `${type} List`;
@@ -164,8 +161,10 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const handleRow = payment => {
     if (selectedPayment && selectedPayment.id === payment.id) {
       setSelectedPayment(null);
+      setToggleCleared(true);
     } else {
       setSelectedPayment(payment);
+      setToggleCleared(true);
     }
   };
 
@@ -185,84 +184,6 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
     showClaimsDetail();
   };
 
-  const claimsColumns = [
-    {
-      name: "S/N",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: (row, i) => i + 1,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "60px",
-    },
-    {
-      name: "Date",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY"),
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "100px",
-    },
-    {
-      name: "Patient Name",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
-          data-tag="allowRowEvents"
-        >
-          {row.beneficiary.firstname} {row.beneficiary.lastname}
-        </Typography>
-      ),
-      style: {
-        color: "#1976d2",
-        textTransform: "capitalize",
-      },
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "State",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => row.patientstate,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "100px",
-      style: {
-        textTransform: "capitalize",
-      },
-    },
-
-    {
-      name: "Num of Services",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-
-      selector: row => row.services.length,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-
-    {
-      name: "Total Amount",
-      key: "bills",
-      description: "Enter bills",
-      selector: row => `₦${row?.totalamount}`,
-      //cell: row => returnCell(row?.totalamount),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
-
   const conditionalRowStyles = [
     {
       when: row => row.id === selectedPayment?.id,
@@ -281,56 +202,8 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
     setSelectedPayment(null);
   };
 
-  const handleRowSelected = useCallback(state => {
-    setSelectedClaims(state.selectedRows);
-  }, []);
-
-  const contextActions = useMemo(() => {
-    const handleAction = () => {
-      //setStatusModal(true);
-      console.log(selectedClaims);
-    };
-
-    return (
-      <Box sx={{display: "flex", gap: "10px"}}>
-        {/* <GlobalCustomButton
-          key="delete"
-          onClick={handleAction}
-          //style={{backgroundColor: 'red'}}
-        >
-          Que
-        </GlobalCustomButton>
-
-        <GlobalCustomButton
-          key="delete"
-          onClick={handleAction}
-          //style={{backgroundColor: 'red'}}
-        >
-          Pay
-        </GlobalCustomButton> */}
-
-        <GlobalCustomButton
-          key="delete"
-          onClick={handleAction}
-          //style={{backgroundColor: 'red'}}
-        >
-          Update Status
-        </GlobalCustomButton>
-      </Box>
-    );
-  }, [selectedClaims, payments]);
-
-  // const handleUpdateStatus = (claims, status) => {};
-
   return (
     <Box p={2}>
-      <ModalBox
-        open={statusModal}
-        onClose={() => setStatusModal(false)}
-        header={`Update Status for ${selectedClaims?.length} Claim`}
-      >
-        <ProviderPaymentClaimsStatus closeModal={() => setStatusModal(false)} />
-      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -418,20 +291,11 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
               overflowY: "auto",
             }}
           >
-            <CustomTable
-              title={"Claims"}
-              columns={claimsColumns}
-              data={selectedPayment ? selectedPayment.claims : []}
-              pointerOnHover
-              highlightOnHover
-              striped
+            <ClaimsTableComoponent
+              claims={selectedPayment ? selectedPayment.claims : []}
               onRowClicked={onClaimsRowClick}
-              progressPending={loading}
-              selectable
-              contextActions={contextActions}
-              clearSelectedRows={toggleCleared}
-              conditionalRowStyles={conditionalRowStyles}
-              noHeader={false}
+              toggleCleared={toggleCleared}
+              setToggleCleared={setToggleCleared}
             />
           </Box>
         )}
@@ -441,3 +305,144 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 };
 
 export default ProvidersPaymentList;
+
+const ClaimsTableComoponent = ({
+  claims,
+  onRowClicked,
+  toggleCleared,
+  setToggleCleared,
+}) => {
+  const [statusModal, setStatusModal] = useState(false);
+  const [selectedClaims, setSelectedClaims] = useState([]);
+
+  const claimsColumns = [
+    {
+      name: "S/N",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "60px",
+    },
+    {
+      name: "Date",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: row => dayjs(row.createdAt).format("DD/MM/YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "100px",
+    },
+    {
+      name: "Patient Name",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.beneficiary.firstname} {row.beneficiary.lastname}
+        </Typography>
+      ),
+      style: {
+        color: "#1976d2",
+        textTransform: "capitalize",
+      },
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "State",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: row => row.patientstate,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "100px",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Num of Services",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+
+      cell: row => row.services.length,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Total Amount",
+      key: "bills",
+      description: "Enter bills",
+      cell: row => `₦${row?.totalamount}`,
+      //cell: row => returnCell(row?.totalamount),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const handleRowSelected = useCallback(state => {
+    setSelectedClaims(state.selectedRows);
+  }, []);
+
+  const contextActions = useMemo(() => {
+    const handleAction = () => {
+      setStatusModal(true);
+    };
+
+    return (
+      <Box sx={{display: "flex", gap: "10px"}}>
+        <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Update Status
+        </GlobalCustomButton>
+      </Box>
+    );
+  }, [selectedClaims, claims, toggleCleared]);
+
+  return (
+    <>
+      <ModalBox
+        open={statusModal}
+        onClose={() => setStatusModal(false)}
+        header={`Update Status for ${selectedClaims?.length} Claim(s)`}
+      >
+        <ProviderPaymentClaimsStatus
+          closeModal={() => setStatusModal(false)}
+          claims={claims}
+        />
+      </ModalBox>
+
+      <CustomTable
+        title={"Claims"}
+        columns={claimsColumns}
+        data={claims || []}
+        pointerOnHover
+        highlightOnHover
+        striped
+        onRowClicked={onRowClicked}
+        progressPending={false}
+        selectable
+        contextActions={contextActions}
+        clearSelectedRows={toggleCleared}
+        noHeader={false}
+        onSelectedRowsChange={handleRowSelected}
+      />
+    </>
+  );
+};

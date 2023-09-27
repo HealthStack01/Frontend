@@ -11,8 +11,7 @@ import {FormsHeaderText} from "../../../components/texts";
 
 const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
   const claimsServer = client.service("claims");
-  const {state, setState, showActionLoader, hideActionLoader} =
-    useContext(ObjectContext);
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
 
   const selectedClaim = state.ClaimsModule.selectedClaim;
@@ -24,7 +23,8 @@ const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
   });
 
   const handleUpdateStatus = async data => {
-    //showActionLoader();
+    //console.log(data);
+    showActionLoader();
     const employee = user.currentEmployee;
 
     const statushx = {
@@ -35,20 +35,30 @@ const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
       comment: data.comment,
     };
 
-    const prevHistory = selectedClaim.statushx || [];
-    const newStatushx = [statushx, ...prevHistory];
+    const promises = claims.map(async claim => {
+      const prevHistory = claim.statushx || [];
+      const newStatushx = [statushx, ...prevHistory];
 
-    // await claimsServer
-    //   .patch(selectedClaim._id, {status: data.status, statushx: newStatushx})
-    //   .then(res => {
-    //     hideActionLoader();
-    //     toast.success("You've successfully updated Claim's status");
-    //     closeModal();
-    //   })
-    //   .catch(err => {
-    //     hideActionLoader();
-    //     toast.error(`Failed to updated Claim's Status ${err}`);
-    //   });
+      await claimsServer.patch(claim._id, {
+        status: data.status,
+        statushx: newStatushx,
+      });
+      //  .then(res => {
+      //    hideActionLoader();
+      //    toast.success("You've successfully updated Claim's status");
+      //    closeModal();
+      //  })
+      //  .catch(err => {
+      //    hideActionLoader();
+      //    toast.error(`Failed to updated Claim's Status ${err}`);
+      //  });
+    });
+
+    await Promise.all(promises);
+
+    hideActionLoader();
+    toast.success(`Updated status for ${claims.length} Claim(s)`);
+    //console.log(data);
   };
 
   return (
