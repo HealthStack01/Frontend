@@ -9,88 +9,82 @@ import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../app/styles";
 import client from "../../../../feathers";
 import {toast} from "react-toastify";
-import {Box, List, ListItem} from "@mui/material";
+import {Box} from "@mui/material";
+import dayjs from "dayjs";
 
 const PremiumnsListComponent = ({showDetailView}) => {
-  // const { register, handleSubmit, watch, errors } = useForm();
-  // eslint-disable-next-line
-  // eslint-disable-next-line
-  const dealServer = client.service("deal");
+  const policyServer = client.service("policy");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-  // eslint-disable-next-line
+
   const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
-  const [invoices, setInvoices] = useState([]);
+  const [premiums, setPremiums] = useState([]);
 
   const getPremiums = useCallback(async () => {
-    const testId = "60203e1c1ec8a00015baa357";
-    const facId = user.currentEmployee.facilityDetail._id;
-    setLoading(true);
-
-    const res = await dealServer.find({
-      query: {
-        //facilityId: facId,
+    let query = {
+      organizationId: user.currentEmployee.facilityDetail._id,
+      approved: true,
+      invRenwgen: {
+        $ne: true,
       },
-    });
+      validityEnds: {
+        $lte: dayjs(),
+      },
+      $sort: {
+        createdAt: -1,
+      },
+    };
 
-    const deals = res.data;
+    policyServer
+      .find({
+        query: query,
+      })
+      .then(resp => {
+        const data = resp.data;
+        const premiums = data.map(item => {
+          const planType = item?.planType || "Family";
+          const planPremiums = item?.plan?.premiums;
 
-    const promises = deals.map(async deal => deal.invoices || []);
-    console.log(deals[0]);
-    const invoices = await Promise.all(promises);
+          const activePremiun = planPremiums.find(
+            item => item.planType.toLowerCase() === planType.toLowerCase()
+          );
 
-    const flattenInvoices = invoices
-      .flat(1)
-      .filter(item => item.status.toLowerCase() === "approved");
-
-    console.log(flattenInvoices);
-
-    setInvoices(flattenInvoices);
-
-    setLoading(false);
+          return {
+            ...item,
+            premium: activePremiun,
+          };
+        });
+        // console.log(premiums[0]);
+        setPremiums(premiums);
+      })
+      .catch(err => {
+        toast.error(`Something went wrong! ${err}`);
+      });
   }, []);
 
   useEffect(() => {
     getPremiums();
   }, [getPremiums]);
 
-  const handleRow = async data => {
-    const id = data.dealId;
-    await dealServer
-      .get(id)
-      .then(resp => {
-        setState(prev => ({
-          ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: resp},
-          InvoiceModule: {...prev.InvoiceModule, selectedInvoice: data},
-        }));
-        showDetailView();
-      })
-      .catch(err => {
-        toast.error("An error occured trying to view details of invoice");
-        console.log(err);
-      });
-    //console.log("is page");
-  };
+  const handleRow = async data => {};
 
   const handleSearch = () => {};
 
-  const returnCell = status => {
-    switch (status.toLowerCase()) {
-      case "active":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+  const returnSponsorName = row => {
+    const type = row.sponsorshipType;
+    const companyName = row?.sponsor?.organizationDetail?.facilityName
+      ? row?.sponsor?.organizationDetail?.facilityName
+      : row?.sponsor?.facilityName;
+    const principalName = `${row?.principal?.firstname} ${row?.principal?.lastname}`;
 
-      case "inactive":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+    const sponsorName = type === "Self" ? principalName : companyName;
 
-      default:
-        break;
-    }
+    return sponsorName;
   };
 
-  const InvoiceSchema = [
+  const premiumColumns = [
     {
       name: "S/N",
       key: "sn",
@@ -98,58 +92,24 @@ const PremiumnsListComponent = ({showDetailView}) => {
       selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
-      width: "50px",
+      width: "60px",
     },
     {
-      name: "Name",
-      key: "name",
-      description: "Enter name of Company",
-      selector: row => row.customerName,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      style: {
-        textTransform: "capitalize",
-      },
-    },
-    {
-      name: "Invoice No",
-      key: "invoice_no",
-      description: "Enter Telestaff name",
-      selector: row => row.invoice_number,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Payment Mode",
-      key: "payment_type",
-      description: "Enter Telestaff name",
-      selector: row => row.payment_mode,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-      style: {
-        textTransform: "capitalize",
-      },
-    },
-    {
-      name: "Payment Option",
-      key: "payment_option",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.payment_option,
+      name: "Date Joined",
+      key: "createdAt",
+      description: "Date Created",
+      selector: row => dayjs(row?.createdAt).format("DD-MM-YYYY"),
       sortable: true,
       required: true,
       inputType: "DATE",
-      style: {
-        textTransform: "capitalize",
-      },
     },
+
     {
-      name: "Category",
-      key: "subscription_category",
-      description: "Enter Telestaff name",
-      selector: row => row.subscription_category,
+      name: "Principal's Name",
+      key: "principal",
+      description: "Principal Last Name",
+      selector: row =>
+        `${row?.principal?.firstname} - ${row?.principal?.lastname}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -159,54 +119,91 @@ const PremiumnsListComponent = ({showDetailView}) => {
     },
 
     {
-      name: "Plans",
+      name: "Dependents",
+      key: "principal",
+      description: "No of dependents",
+      selector: row => row?.dependantBeneficiaries?.length,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Policy Number",
+      key: "policyNo",
+      description: "Phone Number",
+      selector: row => row?.policyNo,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Sponsor Type",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
+      selector: row => row?.sponsorshipType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Sponsor Name",
+      key: "sponsor",
+      description: "Sponsor name",
+      selector: row => returnSponsorName(row),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plan",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
+      selector: row => row?.plan?.planName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plan Type",
       key: "plan",
-      description: "Enter bills",
-      selector: row => (
-        <List
-          sx={{
-            listStyleType: "disc",
-            pl: 2,
-            "& .MuiListItem-root": {
-              display: "list-item",
-            },
-          }}
-        >
-          {row.plans.map(item => (
-            <ListItem
-              sx={{
-                margin: 0,
-              }}
-            >
-              {item.type}
-            </ListItem>
-          ))}
-        </List>
-      ),
+      description: "Plan",
+      selector: row => row?.planType,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Amount",
-      key: "amount",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.total_amount,
+      name: "Premium Amount",
+      key: "premiumAmount",
+      description: "Sponsorship Type",
+      selector: row => row?.premium?.premiumAmount,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: "TEXT",
+    },
+    {
+      name: "Premium Duration",
+      key: "premiumAmount",
+      description: "Sponsorship Type",
+      selector: row => row?.premium?.premiumDuration,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
     },
 
-    {
-      name: "Status",
-      key: "status",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => (row.status ? row.status : "----------"),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Providers",
+    //   key: "provider",
+    //   description: "Provider",
+    //   selector: row => row?.providers?.length,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
   ];
 
   return (
@@ -238,8 +235,8 @@ const PremiumnsListComponent = ({showDetailView}) => {
           <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable
               title={""}
-              columns={InvoiceSchema}
-              data={invoices}
+              columns={premiumColumns}
+              data={premiums}
               pointerOnHover
               highlightOnHover
               striped
