@@ -159,12 +159,11 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   ];
 
   const handleRow = payment => {
+    setToggleCleared(!toggleCleared);
     if (selectedPayment && selectedPayment.id === payment.id) {
       setSelectedPayment(null);
-      setToggleCleared(true);
     } else {
       setSelectedPayment(payment);
-      setToggleCleared(true);
     }
   };
 
