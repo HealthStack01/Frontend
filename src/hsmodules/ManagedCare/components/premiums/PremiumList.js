@@ -5,6 +5,7 @@ import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlin
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CustomTable from "../../../../components/customtable";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
+import ProviderGroupedPremiumnsListComponent from "./PremiumGroupedList";
 import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../app/styles";
 import client from "../../../../feathers";
@@ -16,22 +17,16 @@ const PremiumnsListComponent = ({showDetailView}) => {
   const policyServer = client.service("policy");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
-
   const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [premiums, setPremiums] = useState([]);
+  const [isGrouped, setIsGrouped] = useState(false);
 
   const getPremiums = useCallback(async () => {
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: true,
-      invRenwgen: {
-        $ne: true,
-      },
-      validityEnds: {
-        $lte: dayjs(),
-      },
       $sort: {
         createdAt: -1,
       },
@@ -47,6 +42,10 @@ const PremiumnsListComponent = ({showDetailView}) => {
           const planType = item?.planType || "Family";
           const planPremiums = item?.plan?.premiums;
 
+          if (!planPremiums) {
+            return null;
+          }
+
           const activePremiun = planPremiums.find(
             item => item.planType.toLowerCase() === planType.toLowerCase()
           );
@@ -56,8 +55,12 @@ const PremiumnsListComponent = ({showDetailView}) => {
             premium: activePremiun,
           };
         });
-        // console.log(premiums[0]);
-        setPremiums(premiums);
+
+        const filteredPremiums = premiums.filter(item => {
+          return item != null;
+        });
+
+        setPremiums(filteredPremiums);
       })
       .catch(err => {
         toast.error(`Something went wrong! ${err}`);
@@ -84,6 +87,28 @@ const PremiumnsListComponent = ({showDetailView}) => {
     return sponsorName;
   };
 
+  const dateIsExpired = date => {
+    // console.log(date);
+    const newDate = dayjs(date);
+    const currentTime = dayjs();
+
+    if (newDate.isBefore(currentTime)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const returnString = row => {
+    const expired = dateIsExpired(row.validityEnds);
+
+    const string = expired
+      ? `${dayjs(row?.validityEnds).format("DD-MM-YYYY")}(Expired)`
+      : dayjs(row?.validityEnds).format("DD-MM-YYYY");
+
+    return string;
+  };
+
   const premiumColumns = [
     {
       name: "S/N",
@@ -95,10 +120,20 @@ const PremiumnsListComponent = ({showDetailView}) => {
       width: "60px",
     },
     {
-      name: "Date Joined",
+      name: "Start Date",
       key: "createdAt",
       description: "Date Created",
-      selector: row => dayjs(row?.createdAt).format("DD-MM-YYYY"),
+      selector: row => dayjs(row?.validitystarts).format("DD-MM-YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "End Date",
+      key: "createdAt",
+      description: "Date Created",
+      selector: row => returnString(row),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -206,6 +241,19 @@ const PremiumnsListComponent = ({showDetailView}) => {
     // },
   ];
 
+  const conditionalRowStyles = [
+    {
+      when: row => dateIsExpired(row?.validityEnds),
+      style: {
+        backgroundColor: "#ffc2d1",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
   return (
     <>
       <div className="level">
@@ -223,26 +271,47 @@ const PremiumnsListComponent = ({showDetailView}) => {
             </div>
 
             <Box>
-              <GlobalCustomButton onClick={() => console.log()}>
+              <GlobalCustomButton onClick={() => setIsGrouped(!isGrouped)}>
                 <AddCircleOutlineOutlined
                   fontSize="small"
                   sx={{marginRight: "5px"}}
                 />
-                Unpaid Premiums
+                {isGrouped ? "Ungroup" : "Group"}
               </GlobalCustomButton>
             </Box>
           </TableMenu>
-          <div style={{width: "100%", overflow: "auto"}}>
-            <CustomTable
-              title={""}
-              columns={premiumColumns}
-              data={premiums}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              progressPending={loading}
-            />
+
+          <div
+            style={{
+              width: "100%",
+            }}
+          >
+            {isGrouped ? (
+              <ProviderGroupedPremiumnsListComponent
+                loading={loading}
+                premiums={premiums}
+              />
+            ) : (
+              <Box
+                sx={{
+                  width: "100%",
+                  overflowY: "scroll",
+                  height: "calc(100vh - 160px)",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={premiumColumns}
+                  data={premiums}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                  conditionalRowStyles={conditionalRowStyles}
+                />
+              </Box>
+            )}
           </div>
         </PageWrapper>
       </div>
