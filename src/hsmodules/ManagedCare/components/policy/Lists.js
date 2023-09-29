@@ -13,10 +13,9 @@ import {TableMenu} from "../../../../ui/styled/global";
 import {PageWrapper} from "../../../../ui/styled/styles";
 import {updateOnCreated} from "../../../../functions/Updates";
 import InvoiceCreate from "../invoice/InvoiceCreate";
-import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
+import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
 import ModalBox from "../../../../components/modal";
 import dayjs from "dayjs";
-
 
 const PoliciesList = ({
   createNewPolicy,
@@ -24,7 +23,7 @@ const PoliciesList = ({
   beneficiary,
   corporate,
   corporateOrg,
-  origin
+  origin,
 }) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
@@ -161,41 +160,41 @@ const PoliciesList = ({
   };
 
   const handleChoseClient = (e, row) => {
-   // console.log(plans)
+    // console.log(plans)
     if (e.target.checked) {
-     // console.log("checked", row._id);
+      // console.log("checked", row._id);
       row.invRenwgen = true;
       setPlans(plans.concat(row)); // Concatenate and update the plans array
-     // console.log(plans);
+      // console.log(plans);
       //update facilities
     } else {
       //console.log("unchecked", row._id);
       row.invRenwgen = false;
-      setPlans(plans.filter((el) => el._id !== row._id)); // Filter and update the plans array
-     // console.log(plans.length);
+      setPlans(plans.filter(el => el._id !== row._id)); // Filter and update the plans array
+      // console.log(plans.length);
     }
   };
 
   const handleDue = async () => {
-    setStatus("Due")
+    setStatus("Due");
     setLoading(true);
     setTotal(0);
     setPolicies([]);
     setIsLoading(true);
     // Get the current date
-      const currentDate = dayjs();
+    const currentDate = dayjs();
 
-      // Get the date three months from now
-      const threeMonthsFromNow = currentDate.add(3, 'month').endOf('day');
+    // Get the date three months from now
+    const threeMonthsFromNow = currentDate.add(3, "month").endOf("day");
 
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: true,
-      invRenwgen:{
-        $ne:true
+      invRenwgen: {
+        $ne: true,
       },
-      validityEnds:{
-        $lte: threeMonthsFromNow.toDate(), 
+      validityEnds: {
+        $lte: threeMonthsFromNow.toDate(),
       },
       $sort: {
         createdAt: -1,
@@ -243,28 +242,28 @@ const PoliciesList = ({
         toast.error(`Something went wrong! ${err}`);
         setIsLoading(false);
       });
-  }
+  };
 
   const handleOverdue = async () => {
-    setStatus("Overdue")
+    setStatus("Overdue");
     setLoading(true);
     setTotal(0);
     setPolicies([]);
     setIsLoading(true);
     // Get the current date
-      const currentDate = dayjs();
+    const currentDate = dayjs();
 
-      // Get the date three months from now
-      const threeMonthsFromNow = currentDate.add(3, 'month').endOf('day');
+    // Get the date three months from now
+    const threeMonthsFromNow = currentDate.add(3, "month").endOf("day");
 
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: true,
-      invRenwgen:{
-        $ne:true,
+      invRenwgen: {
+        $ne: true,
       },
-      validityEnds:{
-        $lte: currentDate, 
+      validityEnds: {
+        $lte: currentDate,
       },
       $sort: {
         createdAt: -1,
@@ -312,11 +311,11 @@ const PoliciesList = ({
         toast.error(`Something went wrong! ${err}`);
         setIsLoading(false);
       });
-  }
+  };
 
   const getPolicies = useCallback(async () => {
-    if (status==="Due"|| status=== "Overdue"){
-      return
+    if (status === "Due" || status === "Overdue") {
+      return;
     }
     setLoading(true);
     setTotal(0);
@@ -388,7 +387,7 @@ const PoliciesList = ({
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row, i) =>i + 1,
+      selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -542,18 +541,17 @@ const PoliciesList = ({
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row, i) =>(
+      selector: (row, i) => (
         <div style={{display: "flex", alignItems: "center"}}>
-        <input
-          type="checkbox"
-          //name={order._id}
-          style={{marginRight: "3px"}}
-         onChange={e => handleChoseClient(e,row)}
-         checked={row.nvRenwgen}
-        />
-        {row.sn}
-      </div>
-      
+          <input
+            type="checkbox"
+            //name={order._id}
+            style={{marginRight: "3px"}}
+            onChange={e => handleChoseClient(e, row)}
+            checked={row.nvRenwgen}
+          />
+          {row.sn}
+        </div>
       ),
       sortable: true,
       inputType: "HIDDEN",
@@ -703,6 +701,8 @@ const PoliciesList = ({
     },
   ];
 
+  console.log(policies[0]);
+
   return (
     <Box p={2}>
       <Box
@@ -714,65 +714,59 @@ const PoliciesList = ({
         mb={2}
       >
         {/* <div  style={{display: "flex", alignItems: "center"}} > */}
-          {handleSearch && (
-            <div className="inner-table">
-              <FilterMenu onSearch={handleSearch} />
-            </div>
-          )}
-          <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-            {`${status}`} Policies ({total})
-          </h2>
+        {handleSearch && (
+          <div className="inner-table">
+            <FilterMenu onSearch={handleSearch} />
+          </div>
+        )}
+        <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+          {`${status}`} Policies ({total})
+        </h2>
 
-          {status !== "Pending" && (
-            <GlobalCustomButton
-              onClick={() => setStatus("Pending")}
-              color="warning"
-            >
-              <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Pending Policies
-            </GlobalCustomButton>
-          )}
-
-          {status !== "Approved" && (
-            <GlobalCustomButton
-              onClick={() => setStatus("Approved")}
-              color="secondary"
-            >
-              <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Approved Policies
-            </GlobalCustomButton>
-          )}
-        
-        {status !== "Due" && (
+        {status !== "Pending" && (
           <GlobalCustomButton
-              onClick={handleDue}
-              color="primary"
-            >
-              <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Due Policies
-            </GlobalCustomButton>
-             )}
-             {status !== "Overdue" && (  
-            <GlobalCustomButton
-              onClick={handleOverdue}
-              color="primary"
-            >
-              <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-              Overdue Policies
-            </GlobalCustomButton>
-             )}
+            onClick={() => setStatus("Pending")}
+            color="warning"
+          >
+            <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Pending Policies
+          </GlobalCustomButton>
+        )}
 
-{plans.length>0 && (
-							<GlobalCustomButton onClick={()=>setCreateModal(true)}>
-								<AddCircleOutlineOutlined
-									fontSize='small'
-									sx={{marginRight: '5px'}}
-								/>
-								Create Invoice
-							</GlobalCustomButton>
-						)}
+        {status !== "Approved" && (
+          <GlobalCustomButton
+            onClick={() => setStatus("Approved")}
+            color="secondary"
+          >
+            <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Approved Policies
+          </GlobalCustomButton>
+        )}
 
-    {/*   </div> */}
+        {status !== "Due" && (
+          <GlobalCustomButton onClick={handleDue} color="primary">
+            <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Due Policies
+          </GlobalCustomButton>
+        )}
+        {status !== "Overdue" && (
+          <GlobalCustomButton onClick={handleOverdue} color="primary">
+            <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Overdue Policies
+          </GlobalCustomButton>
+        )}
+
+        {plans.length > 0 && (
+          <GlobalCustomButton onClick={() => setCreateModal(true)}>
+            <AddCircleOutlineOutlined
+              fontSize="small"
+              sx={{marginRight: "5px"}}
+            />
+            Create Invoice
+          </GlobalCustomButton>
+        )}
+
+        {/*   </div> */}
         {!beneficiary && !corporate && (
           <Box
             sx={{
@@ -805,7 +799,11 @@ const PoliciesList = ({
       >
         <CustomTable
           title={""}
-          columns={(origin === "corporate") && (status==="Overdue"||status==="Due")?OverdueSchema:PolicySchema}
+          columns={
+            origin === "corporate" && (status === "Overdue" || status === "Due")
+              ? OverdueSchema
+              : PolicySchema
+          }
           data={policies}
           pointerOnHover
           highlightOnHover
@@ -824,10 +822,13 @@ const PoliciesList = ({
         onClose={() => setCreateModal(false)}
         header="Create New Invoice"
         sx={{
-          width:"80%"
+          width: "80%",
         }}
       >
-        <InvoiceCreate closeModal={() => setCreateModal(false)} policies={plans} />
+        <InvoiceCreate
+          closeModal={() => setCreateModal(false)}
+          policies={plans}
+        />
       </ModalBox>
     </Box>
   );
