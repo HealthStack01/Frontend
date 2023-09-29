@@ -1,10 +1,10 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {useForm} from "react-hook-form";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 import client from "../../../feathers";
-import {toast} from "react-toastify";
-import {UserContext, ObjectContext} from "../../../context";
-import {Box, Grid, IconButton, Typography} from "@mui/material";
+import { toast } from "react-toastify";
+import { UserContext, ObjectContext } from "../../../context";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import CustomTable from "../../../components/customtable";
 import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import Input from "../../../components/inputs/basic/Input";
@@ -12,24 +12,29 @@ import CustomSelect from "../../../components/inputs/basic/Select";
 import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../components/inputs/basic/Textarea";
 import CloseIcon from "@mui/icons-material/Close";
-import {FormsHeaderText} from "../../../components/texts";
+import { FormsHeaderText } from "../../../components/texts";
 import dayjs from "dayjs";
 import CustomConfirmationDialog from "../../../components/confirm-dialog/confirm-dialog";
 // import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
-  const {register, handleSubmit, setValue, control, reset, getValues} =
+  const { register, handleSubmit, setValue, control, reset, getValues } =
     useForm();
   const fluidTypeOptions = ["Input", "Output"];
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
   const [selectedFluid, setSelectedFluid] = useState();
   const [chosen, setChosen] = useState(true);
   const [chosen1, setChosen1] = useState(true);
   const [chosen2, setChosen2] = useState(true);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const {state, setState, toggleSideMenu, showActionLoader, hideActionLoader} =
-    useContext(ObjectContext);
+  const {
+    state,
+    setState,
+    toggleSideMenu,
+    showActionLoader,
+    hideActionLoader,
+  } = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const ClientServ = client.service("clinicaldocument");
   const fac = useRef([]);
@@ -126,17 +131,18 @@ const FluidIntakeOutput = () => {
 
     // alert(document.status)
     ClientServ.create(document)
-      .then(res => {
+      .then((res) => {
         setChosen(true);
 
         toast.success("Fluid Input/Output entry successful");
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Error creating Appointment " + err);
       });
   };
 
   const onSubmit = async (data, e) => {
+    console.log("===>>>data", { data });
     //return console.log(data);
     // console.log(state.DocumentClassModule.selectedDocumentClass)
     //console.log(state.employeeLocation.locationName);
@@ -159,7 +165,7 @@ const FluidIntakeOutput = () => {
     // await update(data)
     struc.current = [data, ...facilities];
     // console.log(struc.current)
-    setFacilities(prev => [data, ...facilities]);
+    setFacilities((prev) => [data, ...facilities]);
     // data.recordings=facilities
     // e.target.reset();
     setChosen(false);
@@ -199,9 +205,9 @@ const FluidIntakeOutput = () => {
 
       // alert(document.status)
       ClientServ.create(document)
-        .then(res => {
+        .then((res) => {
           setChosen(true);
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             data[key] = "";
           });
           setConfirmDialog(false);
@@ -212,7 +218,7 @@ const FluidIntakeOutput = () => {
 
           toast.success("Fluid Input/Output entry successful");
         })
-        .catch(err => {
+        .catch((err) => {
           hideActionLoader();
           setConfirmDialog(false);
           toast.error("Fluid Input/Output entry " + err);
@@ -221,9 +227,9 @@ const FluidIntakeOutput = () => {
       ClientServ.patch(fac.current._id, {
         documentdetail: document.documentdetail,
       })
-        .then(res => {
+        .then((res) => {
           setChosen(true);
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             data[key] = "";
           });
           hideActionLoader();
@@ -233,7 +239,7 @@ const FluidIntakeOutput = () => {
 
           toast.success("Fluid Input/Output entry successful");
         })
-        .catch(err => {
+        .catch((err) => {
           setConfirmDialog(false);
           hideActionLoader();
           toast.error("Fluid Input/Output entry " + err);
@@ -258,7 +264,7 @@ const FluidIntakeOutput = () => {
       name: "Date/Time",
       key: "route",
       description: "route",
-      selector: row => dayjs(row.fluid_time).format("HH:mm:ss"),
+      selector: (row) => dayjs(row.fluid_time).format("HH:mm:ss"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -268,7 +274,7 @@ const FluidIntakeOutput = () => {
       name: "Route",
       key: "route",
       description: "route",
-      selector: row => row.route,
+      selector: (row) => row.route,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -278,7 +284,7 @@ const FluidIntakeOutput = () => {
       name: "Input Volume",
       key: "fluid",
       description: "fluid",
-      selector: row => row.fluidType === "Input" && row.volume,
+      selector: (row) => row.fluidType === "Input" && row.volume,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -288,7 +294,7 @@ const FluidIntakeOutput = () => {
       name: "Output Volume",
       key: "fluid",
       description: "fluid",
-      selector: row => row.fluidType === "Output" && row.volume,
+      selector: (row) => row.fluidType === "Output" && row.volume,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -298,7 +304,7 @@ const FluidIntakeOutput = () => {
       name: "comments",
       key: "comments",
       description: "comments",
-      selector: row => row.comments,
+      selector: (row) => row.comments,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -308,7 +314,7 @@ const FluidIntakeOutput = () => {
       name: "Fluid Type",
       key: "fluidtype",
       description: "fluidtype",
-      selector: row => row.fluid,
+      selector: (row) => row.fluid,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -318,7 +324,7 @@ const FluidIntakeOutput = () => {
       name: "Entry Time",
       key: "route",
       description: "route",
-      selector: row => dayjs(row.entrytime).format("DD-MM HH:mm:ss"),
+      selector: (row) => dayjs(row.entrytime).format("DD-MM HH:mm:ss"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -336,7 +342,7 @@ const FluidIntakeOutput = () => {
       encounter_right: false,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -441,7 +447,7 @@ const FluidIntakeOutput = () => {
           highlightOnHover
           striped
           CustomEmptyData={
-            <Typography sx={{fontSize: "0.85rem"}}>
+            <Typography sx={{ fontSize: "0.85rem" }}>
               No Vital Signs added yet
             </Typography>
           }
