@@ -19,7 +19,11 @@ const ManagedCareProviderPayment = () => {
 
       {view === "claims-details" && (
         <>
-          <ClaimDetailComponent handleGoBack={() => setView("lists")} />
+          <ClaimDetailComponent
+            handleGoBack={() => setView("lists")}
+            type="provider-payment"
+            editable={false}
+          />
         </>
       )}
     </Box>
