@@ -58,6 +58,7 @@ import { AppointmentCreate } from "../Appointment/generalAppointment";
 import DocumentationScheduleAppointment from "./ScheduleAppointment";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import dayjs from "dayjs";
+import CustomTable from "../../components/customtable";
 
 export default function EncounterMain({ nopresc, chosenClient }) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -257,27 +258,44 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
       const responseData = findClinic.data;
 
-      const updatedResponseData = responseData.map((item) => {
-        // Create a copy of the object
-        const updatedItem = { ...item };
+      // const updatedResponseData = responseData.map((item) => {
+      //   // Create a copy of the object
+      //   const updatedItem = { ...item };
 
-        // Check if the "documentdetail" key exists and if it has a "diagnosis" key
-        if (
-          updatedItem.documentdetail &&
-          updatedItem.documentdetail.diagnosis
-        ) {
-          // Remove the "diagnosis" key from the "documentdetail" object
-          delete updatedItem.documentdetail.diagnosis;
-        }
+      //   // Check if the "documentdetail" key exists and if it has a "diagnosis" key
+      //   if (
+      //     updatedItem.documentdetail &&
+      //     updatedItem.documentdetail.diagnosis
+      //   ) {
+      //     // Remove the "diagnosis" key from the "documentdetail" object
+      //     delete updatedItem.documentdetail.diagnosis;
+      //   }
 
-        return updatedItem;
-      });
+      //   return updatedItem;
+      // });
 
       console.log("====>>>>> findClinic.data updatedResponseData", {
-        updatedResponseData,
+        // updatedResponseData,
         responseData: findClinic.data,
         // newdocumentDetail,
       });
+
+      const sampleData = {
+        clinic: "holy",
+        id: "237",
+        diagonsis: [
+          {
+            id: 1,
+            name: "ona",
+            age: 20,
+          },
+          {
+            id: 2,
+            name: "fran",
+            age: 22,
+          },
+        ],
+      };
 
       await setFacilities(findClinic.data);
       //console.log(findClinic.data);
@@ -513,6 +531,49 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     // },
   ];
 
+  const diagnosisTableColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.diagnosis,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
   return (
     <Box
       container
@@ -843,10 +904,6 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => {
-                              // if (Array.isArray(value)) {
-                              //   return null; // Skip rendering for arrays
-                              // }
-
                               return (
                                 <>
                                   <Box
@@ -873,9 +930,6 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                                               color: "#000000",
                                             }}
                                           >
-                                            {/* {dayjs(value).isValid()
-                                            ? dayjs(value).format("DD/MM/YYYY")
-                                            : value} */}
                                             {value}
                                           </Typography>
                                         </Box>
@@ -944,8 +998,76 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                                             fontSize: 13,
                                           }}
                                         >
-                                          {value}{" "}
+                                          {keys === "diagnosis" &&
+                                          Array.isArray(value) ? (
+                                            // Render a table for "diagnosis" array
+                                            // <h1>test</h1>
+                                            <Box>
+                                              <CustomTable
+                                                title={""}
+                                                columns={diagnosisTableColumns}
+                                                data={value}
+                                                pointerOnHover
+                                                highlightOnHover
+                                                striped
+                                                //onRowClicked={handleRow}
+                                                //conditionalRowStyles={conditionalRowStyles}
+                                                progressPending={false}
+                                                CustomEmptyData={
+                                                  <Typography
+                                                    sx={{ fontSize: "0.8rem" }}
+                                                  >
+                                                    You've not added a Diagnosis
+                                                    yet...
+                                                  </Typography>
+                                                }
+                                              />
+                                            </Box>
+                                          ) : // Render the regular value
+                                          value instanceof Object ? (
+                                            JSON.stringify(value)
+                                          ) : (
+                                            value
+                                          )}
                                         </td>
+
+                                        {/* <td
+                                          style={{
+                                            border: "1px solid #e0e0e0",
+                                            padding: "10px",
+                                            fontSize: 13,
+                                          }}
+                                        >
+                                          {keys === "diagnosis" &&
+                                          Array.isArray(value) ? (
+                                            // Render a table for "diagonsis" array
+                                            // <table
+                                            //   style={{
+                                            //     width: "100%",
+                                            //     borderCollapse: "collapse",
+                                            //   }}
+                                            // >
+                                            //   <thead>
+                                            //     <tr>
+                                            //       <th>Name</th>
+                                            //       <th>Age</th>
+                                            //     </tr>
+                                            //   </thead>
+                                            //   <tbody>
+                                            //     {value.map((diagnosisItem, k) => (
+                                            //       <tr key={k}>
+                                            //         <td>{diagnosisItem.name}</td>
+                                            //         <td>{diagnosisItem.age}</td>
+                                            //       </tr>
+                                            //     ))}
+                                            //   </tbody>
+                                            // </table>
+                                            <h1>hello</h1>
+                                          ) : (
+                                            // Render the regular value
+                                            { value }
+                                          )}
+                                        </td> */}
                                       </tr>
                                     );
                                   }

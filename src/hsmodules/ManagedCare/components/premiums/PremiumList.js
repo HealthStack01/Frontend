@@ -1,24 +1,24 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
+import client from "../../../../feathers";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
+import {UserContext, ObjectContext} from "../../../../context";
 import {toast} from "bulma-toast";
 import {format} from "date-fns";
 import PaymentCreate from "./PaymentCreate";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import CustomTable from "../../components/customtable";
-import ModalBox from "../../components/modal";
+import {TableMenu} from "../../../../ui/styled/global";
+import FilterMenu from "../../../../components/utilities/FilterMenu";
+import CustomTable from "../../../../components/customtable";
+import ModalBox from "../../../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box, Typography} from "@mui/material";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PaymentCreatePage from "./PaymentCreatePage";
-import {FormsHeaderText} from "../../components/texts";
+import {FormsHeaderText} from "../../../../components/texts";
 import {ReceiptOutlined} from "@mui/icons-material";
-import PaymentInvoice from "./PaymentInvoice";
+/* import PaymentInvoice from "../../../PaymentInvoice"; */
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -89,7 +89,8 @@ export function BillingList({openModal, showCreateScreen}) {
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
-  const BillServ = client.service("bills");
+  const BillServ = client.service("corpinvoices");
+  const PremServ = client.service("premiums");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -318,21 +319,14 @@ export function BillingList({openModal, showCreateScreen}) {
   const getFacilities = async () => {
     // //console.log("here b4 server")
     setLoading(true);
-    const findProductEntry = await BillServ.find({
+    const findProductEntry = await PremServ.find({
       query: {
-        $or: [
-          {
-            "participantInfo.paymentmode.type": "Cash",
-          },
-          {
-            "participantInfo.paymentmode.type": "Family Cover",
-          },
-        ],
-        "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
-        billing_status: {
+        
+        'participantInfo.billingFacilityId': user.currentEmployee.facilityDetail._id,
+        status: {
           $ne: "Fully Paid",
-        }, // need to set this finally
+        }, 
+        // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         $limit: 100,
@@ -342,10 +336,10 @@ export function BillingList({openModal, showCreateScreen}) {
       },
     });
 
-    //console.log(findProductEntry);
+    console.log(findProductEntry);
 
     // //console.log("updatedorder", findProductEntry.groupedOrder)
-    await setFacilities(findProductEntry.groupedOrder);
+    await setFacilities(findProductEntry.data);
     setLoading(false);
     //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
@@ -353,7 +347,7 @@ export function BillingList({openModal, showCreateScreen}) {
 
    const onRowClicked = async (client, e) => {
   //   console.log(client);
-    if (selectedClient && selectedClient.client_id === client.client_id)
+    if (selectedClient && selectedClient._id === client._id)
       return setSelectedClient(null);
 
     await setSelectedClient(client);
@@ -361,7 +355,7 @@ export function BillingList({openModal, showCreateScreen}) {
     setOldClient(client.clientname);
     let newClient = client.clientname;
 
-    if (oldClient !== newClient) {
+  /*   if (oldClient !== newClient) {
       selectedOrders.forEach(el => (el.checked = ""));
       setSelectedOrders([]);
       setState(prev => ({
@@ -371,9 +365,9 @@ export function BillingList({openModal, showCreateScreen}) {
           selectedBills: [],
         },
       }));
-    }
+    } */
 
-    const clientOrders = client.bills.map(data => {
+   /*  const clientOrders = client.bills.map(data => {
       const allOrders = [];
 
       data.order.map(order => {
@@ -392,10 +386,10 @@ export function BillingList({openModal, showCreateScreen}) {
         allOrders.push(orderData);
       });
       return allOrders;
-    });
+    }); */
 
     ////console.log(clientOrders);
-    setClientBills(clientOrders.flat(1));
+    setClientBills(client.invoiceInfo.invoiceObj.plans);
   };
   //1.consider using props for global data
   useEffect(() => {
@@ -405,6 +399,7 @@ export function BillingList({openModal, showCreateScreen}) {
     BillServ.on("updated", obj => getFacilities());
     BillServ.on("patched", obj => getFacilities());
     BillServ.on("removed", obj => getFacilities());
+    console.log(facilities)
     return () => {};
   }, []);
 
@@ -447,7 +442,7 @@ export function BillingList({openModal, showCreateScreen}) {
   }, [selectedOrders]);
 
   const financePlaymentListSchema = [
-    {
+     {
       name: "S/N",
       width: "60px",
       headerStyle: (selector, id) => {
@@ -460,7 +455,7 @@ export function BillingList({openModal, showCreateScreen}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-    },
+    }, 
     {
       name: "Name",
       //width: "200px",
@@ -471,9 +466,32 @@ export function BillingList({openModal, showCreateScreen}) {
           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.clientname}
+          {row.participantInfo.client.facilityName}
+
         </Typography>
       ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "220px",
+    },
+    {
+      name: "Due Date",
+      // width: "130px",
+      key: "clientAmount",
+      description: "Enter Grand Total",
+      selector: row => row.serviceInfo.duedate? format(new Date(row?.serviceInfo?.duedate), "dd-MM-yy"):"",
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "120px",
+    }, 
+    {
+      name: "Category",
+      // width: "130px",
+      key: "clientAmount",
+      description: "Enter Grand Total",
+      selector: row => row.invoiceInfo.invoiceObj.subscription_category,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -484,18 +502,18 @@ export function BillingList({openModal, showCreateScreen}) {
       // width: "130px",
       key: "clientAmount",
       description: "Enter Grand Total",
-      selector: row => row.clientAmount.toFixed(2),
+      selector: row => row.serviceInfo.amount.toFixed(2),
       sortable: true,
       required: true,
       inputType: "TEXT",
       width: "120px",
     },
-    {
-      name: "Categories Total",
+    /*  {
+      name: "Invoice Details",
       key: "bills",
       description: "Enter Category Total",
       selector: row => {
-        const bills = row.bills;
+        const bills = row.plans;
         return (
           <>
             {bills.map((category, i) => (
@@ -504,21 +522,17 @@ export function BillingList({openModal, showCreateScreen}) {
                 data-tag="allowRowEvents"
                 key={i}
               >
-                {category.catName} {category.catAmount.toFixed(2)}
+                {category.name} {category.premium.toFixed(2)} {category.heads} {category.type} {category.amount}
               </Typography>
             ))}
           </>
         );
-        //row.clientAmount.toFixed(2);
-        // //console.log(bills);
-        // bills.map((category, i) => {
-        //   return category.catAmount.toFixed(2);
-        // });
+    
       },
-      sortable: true,
+      sortable: false,
       required: true,
       inputType: "TEXT",
-    },
+    }, */
     {
       name: "Action",
       key: "bills",
@@ -539,7 +553,7 @@ export function BillingList({openModal, showCreateScreen}) {
       width: "100px",
     },
   ];
-
+//{category.name} 
   const selectedClientSchema = [
     {
       name: "S/N",
@@ -548,13 +562,13 @@ export function BillingList({openModal, showCreateScreen}) {
       description: "Enter name of Disease",
       selector: row => (
         <div style={{display: "flex", alignItems: "center"}}>
-          <input
+         {/*  <input
             type="checkbox"
             //name={order._id}
             style={{marginRight: "3px"}}
             onChange={e => handleChoseClient(selectedClient, e, row.order)}
             checked={row.order.checked}
-          />
+          /> */}
           {row.sn}
         </div>
       ),
@@ -562,7 +576,7 @@ export function BillingList({openModal, showCreateScreen}) {
       required: true,
       inputType: "HIDDEN",
     },
-    {
+    /* {
       name: "Date",
       key: "date",
       description: "Enter Date",
@@ -570,18 +584,19 @@ export function BillingList({openModal, showCreateScreen}) {
       sortable: true,
       required: true,
       inputType: "DATE",
-    },
+    }, */
     {
-      name: "Category",
+      name: "Name",
       key: "category",
       description: "Enter Category",
-      selector: row => row.category,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: "SELECT",
+      width: "220px",
     },
     {
-      name: "Description",
+      name: "Premium",
       key: "description",
       description: "Enter Description",
       selector: row => (
@@ -589,7 +604,7 @@ export function BillingList({openModal, showCreateScreen}) {
           sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
           data-tag="allowRowEvents"
         >
-          {row.description}
+          {row.premium.toFixed(2)}
         </Typography>
       ),
       sortable: true,
@@ -597,10 +612,19 @@ export function BillingList({openModal, showCreateScreen}) {
       inputType: "TEXT",
     },
     {
-      name: "Status",
+      name: "Heads",
       key: "status",
       description: "Enter Status",
-      selector: row => row.status,
+      selector: row => row.heads,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Type",
+      key: "status",
+      description: "Enter Status",
+      selector: row => row.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -619,7 +643,7 @@ export function BillingList({openModal, showCreateScreen}) {
   // console.log(selectedClient)
   const conditionalRowStyles = [
     {
-      when: row => row.client_id === selectedClient?.client_id,
+      when: row => row._id === selectedClient?._id,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -646,11 +670,11 @@ export function BillingList({openModal, showCreateScreen}) {
           onClose={() => setInvoiceModal(false)}
           header={`Invoice Detail`}
         >
-          <PaymentInvoice
+       {/*    <PaymentInvoice
             clientId={selectedClient?.client_id}
             bills={clientBills}
             clientAmount={selectedClient?.clientAmount}
-          />
+          /> */}
         </ModalBox>
 
         <TableMenu>
@@ -667,11 +691,11 @@ export function BillingList({openModal, showCreateScreen}) {
                 marginRight: "7px",
               }}
             >
-              Unpaid Invoices/Bills
+              Unpaid Premiums
             </h2>
 
             {selectedClient && (
-              <FormsHeaderText text={`- ${selectedClient.clientname}`} />
+              <FormsHeaderText text={`- ${selectedClient.name}`} />
             )}
           </div>
 
@@ -693,12 +717,12 @@ export function BillingList({openModal, showCreateScreen}) {
               </GlobalCustomButton>
             )}
 
-            {selectedOrders.length > 0 && (
+           {/*  {selectedOrders.length > 0 && ( */}
               <GlobalCustomButton onClick={showCreateScreen}>
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                Make Payment
+                Paid Premiums
               </GlobalCustomButton>
-            )}
+           {/*  )} */}
           </Box>
         </TableMenu>
 

@@ -70,8 +70,10 @@ const CustomTable: React.FC<Props> = ({
   return (
     <DataTable
       title={title}
-      columns={columns.filter(obj => obj.selector && obj.inputType)}
-      data={data && data?.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
+      columns={columns}
+      data={
+        data && data?.map((obj, i) => ({...obj, sn: i + 1, id: `item-id-${i}`}))
+      } //TODO: only add sn if it's in the schema, to improve performance here
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}
       striped={striped}

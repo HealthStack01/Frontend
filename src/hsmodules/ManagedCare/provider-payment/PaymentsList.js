@@ -1,11 +1,13 @@
 import {Box, Typography} from "@mui/material";
-import {useContext, useState, useCallback, useEffect} from "react";
+import {useContext, useState, useCallback, useEffect, useMemo} from "react";
 import GlobalCustomButton from "../../../components/buttons/CustomButton";
 import FilterMenu from "../../../components/utilities/FilterMenu";
 import {ObjectContext, UserContext} from "../../../context";
 import CustomTable from "../../../components/customtable";
 import client from "../../../feathers";
 import dayjs from "dayjs";
+import ModalBox from "../../../components/modal";
+import ProviderPaymentClaimsStatus from "./UpdateClaimsStatus";
 
 const options = [
   {
@@ -25,38 +27,57 @@ const options = [
   },
 ];
 
-const groupClaimsByDate = data => {
-  const groupedData = {};
+const groupClaimsByDateAndId = data => {
+  const groupedData = [];
 
   data.forEach(obj => {
     const date = new Date(obj.updatedAt);
+    const year = date.getFullYear();
     const month = date.getMonth() + 1;
 
-    if (!groupedData[month]) {
-      groupedData[month] = [];
-    }
+    const key = `${year}-${month}`;
+    const providerId = obj.provider._id;
 
-    groupedData[month].push(obj);
+    // Check if the group already exists in the result array
+    const existingGroup = groupedData.find(
+      group => group.key === key && group.providerId === providerId
+    );
+
+    if (existingGroup) {
+      existingGroup.data.push(obj);
+    } else {
+      // Create a new group if it doesn't exist
+      groupedData.push({key, providerId, data: [obj]});
+    }
   });
 
-  const groupedClaims = Object.values(groupedData);
+  //const groupedClaims = Object.values(groupedData);
 
-  return groupedClaims;
+  return groupedData;
 };
 
 const ProvidersPaymentList = ({showClaimsDetail}) => {
+  const claimsServer = client.service("claims");
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState("Queued for Payment");
-  const {state, setState} = useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const {user} = useContext(UserContext);
   const [payments, setPayments] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState(null);
-  const claimsServer = client.service("claims");
+  const [toggleCleared, setToggleCleared] = useState(false);
+  const [claims, setClaims] = useState([]);
+  const [rendered, setRendered] = useState(false);
 
   const title = `${type} List`;
 
   const fetchProviderPayments = useCallback(async () => {
-    setLoading(true);
+    if (rendered) {
+      showActionLoader();
+    } else {
+      setLoading(true);
+    }
+    //setLoading(true);
 
     let query = {
       status: type,
@@ -73,14 +94,17 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 
     const claims = resp.data;
 
-    const claimsGroupedByDate = groupClaimsByDate(claims);
+    setClaims(claims);
 
-    const tableData = claimsGroupedByDate.map(item => {
+    const claimsGroupedByDate = groupClaimsByDateAndId(claims);
+
+    const groupedClaimsData = claimsGroupedByDate.map(item => item.data);
+
+    const finalData = groupedClaimsData.map(item => {
       const totalAmounts = item.reduce(
         (sum, obj) => sum + obj.totalamount || 0,
         0
       );
-
       return {
         id: item[0]._id,
         claimsId: item[0].claimid,
@@ -92,13 +116,42 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
       };
     });
 
-    setPayments(tableData);
+    const isPresent = selectedPayment
+      ? finalData.some(obj => obj._id === selectedPayment._id)
+      : false;
 
-    setLoading(false);
+    if (!isPresent) {
+      setSelectedPayment(null);
+    }
+
+    setPayments(finalData);
+    if (rendered) {
+      hideActionLoader();
+    } else {
+      setLoading(false);
+    }
+
+    setRendered(true);
   }, [type, user]);
 
   useEffect(() => {
     fetchProviderPayments();
+
+    claimsServer.on("created", obj => {
+      fetchProviderPayments();
+    });
+    claimsServer.on("updated", obj => {
+      // const newClaims = updateOnUpdated(claims, obj);
+
+      // setClaims(newClaims);
+      fetchProviderPayments();
+    });
+    claimsServer.on("patched", obj => {
+      fetchProviderPayments();
+    });
+    claimsServer.on("removed", obj => {
+      fetchProviderPayments();
+    });
   }, [fetchProviderPayments]);
 
   const handleSearch = () => {};
@@ -145,6 +198,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   ];
 
   const handleRow = payment => {
+    setToggleCleared(!toggleCleared);
     if (selectedPayment && selectedPayment.id === payment.id) {
       setSelectedPayment(null);
     } else {
@@ -167,84 +221,6 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 
     showClaimsDetail();
   };
-
-  const claimsColumns = [
-    {
-      name: "S/N",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: (row, i) => i + 1,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "60px",
-    },
-    {
-      name: "Date",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY"),
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "100px",
-    },
-    {
-      name: "Patient Name",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => (
-        <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
-          data-tag="allowRowEvents"
-        >
-          {row.beneficiary.firstname} {row.beneficiary.lastname}
-        </Typography>
-      ),
-      style: {
-        color: "#1976d2",
-        textTransform: "capitalize",
-      },
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "State",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-      selector: row => row.patientstate,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-      width: "100px",
-      style: {
-        textTransform: "capitalize",
-      },
-    },
-
-    {
-      name: "Num of Services",
-      key: "healthcare plan",
-      description: "Enter name of Healthcare Plan",
-
-      selector: row => row.services.length,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-
-    {
-      name: "Total Amount",
-      key: "bills",
-      description: "Enter bills",
-      selector: row => `₦${row?.totalamount}`,
-      //cell: row => returnCell(row?.totalamount),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-  ];
 
   const conditionalRowStyles = [
     {
@@ -334,7 +310,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
           <CustomTable
             title={""}
             columns={paymentColumns}
-            data={payments}
+            data={payments || []}
             pointerOnHover
             highlightOnHover
             striped
@@ -349,20 +325,14 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
             sx={{
               width: "60%",
               height: "calc(100vh - 140px)",
-
               overflowY: "auto",
             }}
           >
-            <CustomTable
-              title={""}
-              columns={claimsColumns}
-              data={selectedPayment ? selectedPayment.claims : []}
-              pointerOnHover
-              highlightOnHover
-              striped
+            <ClaimsTableComoponent
+              claims={selectedPayment ? selectedPayment.claims : []}
               onRowClicked={onClaimsRowClick}
-              progressPending={loading}
-              //conditionalRowStyles={conditionalRowStyles}
+              toggleCleared={toggleCleared}
+              setToggleCleared={setToggleCleared}
             />
           </Box>
         )}
@@ -372,3 +342,145 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 };
 
 export default ProvidersPaymentList;
+
+const ClaimsTableComoponent = ({
+  claims,
+  onRowClicked,
+  toggleCleared,
+  setToggleCleared,
+}) => {
+  const [statusModal, setStatusModal] = useState(false);
+  const [selectedClaims, setSelectedClaims] = useState([]);
+
+  const claimsColumns = [
+    {
+      name: "S/N",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "60px",
+    },
+    {
+      name: "Date",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: row => dayjs(row.createdAt).format("DD/MM/YYYY"),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "100px",
+    },
+    {
+      name: "Patient Name",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: row => (
+        <Typography
+          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          data-tag="allowRowEvents"
+        >
+          {row.beneficiary.firstname} {row.beneficiary.lastname}
+        </Typography>
+      ),
+      style: {
+        color: "#1976d2",
+        textTransform: "capitalize",
+      },
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "State",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: row => row.patientstate,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "100px",
+      style: {
+        textTransform: "capitalize",
+      },
+    },
+
+    {
+      name: "Num of Services",
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+
+      cell: row => row.services.length,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Total Amount",
+      key: "bills",
+      description: "Enter bills",
+      cell: row => `₦${row?.totalamount}`,
+      //cell: row => returnCell(row?.totalamount),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const handleRowSelected = useCallback(state => {
+    setSelectedClaims(state.selectedRows);
+  }, []);
+
+  const contextActions = useMemo(() => {
+    const handleAction = () => {
+      setStatusModal(true);
+    };
+
+    return (
+      <Box sx={{display: "flex", gap: "10px"}}>
+        <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Update Status
+        </GlobalCustomButton>
+      </Box>
+    );
+  }, [selectedClaims, claims, toggleCleared]);
+
+  return (
+    <>
+      <ModalBox
+        open={statusModal}
+        onClose={() => setStatusModal(false)}
+        header={`Update Status for ${selectedClaims?.length} Claim(s)`}
+      >
+        <ProviderPaymentClaimsStatus
+          closeModal={() => setStatusModal(false)}
+          setToggleCleared={setToggleCleared}
+          claims={claims}
+        />
+      </ModalBox>
+
+      <CustomTable
+        title={"Claims"}
+        columns={claimsColumns}
+        data={claims || []}
+        pointerOnHover
+        highlightOnHover
+        striped
+        onRowClicked={onRowClicked}
+        progressPending={false}
+        selectable
+        contextActions={contextActions}
+        clearSelectedRows={toggleCleared}
+        noHeader={false}
+        onSelectedRowsChange={handleRowSelected}
+      />
+    </>
+  );
+};
