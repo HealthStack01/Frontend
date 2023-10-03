@@ -22,11 +22,14 @@ const PremiumnsListComponent = ({showDetailView}) => {
   const [loading, setLoading] = useState(false);
   const [premiums, setPremiums] = useState([]);
   const [isGrouped, setIsGrouped] = useState(false);
+  const [isPaid, setIsPaid] = useState(true);
 
   const getPremiums = useCallback(async () => {
+    setLoading(true);
     let query = {
       organizationId: user.currentEmployee.facilityDetail._id,
       approved: true,
+      isPaid: isPaid,
       $sort: {
         createdAt: -1,
       },
@@ -61,17 +64,21 @@ const PremiumnsListComponent = ({showDetailView}) => {
         });
 
         setPremiums(filteredPremiums);
+        setLoading(false);
       })
       .catch(err => {
         toast.error(`Something went wrong! ${err}`);
+        setLoading(false);
       });
-  }, []);
+  }, [isPaid]);
 
   useEffect(() => {
     getPremiums();
   }, [getPremiums]);
 
-  const handleRow = async data => {};
+  const handleRow = data => {
+    console.log(data);
+  };
 
   const handleSearch = () => {};
 
@@ -266,17 +273,30 @@ const PremiumnsListComponent = ({showDetailView}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Paid Premiums
+                List of {isPaid ? "Paid" : "Unpaid"} Premiums
               </h2>
             </div>
 
-            <Box>
-              <GlobalCustomButton onClick={() => setIsGrouped(!isGrouped)}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "14px",
+              }}
+            >
+              <GlobalCustomButton onClick={() => setIsGrouped(prev => !prev)}>
                 <AddCircleOutlineOutlined
                   fontSize="small"
                   sx={{marginRight: "5px"}}
                 />
                 {isGrouped ? "Ungroup" : "Group"}
+              </GlobalCustomButton>
+
+              <GlobalCustomButton onClick={() => setIsPaid(prev => !prev)}>
+                <AddCircleOutlineOutlined
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />
+                {isPaid ? "Unpaid" : "Paid"}
               </GlobalCustomButton>
             </Box>
           </TableMenu>
