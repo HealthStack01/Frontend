@@ -116,6 +116,7 @@ export const menuItems = [
       {name: "Services", to: "/app/finance/services"},
       {name: "HMO Authorization", to: "/app/finance/hmoauthorization"},
       {name: "Dashboard", to: "/app/finance/dashboard"},
+      {name: "Tariffs", to: "/app/finance/tariffs"},
     ],
   },
   {
@@ -427,23 +428,21 @@ function SideMenu({isOpen}) {
   const sortedMenuItems = menuItems.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
-const cleanup=async()=>{
+  const cleanup = async () => {
+    let logObj = {
+      user: user,
+      facility: user.employeeData[0].facilityDetail,
+      type: "logout",
+    };
 
-  let logObj={
-    user: user,
-    facility:user.employeeData[0].facilityDetail,
-    type:"logout"
-  }
+    await client.service("logins").create(logObj);
 
-    await client.service("logins").create(logObj)
-
- let onlineObj={
-  lastLogin: new Date(),
-  online:false
- }
-    await client.service("users").patch(user._id, onlineObj)
-
-}
+    let onlineObj = {
+      lastLogin: new Date(),
+      online: false,
+    };
+    await client.service("users").patch(user._id, onlineObj);
+  };
   //const orgModules = state.facilityDetail
 
   //const organitionMenuItems = orgModules.filter(item => orgModules.includes(item.name) )
@@ -540,7 +539,7 @@ const cleanup=async()=>{
             subMenus={[]}
             onClick={() => {
               localStorage.setItem("user", "");
-              cleanup()
+              cleanup();
             }}
           />
         </Lists>

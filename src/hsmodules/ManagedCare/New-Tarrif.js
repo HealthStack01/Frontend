@@ -7,7 +7,7 @@ import CreateBand from "./components/tarrif/CreateBand";
 import CreateTariff from "./components/tarrif/CreateTarrif";
 import ModalBox from "../../components/modal";
 
-const Tarrif = () => {
+const Tarrif = ({provider}) => {
   const [createBandModal, setCreateBandModal] = useState(false);
   const [view, setView] = useState("lists");
 

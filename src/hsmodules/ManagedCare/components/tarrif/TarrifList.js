@@ -9,7 +9,12 @@ import {DeleteOutline} from "@mui/icons-material";
 import {toast} from "react-toastify";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const TarrifListComponent = ({showDetail, createBand, createTarrif}) => {
+const TarrifListComponent = ({
+  showDetail,
+  createBand,
+  createTarrif,
+  provider,
+}) => {
   const tarrifsServer = client.service("tariff");
   const {user} = useContext(UserContext);
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -27,16 +32,19 @@ const TarrifListComponent = ({showDetail, createBand, createTarrif}) => {
   const handleGetTarrifs = useCallback(async () => {
     setLoading(true);
 
-    const resp = await tarrifsServer.find({
-      query: {
-        organizationId: user.currentEmployee.facilityDetail._id,
-        $sort: {
-          createdAt: -1,
-        },
+    let query = {
+      organizationId: user.currentEmployee.facilityDetail._id,
+      $sort: {
+        createdAt: -1,
       },
+    };
+
+    const resp = await tarrifsServer.find({
+      query: query,
     });
 
     setTarrifs(resp.data);
+    console.log(resp.data);
     setLoading(false);
   }, [user.currentEmployee.facilityDetail._id]);
 
@@ -159,7 +167,11 @@ const TarrifListComponent = ({showDetail, createBand, createTarrif}) => {
   ];
 
   return (
-    <Box sx={{display: "flex", flexDirection: "column", overflow:"auto"}} gap={2} p={2}>
+    <Box
+      sx={{display: "flex", flexDirection: "column", overflow: "auto"}}
+      gap={2}
+      p={2}
+    >
       <CustomConfirmationDialog
         open={confirmDialog.open}
         message={confirmDialog.message}
