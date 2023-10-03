@@ -32,12 +32,24 @@ const TarrifListComponent = ({
   const handleGetTarrifs = useCallback(async () => {
     setLoading(true);
 
-    let query = {
-      organizationId: user.currentEmployee.facilityDetail._id,
-      $sort: {
-        createdAt: -1,
-      },
-    };
+    let query;
+
+    if (provider) {
+      console.log(provider);
+      query = {
+        "providers.dest_org": provider._id,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    } else {
+      query = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
 
     const resp = await tarrifsServer.find({
       query: query,
@@ -127,6 +139,16 @@ const TarrifListComponent = ({
       inputType: "TEXT",
     },
     {
+      name: "HMO",
+      key: "hmoname",
+      description: "HMO name",
+      selector: row => row?.organizationName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      omit: provider ? false : true,
+    },
+    {
       name: "No of Facilities",
       key: "nofacilities",
       description: "No of Facilities",
@@ -134,6 +156,7 @@ const TarrifListComponent = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
+      omit: provider ? true : false,
     },
     {
       name: "No of Services",
@@ -198,21 +221,23 @@ const TarrifListComponent = ({
           <Typography>List of Tarrifs</Typography>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1.5,
-            alignItems: "center",
-          }}
-        >
-          <GlobalCustomButton onClick={createBand}>
-            Add New Band
-          </GlobalCustomButton>
+        {!provider && (
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1.5,
+              alignItems: "center",
+            }}
+          >
+            <GlobalCustomButton onClick={createBand}>
+              Add New Band
+            </GlobalCustomButton>
 
-          <GlobalCustomButton color="success" onClick={createTarrif}>
-            Create New Tarrif
-          </GlobalCustomButton>
-        </Box>
+            <GlobalCustomButton color="success" onClick={createTarrif}>
+              Create New Tarrif
+            </GlobalCustomButton>
+          </Box>
+        )}
       </Box>
 
       <Box

@@ -19,13 +19,14 @@ const Tarrif = ({provider}) => {
             showDetail={() => setView("details")}
             createBand={() => setCreateBandModal(true)}
             createTarrif={() => setView("create")}
+            provider={provider}
           />
         </Box>
       )}
 
       {view === "details" && (
         <Box>
-          <TarrifDetails goBack={() => setView("lists")} />
+          <TarrifDetails goBack={() => setView("lists")} provider={provider} />
         </Box>
       )}
 
