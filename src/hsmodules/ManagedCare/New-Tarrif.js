@@ -7,7 +7,7 @@ import CreateBand from "./components/tarrif/CreateBand";
 import CreateTariff from "./components/tarrif/CreateTarrif";
 import ModalBox from "../../components/modal";
 
-const Tarrif = () => {
+const Tarrif = ({provider}) => {
   const [createBandModal, setCreateBandModal] = useState(false);
   const [view, setView] = useState("lists");
 
@@ -19,13 +19,14 @@ const Tarrif = () => {
             showDetail={() => setView("details")}
             createBand={() => setCreateBandModal(true)}
             createTarrif={() => setView("create")}
+            provider={provider}
           />
         </Box>
       )}
 
       {view === "details" && (
         <Box>
-          <TarrifDetails goBack={() => setView("lists")} />
+          <TarrifDetails goBack={() => setView("lists")} provider={provider} />
         </Box>
       )}
 

@@ -35,7 +35,12 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import UpadteService from "./UpdateService";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 
-const ClaimDetailComponent = ({handleGoBack, client_id, beneficiary}) => {
+const ClaimDetailComponent = ({
+  handleGoBack,
+  client_id,
+  beneficiary,
+  editable = true,
+}) => {
   const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -537,6 +542,7 @@ const ClaimDetailComponent = ({handleGoBack, client_id, beneficiary}) => {
           gap={1}
         >
           {user.currentEmployee.roles.includes("Managed Care Audit Claim") &&
+            editable &&
             (edit ? (
               <>
                 <GlobalCustomButton color="info" onClick={() => setEdit(false)}>
@@ -559,12 +565,14 @@ const ClaimDetailComponent = ({handleGoBack, client_id, beneficiary}) => {
               </GlobalCustomButton>
             ))}
 
-          <GlobalCustomButton color="info" onClick={() => setView("details")}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-            Details
-          </GlobalCustomButton>
+          {editable && (
+            <GlobalCustomButton color="info" onClick={() => setView("details")}>
+              <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+              Details
+            </GlobalCustomButton>
+          )}
 
-          {!client_id && (
+          {!client_id && editable && (
             <GlobalCustomButton
               color="warning"
               onClick={() => setView("tasks")}
@@ -602,7 +610,8 @@ const ClaimDetailComponent = ({handleGoBack, client_id, beneficiary}) => {
             user?.currentEmployee?.roles?.includes(
               "Managed Care Assign Claim"
             )) &&
-            !client_id && (
+            !client_id &&
+            editable && (
               <GlobalCustomButton
                 color="info"
                 onClick={() => setAssignModal(true)}

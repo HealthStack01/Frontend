@@ -11,6 +11,7 @@ const FinanceDashboard = lazy(() =>
   import("../dashBoardUiComponent/@modules/FinanceDashboard")
 );
 const ClientTransactions = lazy(() => import("../Finance/ClientTransactions"));
+const EMRTarrifsComponent = lazy(() => import("../Finance/Tariffs"));
 
 export const financeRoutes = [
   {
@@ -48,5 +49,9 @@ export const financeRoutes = [
   {
     path: "/app/finance/client-transactions",
     Component: ClientTransactions,
+  },
+  {
+    path: "/app/finance/tariffs",
+    Component: EMRTarrifsComponent,
   },
 ];
