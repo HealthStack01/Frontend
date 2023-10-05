@@ -228,13 +228,15 @@ export default function EncounterRight() {
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
-        "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
+        "Eye examination" && <EyeExamination />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Orthodontic Analysis" && (
         <OrthodonticAnalysis onSubmit={submitDocument} />
       )}
+
+      {/*  */}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Preventive Care" && <PreventiveCare />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
@@ -675,12 +677,20 @@ export function ClinicalNoteCreate() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+
+        if (keys === "diagnosis") {
+          setDiagnosis(value);
+        }
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -692,6 +702,7 @@ export function ClinicalNoteCreate() {
 
     return () => {};
   }, [user]);
+
   useEffect(() => {
     if (!user.stacker) {
     }
@@ -755,6 +766,7 @@ export function ClinicalNoteCreate() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("Clinincal note created draft");
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -772,6 +784,7 @@ export function ClinicalNoteCreate() {
           toast.error("Error updating Documentation " + err);
         });
     } else {
+      console.log("Clinincal note created");
       ClientServ.create(document)
         .then((res) => {
           console.log("Clinincal note data", res);
@@ -2071,6 +2084,7 @@ export function BackPainQuestionnaireCreate() {
   });
 
   const onSubmit = (data, e) => {
+    console.log("onsubmit", { data: data });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -2084,8 +2098,8 @@ export function BackPainQuestionnaireCreate() {
     }
     data.totalScore = totalScore;
     document.documentdetail = data;
-    document.documentname = `${data.Investigation} Result`; //"Lab Result"
-    document.documentType = "Diagnostic Result";
+    document.documentname = "Back Pain Questionnaire"; //`${data.Investigation} Result`;
+    document.documentType = "Back Pain Questionnaire"; //"Diagnostic Result";
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
@@ -2283,9 +2297,7 @@ export function BackPainQuestionnaireCreate() {
           cancelAction={() => setConfirmDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "investigation"
-          )} Result?`}
+          message={`You are about to save this Back Pain Questionnaire document?`}
         />
         <Box
           sx={{
@@ -3023,11 +3035,13 @@ export function LabNoteCreate() {
 
 // Eye Examination
 export function EyeExamination() {
-  const { register, handleSubmit, setValue, reset, getValues } = useForm(); //, watch, errors, reset
+  const { control, register, handleSubmit, setValue, reset, getValues } =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
+  const [facility, setFacility] = useState();
   const ClientServ = client.service("clinicaldocument");
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -3049,12 +3063,47 @@ export function EyeExamination() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+        if (keys === "acuity") {
+          setFormData((prevState) => ({
+            ...prevState,
+            acuity: value,
+          }));
+        }
+        if (keys === "muscles") {
+          setFormData((prevState) => ({
+            ...prevState,
+            muscles: value,
+          }));
+        }
+        if (keys === "degree") {
+          setFormData((prevState) => ({
+            ...prevState,
+            degree: value,
+          }));
+        }
+        if (keys === "colorVision") {
+          setFormData((prevState) => ({
+            ...prevState,
+            colorVision: value,
+          }));
+        }
+        if (keys === "fieldRestriction") {
+          setFormData((prevState) => ({
+            ...prevState,
+            fieldRestriction: value,
+          }));
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -3070,6 +3119,8 @@ export function EyeExamination() {
     if (!user.stacker) {
     }
   });
+
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
 
   const handleAcuityChange = (event) => {
     setFormData((prevState) => ({
@@ -3120,21 +3171,22 @@ export function EyeExamination() {
     }
 
     document.documentdetail = {
-      "Age Of Onset": data.ageOfOnset,
-      History: data.history,
-      "Unaided RVA": data.unaidedRVA,
-      "Unaided LVA": data.unaidedLVA,
-      "Unaided NV": data.unaidedNV,
-      "Aided RVA": data.aidedRVA,
-      "Aided LVA": data.aidedLVA,
-      "Aided NV": data.aidedNV,
-      Acuity: formData.acuity,
-      "Muscle Function": formData.muscles,
-      "Visual Field Test": data.visualFieldTest,
-      Describe: data.describe,
-      Degree: formData.degree,
-      "Field Restriction": formData.fieldRestriction,
-      "Color Vision": formData.colorVision,
+      ...data,
+      // "Age Of Onset": data.ageOfOnset,
+      // history: data.history,
+      // "Unaided RVA": data.unaidedRVA,
+      // "Unaided LVA": data.unaidedLVA,
+      // "Unaided NV": data.unaidedNV,
+      // "Aided RVA": data.aidedRVA,
+      // "Aided LVA": data.aidedLVA,
+      // "Aided NV": data.aidedNV,
+      acuity: formData.acuity,
+      muscles: formData.muscles,
+      // "Visual Field Test": data.visualFieldTest,
+      // Describe: data.describe,
+      degree: formData.degree,
+      fieldRestriction: formData.fieldRestriction,
+      colorVision: formData.colorVision,
     };
     document.documentname = "Eye examination";
     document.documentType = "Eye examination";
@@ -3202,6 +3254,7 @@ export function EyeExamination() {
         });
     }
   };
+
   const closeEncounterRight = async () => {
     setState((prevstate) => ({
       ...prevstate,
@@ -3224,9 +3277,7 @@ export function EyeExamination() {
           cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Examination?`}
+          message={`You are about to save this document Eye Examination?`}
         />
         <Box
           sx={{
@@ -3250,7 +3301,7 @@ export function EyeExamination() {
             <Box mb={1}>
               <Input
                 register={register("ageOfOnset")}
-                name="text"
+                name="ageOfOnset"
                 type="text"
                 placeholder="Enter age of Onset"
               />
@@ -3262,7 +3313,7 @@ export function EyeExamination() {
               <Textarea
                 color="primary"
                 register={register("history")}
-                name="findings"
+                name="history"
                 type="text"
                 placeholder="Type here...."
               />
@@ -3288,7 +3339,7 @@ export function EyeExamination() {
                 <Box sx={{ marginTop: "10px" }}>
                   <Input
                     register={register("unaidedRVA")}
-                    name="text"
+                    name="unaidedRVA"
                     type="text"
                     placeholder="Enter RVA..."
                     fullWidth
@@ -3301,7 +3352,7 @@ export function EyeExamination() {
                 <Box sx={{ marginTop: "10px" }}>
                   <Input
                     register={register("unaidedLVA")}
-                    name="text"
+                    name="unaidedLVA"
                     type="text"
                     placeholder="Enter LVA..."
                     fullWidth
@@ -3490,8 +3541,8 @@ export function EyeExamination() {
             </Box>
             <Box>
               <Textarea
-                register={register("describe")}
-                name="findings"
+                register={register("describeOne")}
+                name="describeOne"
                 type="text"
                 label="Describe"
                 placeholder="Type here..."
@@ -3511,7 +3562,8 @@ export function EyeExamination() {
             <Box mb={1}>
               <Input
                 register={register("visualFieldTest")}
-                name="text"
+                name="isualFieldTest
+                isualFieldTest"
                 type="text"
                 placeholder="Enter test type"
               />
@@ -3554,8 +3606,8 @@ export function EyeExamination() {
             <Box>
               <Textarea
                 color="primary"
-                register={register("describe")}
-                name="findings"
+                register={register("describeTwo")}
+                name="describeTwo"
                 type="text"
                 label="Description"
                 placeholder="Type here..."
@@ -3700,12 +3752,31 @@ export function DentalClinic() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "Send To") {
+          setFormData((prevState) => ({
+            ...prevState,
+            dentalLaboratory: value,
+          }));
+        }
+        if (keys === "dentalTherapist") {
+          setFormData((prevState) => ({
+            ...prevState,
+            dentalTherapist: value,
+          }));
+        }
+        if (keys === "orthodontist") {
+          setFormData((prevState) => ({
+            ...prevState,
+            orthodontist: value,
+          }));
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -3736,16 +3807,17 @@ export function DentalClinic() {
     }
 
     document.documentdetail = {
-      RFA: data.rfa,
-      HPC: data.hpc,
-      PDH: data.pdh,
-      PHM: data.phm,
-      "Intra Oral": data.intraoral,
-      "Extra Oral": data.extraoral,
-      Investigation: data.investigation,
-      Diagnosis: data.diagnosis,
-      "Management Plan": data.managementPlan,
-      Treatment: data.treatment,
+      ...data,
+      // RFA: data.rfa,
+      // HPC: data.hpc,
+      // PDH: data.pdh,
+      // PHM: data.phm,
+      // "Intra Oral": data.intraoral,
+      // "Extra Oral": data.extraoral,
+      // Investigation: data.investigation,
+      // Diagnosis: data.diagnosis,
+      // "Management Plan": data.managementPlan,
+      // Treatment: data.treatment,
       "Send To": formData.dentalLaboratory,
     };
     document.documentname = "Dental Clinic";
@@ -3843,9 +3915,7 @@ export function DentalClinic() {
           cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Examination?`}
+          message={`You are about to save this Dental Clinic document?`}
         />
         <Box
           sx={{
@@ -3880,7 +3950,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("rfa")}
-                    name="text"
+                    name="rfa"
                     type="text"
                     placeholder="Enter rfa"
                   />
@@ -3891,7 +3961,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("hpc")}
-                    name="text"
+                    name="hpc"
                     type="text"
                     placeholder="Enter hpc"
                   />
@@ -3904,7 +3974,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("pdh")}
-                    name="text"
+                    name="pdh"
                     type="text"
                     placeholder="Enter pdh"
                   />
@@ -3915,7 +3985,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("phm")}
-                    name="text"
+                    name="phm"
                     type="text"
                     placeholder="Enter pmh"
                   />
@@ -3939,7 +4009,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("intraoral")}
-                    name="text"
+                    name="intraoral"
                     type="text"
                     placeholder="Type here..."
                   />
@@ -3952,7 +4022,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("extraoral")}
-                    name="text"
+                    name="extraoral"
                     type="text"
                     placeholder="Type here..."
                   />
@@ -3967,7 +4037,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("investigation")}
-                name="findings"
+                name="investigation"
                 type="text"
                 placeholder="Type here...."
               />
@@ -3979,7 +4049,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("diagnosis")}
-                name="findings"
+                name="diagnosis"
                 type="text"
                 placeholder="Type here...."
               />
@@ -3992,7 +4062,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("managementPlan")}
-                name="findings"
+                name="managementPlan"
                 type="text"
                 placeholder="Type here...."
               />
@@ -4004,7 +4074,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("treatment")}
-                name="findings"
+                name="treatment"
                 type="text"
                 placeholder="Type here...."
               />
