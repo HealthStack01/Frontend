@@ -825,7 +825,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
           onClose={() => setDepositModal(false)}
           header={`Make Deposit`}
         >
-          <MakeDeposit balance={balance} />
+          {/* <MakeDeposit balance={balance} /> */}
         </ModalBox>
 
         <Box
@@ -1048,7 +1048,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
           </Grid>
         </Box>
 
-        {productItem.length > 0 && (
+        {/* productItem.length > 0 && */ (
           <Box
             pr={2}
             pl={2}
