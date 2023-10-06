@@ -1644,6 +1644,7 @@ export function BackPainQuestionnaireCreate() {
         "I can tolerate the pain I have without having to use pain medication",
       checked: false,
       schemaName: "painIntensity",
+      displaySchemaName: "Pain Intensity",
     },
     {
       name: "pain_intensity_check_1",
@@ -1680,6 +1681,7 @@ export function BackPainQuestionnaireCreate() {
         "I can take care of myself normally without causing increased pain.",
       checked: false,
       schemaName: "personalCare",
+      displaySchemaName: "Personal Care",
     },
     {
       name: "personal_care_1",
@@ -1714,6 +1716,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can lift heavy weights without increased pain.",
       checked: false,
       schemaName: "lifting",
+      displaySchemaName: "Lifting",
     },
     {
       name: "lifting_1",
@@ -1750,6 +1753,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can lift heavy weights without increased pain.",
       checked: false,
       schemaName: "walking",
+      displaySchemaName: "Walking",
     },
     {
       name: "walking_1",
@@ -1790,6 +1794,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can sit in any chair as long as I like.",
       checked: false,
       schemaName: "sitting",
+      displaySchemaName: "Sitting",
     },
     {
       name: "sitting_1",
@@ -1824,6 +1829,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can stand as long as I want without increased pain.",
       checked: false,
       schemaName: "standing",
+      displaySchemaName: "Standing",
     },
     {
       name: "standing_1",
@@ -1858,6 +1864,7 @@ export function BackPainQuestionnaireCreate() {
       label: "Pain does not prevent me from sleeping well.",
       checked: false,
       schemaName: "sleeping",
+      displaySchemaName: "Sleeping",
     },
     {
       name: "sleeping_1",
@@ -1892,6 +1899,7 @@ export function BackPainQuestionnaireCreate() {
       label: "My social life is normal and does not increase my pain.",
       checked: false,
       schemaName: "socialLife",
+      displaySchemaName: "Social Life",
     },
     {
       name: "social_life_1",
@@ -1927,6 +1935,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can travel anywhere without increased pain.",
       checked: false,
       schemaName: "travelling",
+      displaySchemaName: "Travelling",
     },
     {
       name: "travelling_1",
@@ -1963,6 +1972,7 @@ export function BackPainQuestionnaireCreate() {
       label: "My normal homemaking / job activities do not cause pain.",
       checked: false,
       schemaName: "employmentHome",
+      displaySchemaName: "Employment Home",
     },
     {
       name: "employment_homemaking_1",
@@ -1991,6 +2001,19 @@ export function BackPainQuestionnaireCreate() {
       label: "Pain prevents me from performing any job or homemaking chores.",
       checked: false,
     },
+  ];
+
+  const allSchemaData = [
+    painIntensityCheckBoxSchemaData,
+    personalCareCheckBoxSchemaData,
+    liftingCheckBoxSchemaData,
+    walkingCheckBoxSchemaData,
+    sittingCheckBoxSchemaData,
+    travellingCheckBoxSchemaData,
+    employmentHomemakingCheckBoxSchemaData,
+    socialLifeCheckBoxSchemaData,
+    sleepingCheckBoxSchemaData,
+    standingCheckBoxSchemaData,
   ];
 
   const [error, setError] = useState(false);
@@ -2042,16 +2065,144 @@ export function BackPainQuestionnaireCreate() {
     standingCheckBoxSchemaData
   );
 
+  const updateCheckBoxesWithData = (schemaData, responseData) => {
+    // Iterate through the schemaData array
+    schemaData.forEach((checkbox) => {
+      const name = checkbox.name;
+
+      // Check if the name exists as a key in the responseData object
+      if (responseData.hasOwnProperty(name)) {
+        // Check if the value is not false before updating 'checked' to true
+        if (responseData[name] !== false && responseData[name] !== "false") {
+          checkbox.checked = true;
+        }
+      }
+    });
+
+    // Return the updated schemaData
+    return schemaData;
+  };
+
+  const updateAndSetCheckboxSchema = (
+    schemaData,
+    setStateFunction,
+    responseData
+  ) => {
+    const updatedSchemaData = updateCheckBoxesWithData(
+      schemaData,
+      responseData
+    );
+    setStateFunction(updatedSchemaData);
+  };
+
+  const filterCheckedData = (schemaDataArray, resData) => {
+    const filteredData = {};
+
+    schemaDataArray.forEach((schemaData) => {
+      const schemaName = schemaData[0].displaySchemaName;
+      schemaData.forEach((item) => {
+        if (resData[item.name] !== false) {
+          filteredData[schemaName] = item.label;
+        }
+      });
+    });
+
+    return filteredData;
+  };
+
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      console.log("===>>> response data", {
+        data: draftDoc.documentdetail,
+      });
+
+      const checkboxSchemas = [
+        {
+          schemaData: standingCheckBoxSchema,
+          setStateFunction: setStandingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: employmentHomemakingCheckBoxSchema,
+          setStateFunction: setEmploymentHomemakingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: travelingCheckBoxSchema,
+          setStateFunction: setTravelingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: socialLifeCheckBoxSchema,
+          setStateFunction: setSocialLifeCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: sleepingCheckBoxSchema,
+          setStateFunction: setSleepingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: painIntensityCheckBoxSchema,
+          setStateFunction: setPainIntensityCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: personalCareCheckBoxSchema,
+          setStateFunction: setPersonalCareCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: liftingCheckBoxSchema,
+          setStateFunction: setLiftingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: walkingCheckBoxSchema,
+          setStateFunction: setWalkingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: sittingCheckBoxSchema,
+          setStateFunction: setSittingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+      ];
+
+      checkboxSchemas.forEach((schema) => {
+        updateAndSetCheckboxSchema(
+          schema.schemaData,
+          schema.setStateFunction,
+          schema.responseData
+        );
+      });
+
+      // const updatedPainIntensityCheckBoxSchemaData = updateCheckBoxesWithData(
+      //   painIntensityCheckBoxSchemaData,
+      //   draftDoc.documentdetail
+      // );
+      // setPainIntensityCheckBoxSchema(updatedPainIntensityCheckBoxSchemaData);
+
+      // const updatedStandingCheckBoxSchema = updateCheckBoxesWithData(
+      //   standingCheckBoxSchema,
+      //   draftDoc.documentdetail
+      // );
+      // setStandingCheckBoxSchema(updatedStandingCheckBoxSchema);
+
+      // console.log("===>>> response data 2", {
+      //   updated,
+      // });
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "totalScore") {
+          setTotalScore(value);
+        }
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -2084,7 +2235,7 @@ export function BackPainQuestionnaireCreate() {
   });
 
   const onSubmit = (data, e) => {
-    console.log("onsubmit", { data: data });
+    // console.log("onsubmit", { data: data });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -2096,8 +2247,6 @@ export function BackPainQuestionnaireCreate() {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
-    data.totalScore = totalScore;
-    document.documentdetail = data;
     document.documentname = "Back Pain Questionnaire"; //`${data.Investigation} Result`;
     document.documentType = "Back Pain Questionnaire"; //"Diagnostic Result";
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
@@ -2132,6 +2281,24 @@ export function BackPainQuestionnaireCreate() {
     // );
     // if (confirm) {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForDraft = {
+        ...data,
+        totalScore,
+      };
+
+      const filterDataForFinal = filterCheckedData(allSchemaData, dataForDraft);
+
+      const dataForFinal = {
+        ...filterDataForFinal,
+        Comment: dataForDraft.Comment,
+        "Total Score": totalScore,
+      };
+      console.log("===>>>>>", { dataForFinal });
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -2153,6 +2320,24 @@ export function BackPainQuestionnaireCreate() {
           setConfirmDialog(false);
         });
     } else {
+      const dataForDraft = {
+        ...data,
+        totalScore,
+      };
+
+      const filterDataForFinal = filterCheckedData(allSchemaData, dataForDraft);
+
+      const dataForFinal = {
+        ...filterDataForFinal,
+        Comment: dataForDraft.Comment,
+        "Total Score": totalScore,
+      };
+      console.log("===>>>>>", { dataForFinal });
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+      console.log("onsubmit form", { data: dataForDraft, document });
       ClientServ.create(document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -3170,24 +3355,24 @@ export function EyeExamination() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
 
-    document.documentdetail = {
-      ...data,
-      // "Age Of Onset": data.ageOfOnset,
-      // history: data.history,
-      // "Unaided RVA": data.unaidedRVA,
-      // "Unaided LVA": data.unaidedLVA,
-      // "Unaided NV": data.unaidedNV,
-      // "Aided RVA": data.aidedRVA,
-      // "Aided LVA": data.aidedLVA,
-      // "Aided NV": data.aidedNV,
-      acuity: formData.acuity,
-      muscles: formData.muscles,
-      // "Visual Field Test": data.visualFieldTest,
-      // Describe: data.describe,
-      degree: formData.degree,
-      fieldRestriction: formData.fieldRestriction,
-      colorVision: formData.colorVision,
-    };
+    // document.documentdetail = {
+    //   ...data,
+    //   // "Age Of Onset": data.ageOfOnset,
+    //   // history: data.history,
+    //   // "Unaided RVA": data.unaidedRVA,
+    //   // "Unaided LVA": data.unaidedLVA,
+    //   // "Unaided NV": data.unaidedNV,
+    //   // "Aided RVA": data.aidedRVA,
+    //   // "Aided LVA": data.aidedLVA,
+    //   // "Aided NV": data.aidedNV,
+    //   acuity: formData.acuity,
+    //   muscles: formData.muscles,
+    //   // "Visual Field Test": data.visualFieldTest,
+    //   // Describe: data.describe,
+    //   degree: formData.degree,
+    //   fieldRestriction: formData.fieldRestriction,
+    //   colorVision: formData.colorVision,
+    // };
     document.documentname = "Eye examination";
     document.documentType = "Eye examination";
     document.location =
@@ -3217,6 +3402,36 @@ export function EyeExamination() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForFinal = {
+        "Age Of Onset": data.ageOfOnset,
+        History: data.history,
+        "Unaided RVA": data.unaidedRVA,
+        "Unaided LVA": data.unaidedLVA,
+        "Unaided NV": data.unaidedNV,
+        "Aided RVA": data.aidedRVA,
+        "Aided LVA": data.aidedLVA,
+        "Aided NV": data.aidedNV,
+        Acuity: formData.acuity,
+        Muscles: formData.muscles,
+        "Visual Field Test": data.visualFieldTest,
+        Describe: data.describe,
+        Degree: formData.degree,
+        "Field Restriction": formData.fieldRestriction,
+        "color Vision": formData.colorVision,
+      };
+      const dataForDraft = {
+        ...data,
+        acuity: formData.acuity,
+        muscles: formData.muscles,
+        degree: formData.degree,
+        fieldRestriction: formData.fieldRestriction,
+        colorVision: formData.colorVision,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -3235,6 +3450,36 @@ export function EyeExamination() {
           setConfirmationDialog(false);
         });
     } else {
+      const dataForFinal = {
+        "Age Of Onset": data.ageOfOnset,
+        History: data.history,
+        "Unaided RVA": data.unaidedRVA,
+        "Unaided LVA": data.unaidedLVA,
+        "Unaided NV": data.unaidedNV,
+        "Aided RVA": data.aidedRVA,
+        "Aided LVA": data.aidedLVA,
+        "Aided NV": data.aidedNV,
+        Acuity: formData.acuity,
+        Muscles: formData.muscles,
+        "Visual Field Test": data.visualFieldTest,
+        Describe: data.describe,
+        Degree: formData.degree,
+        "Field Restriction": formData.fieldRestriction,
+        "color Vision": formData.colorVision,
+      };
+      const dataForDraft = {
+        ...data,
+        acuity: formData.acuity,
+        muscles: formData.muscles,
+        degree: formData.degree,
+        fieldRestriction: formData.fieldRestriction,
+        colorVision: formData.colorVision,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.create(document)
         .then((res) => {
           // console.log("Data", res)
@@ -3794,6 +4039,7 @@ export function DentalClinic() {
   });
 
   const onSubmit = (data, e) => {
+    console.log("===>>>data befor create", { data });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -3806,20 +4052,6 @@ export function DentalClinic() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
 
-    document.documentdetail = {
-      ...data,
-      // RFA: data.rfa,
-      // HPC: data.hpc,
-      // PDH: data.pdh,
-      // PHM: data.phm,
-      // "Intra Oral": data.intraoral,
-      // "Extra Oral": data.extraoral,
-      // Investigation: data.investigation,
-      // Diagnosis: data.diagnosis,
-      // "Management Plan": data.managementPlan,
-      // Treatment: data.treatment,
-      "Send To": formData.dentalLaboratory,
-    };
     document.documentname = "Dental Clinic";
     document.documentType = "Dental Clinic";
     document.location =
@@ -3849,6 +4081,30 @@ export function DentalClinic() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForFinal = {
+        RFA: data.rfa,
+        HPC: data.hpc,
+        PDH: data.pdh,
+        PHM: data.phm,
+        "Intra Oral": data.intraoral,
+        "Extra Oral": data.extraoral,
+        Investigation: data.investigation,
+        Diagnosis: data.diagnosis,
+        "Management Plan": data.managementPlan,
+        Treatment: data.treatment,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const dataForDraft = {
+        ...data,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -3860,6 +4116,7 @@ export function DentalClinic() {
           toast.success("Documentation updated successfully");
           setSuccess(false);
           setConfirmationDialog(false);
+          return;
         })
         .catch((err) => {
           toast.error("Error updating Documentation: " + err);
@@ -3867,9 +4124,33 @@ export function DentalClinic() {
           setConfirmationDialog(false);
         });
     } else {
+      const dataForFinal = {
+        RFA: data.rfa,
+        HPC: data.hpc,
+        PDH: data.pdh,
+        PHM: data.phm,
+        "Intra Oral": data.intraoral,
+        "Extra Oral": data.extraoral,
+        Investigation: data.investigation,
+        Diagnosis: data.diagnosis,
+        "Management Plan": data.managementPlan,
+        Treatment: data.treatment,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const dataForDraft = {
+        ...data,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.create(document)
         .then((res) => {
-          // console.log("Data", res)
+          console.log("Data not draft", { res, doc: document });
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
