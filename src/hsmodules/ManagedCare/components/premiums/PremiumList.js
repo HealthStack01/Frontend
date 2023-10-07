@@ -488,10 +488,10 @@ export function BillingList({openModal, showCreateScreen}) {
       required: true,
       inputType: "TEXT",
       width: "120px",
-      paymentInfo
+    
     },
     {
-      name: "Outstandig Balance",
+      name: "Outstanding Balance",
       // width: "130px",
       key: "clientAmount",
       description: "Enter Grand Total",
@@ -511,7 +511,7 @@ export function BillingList({openModal, showCreateScreen}) {
       required: true,
       inputType: "TEXT",
       width: "120px",
-      paymentInfo
+    
     },
     /*  {
       name: "Invoice Details",
@@ -675,11 +675,7 @@ export function BillingList({openModal, showCreateScreen}) {
           onClose={() => setPaymentModal(false)}
           header={`Pay Premium`}
         >
-       {/*    <PaymentInvoice
-            clientId={selectedClient?.client_id}
-            bills={clientBills}
-            clientAmount={selectedClient?.clientAmount}
-          /> */}
+       <PaymentCreatePage /* handleGoBack={() => setCurrentScreen("lists")} */ />
         </ModalBox>
 
         <TableMenu>
