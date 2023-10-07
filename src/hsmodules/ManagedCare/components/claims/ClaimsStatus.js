@@ -10,7 +10,7 @@ import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
 import {toast} from "react-toastify";
 
-const ClaimsStatus = ({closeModal}) => {
+const ClaimsStatus = ({closeModal, isProviderPayment = false}) => {
   const claimsServer = client.service("claims");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
