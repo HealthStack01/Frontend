@@ -806,6 +806,7 @@ export function ClinicalNoteCreate() {
         });
     }
   };
+
   const handleChangeStatus = async (e) => {
     setDocStatus(e.target.value);
   };
@@ -1013,16 +1014,744 @@ export function ClinicalNoteCreate() {
   );
 }
 
+export function FearAvoidanceBeliefsQuestionnaireCreateNew() {
+  const { control, register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
+  //new diagonsis
+  const [data, setData] = useState([]);
+  const [icd, setIcd] = useState([]);
+  const [clear, setClear] = useState(false);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [diagnosisModal, setDiagnosisModal] = useState(false);
+  const [totalScore, setTotalScore] = useState(0);
+  const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
+
+  const columnSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.diagnosis,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  const handleCheckboxChange = (
+    event,
+    painIntensityCheckBoxSchema,
+    setPainIntensityCheckBoxSchema,
+    selectedSchemaName
+  ) => {
+    const { name, checked, value } = event.target;
+    let totalPoint;
+    let totalPointObtain;
+    let total;
+    const existcheckbox = false;
+    const currentPoint = Number(value);
+    const selectedCheckBoxSchema = {
+      schemaName: painIntensityCheckBoxSchema[0].schemaName,
+      schemaPoint: currentPoint,
+    };
+
+    console.log("==>>>  state allCheckBoxSchema", {
+      allCheckBoxSchema,
+    });
+
+    if (allCheckBoxSchema.length > 0) {
+      // const existcheckboxSchema = allCheckBoxSchema.find(
+      //   (data) => data.name === selectedSchemaName
+      // );
+      const othercheckboxSchemaArr = allCheckBoxSchema.filter(
+        (data) => data.schemaName !== selectedSchemaName
+      );
+      const prevTotalPoint = othercheckboxSchemaArr.length * 5;
+      totalPoint = prevTotalPoint + 5;
+      const totalPointObtainFromOther = othercheckboxSchemaArr.reduce(
+        (accumulator, currentObject) => {
+          return accumulator + currentObject.schemaPoint;
+        },
+        0
+      );
+
+      totalPointObtain = totalPointObtainFromOther + currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+
+      const updatedCheckboxSchemaArr = [
+        ...othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+      ];
+      setTotalScore(total);
+      setAllCheckBoxSchema(updatedCheckboxSchemaArr);
+      console.log("==>>>  score for lenght != 0", {
+        othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+        updatedCheckboxSchemaArr,
+        prevTotalPoint,
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    if (allCheckBoxSchema.length === 0) {
+      totalPoint = 5 * 1;
+      totalPointObtain = currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+      setTotalScore(total);
+      setAllCheckBoxSchema([selectedCheckBoxSchema]);
+      console.log("==>>>  score for lenght == 0", {
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    setValue(name, checked);
+    if (checked) {
+      const updatedData = painIntensityCheckBoxSchema.map((data) => {
+        const checkboxName = data.name;
+        if (checkboxName !== name) {
+          setValue(checkboxName, false);
+        }
+        if (data.name === name) {
+          return {
+            ...data,
+            checked: true,
+          };
+        } else {
+          return {
+            ...data,
+            checked: false,
+          };
+        }
+      });
+      setPainIntensityCheckBoxSchema(updatedData);
+    }
+  };
+
+  const selectOptions = [
+    {
+      label: "0",
+      value: "0",
+    },
+    {
+      label: "1",
+      value: "1",
+    },
+    {
+      label: "2",
+      value: "2",
+    },
+    {
+      label: "3",
+      value: "3",
+    },
+    {
+      label: "4",
+      value: "4",
+    },
+    {
+      label: "5",
+      value: "5",
+    },
+    {
+      label: "6",
+      value: "6",
+    },
+  ];
+
+  const painDropdownSchema = [
+    {
+      description: "My pain was caused by physical activity",
+      name: "painDropdown_one",
+    },
+
+    {
+      description: "Physical activity makes my pain worse",
+      name: "painDropdown_Two",
+    },
+    {
+      description: "Physical activity might harm my back",
+      name: "painDropdown_Three",
+    },
+    {
+      description:
+        "I should not do physical activities which (might) make my pain worse",
+      name: "painDropdown_Four",
+    },
+    {
+      description:
+        "I cannot do physical activities which (might) make my pain worse",
+      name: "painDropdown_Five",
+    },
+  ];
+
+  const painDropdownTwoSchema = [
+    {
+      description: "My pain was caused by my work or by an accident at work",
+      name: "painDropdown_Six",
+    },
+    {
+      description: "My work aggravated my pain",
+      name: "painDropdown_Seven",
+    },
+    {
+      description: "I have a claim for compensation for my pain",
+      name: "painDropdown_Eight",
+    },
+    {
+      description: "My work is too heavy for me",
+      name: "painDropdown_Nine",
+    },
+    {
+      description: "My work makes or would make my pain worse",
+      name: "painDropdown_Ten",
+    },
+    {
+      description: "My work might harm my back",
+      name: "painDropdown_Eleven",
+    },
+    {
+      description: "I should not do my normal work with my present pain",
+      name: "painDropdown_Twelve",
+    },
+    {
+      description: "I cannot do my normal work with my present pain",
+      name: "painDropdown_Thirteen",
+    },
+    {
+      description: "I cannot do my normal work till my pain is treated",
+      name: "painDropdown_Fourteen",
+    },
+    {
+      description:
+        "I do not think that I will be back to my normal work within 3 months",
+      name: "painDropdown_Fifteen",
+    },
+    {
+      description:
+        "I do not think that I will ever be able to go back to that work",
+      name: "painDropdown_Sixteen",
+    },
+  ];
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+
+        // if (keys === "diagnosis") {
+        //   setDiagnosis(value);
+        // }
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      });
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+  useEffect(() => {
+    setCurrentUser(user);
+
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+    }
+  });
+
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
+
+  const onSubmit = (data, e) => {
+    console.log("start now", {
+      data,
+    });
+
+    return;
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+
+    // const dataDetail = {
+    //   ...data,
+    //   diagnosis,
+    // };
+    data.diagnosis = diagnosis;
+    document.documentdetail = data;
+
+    console.log("start now document", {
+      documentdetail: document.documentdetail,
+    });
+    document.documentname =
+      state.DocumentClassModule.selectedDocumentClass.name;
+    document.documentClassId =
+      state.DocumentClassModule.selectedDocumentClass._id;
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("Clinincal note created draft");
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+        });
+    } else {
+      console.log("Clinincal note created");
+      ClientServ.create(document)
+        .then((res) => {
+          console.log("Clinincal note data", res);
+          setDiagnosis([]);
+
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          console.log("goood");
+          setSuccess(true);
+          toast.success("Documentation created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Documentation " + err);
+        });
+    }
+  };
+
+  const handleChangeStatus = async (e) => {
+    setDocStatus(e.target.value);
+  };
+
+  const closeEncounterRight = async () => {
+    setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message={`You are about to save this Fear-Avoidance Beliefs Questionnaire (FABQ) document?`}
+          confirmationAction={handleSubmit(onSubmit)}
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText
+            text={"Fear-Avoidance Beliefs Questionnaire (FABQ)"}
+          />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable">
+          {/* <form>
+            <Box>
+              <Textarea
+                register={register("Symptoms")}
+                type="text"
+                label="Symptoms"
+                placeholder="Enter Symptoms......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Clinical Findings")}
+                type="text"
+                label="Clinical Findings"
+                placeholder="Enter clinical findings......"
+              />
+            </Box>
+       
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Diagnosis Data" />
+
+                <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                  <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                  Add Diagnosis
+                </GlobalCustomButton>
+              </Box>
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={columnSchema}
+                  data={diagnosis}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  //conditionalRowStyles={conditionalRowStyles}
+                  progressPending={false}
+                  CustomEmptyData={
+                    <Typography sx={{ fontSize: "0.8rem" }}>
+                      You've not added a Diagnosis yet...
+                    </Typography>
+                  }
+                />
+              </Box>
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("plan")}
+                name="Plan"
+                type="text"
+                label="Plan"
+                placeholder="Enter plan......"
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Clinical Note
+              </GlobalCustomButton>
+            </Box>
+          </form> */}
+          <form>
+            {/*  Fear-Avoidance Beliefs Questionnaire (FABQ)  */}
+            <Grid container spacing={0.1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Fear-Avoidance Beliefs Questionnaire (FABQ)
+              </Typography>
+              <Grid container spacing={0.1} alignItems="center">
+                <Typography
+                  variant="p"
+                  sx={{ color: "black", fontSize: "14px" }}
+                >
+                  Here are some of the things which other patients have told us
+                  about their pain. For each statement please circle any number
+                  from 0 to 6 to say how many physical activities such as
+                  bending, lifting, walking or driving affect or would affect
+                  your back pain.
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {/* no 1-5 drop down    */}
+            <Grid container spacing={1} mt={1}>
+              {painDropdownSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 1}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        label="select"
+                        // required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                The following statements are about how your normal work affects
+                or would affect your back pain
+              </Typography>
+            </Grid>
+
+            {/* <Grid container spacing={1} mt={1}>
+              {painDropdownTwoSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index + 6}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 6}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        label="select"
+                        required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid> */}
+
+            {/*  score  */}
+
+            {/* <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Total Points:
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Physical activity subscale:
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Work Subscale:
+              </Typography>
+            </Grid> */}
+
+            {/* Recommendation field */}
+            <Grid container spacing={1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                Comment
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  placeholder="Comment"
+                  name="Comment"
+                  type="text"
+                  register={register("Comment")}
+                />
+              </Grid>
+            </Grid>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Lab Result
+              </GlobalCustomButton>
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export function FearAvoidanceBeliefsQuestionnaireCreate() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    getValues,
-    control,
-    formState: { errors },
-  } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, reset, getValues, control } =
+    useForm(); //, watch, errors, reset
 
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -1035,7 +1764,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const { state, setState } = useContext(ObjectContext);
-  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [docStatus, setDocStatus] = useState("Draft"); //employmentHomemaking
   const [totalScore, setTotalScore] = useState(0);
   const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
@@ -1081,101 +1810,106 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     }
   });
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    console.log("===>>>> data", { data });
-  };
-
   // const onSubmit = (data, e) => {
   //   e.preventDefault();
-  //   setMessage("");
-  //   setError(false);
-  //   setSuccess(false);
-  //   let document = {};
-  //   // data.createdby=user._id
-  //   //console.log(data);
-  //   if (user.currentEmployee) {
-  //     document.facility = user.currentEmployee.facilityDetail._id;
-  //     document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-  //   }
-  //   data.totalScore = totalScore;
-  //   document.documentdetail = data;
-  //   document.documentname = `${data.Investigation} Result`; //"Lab Result"
-  //   document.documentType = "Diagnostic Result";
-  //   // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-  //   document.location =
-  //     state.employeeLocation.locationName +
-  //     " " +
-  //     state.employeeLocation.locationType;
-  //   document.locationId = state.employeeLocation.locationId;
-  //   document.client = state.ClientModule.selectedClient._id;
-  //   document.createdBy = user._id;
-  //   document.createdByname = user.firstname + " " + user.lastname;
-  //   document.status = docStatus === "Draft" ? "Draft" : "completed";
-
-  //   document.geolocation = {
-  //     type: "Point",
-  //     coordinates: [state.coordinates.latitude, state.coordinates.longitude],
-  //   };
-  //   // console.log(document)??????????
-
-  //   if (
-  //     document.location === undefined ||
-  //     !document.createdByname ||
-  //     !document.facilityname
-  //   ) {
-  //     toast.error(
-  //       "Documentation data missing, requires location and facility details"
-  //     );
-  //     return;
-  //   }
-  //   // let confirm = window.confirm(
-  //   //   `You are about to save this document ${document.documentname} ?`
-  //   // );
-  //   // if (confirm) {
-  //   if (!!draftDoc && draftDoc.status === "Draft") {
-  //     ClientServ.patch(draftDoc._id, document)
-  //       .then((res) => {
-  //         //console.log(JSON.stringify(res))
-  //         Object.keys(data).forEach((key) => {
-  //           data[key] = "";
-  //         });
-
-  //         setDocStatus("Draft");
-  //         // setAllergies([])
-  //         /*  setMessage("Created Client successfully") */
-  //         setSuccess(true);
-  //         toast.success("Documentation updated succesfully");
-  //         setSuccess(false);
-  //         setConfirmDialog(false);
-  //       })
-  //       .catch((err) => {
-  //         toast.error("Error updating Documentation " + err);
-  //         reset(data);
-  //         setConfirmDialog(false);
-  //       });
-  //   } else {
-  //     ClientServ.create(document)
-  //       .then((res) => {
-  //         //console.log(JSON.stringify(res))
-  //         Object.keys(data).forEach((key) => {
-  //           data[key] = "";
-  //         });
-
-  //         /*  setMessage("Created Client successfully") */
-  //         setSuccess(true);
-  //         toast.success("Lab Result created succesfully");
-  //         setSuccess(false);
-  //         reset(data);
-  //         setConfirmDialog(false);
-  //       })
-  //       .catch((err) => {
-  //         toast.error("Error creating Lab Result " + err);
-  //         setConfirmDialog(false);
-  //       });
-  //   }
-  //   // }
+  //   console.log("===>>>> data", { data });
   // };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    // data.createdby=user._id
+    //console.log(data);
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    data.totalScore = totalScore;
+
+    const updatedData = {
+      ...data,
+    };
+    console.log("===>>>> data onsubmit", { data: updatedData });
+    document.documentdetail = data;
+    document.documentname = `Fear-Avoidance Beliefs Questionnaire (FABQ)`; //"Lab Result"
+    document.documentType = "Fear-Avoidance Beliefs Questionnaire (FABQ)";
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    // console.log(document)??????????
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Lab Result " + err);
+          setConfirmationDialog(false);
+        });
+    }
+    // }
+  };
 
   const handleChangeStatus = async (e) => {
     // await setAppointment_type(e.target.value)
@@ -1401,13 +2135,11 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     <>
       <div className="card ">
         <CustomConfirmationDialog
-          open={confirmDialog}
-          cancelAction={() => setConfirmDialog(false)}
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "investigation"
-          )} Result?`}
+          message={`You are about to save this Fear-Avoidance Beliefs Questionnaire (FABQ) document?`}
         />
         <Box
           sx={{
@@ -1480,12 +2212,21 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
 
                   <Grid item container xs={12} sm={6}>
                     <Grid item xs={12} sm={6}>
-                      <CustomSelect
+                      {/* <CustomSelect
                         label="select"
-                        required
+                        // required
                         control={control}
                         name={data.name}
                         options={selectOptions}
+                      /> */}
+                      <CustomSelect
+                        label="select"
+                        name={data.description}
+                        options={selectOptions}
+                        register={register(`${data.description}`, {
+                          required: false,
+                        })}
+                        // onChange={(e)=>handleChangeMode(e.target.value)}
                       />
                     </Grid>
                   </Grid>
@@ -1533,12 +2274,21 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
 
                   <Grid item container xs={12} sm={6}>
                     <Grid item xs={12} sm={6}>
-                      <CustomSelect
+                      {/* <CustomSelect
                         label="select"
-                        required
+                        //required
                         control={control}
                         name={data.name}
                         options={selectOptions}
+                      /> */}
+                      <CustomSelect
+                        label="select"
+                        name={data.description}
+                        options={selectOptions}
+                        register={register(`${data.description}`, {
+                          required: false,
+                        })}
+                        // onChange={(e)=>handleChangeMode(e.target.value)}
                       />
                     </Grid>
                   </Grid>
@@ -1615,7 +2365,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
               <GlobalCustomButton
                 color="secondary"
                 type="submit"
-                onClick={() => setConfirmDialog(true)}
+                onClick={() => setConfirmationDialog(true)}
               >
                 Submit Lab Result
               </GlobalCustomButton>
@@ -2179,21 +2929,6 @@ export function BackPainQuestionnaireCreate() {
         );
       });
 
-      // const updatedPainIntensityCheckBoxSchemaData = updateCheckBoxesWithData(
-      //   painIntensityCheckBoxSchemaData,
-      //   draftDoc.documentdetail
-      // );
-      // setPainIntensityCheckBoxSchema(updatedPainIntensityCheckBoxSchemaData);
-
-      // const updatedStandingCheckBoxSchema = updateCheckBoxesWithData(
-      //   standingCheckBoxSchema,
-      //   draftDoc.documentdetail
-      // );
-      // setStandingCheckBoxSchema(updatedStandingCheckBoxSchema);
-
-      // console.log("===>>> response data 2", {
-      //   updated,
-      // });
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
         if (keys === "totalScore") {
           setTotalScore(value);
@@ -6064,6 +6799,7 @@ export function PrescriptionCreate() {
     </>
   );
 }
+
 export function LabrequestCreate() {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
