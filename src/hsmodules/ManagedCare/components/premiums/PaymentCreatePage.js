@@ -825,7 +825,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
           onClose={() => setDepositModal(false)}
           header={`Make Deposit`}
         >
-          <MakeDeposit balance={balance} />
+          {/* <MakeDeposit balance={balance} /> */}
         </ModalBox>
 
         <Box
@@ -839,18 +839,18 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
           p={2}
           mb={2}
         >
-          <GlobalCustomButton onClick={handleGoBack}>
+          {/* <GlobalCustomButton onClick={handleGoBack}>
             <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
             Back
           </GlobalCustomButton>
-
+ */}
           <Typography
             sx={{
               fontSize: "0.95rem",
               color: "2d2d2d",
             }}
           >
-            Pay Bills for{" "}
+            Pay Premium  for{" "}
             <span
               style={{
                 textTransform: "capitalize",
@@ -860,15 +860,15 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
             >
               {source}
             </span>{" "}
-            #{documentNo}
+           {/*  #{documentNo} */}
           </Typography>
 
-          <Box>
+         {/*  <Box>
             <GlobalCustomButton onClick={() => setDepositModal(true)}>
               <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
               Make Deposit
             </GlobalCustomButton>
-          </Box>
+          </Box> */}
         </Box>
 
         <Box pl={2} pr={2} mb={2}>
@@ -876,18 +876,18 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
             <Grid item xs={12} sm={12} md={7} lg={7}>
               <Box sx={{display: "flex"}} gap={1} mb={1}>
                 <Box>
-                  <RadioButton
+                {/*   <RadioButton
                     name="fullPay"
                     options={["Full", "Part"]}
                     onChange={e => {
                       handleChangeFull(e);
                     }}
                     value={part ? "Part" : "Full"}
-                  />
+                  /> */}
                 </Box>
 
-                {part && (
-                  <Box style={{marginLeft: "15px", width: "200px"}}>
+                
+                  <Box style={{ width: "200px"}}>
                     <Input
                       label="Amount"
                       type="text"
@@ -897,158 +897,20 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                       onChange={e => handleBulkAmount(e)}
                     />
                   </Box>
-                )}
-              </Box>
-
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-                gap={1}
-              >
-                <GlobalCustomButton onClick={handleBulkPayment}>
+                  <GlobalCustomButton onClick={handleBulkPayment}>
                   <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                   Pay
                 </GlobalCustomButton>
-
-                {/* <GlobalCustomButton
-									sx={{
-										backgroundColor: '#6c584c',
-										'&:hover': { backgroundColor: '#6c584c;' },
-									}}>
-									<WalletIcon
-										sx={{ marginRight: '5px' }}
-										fontSize='small'
-									/>
-									Pay with Wallet
-								</GlobalCustomButton> */}
-                {/* 
-								<GlobalCustomButton
-									sx={{
-										backgroundColor: '#023e8a',
-										'&:hover': { backgroundColor: '#023e8a' },
-									}}>
-									<WalletIcon
-										sx={{ marginRight: '5px' }}
-										fontSize='small'
-									/>
-									<RemitaPayment
-										remitaData={data}
-										className='btn'
-										text='Pay with Remita'
-									/>
-								</GlobalCustomButton> */}
-                {/* <GlobalCustomButton
-                  onClick={() => {
-                    handleFlutterPayment({
-                      callback: response => {
-                        console.log(response);
-                        closePaymentModal();
-                      },
-                      onClose: () => {
-                        closeModal;
-                      },
-                    });
-                  }}
-                  sx={{
-                    backgroundColor: "#2d3142",
-                    color: "#ffffff",
-                    "&:hover": {backgroundColor: "#2d3142"},
-                  }}
-                >
-                  <FlutterWaveIcon />
-                  Pay with Flutterwave
-                </GlobalCustomButton>
-
-                <PaystackConsumer {...componentProps}>
-                  {({initializePayment}) => (
-                    <GlobalCustomButton
-                      onClick={() =>
-                        initializePayment(handleSuccess, closeModal)
-                      }
-                      sx={{
-                        backgroundColor: "#023e8a",
-                        "&:hover": {backgroundColor: "#023e8a"},
-                      }}
-                    >
-                      <PaystackIcon />
-                      Pay with PayStack
-                    </GlobalCustomButton>
-                  )}
-                </PaystackConsumer> */}
               </Box>
+
+             
             </Grid>
 
-            <Grid item xs={12} sm={12} md={5} lg={5}>
-              <Box
-                container
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-                gap={1}
-              >
-                <Box
-                  item
-                  sx={{
-                    minWidth: "200px",
-                    height: "80px",
-                    border: "1px solid #E5E5E5",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "0 15px",
-                  }}
-                >
-                  <Typography sx={{display: "flex", alignItems: "center"}}>
-                    <AccountBalanceWalletIcon color="primary" /> Total Amount
-                    Due
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "24px",
-                      fontWeight: "700",
-                      color: "red",
-                    }}
-                  >
-                    {" "}
-                    &#8358;{totalamount.toFixed(2)}
-                  </Typography>
-                </Box>
-
-                <Box
-                  item
-                  sx={{
-                    minWidth: "100px",
-                    height: "80px",
-                    border: "1px solid #E5E5E5",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "0 15px",
-                  }}
-                >
-                  <Typography sx={{display: "flex", alignItems: "center"}}>
-                    <AccountBalanceIcon color="primary" /> Current Balance
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "24px",
-                      fontWeight: "700",
-                      color: "#85BB65",
-                    }}
-                  >
-                    &#8358;{balance.toFixed(2)}
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
+            
           </Grid>
         </Box>
 
-        {productItem.length > 0 && (
+        {/* productItem.length > 0 && */ (
           <Box
             pr={2}
             pl={2}
@@ -1100,11 +962,11 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
               }}
               gap={1}
             >
-              <GlobalCustomButton onClick={handlePayment} color="success">
+             {/*  <GlobalCustomButton onClick={handlePayment} color="success">
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Make Full Payment
               </GlobalCustomButton>
-
+ */}
               {/* <GlobalCustomButton
 								sx={{
 									backgroundColor: '#6c584c',

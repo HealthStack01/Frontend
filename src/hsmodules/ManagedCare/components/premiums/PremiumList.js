@@ -109,6 +109,7 @@ export function BillingList({openModal, showCreateScreen}) {
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [invoiceModal, setInvoiceModal] = useState(false);
+  const [paymentModal, setPaymentModal] = useState(false);
  
 	
 
@@ -124,28 +125,23 @@ export function BillingList({openModal, showCreateScreen}) {
     console.log(Client)
   };
 
-  const handlePay = async (client, i) => {
-    setOldClient(client.clientname);
-    let newClient = client.clientname;
-    if (oldClient !== newClient) {
-      selectedOrders.forEach(el => (el.checked = ""));
-      setSelectedOrders([]);
-      setState(prev => ({
-        ...prev,
-        financeModule: {
-          ...prev.financeModule,
-          selectedBills: [],
-        },
-      }));
-      console.log("Paynow",client)
-    }
+  const handlePay = async (premium, i) => {
+   
+    
+    await handleSelectedClient(premium.invoiceInfo.invoiceObj.customer);
 
-    // //console.log(e.target.checked)
+    setState(prevstate => ({
+      ...prevstate,
+      premiumModule: {
+       
+        selectedPremium: premium,
+      },
+    }));
+    setPaymentModal(true)
 
-    await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
     //handleMedicationRow(order)/
 
-    await client.bills.forEach(bill => {
+/*     await client.bills.forEach(bill => {
       // //console.log(bill)
       bill.order.forEach(order => {
         let medication = order;
@@ -177,11 +173,11 @@ export function BillingList({openModal, showCreateScreen}) {
 
         setSelectedOrders(prevstate => prevstate.concat(order));
       });
-    });
+    }); */
 
-    showCreateScreen();
+    //showCreateScreen();
 
-    //openModal();
+    
   };
 
   const handleChoseClient = async (client, e, order) => {
@@ -259,17 +255,7 @@ export function BillingList({openModal, showCreateScreen}) {
     // ProductEntry.show=!ProductEntry.show
   };
 
-  const handleCreateNew = async () => {
-    const newProductEntryModule = {
-      selectedDispense: {},
-      show: "create",
-    };
-    await setState(prevstate => ({
-      ...prevstate,
-      DispenseModule: newProductEntryModule,
-    }));
-    ////console.log(state)
-  };
+
 
   const handleSearch = val => {
     const field = "name";
@@ -403,12 +389,7 @@ export function BillingList({openModal, showCreateScreen}) {
     return () => {};
   }, []);
 
-  useEffect(() => {
-    //changes with checked box
-    // //console.log(selectedOrders)
 
-    return () => {};
-  }, [selectedOrders]);
 
   useEffect(() => {
     if (state.financeModule.show === "create") {
@@ -507,6 +488,30 @@ export function BillingList({openModal, showCreateScreen}) {
       required: true,
       inputType: "TEXT",
       width: "120px",
+    
+    },
+    {
+      name: "Outstanding Balance",
+      // width: "130px",
+      key: "clientAmount",
+      description: "Enter Grand Total",
+      selector: row => row.paymentInfo.balance.toFixed(2),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "120px",
+     
+    }, {
+      name: "Amount Paid Up",
+      // width: "130px",
+      key: "clientAmount",
+      description: "Enter Grand Total",
+      selector: row => row.paymentInfo.paidup.toFixed(2),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "120px",
+    
     },
     /*  {
       name: "Invoice Details",
@@ -586,7 +591,7 @@ export function BillingList({openModal, showCreateScreen}) {
       inputType: "DATE",
     }, */
     {
-      name: "Name",
+      name: "Plan Name",
       key: "category",
       description: "Enter Category",
       selector: row => row.name,
@@ -666,15 +671,11 @@ export function BillingList({openModal, showCreateScreen}) {
         }}
       >
         <ModalBox
-          open={invoiceModal}
-          onClose={() => setInvoiceModal(false)}
-          header={`Invoice Detail`}
+          open={paymentModal}
+          onClose={() => setPaymentModal(false)}
+          header={`Pay Premium`}
         >
-       {/*    <PaymentInvoice
-            clientId={selectedClient?.client_id}
-            bills={clientBills}
-            clientAmount={selectedClient?.clientAmount}
-          /> */}
+       <PaymentCreatePage /* handleGoBack={() => setCurrentScreen("lists")} */ />
         </ModalBox>
 
         <TableMenu>
