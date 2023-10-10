@@ -272,7 +272,10 @@ const TarrifServices = ({provider}) => {
         onClose={() => setReviewModal(false)}
         header={`Request Review on ${chosenServices.length} Services`}
       >
-        <ReviewRequestComponent closeModal={() => setReviewModal(false)} />
+        <ReviewRequestComponent
+          closeModal={() => setReviewModal(false)}
+          services={chosenServices}
+        />
       </ModalBox>
 
       <ModalBox
