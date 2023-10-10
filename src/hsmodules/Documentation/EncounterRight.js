@@ -228,13 +228,15 @@ export default function EncounterRight() {
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
-        "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
+        "Eye examination" && <EyeExamination />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Orthodontic Analysis" && (
         <OrthodonticAnalysis onSubmit={submitDocument} />
       )}
+
+      {/*  */}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Preventive Care" && <PreventiveCare />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
@@ -675,12 +677,20 @@ export function ClinicalNoteCreate() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+
+        if (keys === "diagnosis") {
+          setDiagnosis(value);
+        }
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -692,6 +702,7 @@ export function ClinicalNoteCreate() {
 
     return () => {};
   }, [user]);
+
   useEffect(() => {
     if (!user.stacker) {
     }
@@ -755,6 +766,7 @@ export function ClinicalNoteCreate() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("Clinincal note created draft");
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -772,6 +784,7 @@ export function ClinicalNoteCreate() {
           toast.error("Error updating Documentation " + err);
         });
     } else {
+      console.log("Clinincal note created");
       ClientServ.create(document)
         .then((res) => {
           console.log("Clinincal note data", res);
@@ -793,6 +806,7 @@ export function ClinicalNoteCreate() {
         });
     }
   };
+
   const handleChangeStatus = async (e) => {
     setDocStatus(e.target.value);
   };
@@ -1000,16 +1014,744 @@ export function ClinicalNoteCreate() {
   );
 }
 
+export function FearAvoidanceBeliefsQuestionnaireCreateNew() {
+  const { control, register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
+  //new diagonsis
+  const [data, setData] = useState([]);
+  const [icd, setIcd] = useState([]);
+  const [clear, setClear] = useState(false);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [diagnosisModal, setDiagnosisModal] = useState(false);
+  const [totalScore, setTotalScore] = useState(0);
+  const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
+
+  const columnSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.diagnosis,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  const handleCheckboxChange = (
+    event,
+    painIntensityCheckBoxSchema,
+    setPainIntensityCheckBoxSchema,
+    selectedSchemaName
+  ) => {
+    const { name, checked, value } = event.target;
+    let totalPoint;
+    let totalPointObtain;
+    let total;
+    const existcheckbox = false;
+    const currentPoint = Number(value);
+    const selectedCheckBoxSchema = {
+      schemaName: painIntensityCheckBoxSchema[0].schemaName,
+      schemaPoint: currentPoint,
+    };
+
+    console.log("==>>>  state allCheckBoxSchema", {
+      allCheckBoxSchema,
+    });
+
+    if (allCheckBoxSchema.length > 0) {
+      // const existcheckboxSchema = allCheckBoxSchema.find(
+      //   (data) => data.name === selectedSchemaName
+      // );
+      const othercheckboxSchemaArr = allCheckBoxSchema.filter(
+        (data) => data.schemaName !== selectedSchemaName
+      );
+      const prevTotalPoint = othercheckboxSchemaArr.length * 5;
+      totalPoint = prevTotalPoint + 5;
+      const totalPointObtainFromOther = othercheckboxSchemaArr.reduce(
+        (accumulator, currentObject) => {
+          return accumulator + currentObject.schemaPoint;
+        },
+        0
+      );
+
+      totalPointObtain = totalPointObtainFromOther + currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+
+      const updatedCheckboxSchemaArr = [
+        ...othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+      ];
+      setTotalScore(total);
+      setAllCheckBoxSchema(updatedCheckboxSchemaArr);
+      console.log("==>>>  score for lenght != 0", {
+        othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+        updatedCheckboxSchemaArr,
+        prevTotalPoint,
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    if (allCheckBoxSchema.length === 0) {
+      totalPoint = 5 * 1;
+      totalPointObtain = currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+      setTotalScore(total);
+      setAllCheckBoxSchema([selectedCheckBoxSchema]);
+      console.log("==>>>  score for lenght == 0", {
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    setValue(name, checked);
+    if (checked) {
+      const updatedData = painIntensityCheckBoxSchema.map((data) => {
+        const checkboxName = data.name;
+        if (checkboxName !== name) {
+          setValue(checkboxName, false);
+        }
+        if (data.name === name) {
+          return {
+            ...data,
+            checked: true,
+          };
+        } else {
+          return {
+            ...data,
+            checked: false,
+          };
+        }
+      });
+      setPainIntensityCheckBoxSchema(updatedData);
+    }
+  };
+
+  const selectOptions = [
+    {
+      label: "0",
+      value: "0",
+    },
+    {
+      label: "1",
+      value: "1",
+    },
+    {
+      label: "2",
+      value: "2",
+    },
+    {
+      label: "3",
+      value: "3",
+    },
+    {
+      label: "4",
+      value: "4",
+    },
+    {
+      label: "5",
+      value: "5",
+    },
+    {
+      label: "6",
+      value: "6",
+    },
+  ];
+
+  const painDropdownSchema = [
+    {
+      description: "My pain was caused by physical activity",
+      name: "painDropdown_one",
+    },
+
+    {
+      description: "Physical activity makes my pain worse",
+      name: "painDropdown_Two",
+    },
+    {
+      description: "Physical activity might harm my back",
+      name: "painDropdown_Three",
+    },
+    {
+      description:
+        "I should not do physical activities which (might) make my pain worse",
+      name: "painDropdown_Four",
+    },
+    {
+      description:
+        "I cannot do physical activities which (might) make my pain worse",
+      name: "painDropdown_Five",
+    },
+  ];
+
+  const painDropdownTwoSchema = [
+    {
+      description: "My pain was caused by my work or by an accident at work",
+      name: "painDropdown_Six",
+    },
+    {
+      description: "My work aggravated my pain",
+      name: "painDropdown_Seven",
+    },
+    {
+      description: "I have a claim for compensation for my pain",
+      name: "painDropdown_Eight",
+    },
+    {
+      description: "My work is too heavy for me",
+      name: "painDropdown_Nine",
+    },
+    {
+      description: "My work makes or would make my pain worse",
+      name: "painDropdown_Ten",
+    },
+    {
+      description: "My work might harm my back",
+      name: "painDropdown_Eleven",
+    },
+    {
+      description: "I should not do my normal work with my present pain",
+      name: "painDropdown_Twelve",
+    },
+    {
+      description: "I cannot do my normal work with my present pain",
+      name: "painDropdown_Thirteen",
+    },
+    {
+      description: "I cannot do my normal work till my pain is treated",
+      name: "painDropdown_Fourteen",
+    },
+    {
+      description:
+        "I do not think that I will be back to my normal work within 3 months",
+      name: "painDropdown_Fifteen",
+    },
+    {
+      description:
+        "I do not think that I will ever be able to go back to that work",
+      name: "painDropdown_Sixteen",
+    },
+  ];
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+
+        // if (keys === "diagnosis") {
+        //   setDiagnosis(value);
+        // }
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      });
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+  useEffect(() => {
+    setCurrentUser(user);
+
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+    }
+  });
+
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
+
+  const onSubmit = (data, e) => {
+    console.log("start now", {
+      data,
+    });
+
+    return;
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+
+    // const dataDetail = {
+    //   ...data,
+    //   diagnosis,
+    // };
+    data.diagnosis = diagnosis;
+    document.documentdetail = data;
+
+    console.log("start now document", {
+      documentdetail: document.documentdetail,
+    });
+    document.documentname =
+      state.DocumentClassModule.selectedDocumentClass.name;
+    document.documentClassId =
+      state.DocumentClassModule.selectedDocumentClass._id;
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("Clinincal note created draft");
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+        });
+    } else {
+      console.log("Clinincal note created");
+      ClientServ.create(document)
+        .then((res) => {
+          console.log("Clinincal note data", res);
+          setDiagnosis([]);
+
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          console.log("goood");
+          setSuccess(true);
+          toast.success("Documentation created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Documentation " + err);
+        });
+    }
+  };
+
+  const handleChangeStatus = async (e) => {
+    setDocStatus(e.target.value);
+  };
+
+  const closeEncounterRight = async () => {
+    setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message={`You are about to save this Fear-Avoidance Beliefs Questionnaire (FABQ) document?`}
+          confirmationAction={handleSubmit(onSubmit)}
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText
+            text={"Fear-Avoidance Beliefs Questionnaire (FABQ)"}
+          />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable">
+          {/* <form>
+            <Box>
+              <Textarea
+                register={register("Symptoms")}
+                type="text"
+                label="Symptoms"
+                placeholder="Enter Symptoms......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Clinical Findings")}
+                type="text"
+                label="Clinical Findings"
+                placeholder="Enter clinical findings......"
+              />
+            </Box>
+       
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Diagnosis Data" />
+
+                <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                  <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                  Add Diagnosis
+                </GlobalCustomButton>
+              </Box>
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={columnSchema}
+                  data={diagnosis}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  //conditionalRowStyles={conditionalRowStyles}
+                  progressPending={false}
+                  CustomEmptyData={
+                    <Typography sx={{ fontSize: "0.8rem" }}>
+                      You've not added a Diagnosis yet...
+                    </Typography>
+                  }
+                />
+              </Box>
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("plan")}
+                name="Plan"
+                type="text"
+                label="Plan"
+                placeholder="Enter plan......"
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Clinical Note
+              </GlobalCustomButton>
+            </Box>
+          </form> */}
+          <form>
+            {/*  Fear-Avoidance Beliefs Questionnaire (FABQ)  */}
+            <Grid container spacing={0.1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Fear-Avoidance Beliefs Questionnaire (FABQ)
+              </Typography>
+              <Grid container spacing={0.1} alignItems="center">
+                <Typography
+                  variant="p"
+                  sx={{ color: "black", fontSize: "14px" }}
+                >
+                  Here are some of the things which other patients have told us
+                  about their pain. For each statement please circle any number
+                  from 0 to 6 to say how many physical activities such as
+                  bending, lifting, walking or driving affect or would affect
+                  your back pain.
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {/* no 1-5 drop down    */}
+            <Grid container spacing={1} mt={1}>
+              {painDropdownSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 1}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        label="select"
+                        // required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                The following statements are about how your normal work affects
+                or would affect your back pain
+              </Typography>
+            </Grid>
+
+            {/* <Grid container spacing={1} mt={1}>
+              {painDropdownTwoSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index + 6}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 6}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        label="select"
+                        required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid> */}
+
+            {/*  score  */}
+
+            {/* <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Total Points:
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Physical activity subscale:
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Work Subscale:
+              </Typography>
+            </Grid> */}
+
+            {/* Recommendation field */}
+            <Grid container spacing={1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                Comment
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  placeholder="Comment"
+                  name="Comment"
+                  type="text"
+                  register={register("Comment")}
+                />
+              </Grid>
+            </Grid>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Lab Result
+              </GlobalCustomButton>
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export function FearAvoidanceBeliefsQuestionnaireCreate() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    getValues,
-    control,
-    formState: { errors },
-  } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, reset, getValues, control } =
+    useForm(); //, watch, errors, reset
 
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -1022,7 +1764,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const { state, setState } = useContext(ObjectContext);
-  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [docStatus, setDocStatus] = useState("Draft"); //employmentHomemaking
   const [totalScore, setTotalScore] = useState(0);
   const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
@@ -1068,101 +1810,106 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     }
   });
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    console.log("===>>>> data", { data });
-  };
-
   // const onSubmit = (data, e) => {
   //   e.preventDefault();
-  //   setMessage("");
-  //   setError(false);
-  //   setSuccess(false);
-  //   let document = {};
-  //   // data.createdby=user._id
-  //   //console.log(data);
-  //   if (user.currentEmployee) {
-  //     document.facility = user.currentEmployee.facilityDetail._id;
-  //     document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-  //   }
-  //   data.totalScore = totalScore;
-  //   document.documentdetail = data;
-  //   document.documentname = `${data.Investigation} Result`; //"Lab Result"
-  //   document.documentType = "Diagnostic Result";
-  //   // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-  //   document.location =
-  //     state.employeeLocation.locationName +
-  //     " " +
-  //     state.employeeLocation.locationType;
-  //   document.locationId = state.employeeLocation.locationId;
-  //   document.client = state.ClientModule.selectedClient._id;
-  //   document.createdBy = user._id;
-  //   document.createdByname = user.firstname + " " + user.lastname;
-  //   document.status = docStatus === "Draft" ? "Draft" : "completed";
-
-  //   document.geolocation = {
-  //     type: "Point",
-  //     coordinates: [state.coordinates.latitude, state.coordinates.longitude],
-  //   };
-  //   // console.log(document)??????????
-
-  //   if (
-  //     document.location === undefined ||
-  //     !document.createdByname ||
-  //     !document.facilityname
-  //   ) {
-  //     toast.error(
-  //       "Documentation data missing, requires location and facility details"
-  //     );
-  //     return;
-  //   }
-  //   // let confirm = window.confirm(
-  //   //   `You are about to save this document ${document.documentname} ?`
-  //   // );
-  //   // if (confirm) {
-  //   if (!!draftDoc && draftDoc.status === "Draft") {
-  //     ClientServ.patch(draftDoc._id, document)
-  //       .then((res) => {
-  //         //console.log(JSON.stringify(res))
-  //         Object.keys(data).forEach((key) => {
-  //           data[key] = "";
-  //         });
-
-  //         setDocStatus("Draft");
-  //         // setAllergies([])
-  //         /*  setMessage("Created Client successfully") */
-  //         setSuccess(true);
-  //         toast.success("Documentation updated succesfully");
-  //         setSuccess(false);
-  //         setConfirmDialog(false);
-  //       })
-  //       .catch((err) => {
-  //         toast.error("Error updating Documentation " + err);
-  //         reset(data);
-  //         setConfirmDialog(false);
-  //       });
-  //   } else {
-  //     ClientServ.create(document)
-  //       .then((res) => {
-  //         //console.log(JSON.stringify(res))
-  //         Object.keys(data).forEach((key) => {
-  //           data[key] = "";
-  //         });
-
-  //         /*  setMessage("Created Client successfully") */
-  //         setSuccess(true);
-  //         toast.success("Lab Result created succesfully");
-  //         setSuccess(false);
-  //         reset(data);
-  //         setConfirmDialog(false);
-  //       })
-  //       .catch((err) => {
-  //         toast.error("Error creating Lab Result " + err);
-  //         setConfirmDialog(false);
-  //       });
-  //   }
-  //   // }
+  //   console.log("===>>>> data", { data });
   // };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    // data.createdby=user._id
+    //console.log(data);
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    data.totalScore = totalScore;
+
+    const updatedData = {
+      ...data,
+    };
+    console.log("===>>>> data onsubmit", { data: updatedData });
+    document.documentdetail = data;
+    document.documentname = `Fear-Avoidance Beliefs Questionnaire (FABQ)`; //"Lab Result"
+    document.documentType = "Fear-Avoidance Beliefs Questionnaire (FABQ)";
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    // console.log(document)??????????
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Lab Result " + err);
+          setConfirmationDialog(false);
+        });
+    }
+    // }
+  };
 
   const handleChangeStatus = async (e) => {
     // await setAppointment_type(e.target.value)
@@ -1388,13 +2135,11 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     <>
       <div className="card ">
         <CustomConfirmationDialog
-          open={confirmDialog}
-          cancelAction={() => setConfirmDialog(false)}
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "investigation"
-          )} Result?`}
+          message={`You are about to save this Fear-Avoidance Beliefs Questionnaire (FABQ) document?`}
         />
         <Box
           sx={{
@@ -1467,12 +2212,21 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
 
                   <Grid item container xs={12} sm={6}>
                     <Grid item xs={12} sm={6}>
-                      <CustomSelect
+                      {/* <CustomSelect
                         label="select"
-                        required
+                        // required
                         control={control}
                         name={data.name}
                         options={selectOptions}
+                      /> */}
+                      <CustomSelect
+                        label="select"
+                        name={data.description}
+                        options={selectOptions}
+                        register={register(`${data.description}`, {
+                          required: false,
+                        })}
+                        // onChange={(e)=>handleChangeMode(e.target.value)}
                       />
                     </Grid>
                   </Grid>
@@ -1520,12 +2274,21 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
 
                   <Grid item container xs={12} sm={6}>
                     <Grid item xs={12} sm={6}>
-                      <CustomSelect
+                      {/* <CustomSelect
                         label="select"
-                        required
+                        //required
                         control={control}
                         name={data.name}
                         options={selectOptions}
+                      /> */}
+                      <CustomSelect
+                        label="select"
+                        name={data.description}
+                        options={selectOptions}
+                        register={register(`${data.description}`, {
+                          required: false,
+                        })}
+                        // onChange={(e)=>handleChangeMode(e.target.value)}
                       />
                     </Grid>
                   </Grid>
@@ -1602,7 +2365,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
               <GlobalCustomButton
                 color="secondary"
                 type="submit"
-                onClick={() => setConfirmDialog(true)}
+                onClick={() => setConfirmationDialog(true)}
               >
                 Submit Lab Result
               </GlobalCustomButton>
@@ -1631,6 +2394,7 @@ export function BackPainQuestionnaireCreate() {
         "I can tolerate the pain I have without having to use pain medication",
       checked: false,
       schemaName: "painIntensity",
+      displaySchemaName: "Pain Intensity",
     },
     {
       name: "pain_intensity_check_1",
@@ -1667,6 +2431,7 @@ export function BackPainQuestionnaireCreate() {
         "I can take care of myself normally without causing increased pain.",
       checked: false,
       schemaName: "personalCare",
+      displaySchemaName: "Personal Care",
     },
     {
       name: "personal_care_1",
@@ -1701,6 +2466,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can lift heavy weights without increased pain.",
       checked: false,
       schemaName: "lifting",
+      displaySchemaName: "Lifting",
     },
     {
       name: "lifting_1",
@@ -1737,6 +2503,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can lift heavy weights without increased pain.",
       checked: false,
       schemaName: "walking",
+      displaySchemaName: "Walking",
     },
     {
       name: "walking_1",
@@ -1777,6 +2544,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can sit in any chair as long as I like.",
       checked: false,
       schemaName: "sitting",
+      displaySchemaName: "Sitting",
     },
     {
       name: "sitting_1",
@@ -1811,6 +2579,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can stand as long as I want without increased pain.",
       checked: false,
       schemaName: "standing",
+      displaySchemaName: "Standing",
     },
     {
       name: "standing_1",
@@ -1845,6 +2614,7 @@ export function BackPainQuestionnaireCreate() {
       label: "Pain does not prevent me from sleeping well.",
       checked: false,
       schemaName: "sleeping",
+      displaySchemaName: "Sleeping",
     },
     {
       name: "sleeping_1",
@@ -1879,6 +2649,7 @@ export function BackPainQuestionnaireCreate() {
       label: "My social life is normal and does not increase my pain.",
       checked: false,
       schemaName: "socialLife",
+      displaySchemaName: "Social Life",
     },
     {
       name: "social_life_1",
@@ -1914,6 +2685,7 @@ export function BackPainQuestionnaireCreate() {
       label: "I can travel anywhere without increased pain.",
       checked: false,
       schemaName: "travelling",
+      displaySchemaName: "Travelling",
     },
     {
       name: "travelling_1",
@@ -1950,6 +2722,7 @@ export function BackPainQuestionnaireCreate() {
       label: "My normal homemaking / job activities do not cause pain.",
       checked: false,
       schemaName: "employmentHome",
+      displaySchemaName: "Employment Home",
     },
     {
       name: "employment_homemaking_1",
@@ -1978,6 +2751,19 @@ export function BackPainQuestionnaireCreate() {
       label: "Pain prevents me from performing any job or homemaking chores.",
       checked: false,
     },
+  ];
+
+  const allSchemaData = [
+    painIntensityCheckBoxSchemaData,
+    personalCareCheckBoxSchemaData,
+    liftingCheckBoxSchemaData,
+    walkingCheckBoxSchemaData,
+    sittingCheckBoxSchemaData,
+    travellingCheckBoxSchemaData,
+    employmentHomemakingCheckBoxSchemaData,
+    socialLifeCheckBoxSchemaData,
+    sleepingCheckBoxSchemaData,
+    standingCheckBoxSchemaData,
   ];
 
   const [error, setError] = useState(false);
@@ -2029,16 +2815,129 @@ export function BackPainQuestionnaireCreate() {
     standingCheckBoxSchemaData
   );
 
+  const updateCheckBoxesWithData = (schemaData, responseData) => {
+    // Iterate through the schemaData array
+    schemaData.forEach((checkbox) => {
+      const name = checkbox.name;
+
+      // Check if the name exists as a key in the responseData object
+      if (responseData.hasOwnProperty(name)) {
+        // Check if the value is not false before updating 'checked' to true
+        if (responseData[name] !== false && responseData[name] !== "false") {
+          checkbox.checked = true;
+        }
+      }
+    });
+
+    // Return the updated schemaData
+    return schemaData;
+  };
+
+  const updateAndSetCheckboxSchema = (
+    schemaData,
+    setStateFunction,
+    responseData
+  ) => {
+    const updatedSchemaData = updateCheckBoxesWithData(
+      schemaData,
+      responseData
+    );
+    setStateFunction(updatedSchemaData);
+  };
+
+  const filterCheckedData = (schemaDataArray, resData) => {
+    const filteredData = {};
+
+    schemaDataArray.forEach((schemaData) => {
+      const schemaName = schemaData[0].displaySchemaName;
+      schemaData.forEach((item) => {
+        if (resData[item.name] !== false) {
+          filteredData[schemaName] = item.label;
+        }
+      });
+    });
+
+    return filteredData;
+  };
+
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      console.log("===>>> response data", {
+        data: draftDoc.documentdetail,
+      });
+
+      const checkboxSchemas = [
+        {
+          schemaData: standingCheckBoxSchema,
+          setStateFunction: setStandingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: employmentHomemakingCheckBoxSchema,
+          setStateFunction: setEmploymentHomemakingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: travelingCheckBoxSchema,
+          setStateFunction: setTravelingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: socialLifeCheckBoxSchema,
+          setStateFunction: setSocialLifeCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: sleepingCheckBoxSchema,
+          setStateFunction: setSleepingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: painIntensityCheckBoxSchema,
+          setStateFunction: setPainIntensityCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: personalCareCheckBoxSchema,
+          setStateFunction: setPersonalCareCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: liftingCheckBoxSchema,
+          setStateFunction: setLiftingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: walkingCheckBoxSchema,
+          setStateFunction: setWalkingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: sittingCheckBoxSchema,
+          setStateFunction: setSittingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+      ];
+
+      checkboxSchemas.forEach((schema) => {
+        updateAndSetCheckboxSchema(
+          schema.schemaData,
+          schema.setStateFunction,
+          schema.responseData
+        );
+      });
+
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "totalScore") {
+          setTotalScore(value);
+        }
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -2071,6 +2970,7 @@ export function BackPainQuestionnaireCreate() {
   });
 
   const onSubmit = (data, e) => {
+    // console.log("onsubmit", { data: data });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -2082,10 +2982,8 @@ export function BackPainQuestionnaireCreate() {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
-    data.totalScore = totalScore;
-    document.documentdetail = data;
-    document.documentname = `${data.Investigation} Result`; //"Lab Result"
-    document.documentType = "Diagnostic Result";
+    document.documentname = "Back Pain Questionnaire"; //`${data.Investigation} Result`;
+    document.documentType = "Back Pain Questionnaire"; //"Diagnostic Result";
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
@@ -2118,6 +3016,24 @@ export function BackPainQuestionnaireCreate() {
     // );
     // if (confirm) {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForDraft = {
+        ...data,
+        totalScore,
+      };
+
+      const filterDataForFinal = filterCheckedData(allSchemaData, dataForDraft);
+
+      const dataForFinal = {
+        ...filterDataForFinal,
+        Comment: dataForDraft.Comment,
+        "Total Score": totalScore,
+      };
+      console.log("===>>>>>", { dataForFinal });
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -2139,6 +3055,24 @@ export function BackPainQuestionnaireCreate() {
           setConfirmDialog(false);
         });
     } else {
+      const dataForDraft = {
+        ...data,
+        totalScore,
+      };
+
+      const filterDataForFinal = filterCheckedData(allSchemaData, dataForDraft);
+
+      const dataForFinal = {
+        ...filterDataForFinal,
+        Comment: dataForDraft.Comment,
+        "Total Score": totalScore,
+      };
+      console.log("===>>>>>", { dataForFinal });
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+      console.log("onsubmit form", { data: dataForDraft, document });
       ClientServ.create(document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -2283,9 +3217,7 @@ export function BackPainQuestionnaireCreate() {
           cancelAction={() => setConfirmDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "investigation"
-          )} Result?`}
+          message={`You are about to save this Back Pain Questionnaire document?`}
         />
         <Box
           sx={{
@@ -3023,11 +3955,13 @@ export function LabNoteCreate() {
 
 // Eye Examination
 export function EyeExamination() {
-  const { register, handleSubmit, setValue, reset, getValues } = useForm(); //, watch, errors, reset
+  const { control, register, handleSubmit, setValue, reset, getValues } =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
+  const [facility, setFacility] = useState();
   const ClientServ = client.service("clinicaldocument");
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -3049,12 +3983,47 @@ export function EyeExamination() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+        if (keys === "acuity") {
+          setFormData((prevState) => ({
+            ...prevState,
+            acuity: value,
+          }));
+        }
+        if (keys === "muscles") {
+          setFormData((prevState) => ({
+            ...prevState,
+            muscles: value,
+          }));
+        }
+        if (keys === "degree") {
+          setFormData((prevState) => ({
+            ...prevState,
+            degree: value,
+          }));
+        }
+        if (keys === "colorVision") {
+          setFormData((prevState) => ({
+            ...prevState,
+            colorVision: value,
+          }));
+        }
+        if (keys === "fieldRestriction") {
+          setFormData((prevState) => ({
+            ...prevState,
+            fieldRestriction: value,
+          }));
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -3070,6 +4039,8 @@ export function EyeExamination() {
     if (!user.stacker) {
     }
   });
+
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
 
   const handleAcuityChange = (event) => {
     setFormData((prevState) => ({
@@ -3119,23 +4090,24 @@ export function EyeExamination() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
 
-    document.documentdetail = {
-      "Age Of Onset": data.ageOfOnset,
-      History: data.history,
-      "Unaided RVA": data.unaidedRVA,
-      "Unaided LVA": data.unaidedLVA,
-      "Unaided NV": data.unaidedNV,
-      "Aided RVA": data.aidedRVA,
-      "Aided LVA": data.aidedLVA,
-      "Aided NV": data.aidedNV,
-      Acuity: formData.acuity,
-      "Muscle Function": formData.muscles,
-      "Visual Field Test": data.visualFieldTest,
-      Describe: data.describe,
-      Degree: formData.degree,
-      "Field Restriction": formData.fieldRestriction,
-      "Color Vision": formData.colorVision,
-    };
+    // document.documentdetail = {
+    //   ...data,
+    //   // "Age Of Onset": data.ageOfOnset,
+    //   // history: data.history,
+    //   // "Unaided RVA": data.unaidedRVA,
+    //   // "Unaided LVA": data.unaidedLVA,
+    //   // "Unaided NV": data.unaidedNV,
+    //   // "Aided RVA": data.aidedRVA,
+    //   // "Aided LVA": data.aidedLVA,
+    //   // "Aided NV": data.aidedNV,
+    //   acuity: formData.acuity,
+    //   muscles: formData.muscles,
+    //   // "Visual Field Test": data.visualFieldTest,
+    //   // Describe: data.describe,
+    //   degree: formData.degree,
+    //   fieldRestriction: formData.fieldRestriction,
+    //   colorVision: formData.colorVision,
+    // };
     document.documentname = "Eye examination";
     document.documentType = "Eye examination";
     document.location =
@@ -3165,6 +4137,36 @@ export function EyeExamination() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForFinal = {
+        "Age Of Onset": data.ageOfOnset,
+        History: data.history,
+        "Unaided RVA": data.unaidedRVA,
+        "Unaided LVA": data.unaidedLVA,
+        "Unaided NV": data.unaidedNV,
+        "Aided RVA": data.aidedRVA,
+        "Aided LVA": data.aidedLVA,
+        "Aided NV": data.aidedNV,
+        Acuity: formData.acuity,
+        Muscles: formData.muscles,
+        "Visual Field Test": data.visualFieldTest,
+        Describe: data.describe,
+        Degree: formData.degree,
+        "Field Restriction": formData.fieldRestriction,
+        "color Vision": formData.colorVision,
+      };
+      const dataForDraft = {
+        ...data,
+        acuity: formData.acuity,
+        muscles: formData.muscles,
+        degree: formData.degree,
+        fieldRestriction: formData.fieldRestriction,
+        colorVision: formData.colorVision,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -3183,6 +4185,36 @@ export function EyeExamination() {
           setConfirmationDialog(false);
         });
     } else {
+      const dataForFinal = {
+        "Age Of Onset": data.ageOfOnset,
+        History: data.history,
+        "Unaided RVA": data.unaidedRVA,
+        "Unaided LVA": data.unaidedLVA,
+        "Unaided NV": data.unaidedNV,
+        "Aided RVA": data.aidedRVA,
+        "Aided LVA": data.aidedLVA,
+        "Aided NV": data.aidedNV,
+        Acuity: formData.acuity,
+        Muscles: formData.muscles,
+        "Visual Field Test": data.visualFieldTest,
+        Describe: data.describe,
+        Degree: formData.degree,
+        "Field Restriction": formData.fieldRestriction,
+        "color Vision": formData.colorVision,
+      };
+      const dataForDraft = {
+        ...data,
+        acuity: formData.acuity,
+        muscles: formData.muscles,
+        degree: formData.degree,
+        fieldRestriction: formData.fieldRestriction,
+        colorVision: formData.colorVision,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.create(document)
         .then((res) => {
           // console.log("Data", res)
@@ -3202,6 +4234,7 @@ export function EyeExamination() {
         });
     }
   };
+
   const closeEncounterRight = async () => {
     setState((prevstate) => ({
       ...prevstate,
@@ -3224,9 +4257,7 @@ export function EyeExamination() {
           cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Examination?`}
+          message={`You are about to save this document Eye Examination?`}
         />
         <Box
           sx={{
@@ -3250,7 +4281,7 @@ export function EyeExamination() {
             <Box mb={1}>
               <Input
                 register={register("ageOfOnset")}
-                name="text"
+                name="ageOfOnset"
                 type="text"
                 placeholder="Enter age of Onset"
               />
@@ -3262,7 +4293,7 @@ export function EyeExamination() {
               <Textarea
                 color="primary"
                 register={register("history")}
-                name="findings"
+                name="history"
                 type="text"
                 placeholder="Type here...."
               />
@@ -3288,7 +4319,7 @@ export function EyeExamination() {
                 <Box sx={{ marginTop: "10px" }}>
                   <Input
                     register={register("unaidedRVA")}
-                    name="text"
+                    name="unaidedRVA"
                     type="text"
                     placeholder="Enter RVA..."
                     fullWidth
@@ -3301,7 +4332,7 @@ export function EyeExamination() {
                 <Box sx={{ marginTop: "10px" }}>
                   <Input
                     register={register("unaidedLVA")}
-                    name="text"
+                    name="unaidedLVA"
                     type="text"
                     placeholder="Enter LVA..."
                     fullWidth
@@ -3490,8 +4521,8 @@ export function EyeExamination() {
             </Box>
             <Box>
               <Textarea
-                register={register("describe")}
-                name="findings"
+                register={register("describeOne")}
+                name="describeOne"
                 type="text"
                 label="Describe"
                 placeholder="Type here..."
@@ -3511,7 +4542,8 @@ export function EyeExamination() {
             <Box mb={1}>
               <Input
                 register={register("visualFieldTest")}
-                name="text"
+                name="isualFieldTest
+                isualFieldTest"
                 type="text"
                 placeholder="Enter test type"
               />
@@ -3554,8 +4586,8 @@ export function EyeExamination() {
             <Box>
               <Textarea
                 color="primary"
-                register={register("describe")}
-                name="findings"
+                register={register("describeTwo")}
+                name="describeTwo"
                 type="text"
                 label="Description"
                 placeholder="Type here..."
@@ -3700,12 +4732,31 @@ export function DentalClinic() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "Send To") {
+          setFormData((prevState) => ({
+            ...prevState,
+            dentalLaboratory: value,
+          }));
+        }
+        if (keys === "dentalTherapist") {
+          setFormData((prevState) => ({
+            ...prevState,
+            dentalTherapist: value,
+          }));
+        }
+        if (keys === "orthodontist") {
+          setFormData((prevState) => ({
+            ...prevState,
+            orthodontist: value,
+          }));
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -3723,6 +4774,7 @@ export function DentalClinic() {
   });
 
   const onSubmit = (data, e) => {
+    console.log("===>>>data befor create", { data });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -3735,19 +4787,6 @@ export function DentalClinic() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
 
-    document.documentdetail = {
-      RFA: data.rfa,
-      HPC: data.hpc,
-      PDH: data.pdh,
-      PHM: data.phm,
-      "Intra Oral": data.intraoral,
-      "Extra Oral": data.extraoral,
-      Investigation: data.investigation,
-      Diagnosis: data.diagnosis,
-      "Management Plan": data.managementPlan,
-      Treatment: data.treatment,
-      "Send To": formData.dentalLaboratory,
-    };
     document.documentname = "Dental Clinic";
     document.documentType = "Dental Clinic";
     document.location =
@@ -3777,6 +4816,30 @@ export function DentalClinic() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForFinal = {
+        RFA: data.rfa,
+        HPC: data.hpc,
+        PDH: data.pdh,
+        PHM: data.phm,
+        "Intra Oral": data.intraoral,
+        "Extra Oral": data.extraoral,
+        Investigation: data.investigation,
+        Diagnosis: data.diagnosis,
+        "Management Plan": data.managementPlan,
+        Treatment: data.treatment,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const dataForDraft = {
+        ...data,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -3788,6 +4851,7 @@ export function DentalClinic() {
           toast.success("Documentation updated successfully");
           setSuccess(false);
           setConfirmationDialog(false);
+          return;
         })
         .catch((err) => {
           toast.error("Error updating Documentation: " + err);
@@ -3795,9 +4859,33 @@ export function DentalClinic() {
           setConfirmationDialog(false);
         });
     } else {
+      const dataForFinal = {
+        RFA: data.rfa,
+        HPC: data.hpc,
+        PDH: data.pdh,
+        PHM: data.phm,
+        "Intra Oral": data.intraoral,
+        "Extra Oral": data.extraoral,
+        Investigation: data.investigation,
+        Diagnosis: data.diagnosis,
+        "Management Plan": data.managementPlan,
+        Treatment: data.treatment,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const dataForDraft = {
+        ...data,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.create(document)
         .then((res) => {
-          // console.log("Data", res)
+          console.log("Data not draft", { res, doc: document });
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
@@ -3843,9 +4931,7 @@ export function DentalClinic() {
           cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Examination?`}
+          message={`You are about to save this Dental Clinic document?`}
         />
         <Box
           sx={{
@@ -3880,7 +4966,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("rfa")}
-                    name="text"
+                    name="rfa"
                     type="text"
                     placeholder="Enter rfa"
                   />
@@ -3891,7 +4977,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("hpc")}
-                    name="text"
+                    name="hpc"
                     type="text"
                     placeholder="Enter hpc"
                   />
@@ -3904,7 +4990,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("pdh")}
-                    name="text"
+                    name="pdh"
                     type="text"
                     placeholder="Enter pdh"
                   />
@@ -3915,7 +5001,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("phm")}
-                    name="text"
+                    name="phm"
                     type="text"
                     placeholder="Enter pmh"
                   />
@@ -3939,7 +5025,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("intraoral")}
-                    name="text"
+                    name="intraoral"
                     type="text"
                     placeholder="Type here..."
                   />
@@ -3952,7 +5038,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("extraoral")}
-                    name="text"
+                    name="extraoral"
                     type="text"
                     placeholder="Type here..."
                   />
@@ -3967,7 +5053,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("investigation")}
-                name="findings"
+                name="investigation"
                 type="text"
                 placeholder="Type here...."
               />
@@ -3979,7 +5065,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("diagnosis")}
-                name="findings"
+                name="diagnosis"
                 type="text"
                 placeholder="Type here...."
               />
@@ -3992,7 +5078,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("managementPlan")}
-                name="findings"
+                name="managementPlan"
                 type="text"
                 placeholder="Type here...."
               />
@@ -4004,7 +5090,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("treatment")}
-                name="findings"
+                name="treatment"
                 type="text"
                 placeholder="Type here...."
               />
@@ -5713,6 +6799,7 @@ export function PrescriptionCreate() {
     </>
   );
 }
+
 export function LabrequestCreate() {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
