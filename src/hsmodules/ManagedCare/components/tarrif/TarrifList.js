@@ -170,10 +170,9 @@ const TarrifListComponent = ({
 
     {
       name: "Delete",
-
       center: true,
       key: "delete",
-
+      omit: provider,
       description: "Delete row",
       selector: (row, index) => (
         <IconButton

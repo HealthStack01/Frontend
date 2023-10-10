@@ -91,7 +91,7 @@ export const getServicesColumns = (
   return servicesColumns;
 };
 
-export const getPlansColumns = deletePlan => {
+export const getPlansColumns = (deletePlan, omitDelete) => {
   const plansColumns = [
     {
       name: "S/N",
@@ -194,6 +194,7 @@ export const getPlansColumns = deletePlan => {
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      omit: omitDelete,
     },
   ];
 
