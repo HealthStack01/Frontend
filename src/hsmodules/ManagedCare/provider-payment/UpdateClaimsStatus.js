@@ -16,11 +16,7 @@ const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
 
   const selectedClaim = state.ClaimsModule.selectedClaim;
 
-  const {control, register, handleSubmit} = useForm({
-    defaultValues: {
-      status: selectedClaim.status,
-    },
-  });
+  const {control, register, handleSubmit} = useForm({});
 
   const handleUpdateStatus = async data => {
     //console.log(data);

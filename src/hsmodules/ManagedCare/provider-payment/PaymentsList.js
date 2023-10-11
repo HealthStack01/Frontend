@@ -8,6 +8,7 @@ import client from "../../../feathers";
 import dayjs from "dayjs";
 import ModalBox from "../../../components/modal";
 import ProviderPaymentClaimsStatus from "./UpdateClaimsStatus";
+import Checkbox from "@mui/material/Checkbox";
 
 const options = [
   {
@@ -68,6 +69,8 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const [toggleCleared, setToggleCleared] = useState(false);
   const [claims, setClaims] = useState([]);
   const [rendered, setRendered] = useState(false);
+  const [selectedProviders, setSelectedProviders] = useState([]);
+  const [selectedClaims, setSelectedClaims] = useState([]);
 
   const title = `${type} List`;
 
@@ -240,6 +243,30 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
     setSelectedPayment(null);
   };
 
+  const handleRowSelected = useCallback(state => {
+    //console.log(state);
+    setSelectedProviders(state.selectedRows);
+  }, []);
+
+  const contextActions = useMemo(() => {
+    const handleAction = () => {
+      //setStatusModal(true);
+      console.log(selectedClaims);
+    };
+
+    return (
+      <Box sx={{display: "flex", gap: "10px"}}>
+        <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Update All Status
+        </GlobalCustomButton>
+      </Box>
+    );
+  }, [selectedClaims, payments, toggleCleared]);
+
   return (
     <Box p={2}>
       <Box
@@ -308,7 +335,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
           }}
         >
           <CustomTable
-            title={""}
+            title={"Providers List"}
             columns={paymentColumns}
             data={payments || []}
             pointerOnHover
@@ -317,6 +344,10 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
             onRowClicked={handleRow}
             progressPending={loading}
             conditionalRowStyles={conditionalRowStyles}
+            selectable
+            noHeader={false}
+            contextActions={contextActions}
+            onSelectedRowsChange={handleRowSelected}
           />
         </Box>
 
@@ -333,6 +364,9 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
               onRowClicked={onClaimsRowClick}
               toggleCleared={toggleCleared}
               setToggleCleared={setToggleCleared}
+              selectedClaims={selectedClaims}
+              setSelectedClaims={setSelectedClaims}
+              providers={selectedProviders}
             />
           </Box>
         )}
@@ -348,11 +382,58 @@ const ClaimsTableComoponent = ({
   onRowClicked,
   toggleCleared,
   setToggleCleared,
+  selectedClaims,
+  setSelectedClaims,
+  providers,
 }) => {
   const [statusModal, setStatusModal] = useState(false);
-  const [selectedClaims, setSelectedClaims] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  // const [selectedClaims, setSelectedClaims] = useState([]);
+
+  const handleParentChange = e => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      setSelectedClaims(claims);
+      setSelectAll(true);
+    } else {
+      setSelectedClaims([]);
+      setSelectAll(false);
+    }
+  };
+
+  const handleChildChange = (e, claim) => {
+    const isChecked = e.target.checked;
+    console.log(claim);
+  };
 
   const claimsColumns = [
+    {
+      name: (
+        <Checkbox
+          size="small"
+          color="success"
+          checked={selectAll}
+          // indeterminate={
+          //   claims.length > 0 && selectedClaims.length !== claims.length
+          // }
+          onChange={handleParentChange}
+        />
+      ),
+      key: "healthcare plan",
+      description: "Enter name of Healthcare Plan",
+      cell: (row, i) => (
+        <Checkbox
+          size="small"
+          checked={selectedClaims.find(item => item.id === row.id)}
+          onChange={e => handleChildChange(e, row)}
+        />
+      ),
+      sortable: false,
+      required: true,
+      inputType: "HIDDEN",
+      width: "60px",
+      omit: providers.legnth === 0,
+    },
     {
       name: "S/N",
       key: "healthcare plan",
@@ -372,6 +453,7 @@ const ClaimsTableComoponent = ({
       required: true,
       inputType: "HIDDEN",
       width: "100px",
+      selector: "createdAt",
     },
     {
       name: "Patient Name",
@@ -392,6 +474,7 @@ const ClaimsTableComoponent = ({
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      selector: "beneficiary",
     },
     {
       name: "State",
@@ -405,17 +488,18 @@ const ClaimsTableComoponent = ({
       style: {
         textTransform: "capitalize",
       },
+      selector: "patientstate",
     },
 
     {
       name: "Num of Services",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-
       cell: row => row.services.length,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      selector: "services",
     },
 
     {
@@ -423,15 +507,20 @@ const ClaimsTableComoponent = ({
       key: "bills",
       description: "Enter bills",
       cell: row => `₦${row?.totalamount}`,
-      //cell: row => returnCell(row?.totalamount),
       sortable: true,
       required: true,
       inputType: "TEXT",
+      selector: "totalamount",
     },
   ];
 
   const handleRowSelected = useCallback(state => {
-    setSelectedClaims(state.selectedRows);
+    console.log("providers");
+    if (providers.length > 0) {
+      setSelectedClaims(prev => [...state.selectedRows, ...prev]);
+    } else {
+      setSelectedClaims(state.selectedRows);
+    }
   }, []);
 
   const contextActions = useMemo(() => {
@@ -467,7 +556,7 @@ const ClaimsTableComoponent = ({
       </ModalBox>
 
       <CustomTable
-        title={"Claims"}
+        title={`Claims List for `}
         columns={claimsColumns}
         data={claims || []}
         pointerOnHover
@@ -475,11 +564,13 @@ const ClaimsTableComoponent = ({
         striped
         onRowClicked={onRowClicked}
         progressPending={false}
-        selectable
+        selectable={providers.legnth === 0}
         contextActions={contextActions}
         clearSelectedRows={toggleCleared}
         noHeader={false}
+        selectableRowsHighlight
         onSelectedRowsChange={handleRowSelected}
+        //selectableRowSelected={rowSelectCritera}
       />
     </>
   );

@@ -24,6 +24,8 @@ interface Props {
   preferredCustomStyles?: any;
   clearSelectedRows?: any;
   contextActions?: any;
+  selectableRowSelected?: any;
+  selectableRowsHighlight?: boolean;
 }
 
 const CustomLoader = () => (
@@ -66,6 +68,8 @@ const CustomTable: React.FC<Props> = ({
   preferredCustomStyles,
   clearSelectedRows,
   contextActions,
+  selectableRowSelected,
+  selectableRowsHighlight,
 }) => {
   return (
     <DataTable
@@ -98,6 +102,8 @@ const CustomTable: React.FC<Props> = ({
       noDataComponent={CustomEmptyData ? CustomEmptyData : <EmptyData />}
       conditionalRowStyles={conditionalRowStyles}
       noHeader={noHeader}
+      selectableRowSelected={selectableRowSelected}
+      selectableRowsHighlight={selectableRowsHighlight}
     />
   );
 };
