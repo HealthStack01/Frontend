@@ -16,8 +16,6 @@ import PreauthorizationCreateComplaint from "./Complaints";
 import PreauthorizationCreateDiagnosis from "./Diagnosis";
 import PreauthorizationCreateService from "./Services";
 
-const random = require("random-string-generator");
-
 import {
   getComplaintColumns,
   getDiagnosisColumns,
@@ -31,6 +29,7 @@ import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
+import {generateRandomString} from "../../../helpers/generateString";
 
 const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
   const preAuthServer = client.service("preauth");
@@ -151,7 +150,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      preauthid: random(12, "uppernumeric"),
+      preauthid: generateRandomString(12),
       appointment: selectedAppointment,
       admission: selectedAdmission,
       geolocation: {

@@ -7,7 +7,8 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -292,7 +293,7 @@ export function ProductExitCreate() {
         const today = new Date().toLocaleString();
 
         setDate(today);
-        const invoiceNo = random(6, "uppernumeric");
+        const invoiceNo = generateRandomString(6);
         setDocumentNo(invoiceNo);
         setType("Sales");
       })
@@ -315,7 +316,7 @@ export function ProductExitCreate() {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
     return () => {};
   }, []);

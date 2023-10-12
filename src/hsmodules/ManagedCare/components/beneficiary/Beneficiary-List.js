@@ -9,12 +9,13 @@ import {ObjectContext, UserContext} from "../../../../context";
 import {toast} from "react-toastify";
 import {returnAvatarString} from "../../../helpers/returnAvatarString";
 
-const BeneficiariesList = ({showDetail}) => {
+const BeneficiariesList = ({showDetail, corporate}) => {
   const policyServer = client.service("policy");
   const [beneficiaries, setBeneficiaries] = useState([]);
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState();
 
   const handleCreateNew = () => {};
 
@@ -165,19 +166,34 @@ const BeneficiariesList = ({showDetail}) => {
 
   const getFacilities = async () => {
     setLoading(true);
+    let query = {
+      organizationId: user.currentEmployee.facilityDetail._id,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+
+    if (corporate) {
+      query = {
+        organizationId: user.currentEmployee.facilityDetail._id,
+        $or: [
+          {"sponsor.facilityName": corporate.facilityName},
+          {"sponsor._id": corporate._id},
+        ],
+        $sort: {
+          createdAt: -1,
+        },
+      };
+    }
     policyServer
       .find({
-        query: {
-          organizationId: user.currentEmployee.facilityDetail._id,
-          $sort: {
-            createdAt: -1,
-          },
-        },
+        query: query,
       })
       .then(res => {
         const policies = res.data;
         const data = returnBeneficiaries(policies);
         setBeneficiaries(data);
+       setTotal(data.length)
         setLoading(false);
       })
       .catch(err => {
@@ -328,7 +344,7 @@ const BeneficiariesList = ({showDetail}) => {
         </div>
 
         <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-          List of Beneficiaries
+          List of Beneficiaries ({total})
         </h2>
       </div>
       {handleCreateNew && (
@@ -342,7 +358,7 @@ const BeneficiariesList = ({showDetail}) => {
       <Box
         className="level"
         style={{
-          height: "calc(100vh - 140px)",
+          height: corporate ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
           overflow: "scroll",
         }}
       >

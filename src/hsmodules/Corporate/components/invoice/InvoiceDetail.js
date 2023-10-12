@@ -43,8 +43,6 @@ import InvoiceReopenReason from "./invoiceReopen";
 import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
 
-const random = require("random-string-generator");
-
 const InvoiceDetail = ({handleGoBack}) => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =
@@ -286,7 +284,7 @@ const InvoiceDetail = ({handleGoBack}) => {
     },
   ];
 
-  const getUnreadMessagesCount = useCallback(async () => {
+/*   const getUnreadMessagesCount = useCallback(async () => {
     setUnreadMsgs([]);
     const id = state.DealModule.selectedDeal._id;
     const userId = user.currentEmployee.userId;
@@ -315,16 +313,16 @@ const InvoiceDetail = ({handleGoBack}) => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+ /*  useEffect(() => {
     getUnreadMessagesCount();
 
     dealServer.on("created", obj => getUnreadMessagesCount());
     dealServer.on("updated", obj => getUnreadMessagesCount());
     dealServer.on("patched", obj => getUnreadMessagesCount());
     dealServer.on("removed", obj => getUnreadMessagesCount());
-  }, [getUnreadMessagesCount]);
+  }, [getUnreadMessagesCount]); */
 
   return (
     <Watermark
@@ -363,7 +361,7 @@ const InvoiceDetail = ({handleGoBack}) => {
             }}
             gap={1}
           >
-           {/*  <Badge
+            {/*  <Badge
               badgeContent={unreadMsgs.length}
               color="secondary"
               sx={{marginRight: "10px"}}
@@ -374,7 +372,7 @@ const InvoiceDetail = ({handleGoBack}) => {
               </GlobalCustomButton>
             </Badge> */}
 
-         {/*    {(user?.currentEmployee?.roles?.includes("Admin") ||
+            {/*    {(user?.currentEmployee?.roles?.includes("Admin") ||
               user?.currentEmployee?.roles?.includes("CRM Authorization")) && (
               <>
                 {invoiceStatus.toLowerCase() === "declined" ||
@@ -407,7 +405,7 @@ const InvoiceDetail = ({handleGoBack}) => {
               </>
             )}*/}
 
-          {/*   <GlobalCustomButton
+            {/*   <GlobalCustomButton
               color="secondary"
               onClick={() => setViewInvoice(true)}
             >
@@ -428,7 +426,7 @@ const InvoiceDetail = ({handleGoBack}) => {
         </Box>
 
         <Grid container spacing={2} p={2}>
-         {/*  <Grid item lg={12} md={12} sm={12}>
+          {/*  <Grid item lg={12} md={12} sm={12}>
             <PageCustomerDetail />
           </Grid> */}
 
@@ -436,7 +434,7 @@ const InvoiceDetail = ({handleGoBack}) => {
             <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
               <FormsHeaderText text="Invoice Information" />
 
-            {/*   <Box sx={{display: "flex"}} gap={2}>
+              {/*   <Box sx={{display: "flex"}} gap={2}>
                 {edit ? (
                   <>
                     <GlobalCustomButton
@@ -527,7 +525,7 @@ const InvoiceDetail = ({handleGoBack}) => {
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
               <FormsHeaderText text="Invoice Plans List" />
 
-             {/*  <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
+              {/*  <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
                 <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
                 Add New Plan
               </GlobalCustomButton> */}

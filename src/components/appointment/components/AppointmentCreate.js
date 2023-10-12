@@ -201,7 +201,7 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
       ).format("DD/MM/YYYY hh:mm")} ${
         isHMO ? `and your OTP code is ${generatedOTP}` : ""
       } `,
-      recipients: patient.phone,
+      receiver: patient.phone,
       facilityName: facility.facilityName,
       facilityId: facility._id,
     };

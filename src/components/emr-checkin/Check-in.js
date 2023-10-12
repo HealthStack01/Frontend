@@ -4,6 +4,7 @@ import {Box} from "@mui/material";
 import CheckInsList from "./components/CheckInsList";
 // import AppointmentCreate from "./components/AppointmentCreate";
 import CheckInAppointmentDetail from "./components/CheckInDetail";
+import AppointmentDetail from "../appointment/components/AppointmentDetail";
 import ModalBox from "../modal";
 
 const AppointmentComponent = ({module}) => {
@@ -31,7 +32,11 @@ const AppointmentComponent = ({module}) => {
         onClose={() => setDetailModal(false)}
         header={`Appointment Detail`}
       >
-        <CheckInAppointmentDetail closeModal={() => setDetailModal(false)} />
+         <AppointmentDetail
+          closeModal={() => setDetailModal(false)}
+          module={module}
+        />
+        {/* <CheckInAppointmentDetail closeModal={() => setDetailModal(false)} /> */}
       </ModalBox>
     </Box>
   );

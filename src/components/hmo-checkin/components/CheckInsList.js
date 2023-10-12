@@ -6,30 +6,30 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomTable from "../../customtable";
 import GlobalCustomButton from "../../buttons/CustomButton";
 import client from "../../../feathers";
-import {ObjectContext, UserContext} from "../../../context";
-import {PageWrapper} from "../../../ui/styled/styles";
-import {TableMenu} from "../../../ui/styled/global";
+import { ObjectContext, UserContext } from "../../../context";
+import { PageWrapper } from "../../../ui/styled/styles";
+import { TableMenu } from "../../../ui/styled/global";
 import FilterMenu from "../../utilities/FilterMenu";
 import dayjs from "dayjs";
 
-const CheckInsList = ({showDetail, showCreate, module}) => {
+const CheckInsList = ({ showDetail, showCreate, module }) => {
   const appointmentsServer = client.service("appointments");
   const [appointments, setAppointments] = useState([]);
-  const {state, setState} = useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
   const [isCheckedIn, setIsCheckedIn] = useState(true);
 
-  const handleRow = appointment => {
+  const handleRow = (appointment) => {
     console.log(appointment);
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       AppointmentModule: {
         ...prev.AppointmentModule,
@@ -40,7 +40,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
     showDetail();
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     let query = {
       //  facility: user.currentEmployee.facilityDetail._id,
       $or: [
@@ -129,12 +129,12 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
     // }
 
     appointmentsServer
-      .find({query: query})
-      .then(res => {
+      .find({ query: query })
+      .then((res) => {
         setAppointments(res.data);
         //setFacilities(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         toast.error("Error Searching Client, probable network issues " + err);
       });
@@ -154,20 +154,21 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
     if (user.stacker) {
       return;
     } else {
-      const res = await appointmentsServer.find({query: query});
+      const res = await appointmentsServer.find({ query: query });
 
       setAppointments(res.data);
       setLoading(false);
+      console.log(res.data);
     }
   }, [state.employeeLocation, isCheckedIn]);
 
   useEffect(() => {
     getAppointments();
 
-    appointmentsServer.on("created", obj => getAppointments());
-    appointmentsServer.on("updated", obj => getAppointments());
-    appointmentsServer.on("patched", obj => getAppointments());
-    appointmentsServer.on("removed", obj => getAppointments());
+    appointmentsServer.on("created", (obj) => getAppointments());
+    appointmentsServer.on("updated", (obj) => getAppointments());
+    appointmentsServer.on("patched", (obj) => getAppointments());
+    appointmentsServer.on("removed", (obj) => getAppointments());
   }, [getAppointments]);
 
   const activeStyle = {
@@ -181,7 +182,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -190,7 +191,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Client Name",
       key: "firstname",
       description: "First Name",
-      selector: row => `${row.firstname} ${row.lastname}`,
+      selector: (row) => `${row.firstname} ${row.lastname}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -202,7 +203,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Provider",
       key: "firstname",
       description: "First Name",
-      selector: row => `${row.firstname} ${row.lastname}`,
+      selector: (row) => `${row.facilityDetail.facilityName}`,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -214,7 +215,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Appointment Time",
       key: "date",
       description: "Date/Time",
-      selector: row => dayjs(row.start_time).format("DD/MM/YYYY HH:mm"),
+      selector: (row) => dayjs(row.start_time).format("DD/MM/YYYY HH:mm"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -224,7 +225,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Class",
       key: "classification",
       description: "Classification",
-      selector: row => row.appointmentClass,
+      selector: (row) => row.appointmentClass,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -233,7 +234,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Location",
       key: "location",
       description: "Location",
-      selector: row => row.location_name,
+      selector: (row) => row.location_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -242,7 +243,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Type",
       key: "type",
       description: "Type",
-      selector: row => row.appointment_type,
+      selector: (row) => row.appointment_type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -251,7 +252,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Status",
       key: "status",
       description: "Status",
-      selector: row => row.appointment_status,
+      selector: (row) => row.appointment_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -260,7 +261,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Reason",
       key: "reason",
       description: "Reason",
-      selector: row => row.appointment_reason,
+      selector: (row) => row.appointment_reason,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -269,7 +270,7 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
       name: "Practitioner",
       key: "practitioner",
       description: "Practitioner",
-      selector: row => row.practitioner_name,
+      selector: (row) => row.practitioner_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -278,15 +279,15 @@ const CheckInsList = ({showDetail, showCreate, module}) => {
 
   return (
     <div className="level">
-      <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+      <PageWrapper style={{ flexDirection: "column", padding: "0.6rem 1rem" }}>
         <TableMenu>
-          <div style={{display: "flex", alignItems: "center"}}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+            <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
               List of {isCheckedIn ? "Chekced-In" : "Checked-Out"} Patients
             </h2>
           </div>

@@ -13,7 +13,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
-var random = require("random-string-generator");
+
 import moment from "moment";
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
@@ -42,6 +42,7 @@ import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
+import {generateRandomString} from "../helpers/generateString";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -341,7 +342,7 @@ export function ProductExitCreate({closeModal}) {
         const today = new Date().toLocaleString();
 
         setDate(today);
-        const invoiceNo = random(6, "uppernumeric");
+        const invoiceNo = generateRandomString(6);
         setDocumentNo(invoiceNo);
         setType("Sales");
       })
@@ -360,7 +361,7 @@ export function ProductExitCreate({closeModal}) {
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = generateRandomString(6);
     setDocumentNo(invoiceNo);
     return () => {};
   }, []);

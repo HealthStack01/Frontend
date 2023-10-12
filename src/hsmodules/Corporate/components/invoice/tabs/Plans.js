@@ -12,8 +12,7 @@ import CustomTable from "../../../../../components/customtable";
 import {getPlansColumns} from "../../colums/columns";
 import ModalBox from "../../../../../components/modal";
 import {toast} from "react-toastify";
-
-var random = require("random-string-generator");
+import {generateRandomString} from "../../../../helpers/generateString";
 
 const InvoicePlansTab = () => {
   const [plans, setPlans] = useState([]);
@@ -34,7 +33,7 @@ const InvoicePlansTab = () => {
       amount: data.amount,
       no_of_months: data.no_of_months,
       created_at: moment.now(),
-      _id: `${Math.random()}`,
+      _id: `${generateRandomString(14)}`,
     };
     console.log(plan);
     setPlans(prev => [plan, ...prev]);
@@ -82,7 +81,7 @@ const InvoicePlansTab = () => {
         <Grid item xs={4}>
           <Input
             label="Invoice Number"
-            value={random(12, "uppernumeric")}
+            value={generateRandomString(12)}
             register={register("invoice_number", {required: true})}
             disabled={true}
           />

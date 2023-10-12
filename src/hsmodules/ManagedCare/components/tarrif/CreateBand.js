@@ -69,43 +69,33 @@ const CreateBand = ({closeModal}) => {
       });
   };
 
-
- 
-
   return (
     <Box
       sx={{
-        width: "500px",
+        width: "400px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "14px",
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item lg={4} md={6} sm={6} xs={12} >
-          <Input
-            important
-            register={register("name", {required: true})}
-            label="Band's Name"
-          />
-        </Grid>
+      <Input
+        important
+        register={register("name", {required: true})}
+        label="Band's Name"
+      />
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <CustomSelect
-            name="bandType"
-            control={control}
-            label="Band's Type"
-            important
-            required
-            options={["Provider"]}
-          />
-        </Grid>
-        </Grid>
-        <Grid container spacing={2}>
+      <CustomSelect
+        name="bandType"
+        control={control}
+        label="Band's Type"
+        important
+        required
+        options={["Provider"]}
+      />
 
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Textarea register={register("description")} label="Description" />
-        </Grid>
-      </Grid>
+      <Textarea register={register("description")} label="Description" />
 
-      <Box sx={{display: "flex", gap: 2}} mt={1}>
+      <Box sx={{display: "flex", gap: 2, width: "100%"}} mt={1}>
         <GlobalCustomButton onClick={handleSubmit(handleCreateBand)}>
           Create Band
         </GlobalCustomButton>
@@ -113,10 +103,6 @@ const CreateBand = ({closeModal}) => {
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
-
-
-      
-
       </Box>
     </Box>
   );

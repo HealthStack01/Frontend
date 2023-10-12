@@ -29,7 +29,8 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import TextField from "@mui/material/TextField";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 // eslint-disable-next-line
 const searchfacility = {};
 

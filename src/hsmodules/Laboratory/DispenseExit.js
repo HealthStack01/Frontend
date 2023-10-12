@@ -7,7 +7,8 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
-var random = require("random-string-generator");
+import {generateRandomString} from "../helpers/generateString";
+const random = generateRandomString;
 // eslint-disable-next-line
 const searchfacility = {};
 

@@ -86,13 +86,14 @@ const SendLinkViaEmail = ({
   };
 
   const handleSendEmail = async data => {
+    let document={}
     
     if (emailBody === "")
       return toast.error("Please, You cannot send an empty Email");
     const facility = user.currentEmployee.facilityDetail;
     showActionLoader();
 if (orgType!=="individual"){
-   const document = {
+   document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
       html: emailBody,
@@ -101,7 +102,7 @@ if (orgType!=="individual"){
       ...data,
     };
   }else{
-    const document = {
+    document = {
       organizationId: facility._id,
       organizationName: facility.facilityName,
       html: indvemailBody,

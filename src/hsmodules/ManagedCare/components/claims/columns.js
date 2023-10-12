@@ -81,6 +81,22 @@ export const getDiagnosisColumns = (deleteAction, omitDelete = true) => {
       inputType: "HIDDEN",
     },
     {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
       name: "Delete",
       key: "sn",
       description: "SN",

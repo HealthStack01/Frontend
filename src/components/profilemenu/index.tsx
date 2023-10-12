@@ -37,6 +37,25 @@ const ProfileMenu = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const cleanup=async()=>{
+
+    let logObj={
+      user: user,
+      facility:user.employeeData[0].facilityDetail,
+      type:"logout"
+    }
+  
+      await client.service("logins").create(logObj)
+  
+   let onlineObj={
+    lastLogin: new Date(),
+    online:false
+   }
+      await client.service("users").patch(user._id, onlineObj)
+  
+  }
+  
+
   // return focus to the button when we transitioned from !open -> open
 
   return (
@@ -48,6 +67,7 @@ const ProfileMenu = () => {
       >
         <UpdateProfilePhoto closeModal={() => setImageUploadModal(false)} />
       </ModalBox>
+      
       <Box sx={{display: "flex", flexDirection: "column"}}>
         <IconButton onClick={handleOpenOptions}>
           <Avatar src={user.currentEmployee.imageurl} />
@@ -105,6 +125,7 @@ const ProfileMenu = () => {
             },
           }}
           onClick={() => {
+            cleanup()
             localStorage.setItem("user", "");
             navigate("/");
             handleCloseOptions();

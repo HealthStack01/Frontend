@@ -10,7 +10,7 @@ import {ObjectContext} from "../../../../../context";
 import PeopleIcon from "@mui/icons-material/People";
 import {toast} from "react-toastify";
 
-const PolicyAddProvider = ({closeModal,hmoid}) => {
+const PolicyAddProvider = ({closeModal}) => {
   const {state, setState} = useContext(ObjectContext);
   //const [providers, setProviders] = useState([]);
   const [success, setSuccess] = useState(false);
@@ -62,10 +62,9 @@ const PolicyAddProvider = ({closeModal,hmoid}) => {
       >
         <FormsHeaderText text={"Search and Select Provider"} />
         <Box>
-          <OrgHMOFacilitySearch 
+          <OrgHMOFacilitySearch
             getSearchfacility={handleAddProvider}
             clear={success}
-            hmoid={hmoid}
           />
         </Box>
         {/* 

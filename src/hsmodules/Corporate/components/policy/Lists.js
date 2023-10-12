@@ -14,13 +14,19 @@ import {PageWrapper} from "../../../../ui/styled/styles";
 
 import dayjs from "dayjs";
 
-const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
+const PoliciesList = ({
+  createNewPolicy,
+  showDetails,
+  beneficiary,
+  corporate,
+}) => {
   const policyServer = client.service("policy");
   const [policies, setPolicies] = useState([]);
   const {state, setState} = useContext(ObjectContext);
   const [loading, setLoading] = useState(false);
   const {user, setUser} = useContext(UserContext);
   const [status, setStatus] = useState("approved");
+  const [total, setTotal] = useState();
 
   const handleCreateNew = async () => {
     createNewPolicy();
@@ -38,8 +44,9 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
     showDetails();
   };
 
-  const handleSearch = val => {
+   const handleSearch = val => {
     if (val.length < 3 || val.trim() === "") return;
+   gi
     policyServer
       .find({
         query: {
@@ -128,14 +135,18 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
             {"dependantBeneficiaries.gender": val},
           ],
 
-          organizationId: user.currentEmployee.facilityDetail._id, // || "",
+      
+            "sponsor.facilityName": user.currentEmployee.facilityDetail.facilityName,
+            //"sponsor._id": user.currentEmployee.facilityDetail._id,
+        
 
           $sort: {
             createdAt: -1,
           },
-        },
+        }
       })
       .then(res => {
+   
         setPolicies(res.data);
       })
       .catch(err => {
@@ -145,18 +156,39 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
   const getPolicies = useCallback(async () => {
     setLoading(true);
-    const resp = await policyServer.find({
-      query: {
+    let query = {
+      $or: [
+        {"sponsor.facilityName": user.currentEmployee.facilityDetail.facilityName},
+        {"sponsor._id": user.currentEmployee.facilityDetail._id},
+      ],
+      approved: status === "approved",
+      $sort: {
+        createdAt: -1,
+      },
+    };
+
+  /*   if (beneficiary) {
+      query["principal._id"] = beneficiary._id;
+    }
+
+    if (corporate) {
+      query = {
         organizationId: user.currentEmployee.facilityDetail._id,
-        approved: true,
+        $or: [
+          {"sponsor.facilityName": corporate.facilityName},
+          {"sponsor._id": user.currentEmployee.facilityDetail._id},
+        ],
         $sort: {
           createdAt: -1,
         },
-      },
+      };
+    } */
+    const resp = await policyServer.find({
+      query: query,
     });
-   // console.log(resp.data)
     setPolicies(resp.data);
     setLoading(false);
+    setTotal(resp.total)
   }, [status]);
 
   useEffect(() => {
@@ -257,7 +289,9 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
       key: "sponsor",
       description: "Sponsor name",
       selector: row =>
-      row?.sponsor?.facilityDetail?.facilityName ? row?.sponsor?.facilityDetail?.facilityName : row?.sponsor?.facilityName,
+        row?.sponsor?.facilityDetail?.facilityName
+          ? row?.sponsor?.facilityDetail?.facilityName
+          : row?.sponsor?.facilityName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -339,6 +373,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
           )}
           <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
             {status === "approved" ? "Approved" : "Pending"} Policies
+            ({total})
           </h2>
 
           {status === "approved" && (
@@ -362,7 +397,7 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
           )}
         </div>
 
-        {!beneficiary && (
+        {!beneficiary && !corporate && (
           <Box
             sx={{
               display: "flex",
@@ -385,7 +420,10 @@ const PoliciesList = ({createNewPolicy, showDetails, beneficiary}) => {
 
       <Box
         style={{
-          height: beneficiary ? "calc(100vh - 240px)" : "calc(100vh - 140px)",
+          height:
+            beneficiary || corporate
+              ? "calc(100vh - 240px)"
+              : "calc(100vh - 140px)",
           overflowY: "scroll",
         }}
       >

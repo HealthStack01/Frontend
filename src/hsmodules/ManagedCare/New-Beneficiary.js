@@ -12,9 +12,10 @@ import client from "../../feathers";
 import {ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 
-const NewBeneficiary = () => {
+const NewBeneficiaryModule = ({corporate}) => {
   const [createBandModal, setCreateBandModal] = useState(false);
   const policyServer = client.service("policy");
+  const clientServer = client.service("client");
   const [patient, setPatient] = useState(null);
   const [view, setView] = useState("lists");
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
@@ -25,6 +26,7 @@ const NewBeneficiary = () => {
   };
 
   const handleUpdateClient = update => {
+    const prevUpdate = update;
     delete update.plan;
     delete update.policy;
     delete update.clientType;
@@ -56,12 +58,15 @@ const NewBeneficiary = () => {
 
     policyServer
       .patch(prevPolicy._id, updatedPolicy)
-      .then(res => {
-        console.log(res);
-        hideActionLoader();
-        toast.success("Beneficiary Updated Successfully.");
+      .then(() => {
+        return clientServer.patch(update._id, {...update}).then(res => {
+          console.log(res);
+          hideActionLoader();
+          setPatient(prevUpdate);
+          toast.success("Beneficiary Updated Successfully.");
+        });
       })
-      .catch(error => {
+      .catch(err => {
         hideActionLoader();
         toast.error(`Failed to update Beneficiary ${err}`);
       });
@@ -71,7 +76,10 @@ const NewBeneficiary = () => {
     <Box>
       {view === "lists" && (
         <Box>
-          <BeneficiariesList showDetail={showBeneficairyDetails} />
+          <BeneficiariesList
+            showDetail={showBeneficairyDetails}
+            corporate={corporate}
+          />
         </Box>
       )}
 
@@ -89,4 +97,4 @@ const NewBeneficiary = () => {
   );
 };
 
-export default NewBeneficiary;
+export default NewBeneficiaryModule;

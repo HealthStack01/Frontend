@@ -11,7 +11,6 @@ import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
-var random = require("random-string-generator");
 
 import {Box, Button, Grid, Typography} from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
@@ -73,104 +72,96 @@ export default function MakeDeposit({closeModal, balance}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const {state, setState} = useContext(ObjectContext);
- 
 
   let medication = state.financeModule.selectedFinance;
 
-  console.log(medication)
-
+  console.log(medication);
 
   //Remita Config
-const config = {
-  key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
-  customerId: "86666",
-  firstName: "Simpa",
-  lastName: "Dania",
-  email: "simpa@healthstack.africa",
-  amount: amountPaid,
-  narration: "payment",
-};
+  const config = {
+    key: "QzAwMDAyNzEyNTl8MTEwNjE4NjF8OWZjOWYwNmMyZDk3MDRhYWM3YThiOThlNTNjZTE3ZjYxOTY5NDdmZWE1YzU3NDc0ZjE2ZDZjNTg1YWYxNWY3NWM4ZjMzNzZhNjNhZWZlOWQwNmJhNTFkMjIxYTRiMjYzZDkzNGQ3NTUxNDIxYWNlOGY4ZWEyODY3ZjlhNGUwYTY=", // enter your key here
+    customerId: "86666",
+    firstName: "Simpa",
+    lastName: "Dania",
+    email: "simpa@healthstack.africa",
+    amount: amountPaid,
+    narration: "payment",
+  };
 
-   // if(response){
-    //   FinancialTrxServ.create({
-    //     message:{ type:Schema.Types.Mixed },
-    //     subwalletId: { type: Schema.Types.ObjectId },
-    //     clientname: { type: String },
-    //     facilityname: { type: String },
-    //     facilityId: { type: Schema.Types.ObjectId },
-    //     cllientId: { type: Schema.Types.ObjectId },
-    //     channel:{ type: String },//remita,paystack,flutterwave etc
-    //     amount:{type:Number}
-    //   })
-    // }
+  // if(response){
+  //   FinancialTrxServ.create({
+  //     message:{ type:Schema.Types.Mixed },
+  //     subwalletId: { type: Schema.Types.ObjectId },
+  //     clientname: { type: String },
+  //     facilityname: { type: String },
+  //     facilityId: { type: Schema.Types.ObjectId },
+  //     cllientId: { type: Schema.Types.ObjectId },
+  //     channel:{ type: String },//remita,paystack,flutterwave etc
+  //     amount:{type:Number}
+  //   })
+  // }
 
-let data = {
-  ...config,
-  onSuccess: function (response) {
-    // function callback when payment is successful
-    console.log("callback Successful Response", response.amount);
-  },
-  onError: function (response) {
-    // function callback when payment fails
-    console.log("callback Error Response", response);
-  },
-  onClose: function () {
-    // function callback when payment modal is closed
-    console.log("closed");
-  },
-};
+  let data = {
+    ...config,
+    onSuccess: function (response) {
+      // function callback when payment is successful
+      console.log("callback Successful Response", response.amount);
+    },
+    onError: function (response) {
+      // function callback when payment fails
+      console.log("callback Error Response", response);
+    },
+    onClose: function () {
+      // function callback when payment modal is closed
+      console.log("closed");
+    },
+  };
 
-    // PAYSTACK CONFIG
+  // PAYSTACK CONFIG
 
-    // const config = {
-    //   reference: new Date().getTime().toString(),
-    //   email: "simpa@healthstack.africa",
-    //   amount: amountPaid * 100,
-    //   publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
-    // };
-  
-   
-  
-    // const componentProps = {
-    //   ...config,
-    //   text: "Make a Deposit",
-    //   onSuccess: (reference) => handleSuccess(reference, amount),
-    //   onClose: closeModal,
-    // };
-  
-    // const handleSuccess = (amount, reference) => {
-    //   let transactionDetails = amount;
-    //   transactionDetails.amount = reference;
-    //   // dispatch(saveTransactionRef(transactionDetails));
-    //   // //console.log(transactionDetails, "AMOUNT");
-    //   // return history("/business/payment");
-    // };
-  
-  
-    // //FLUTTERWAVE CONFIG
-    // const configfw = {
-    //   public_key: 'FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X',
-    //   tx_ref: Date.now(),
-    //   amount: amountPaid,
-    //   email: "simpa@healthstack.africa",
-    //   currency: 'NGN',
-    //   payment_options: 'card,mobilemoney,ussd',
-    //   customer: {
-    //     email: 'simpa@healthstack.africa',
-    //      phone_number: '070********',
-    //     name: 'john doe',
-    //   },
-    //   customizations: {
-    //     title: 'my Payment Title',
-    //     description: 'Payment for items in cart',
-    //     logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
-    //   },
-    // };
-  
-  
-    // const handleFlutterPayment = useFlutterwave(configfw);
-  
+  // const config = {
+  //   reference: new Date().getTime().toString(),
+  //   email: "simpa@healthstack.africa",
+  //   amount: amountPaid * 100,
+  //   publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+  // };
 
+  // const componentProps = {
+  //   ...config,
+  //   text: "Make a Deposit",
+  //   onSuccess: (reference) => handleSuccess(reference, amount),
+  //   onClose: closeModal,
+  // };
+
+  // const handleSuccess = (amount, reference) => {
+  //   let transactionDetails = amount;
+  //   transactionDetails.amount = reference;
+  //   // dispatch(saveTransactionRef(transactionDetails));
+  //   // //console.log(transactionDetails, "AMOUNT");
+  //   // return history("/business/payment");
+  // };
+
+  // //FLUTTERWAVE CONFIG
+  // const configfw = {
+  //   public_key: 'FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X',
+  //   tx_ref: Date.now(),
+  //   amount: amountPaid,
+  //   email: "simpa@healthstack.africa",
+  //   currency: 'NGN',
+  //   payment_options: 'card,mobilemoney,ussd',
+  //   customer: {
+  //     email: 'simpa@healthstack.africa',
+  //      phone_number: '070********',
+  //     name: 'john doe',
+  //   },
+  //   customizations: {
+  //     title: 'my Payment Title',
+  //     description: 'Payment for items in cart',
+  //     logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+  //   },
+  // };
+
+  // const handleFlutterPayment = useFlutterwave(configfw);
 
   const handleChangeMode = async value => {
     ////console.log(value)
@@ -199,7 +190,7 @@ let data = {
     return () => {};
   }, [user]);
 
-  const handleAccept = async () => {   
+  const handleAccept = async () => {
     await setButtonState(true);
     if (paymentmode === "" || amountPaid === 0 || amountPaid === "") {
       toast({
@@ -307,7 +298,7 @@ let data = {
               color: "red",
             }}
           >
-            {" "} 
+            {" "}
             &#8358;{state.xtotal.toFixed(2)}
           </Typography>
         </Box>
@@ -354,7 +345,7 @@ let data = {
         >
           <Typography sx={{display: "flex", alignItems: "center"}}>
             <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
-          Wallet Balance
+            Wallet Balance
           </Typography>
           <Typography
             sx={{
@@ -381,7 +372,7 @@ let data = {
             />
           </Grid>
 
-        {/*   <Grid item xs={6}>
+          {/*   <Grid item xs={6}>
             <Input
               name="description"
               value={description}
@@ -402,24 +393,24 @@ let data = {
           </Grid> */}
         </Grid>
       </Box>
-      <Box 
-       sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: "5px",
-      }}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "5px",
+        }}
       >
-          {/* <GlobalCustomButton
+        {/* <GlobalCustomButton
           onClick={handleAccept}
           >
              <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
              Accept
           </GlobalCustomButton>*/}
-      <GlobalCustomButton  >
-      <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />        
-               Pay with Wallet
-             </GlobalCustomButton>
-           {/* <GlobalCustomButton
+        <GlobalCustomButton>
+          <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+          Pay with Wallet
+        </GlobalCustomButton>
+        {/* <GlobalCustomButton
               onClick={() => {
                handleFlutterPayment({
                  callback: (response) => {
@@ -433,7 +424,7 @@ let data = {
                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay with Flutterwave
              </GlobalCustomButton> */}
-             {/* <PaystackConsumer {...componentProps}>
+        {/* <PaystackConsumer {...componentProps}>
              {({ initializePayment }) => (
          <GlobalCustomButton
          onClick={() => initializePayment(handleSuccess, closeModal)}
@@ -443,20 +434,20 @@ let data = {
          </GlobalCustomButton>
          )}
          </PaystackConsumer> */}
-          <GlobalCustomButton 
-             sx={{
-              backgroundColor: "#023e8a",
-              "&:hover": {backgroundColor: "#023e8a"},
-            }}
-             >
-              <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
-        <RemitaPayment
-          remitaData={data}
-          className='btn' 
-          text='Pay with Remita'
-        />
+        <GlobalCustomButton
+          sx={{
+            backgroundColor: "#023e8a",
+            "&:hover": {backgroundColor: "#023e8a"},
+          }}
+        >
+          <WalletIcon sx={{marginRight: "5px"}} fontSize="small" />
+          <RemitaPayment
+            remitaData={data}
+            className="btn"
+            text="Pay with Remita"
+          />
         </GlobalCustomButton>
-    </Box>
+      </Box>
     </Box>
   );
 }

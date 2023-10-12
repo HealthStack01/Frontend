@@ -8,6 +8,11 @@ import {OrgFacilitySearch} from "../../../../helpers/FacilitySearch";
 import {EnrolleSchema2, EnrolleSchema} from "../models";
 import {ObjectContext} from "../../../../../context";
 import PeopleIcon from "@mui/icons-material/People";
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import client from "../../../../../feathers";
+import {toast} from "react-toastify";
+import ModalBox from "../../../../../components/modal";
+import UploadClients from "../../../../Client/UploadClient";
 
 export const FamilyPoliciesList = ({providerColumns}) => {
   const {state, setState} = useContext(ObjectContext);
@@ -94,9 +99,12 @@ export const FamilyPoliciesAdd = ({
   providers,
   setProviders,
 }) => {
-  const {state, setState} = useContext(ObjectContext);
+  const {state, setState, showActionLoader, hideActionLoader} =
+    useContext(ObjectContext);
+  const clientServer = client.service("client");
   //const [providers, setProviders] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
 
   const handleAddProviders = async obj => {
     // //console.log(obj);
@@ -115,6 +123,74 @@ export const FamilyPoliciesAdd = ({
     }
   };
 
+  const handleUploadPrincipal = () => {
+    setState(prev => ({...prev, currBeneficiary: "principal"}));
+    setUploadModal(true);
+  };
+
+  const handleUploadDependent = () => {
+    setState(prev => ({...prev, currBeneficiary: "dependent"}));
+    setUploadModal(true);
+  };
+
+  const createClient = async data => {
+    //return console.log(data);
+
+    const defaultEmail = `${data.firstname}-${data.lastname}-${dayjs(
+      data.dob
+    ).format("DD/MM/YYY")}@healthstack.africa`;
+
+    const clientData = {
+      ...data,
+      facility: user.currentEmployee.facility,
+      email: data.email || defaultEmail,
+    };
+
+    await clientServer
+      .create(clientData)
+      .then(res => {
+        if (state.currBeneficiary === "principal") {
+          res.type = "principal";
+          setState(prev => ({
+            ...prev,
+            Beneficiary: {
+              ...prev.Beneficiary,
+              principal: res,
+            },
+          }));
+        }
+        if (state.currBeneficiary === "dependent") {
+          res.type = "dependent";
+          setState(prev => ({
+            ...prev,
+            Beneficiary: {
+              ...prev.Beneficiary,
+              dependent: [res, ...state.Beneficiary.dependent],
+            },
+          }));
+        }
+      })
+      .catch(err => {
+        toast.error(
+          `Sorry, You weren't able to create client ${data.firstname} ${data.lastname} . ${err}`
+        );
+      });
+  };
+
+  const handleCreateMultipleClients = async data => {
+    showActionLoader();
+
+    const promises = data.map(async item => {
+      await createClient(item);
+    });
+
+    await Promise.all(promises);
+
+    hideActionLoader();
+    setUploadModal(false);
+    toast.success(`Sucessfully created ${data.length} Client(s)`);
+  };
+
   return (
     <Box
       sx={{
@@ -122,30 +198,45 @@ export const FamilyPoliciesAdd = ({
         maxHeight: "80vh",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-        gap={2}
-        mb={2}
+      <ModalBox
+        open={uploadModal}
+        onClose={() => setUploadModal(false)}
+        header="Upload and Create Multiple Clients"
       >
-        <GlobalCustomButton
-          disabled={state.Beneficiary?.principal._id}
-          onClick={addPrincipal}
-        >
-          <PersonAddAlt1Icon sx={{marginRight: "5px"}} fontSize="small" />
-          Add Principal
-        </GlobalCustomButton>
-
-        <GlobalCustomButton onClick={addDependent}>
-          <PeopleIcon sx={{marginRight: "5px"}} fontSize="small" />
-          Add Dependant
-        </GlobalCustomButton>
-      </Box>
-
+        <UploadClients
+          closeModal={() => setUploadModal(false)}
+          createClients={handleCreateMultipleClients}
+        />
+      </ModalBox>
       <Box mb={1.5}>
-        <FormsHeaderText text="Principal" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <FormsHeaderText text="Principal" />
+
+          <Box sx={{display: "flex", gap: 2}}>
+            <GlobalCustomButton onClick={handleUploadPrincipal}>
+              <DriveFolderUploadIcon
+                sx={{marginRight: "5px"}}
+                fontSize="small"
+              />
+              Upload Principal
+            </GlobalCustomButton>
+
+            <GlobalCustomButton
+              disabled={state.Beneficiary?.principal._id}
+              onClick={addPrincipal}
+            >
+              <PersonAddAlt1Icon sx={{marginRight: "5px"}} fontSize="small" />
+              Add Principal
+            </GlobalCustomButton>
+          </Box>
+        </Box>
+
         <Box
           sx={{
             minHeight: "5vh",
@@ -174,7 +265,29 @@ export const FamilyPoliciesAdd = ({
       </Box>
 
       <Box mb={1.5}>
-        <FormsHeaderText text="Dependent(s)" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <FormsHeaderText text="Dependent(s)" />
+          <Box sx={{display: "flex", gap: 2}}>
+            <GlobalCustomButton onClick={handleUploadDependent}>
+              <DriveFolderUploadIcon
+                sx={{marginRight: "5px"}}
+                fontSize="small"
+              />
+              Upload Dependant
+            </GlobalCustomButton>
+
+            <GlobalCustomButton onClick={addDependent}>
+              <PeopleIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Add Dependant
+            </GlobalCustomButton>
+          </Box>
+        </Box>
 
         <Box
           sx={{

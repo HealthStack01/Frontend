@@ -14,6 +14,7 @@ interface componentProps {
   onInputChange: any;
   isLoading?: boolean;
   disabled?: boolean;
+  label?: string;
 }
 
 const ReactCustomSearchSelectComponent = ({
@@ -27,6 +28,7 @@ const ReactCustomSearchSelectComponent = ({
   onInputChange,
   isLoading,
   disabled,
+  label,
 }: componentProps) => {
   return (
     <Controller
@@ -35,6 +37,7 @@ const ReactCustomSearchSelectComponent = ({
       defaultValue=""
       render={({field: {onChange, value}}) => (
         <div className="react-custom-select-container">
+          {label && <p className="label">{label}</p>}
           <Select
             isMulti={multiple}
             isDisabled={disabled}

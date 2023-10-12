@@ -35,6 +35,9 @@ import ClientPolicy from "../ManagedCare/ClientPolicy";
 import ClientPreauthorization from "../ManagedCare/ClientPreAuth";
 import ClientClaims from "../ManagedCare/ClientClaims";
 import ClientHealthPlan from "../ManagedCare/ClientHealthPlan";
+import PolicyDetail from "../ManagedCare/components/policy/ClientDetails";
+import ClientBenefits from "./ClientBenefits"
+import Referral from "../ManagedCare/Referral"
 
 export default function PatientProfile() {
   const {state, setState} = useContext(ObjectContext); //,setState
@@ -48,6 +51,7 @@ export default function PatientProfile() {
   const [intoleranceModal, setIntoleranceModal] = useState(false);
   const [benefitsModal, setBenefitsModal] = useState(false);
   const [claimsModal, setClaimsModal] = useState(false);
+  const [referralModal, setReferralModal] = useState(false);
   const [policyModal, setPolicyModal] = useState(false);
   const [preauthModal, setPreauthModal] = useState(false);
   const [problemModal, setProblemModal] = useState(false);
@@ -135,38 +139,70 @@ export default function PatientProfile() {
 
   const isHMO = client._id && client.paymentinfo.some(checkHMO);
 
-  const openPolicy = async () => {
-    console.log("starting plicy modal");
+  const policy=async()=>{
     let paymentInfo = state.ClientModule.selectedClient.paymentinfo;
+    let chosenPolicy={}
+  
     let hmoinfo = paymentInfo.filter(el => el.paymentmode === "HMO");
     console.log(hmoinfo);
     if (hmoinfo.length > 0) {
-      let chosenPolicy = hmoinfo[0].policy;
-      //await setSelectedClient(Client);
-      const newClientModule = {
-        selectedClient: chosenPolicy,
-        show: "detail",
-      };
-      await setState(prevstate => ({
-        ...prevstate,
-        ManagedCareModule: newClientModule,
-      }));
+       chosenPolicy = hmoinfo[0].policy;
+      console.log(chosenPolicy)
 
-      setPolicyModal(true);
-    } else {
-      return toast.error("policy does not exist");
     }
-  };
+    if (chosenPolicy===undefined){
+      toast.error("Policy information not available")
+      return
+    }
+    setState(prev => ({
+      ...prev,
+      PolicyModule: {
+        ...prev.PolicyModule,
+        selectedPolicy:chosenPolicy,
+        preservedPolicy:chosenPolicy,
+      },
+    }));
+   setPolicyModal(true)
+
+    /* toast.success("Opening Policy") */
+  }
+
+
+  const benefit=async ()=>{
+    let paymentInfo = state.ClientModule.selectedClient.paymentinfo;
+    let chosenPolicy={}
+  
+    let hmoinfo = paymentInfo.filter(el => el.paymentmode === "HMO");
+    console.log(hmoinfo);
+    if (hmoinfo.length > 0) {
+       chosenPolicy = hmoinfo[0].policy;
+      console.log(chosenPolicy)
+    }
+    if (chosenPolicy===undefined){
+      toast.error("Benefit information not available")
+      return
+    }
+    setState(prev => ({
+      ...prev,
+      PolicyModule: {
+        ...prev.PolicyModule,
+        selectedPolicy:chosenPolicy,
+        preservedPolicy:chosenPolicy,
+      },
+    }));
+   setBenefitsModal(true)
+
+  }
 
   const profileButtons = [
     {
       title: "Policy",
-      action: () => navigate(`/app/clients/benefits/${client._id}`),
+      action: ()=>{policy()}, //() => navigate(`/app/clients/benefits/${client._id}`),
       hide: !isHMO,
     },
     {
       title: "Benefits",
-      action: () => navigate(`/app/clients/benefits/${client._id}`),
+      action: () => {benefit()},
       hide: !isHMO,
     },
     {
@@ -178,6 +214,11 @@ export default function PatientProfile() {
       title: "Claims",
       action: () => navigate(`/app/clients/claims/${client._id}`),
       hide: !isHMO,
+    },
+    {
+      title: "Referral",
+      action: () => setReferralModal(true),
+      hide: false,
     },
     {
       title: "Appointment History",
@@ -443,9 +484,15 @@ export default function PatientProfile() {
       <ModalBox
         open={policyModal}
         onClose={() => setPolicyModal(false)}
-        header="Policy"
+        header="Client Policy"
       >
-        <ClientPolicy closeModal={() => setPolicyModal(false)} />
+      {/*   <ClientPolicy closeModal={() => setPolicyModal(false)} /> */}
+        <PolicyDetail
+          /* goBack={handleReturn}
+          beneficiary={beneficiary}
+          corporate={corporate}
+          corporateOrg={corporateOrg} */
+        />
       </ModalBox>
       {/* ******************************************* Benefits ********************************************** */}
 
@@ -454,7 +501,7 @@ export default function PatientProfile() {
         onClose={() => setBenefitsModal(false)}
         header="Benefits"
       >
-        <ClientHealthPlan closeModal={() => setBenefitsModal(false)} />
+        <ClientBenefits closeModal={() => setBenefitsModal(false)} />
       </ModalBox>
 
       {/* ******************************************* Preauth ********************************************** */}
@@ -465,6 +512,15 @@ export default function PatientProfile() {
         header="Preauthorization"
       >
         <ClientPreauthorization closeModal={() => setPreauthModal(false)} />
+      </ModalBox>
+       {/* ******************************************* Referral ********************************************** */}
+
+       <ModalBox
+        open={referralModal}
+        onClose={() => setReferralModal(false)}
+        header="Referral"
+      >
+        <Referral closeModal={() => setReferralModal(false)} />
       </ModalBox>
 
       {/* ******************************************* Claims ********************************************** */}

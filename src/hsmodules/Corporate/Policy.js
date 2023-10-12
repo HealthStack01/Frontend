@@ -64,57 +64,22 @@ import {ProviderPrintout} from "./components/Printout";
 import dayjs from "dayjs";
 import {ClientSearch} from "../helpers/ClientSearch";
 import {Nigeria} from "../app/Nigeria";
+import NewPolicyModule from "../ManagedCare/NewPolicy";
 
-var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Policy({standAlone}) {
-  const {state} = useContext(ObjectContext); //,setState
+  const {user} = useContext(UserContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(0);
   const [showModal2, setShowModal2] = useState(false);
   const [loading, setLoading] = useState(false);
   return (
-    <section className="section remPadTop">
-      {standAlone
-        ? showModal === 0 && (
-            <PolicyList
-              showModal={showModal}
-              setShowModal={setShowModal}
-              standAlone={standAlone}
-            />
-          )
-        : showModal === 0 && (
-            <PolicyList showModal={showModal} setShowModal={setShowModal} />
-          )}
-      {showModal === 1 && (
-        <PolicyCreate
-          showModal={showModal}
-          setShowModal={setShowModal}
-          setOpenCreate={setShowModal2}
-        />
-      )}
-      {showModal2 && (
-        <ModalBox
-          open={showModal2}
-          onClose={() => {
-            setShowModal(1);
-            setShowModal2(false);
-          }}
-        >
-          <ClientCreate
-            closeModal={() => {
-              //console.log("hello world");
-              setShowModal2(false);
-              setShowModal(1);
-            }}
-          />
-        </ModalBox>
-      )}
-      {showModal === 2 && <PolicyDetail setShowModal={setShowModal} />}
-    </section>
+    <Box>
+      <NewPolicyModule corporateOrg={user.currentEmployee.facilityDetail} />;
+    </Box>
   );
 }
 
@@ -162,10 +127,10 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       selectedClient: policy,
       show: "detail",
     };
-     await setState(prevstate => ({
+    await setState(prevstate => ({
       ...prevstate,
       ManagedCareModule: newClientModule,
-    })); 
+    }));
     setState(prev => ({
       ...prev,
       PolicyModule: {
@@ -266,15 +231,15 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
         ],
         $or: [
           {
-            'sponsor._id': user.currentEmployee.facilityDetail._id,
+            "sponsor._id": user.currentEmployee.facilityDetail._id,
           },
           {
-            'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+            "sponsor.facilityName":
+              user.currentEmployee.facilityDetail.facilityName,
           },
-
         ],
-        
-      // || "",
+
+        // || "",
 
         $sort: {
           createdAt: -1,
@@ -302,12 +267,12 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
         query: {
           $or: [
             {
-              'sponsor._id': user.currentEmployee.facilityDetail._id,
+              "sponsor._id": user.currentEmployee.facilityDetail._id,
             },
             {
-              'sponsor.facilityName': user.currentEmployee.facilityDetail.facilityName,
+              "sponsor.facilityName":
+                user.currentEmployee.facilityDetail.facilityName,
             },
-  
           ],
           // organization: user.currentEmployee.facilityDetail,
           $sort: {
@@ -564,8 +529,6 @@ export function PolicyList({showModal, setShowModal, standAlone}) {
       inputType: "TEXT",
     },
   ];
-
- 
 
   const approvedFacilities = facilities.filter(
     facility => facility.approved === true
@@ -2956,9 +2919,9 @@ export function PolicyDetail({showModal, setShowModal}) {
       planType: Client?.planType,
       start_date: Client?.validitystarts,
       end_date: Client?.validityEnds,
-      isPaid:Client.isPaid,
-      active:Client.active,
-      approved:Client.approve,
+      isPaid: Client.isPaid,
+      active: Client.active,
+      approved: Client.approve,
       approval_date: Client?.approvalDate,
       approved_by: Client?.approvedby?.employeename,
       status: Client?.approved ? "Approved" : "Pending",
@@ -3006,7 +2969,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     setBillModal(false);
   };
   const updateDetail = async data => {
-    alert("about to update")
+    alert("about to update");
     const docId = state.ManagedCareModule.selectedClient._id;
     let Client = state.ManagedCareModule.selectedClient;
     const employee = user.currentEmployee;
@@ -3014,7 +2977,7 @@ export function PolicyDetail({showModal, setShowModal}) {
     const policyDetails = {
       policyNo: data.policyNo,
       phone: data.phone,
-      planType:data.planType,
+      planType: data.planType,
       validitystarts: data.start_date,
       validityEnds: data.end_date,
       status: data.active,
@@ -3055,8 +3018,8 @@ export function PolicyDetail({showModal, setShowModal}) {
   const dectivatePolicy = async () => {
     const docId = state.ManagedCareModule.selectedClient._id;
     const employee = user.currentEmployee;
-    alert("deactivating Policy")
-    console.log("deactivating")
+    alert("deactivating Policy");
+    console.log("deactivating");
     const policyDetails = {
       approved: true,
       active: true,
@@ -3148,552 +3111,555 @@ export function PolicyDetail({showModal, setShowModal}) {
 
   return (
     <form onSubmit={handleSubmit()}>
-    <>
-      <div
-        className="card "
-        style={{
-          height: "auto",
-          overflow: "scroll",
-          margin: "0 1rem",
-          width: "98%",
-        }}
-      >
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
-            <ModalHeader
-              text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Policy Details`}
-            />
+      <>
+        <div
+          className="card "
+          style={{
+            height: "auto",
+            overflow: "scroll",
+            margin: "0 1rem",
+            width: "98%",
+          }}
+        >
+          <Grid container>
+            <Grid item xs={12} sm={12} md={6}>
+              <ModalHeader
+                text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Policy Details`}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            sx={{display: "flex", justifyContent: "flex-end"}}
-            my={1}
-          >
-            <Button
-              onClick={() => setShowModal(0)}
-              variant="contained"
-              size="small"
-              sx={{textTransform: "capitalize", marginRight: "10px"}}
-              color="warning"
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              sx={{display: "flex", justifyContent: "flex-end"}}
+              my={1}
             >
-              Back
-            </Button>
-            <Button
-              onClick={() => setDisplay(1)}
-              variant={display === 1 ? "outlined" : "contained"}
-              size="small"
-              sx={{textTransform: "capitalize", marginRight: "10px"}}
-              color="secondary"
-            >
-              Details
-            </Button>
+              <Button
+                onClick={() => setShowModal(0)}
+                variant="contained"
+                size="small"
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
+                color="warning"
+              >
+                Back
+              </Button>
+              <Button
+                onClick={() => setDisplay(1)}
+                variant={display === 1 ? "outlined" : "contained"}
+                size="small"
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
+                color="secondary"
+              >
+                Details
+              </Button>
 
-            <Button
-              onClick={() => setDisplay(5)}
-              variant={display === 5 ? "outlined" : "contained"}
-              size="small"
-              color="info"
-              sx={{textTransform: "capitalize", marginRight: "10px"}}
-            >
-              Claims
-            </Button>
-            <Button
-              onClick={() => setDisplay(6)}
-              variant={display === 6 ? "outlined" : "contained"}
-              size="small"
-              sx={{textTransform: "capitalize", marginRight: "10px"}}
-            >
-              Send Policy
-            </Button>
+              <Button
+                onClick={() => setDisplay(5)}
+                variant={display === 5 ? "outlined" : "contained"}
+                size="small"
+                color="info"
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
+              >
+                Claims
+              </Button>
+              <Button
+                onClick={() => setDisplay(6)}
+                variant={display === 6 ? "outlined" : "contained"}
+                size="small"
+                sx={{textTransform: "capitalize", marginRight: "10px"}}
+              >
+                Send Policy
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-        <Box>
-          {display === 1 && (
-           // <PolicyDetail />
-            <Box
-              sx={{
-                height: "80vh",
-                overflow: "scroll",
-                mb:"3px"
-              }}
-            >
+          <Box>
+            {display === 1 && (
+              // <PolicyDetail />
               <Box
                 sx={{
-                  display: "flex",
-                  alignItem: "center",
-                  justifyContent: "space-between",
+                  height: "80vh",
+                  overflow: "scroll",
+                  mb: "3px",
                 }}
-                mb={1}
               >
-                <FormsHeaderText
-                  text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Details`}
-                />
-                <Box>
-                  {facility.approved && (
-                    <GlobalCustomButton
-                      color="success"
-                      onClick={handleSubmit(dectivatePolicy)}
-                      text="Deactivate Policy"
-                      sx={{marginRight: "5px"}}
-                    />
-                  )}
-                  {editPolicy ? (
-                    <>
-                    <GlobalCustomButton
-                      color="success"
-                      onClick={handleSubmit(updateDetail)}
-                    >
-                      <UpgradeOutlinedIcon
-                        fontSize="small"
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItem: "center",
+                    justifyContent: "space-between",
+                  }}
+                  mb={1}
+                >
+                  <FormsHeaderText
+                    text={`${Client?.principal?.firstname} ${Client?.principal?.lastname}'s Details`}
+                  />
+                  <Box>
+                    {facility.approved && (
+                      <GlobalCustomButton
+                        color="success"
+                        onClick={handleSubmit(dectivatePolicy)}
+                        text="Deactivate Policy"
                         sx={{marginRight: "5px"}}
                       />
-                      Update
-                    </GlobalCustomButton>
-                    <GlobalCustomButton onClick={cancelEditPolicy} color="warning">
-                    <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
-                    Cancel Update
-                  </GlobalCustomButton>
-                    </>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      sx={{textTransform: "capitalize"}}
-                      onClick={() => setEditPolicy(true)}
-                    >
-                      <ModeEditOutlineOutlinedIcon fontSize="small" /> Edit
-                    </Button>
-                  )}
+                    )}
+                    {editPolicy ? (
+                      <>
+                        <GlobalCustomButton
+                          color="success"
+                          onClick={handleSubmit(updateDetail)}
+                        >
+                          <UpgradeOutlinedIcon
+                            fontSize="small"
+                            sx={{marginRight: "5px"}}
+                          />
+                          Update
+                        </GlobalCustomButton>
+                        <GlobalCustomButton
+                          onClick={cancelEditPolicy}
+                          color="warning"
+                        >
+                          <AddBoxIcon
+                            sx={{marginRight: "3px"}}
+                            fontSize="small"
+                          />
+                          Cancel Update
+                        </GlobalCustomButton>
+                      </>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        size="small"
+                        sx={{textTransform: "capitalize"}}
+                        onClick={() => setEditPolicy(true)}
+                      >
+                        <ModeEditOutlineOutlinedIcon fontSize="small" /> Edit
+                      </Button>
+                    )}
+                  </Box>
                 </Box>
-                
-              </Box>
 
-              <Grid container spacing={1}>
-                <Grid item xs={12} sm={6} md={4} lg={3} >
-                  <Input
-                    register={register("policyNo", {required: true})}
-                    label="Policy No."
-                    disabled
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("sponsorship_type", {required: true})}
-                    label="Sponsorship Type"
-                    disabled
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("planType", {required: true})}
-                    label="Plan Type"
-                    disabled
-                  />
-                </Grid>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Input
+                      register={register("policyNo", {required: true})}
+                      label="Policy No."
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Input
+                      register={register("sponsorship_type", {required: true})}
+                      label="Sponsorship Type"
+                      disabled
+                      //placeholder="Enter customer number"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Input
+                      register={register("planType", {required: true})}
+                      label="Plan Type"
+                      disabled
+                    />
+                  </Grid>
 
-               {/*  <Grid item xs={12} sm={6} md={4} lg={3}>
+                  {/*  <Grid item xs={12} sm={6} md={4} lg={3}>
                   <Input
                     register={register("phone", {required: true})}
                     label="Phone"
                     disabled
                   />
                 </Grid> */}
-               
-                {!editPolicy && (
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Input
-                      register={register("plan_type", {required: true})}
-                      label="Plan Name"
-                      disabled
-                      //placeholder="Enter customer number"
-                    />
-                  </Grid>
-                )}
-                {editPolicy && (
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <CustomSelect
-                      name="plan"
-                      label="Change Plan"
-                      options={filteredBene}
-                      required
-                      important
-                      // control={control}
-                      onChange={(e, i) => handleChangePlan(e.target.value)}
-                    />
-                  </Grid>
-                )}
-               
 
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("policy_tag")}
-                    label="Policy Tag"
-                    disabled
-                    // placeholder="Enter customer name"
-                  />
-                </Grid>
-                {Client?.planType === "Family" ? (
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Input
-                      label="Family Premium"
-                      disabled
-                      value={
-                        editPolicy
-                          ? familyPrice
-                          : Client?.plan?.premiums?.map(p => {
-                              if (p.planType === "Family") {
-                                return p.premiumAmount;
-                              }
-                            })
-                      }
-                      //placeholder="Enter customer number"
-                    />
-                  </Grid>
-                ) : (
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Input
-                      label="Individual Premium"
-                      disabled
-                      value={
-                        editPolicy
-                          ? individualPrice
-                          : Client?.plan?.premiums?.map(p => {
-                              if (p.planType === "Individual") {
-                                return p.premiumAmount;
-                              }
-                            })
-                      }
-                      //placeholder="Enter customer number"
-                    />
-                  </Grid>
-                )}
+                  {!editPolicy && (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Input
+                        register={register("plan_type", {required: true})}
+                        label="Plan Name"
+                        disabled
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                  )}
+                  {editPolicy && (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <CustomSelect
+                        name="plan"
+                        label="Change Plan"
+                        options={filteredBene}
+                        required
+                        important
+                        // control={control}
+                        onChange={(e, i) => handleChangePlan(e.target.value)}
+                      />
+                    </Grid>
+                  )}
 
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MuiCustomDatePicker
-                    label="Start Date"
-                    name="start_date"
-                    control={control}
-                    disabled={!editPolicy}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <MuiCustomDatePicker
-                    label="End Date"
-                    name="end_date"
-                    control={control}
-                    disabled={!editPolicy}
-                  />
-                </Grid>
-                {Client?.approved && (
                   <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Input
-                      register={register("approved_by")}
-                      label="Approved By"
+                      register={register("policy_tag")}
+                      label="Policy Tag"
                       disabled
+                      // placeholder="Enter customer name"
+                    />
+                  </Grid>
+                  {Client?.planType === "Family" ? (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Input
+                        label="Family Premium"
+                        disabled
+                        value={
+                          editPolicy
+                            ? familyPrice
+                            : Client?.plan?.premiums?.map(p => {
+                                if (p.planType === "Family") {
+                                  return p.premiumAmount;
+                                }
+                              })
+                        }
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                  ) : (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Input
+                        label="Individual Premium"
+                        disabled
+                        value={
+                          editPolicy
+                            ? individualPrice
+                            : Client?.plan?.premiums?.map(p => {
+                                if (p.planType === "Individual") {
+                                  return p.premiumAmount;
+                                }
+                              })
+                        }
+                        //placeholder="Enter customer number"
+                      />
+                    </Grid>
+                  )}
+
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <MuiCustomDatePicker
+                      label="Start Date"
+                      name="start_date"
+                      control={control}
+                      disabled={!editPolicy}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <MuiCustomDatePicker
+                      label="End Date"
+                      name="end_date"
+                      control={control}
+                      disabled={!editPolicy}
+                    />
+                  </Grid>
+                  {Client?.approved && (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Input
+                        register={register("approved_by")}
+                        label="Approved By"
+                        disabled
+                        //placeholder="Enter customer name"
+                      />
+                    </Grid>
+                  )}
+                  {Client?.approved && (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <MuiCustomDatePicker
+                        label="Approval Date"
+                        name="approval_date"
+                        control={control}
+                        disabled
+                      />
+                    </Grid>
+                  )}
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Input
+                      register={register("approved", {required: true})}
+                      label="Approved"
+                      disabled
+                      /* important */
                       //placeholder="Enter customer name"
                     />
                   </Grid>
-                )}
-                {Client?.approved && (
+
                   <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <MuiCustomDatePicker
-                      label="Approval Date"
-                      name="approval_date"
-                      control={control}
+                    <Input
+                      register={register("isPaid", {required: true})}
+                      label="Paid"
                       disabled
+                      /* important */
+                      //placeholder="Enter customer name"
                     />
                   </Grid>
-                )}
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("approved", {required: true})}
-                    label="Approved"
-                    disabled
-                    /* important */
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-                
-                
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("isPaid", {required: true})}
-                    label="Paid"
-                    disabled
-                    /* important */
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("active", {required: true})}
-                    label="Active"
-                    disabled
-                   
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Input
-                    register={register("status", {required: true})}
-                    label="Status"
-                    disabled
-                    /* important */
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-              </Grid>
-              
-          {/*    //// sponsor  */}
-            
-              {facility.sponsorshipType === "Company" && (
-                <>
-               <Box
-                sx={{
-                  display: "flex",
-                  alignItem: "center",
-                  justifyContent: "space-between",
-                }}
-                my={1}
-              >
-                  <FormsHeaderText text="Sponsor Details" />
-                  <GlobalCustomButton
-                onClick={() => setModal("sponsor")}
-                disabled={user.currentEmployee.facilityDetail.facilityType==="Corporate"||!editPolicy }
-              >
-                {Client?.sponsor ? "Edit Sponsor" : "Add Sponsor"}
-              </GlobalCustomButton>
-              </Box>
-                  <Grid container spacing={1}>
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        register={register("sponsor_name")}
-                        label="Sponsor Name"
-                        disabled
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Input
+                      register={register("active", {required: true})}
+                      label="Active"
+                      disabled
 
-                        //placeholder="Enter customer number"
-                      />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        register={register("sponsor_phone")}
-                        label="Sponsor Phone"
-                        disabled
-
-                        //placeholder="Enter customer number"
-                      />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        register={register("sponsor_email")}
-                        label="Sponsor Email"
-                        disabled
-
-                        //placeholder="Enter customer numbe"
-                      />
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={6}>
-                      <Input
-                        register={register("sponsor_address")}
-                        label="Sponsor Address"
-                        disabled
-
-                        //placeholder="Enter customer number"
-                      />
-                    </Grid>
+                      //placeholder="Enter customer name"
+                    />
                   </Grid>
-                </>
-              )}
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Input
+                      register={register("status", {required: true})}
+                      label="Status"
+                      disabled
+                      /* important */
+                      //placeholder="Enter customer name"
+                    />
+                  </Grid>
+                </Grid>
+
+                {/*    //// sponsor  */}
+
+                {facility.sponsorshipType === "Company" && (
+                  <>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItem: "center",
+                        justifyContent: "space-between",
+                      }}
+                      my={1}
+                    >
+                      <FormsHeaderText text="Sponsor Details" />
+                      <GlobalCustomButton
+                        onClick={() => setModal("sponsor")}
+                        disabled={
+                          user.currentEmployee.facilityDetail.facilityType ===
+                            "Corporate" || !editPolicy
+                        }
+                      >
+                        {Client?.sponsor ? "Edit Sponsor" : "Add Sponsor"}
+                      </GlobalCustomButton>
+                    </Box>
+                    <Grid container spacing={1}>
+                      <Grid item lg={6} md={6} sm={6}>
+                        <Input
+                          register={register("sponsor_name")}
+                          label="Sponsor Name"
+                          disabled
+
+                          //placeholder="Enter customer number"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6}>
+                        <Input
+                          register={register("sponsor_phone")}
+                          label="Sponsor Phone"
+                          disabled
+
+                          //placeholder="Enter customer number"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6}>
+                        <Input
+                          register={register("sponsor_email")}
+                          label="Sponsor Email"
+                          disabled
+
+                          //placeholder="Enter customer numbe"
+                        />
+                      </Grid>
+                      <Grid item lg={6} md={6} sm={6}>
+                        <Input
+                          register={register("sponsor_address")}
+                          label="Sponsor Address"
+                          disabled
+
+                          //placeholder="Enter customer number"
+                        />
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
 
                 {/*    //// Principal  */}
-              <Grid item md={12}>
-                <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                my={1.5}
-               >
-                <FormsHeaderText text="Principal Details" />
-                <GlobalCustomButton
-              onClick={() => setModal("principal")}
-              disabled={!editPolicy}
-            >
-              Edit Principal
-            </GlobalCustomButton>
-          </Box>
-                <CustomTable
-                  title={""}
-                  columns={EnrolleSchema3}
-                  data={[facility?.principal]}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={() => {}}
-                  progressPending={loading}
-                  CustomEmptyData="You have no Principal yet."
-                />
+                <Grid item md={12}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    my={1.5}
+                  >
+                    <FormsHeaderText text="Principal Details" />
+                    <GlobalCustomButton
+                      onClick={() => setModal("principal")}
+                      disabled={!editPolicy}
+                    >
+                      Edit Principal
+                    </GlobalCustomButton>
+                  </Box>
+                  <CustomTable
+                    title={""}
+                    columns={EnrolleSchema3}
+                    data={[facility?.principal]}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={() => {}}
+                    progressPending={loading}
+                    CustomEmptyData="You have no Principal yet."
+                  />
                 </Grid>
-                 <Grid item md={12}>
+                <Grid item md={12}>
+                  {/*    //// Dependent */}
+                  {Client.planType === "Family" && (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                        my={1.5}
+                      >
+                        <FormsHeaderText text="Dependent Details" />
+                        <GlobalCustomButton
+                          onClick={() => setModal("dependent")}
+                          disabled={!editPolicy}
+                        >
+                          Add Dependents
+                        </GlobalCustomButton>
+                      </Box>
+                      <CustomTable
+                        title={""}
+                        columns={EnrolleSchema3}
+                        data={facility?.dependantBeneficiaries}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        onRowClicked={() => {}}
+                        progressPending={loading}
+                        CustomEmptyData="You have no Dependant yet"
+                      />
+                    </>
+                  )}
 
-             {/*    //// Dependent */}
-             {Client.planType === "Family" && (
-              <>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                my={1.5}
-               >
-                <FormsHeaderText text="Dependent Details" />
-                <GlobalCustomButton
-              onClick={() => setModal("dependent")}
-              disabled={!editPolicy}
-            >
-              Add Dependents
-            </GlobalCustomButton>
-                </Box>
-                <CustomTable
-                  title={""}
-                  columns={EnrolleSchema3}
-                  data={facility?.dependantBeneficiaries}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={() => {}}
-                  progressPending={loading}
-                  CustomEmptyData="You have no Dependant yet"
-                />
-                </>
-             )}
+                  {/*    //// HMO  */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItem: "center",
+                      justifyContent: "space-between",
+                    }}
+                    my={1}
+                  >
+                    <FormsHeaderText text="HMO" />
 
-
-                   {/*    //// HMO  */}
-                   <Box
-                sx={{
-                  display: "flex",
-                  alignItem: "center",
-                  justifyContent: "space-between",
-                }}
-                my={1}
-              >
-                <FormsHeaderText text="HMO" />
-
-                <CustomTable
-                  title={""}
-                  columns={EnrolleSchema5}
-                  data={[facility?.organization]}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={() => {}}
-                  progressPending={loading}
-                  CustomEmptyData="You have no HMO yet."
-                />
-                </Box>
+                    <CustomTable
+                      title={""}
+                      columns={EnrolleSchema5}
+                      data={[facility?.organization]}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      onRowClicked={() => {}}
+                      progressPending={loading}
+                      CustomEmptyData="You have no HMO yet."
+                    />
+                  </Box>
                   {/*    //// Provider */}
-                 <Box
-                sx={{
-                  display: "flex",
-                  alignItem: "center",
-                  justifyContent: "space-between",
-                }}
-                my={1}
-              >
-                <FormsHeaderText text="Provider Lists" />
-                <GlobalCustomButton
-              onClick={() => setModal("provider")}
-              disabled={!editPolicy}
-            >
-              Add Provider
-            </GlobalCustomButton>
-            </Box>
-                <CustomTable
-                  title={""}
-                  columns={EnrolleSchemaProvider}
-                  data={facility?.providers}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={() => {}}
-                  progressPending={loading}
-                  CustomEmptyData="You have no Provider yet."
-                />
-              </Grid>
-            </Box>
-          )}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItem: "center",
+                      justifyContent: "space-between",
+                    }}
+                    my={1}
+                  >
+                    <FormsHeaderText text="Provider Lists" />
+                    <GlobalCustomButton
+                      onClick={() => setModal("provider")}
+                      disabled={!editPolicy}
+                    >
+                      Add Provider
+                    </GlobalCustomButton>
+                  </Box>
+                  <CustomTable
+                    title={""}
+                    columns={EnrolleSchemaProvider}
+                    data={facility?.providers}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={() => {}}
+                    progressPending={loading}
+                    CustomEmptyData="You have no Provider yet."
+                  />
+                </Grid>
+              </Box>
+            )}
 
-          {display === 5 && <Claims standAlone />}
-          {display === 6 && (
-            <ModalBox open onClose={() => setDisplay(1)}>
-              <ProviderPrintout data={Client} />
-            </ModalBox>
-          )}
-        </Box>
-      </div>
-      <ModalBox
-        open={modal === "principal"}
-        onClose={() => {
-          setModal(null);
-        }}
-      >
-        <ChangePolicyPrincipal
-          closeModal={() => {
+            {display === 5 && <Claims standAlone />}
+            {display === 6 && (
+              <ModalBox open onClose={() => setDisplay(1)}>
+                <ProviderPrintout data={Client} />
+              </ModalBox>
+            )}
+          </Box>
+        </div>
+        <ModalBox
+          open={modal === "principal"}
+          onClose={() => {
             setModal(null);
           }}
-        />
-      </ModalBox>
+        >
+          <ChangePolicyPrincipal
+            closeModal={() => {
+              setModal(null);
+            }}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={modal === "sponsor"}
-        onClose={() => {
-          setModal(null);
-        }}
-      >
-        <ChangePolicySponsor
-          closeModal={() => {
+        <ModalBox
+          open={modal === "sponsor"}
+          onClose={() => {
             setModal(null);
           }}
-        />
-      </ModalBox>
+        >
+          <ChangePolicySponsor
+            closeModal={() => {
+              setModal(null);
+            }}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={modal === "dependent"}
-        onClose={() => {
-          setModal(null);
-        }}
-      >
-        <AddDependentToPolicy
-          closeModal={() => {
+        <ModalBox
+          open={modal === "dependent"}
+          onClose={() => {
             setModal(null);
           }}
-        />
-      </ModalBox>
+        >
+          <AddDependentToPolicy
+            closeModal={() => {
+              setModal(null);
+            }}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={modal === "provider"}
-        onClose={() => {
-          setModal(null);
-        }}
-      >
-        <PolicyAddProvider
-          closeModal={() => {
+        <ModalBox
+          open={modal === "provider"}
+          onClose={() => {
             setModal(null);
           }}
-        hmoid={Client?.organizationId}
-        
-        />
-      </ModalBox>
-    </>
+        >
+          <PolicyAddProvider
+            closeModal={() => {
+              setModal(null);
+            }}
+            hmoid={Client?.organizationId}
+          />
+        </ModalBox>
+      </>
     </form>
   );
 }

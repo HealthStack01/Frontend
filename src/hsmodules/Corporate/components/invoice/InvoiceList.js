@@ -27,16 +27,18 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	const getInvoicesForPage = useCallback(async () => {
 		const testId = '60203e1c1ec8a00015baa357';
 		const facId = user.currentEmployee.facilityDetail._id;
+		console.log(facId)
 		setLoading(true);
 
 		const res = await dealServer.find({
 			query: {
 				customerId: facId,
+				approved:true
 			},
 		});
 
 		const deals = res.data;
-
+		console.log(deals)
 		/* const promises = deals.map(async deal => deal.invoices || []);
 
 		const invoices = await Promise.all(promises); */
@@ -107,7 +109,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 			inputType: 'HIDDEN',
 			width: '50px',
 		},
-		{
+		/* {
 			name: 'Name',
 			key: 'name',
 			description: 'Enter name of Company',
@@ -118,7 +120,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 			style: {
 				textTransform: 'capitalize',
 			},
-		},
+		}, */
 		{
 			name: 'Invoice No',
 			key: 'invoice_no',
@@ -183,7 +185,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 							sx={{
 								margin: 0,
 							}}>
-							{item.type}
+							{item.name}-{item.type}
 						</ListItem>
 					))}
 				</List>

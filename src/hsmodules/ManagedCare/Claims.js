@@ -12,7 +12,7 @@ import ClaimDetailComponent from "./components/claims/ClaimsDetail";
 // eslint-disable-next-line
 const searchfacility = {};
 
-const Claims = ({beneficiary}) => {
+const ClaimsModule = ({beneficiary, corporate}) => {
   const {state, setState} = useContext(ObjectContext);
   const [view, setView] = useState("list");
 
@@ -38,6 +38,7 @@ const Claims = ({beneficiary}) => {
           <ClaimsListComponent
             showCreate={() => setView("create")}
             showDetail={() => setView("detail")}
+            corporate={corporate}
             beneficiary={beneficiary}
             client_id={id}
           />
@@ -71,4 +72,4 @@ const Claims = ({beneficiary}) => {
   );
 };
 
-export default Claims;
+export default ClaimsModule;

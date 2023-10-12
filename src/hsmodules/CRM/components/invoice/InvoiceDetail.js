@@ -43,8 +43,6 @@ import InvoiceReopenReason from "./invoiceReopen";
 import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
 
-const random = require("random-string-generator");
-
 const InvoiceDetail = ({handleGoBack}) => {
   const dealServer = client.service("deal");
   const {state, setState, showActionLoader, hideActionLoader} =

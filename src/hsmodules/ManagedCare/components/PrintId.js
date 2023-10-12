@@ -82,7 +82,7 @@ export const ProviderPrintId = ({ data, action }) => {
       name: "Beneficiary Name",
       key: "beneficiaryname",
       description: "Beneficiary Name",
-      selector: (row) => `${row.firstname} ${row.lastname}`,
+      selector: (row) => `${data.firstname} ${data.lastname}`,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -239,17 +239,17 @@ export const ProviderPrintId = ({ data, action }) => {
             {/* Comapany Logo */}
             <Avatar
               sx={{ marginTop: "5px", marginRight: "10px" }}
-              src={data?.organization?.facilitylogo}
+              src={data?.policy?.organization?.facilitylogo}
               alt=""
             />
-            <h1>{data?.organizationName}</h1>
+            <h1>{data?.policy?.organizationName}</h1>
           </Box>
           <Grid container spacing={2} sx={{ alignItems: "center" }}>
             <Grid item xs={12} md={8}>
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 NAME:{" "}
                 <b>
-                  {`${data?.principal?.firstname} ${data?.principal?.lastname}`}
+                  {`${data?.firstname} ${data?.lastname}`}
                 </b>
               </Typography>
               <Divider />
@@ -258,16 +258,16 @@ export const ProviderPrintId = ({ data, action }) => {
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                SEX: <b>{data?.principal?.gender}</b>
+                SEX: <b>{data?.gender}</b>
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 DATE OF BIRTH:{" "}
-                <b>{moment(data?.principal?.dob).format("DD/MM/YYYY")}</b>
+                <b>{moment(data?.dob).format("DD/MM/YYYY")}</b>
               </Typography>
               <Divider />
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                GENOTYPE: <b>{data?.principal?.genotype}</b>
+                GENOTYPE: <b>{data?.genotype}</b>
                 <Divider orientation="vertical" flexItem />
               </Typography>
               <Divider />
@@ -279,8 +279,8 @@ export const ProviderPrintId = ({ data, action }) => {
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <ImgStyled
                   src={
-                    data?.principal?.imageurl
-                      ? data?.principal?.imageurl
+                    data?.imageurl
+                      ? data?.imageurl
                       : imgSrc
                   }
                   alt="Profile Pic"
@@ -329,21 +329,21 @@ export const ProviderPrintId = ({ data, action }) => {
                 the property of {data?.organizationName}.
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                In the event of an emergency, kindly contact
-                {data?.organizationName}
+                In the event of an emergency, kindly contact: {" "}
+                {data?.policy?.organizationName}
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                {`${data?.organization?.facilityAddress} ${
-                  data?.organization?.facilityLGA || ""
-                } ${data?.organization?.facilityCity || ""} ${
-                  data?.organization?.facilityState || ""
-                }`}
+                {`${data?.policy?.organization?.facilityAddress}` }  {/* ${
+                  data?.policy?.organization?.facilityLGA || ""
+                }`${data?.policy?.organization?.facilityCity || ""} ${
+                  data?.policy?.organization?.facilityState || "" }*/}
+                
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }}>
-                CALL center: {data?.organization?.facilityContactPhone}
+                CALL center: {data?.policy?.organization?.facilityContactPhone}
               </Typography>
               <Typography sx={{ fontSize: "0.7rem", color: "#000000" }}>
-                EMAIL: {data?.organization?.facilityEmail}
+                EMAIL: {data?.policy?.organization?.facilityEmail}
               </Typography>
               <Grid
                 container
@@ -387,7 +387,7 @@ export const ProviderPrintId = ({ data, action }) => {
                       }}
                     />
                     <Divider></Divider>
-                    <b>{userData?.profession}</b>
+                    <b>{data?.policy?.organization?.facilityOwner}</b>
                   </Box>
                 </Grid>
               </Grid>

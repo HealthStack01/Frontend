@@ -23,11 +23,11 @@ import {toast} from "react-toastify";
 import {v4 as uuidv4} from "uuid";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import {generateRandomString} from "../../../helpers/generateString";
+const random = generateRandomString;
 
-const random = require("random-string-generator");
-
-const InvoiceCreate = ({closeModal, handleGoBack}) => {
-  const dealServer = client.service("deal");
+const InvoiceCreate = ({closeModal, handleGoBack, policies}) => {
+  const InvoiceServer = client.service("corpinvoices");
   const notificationsServer = client.service("notification");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -38,6 +38,10 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
 
   const {register, control, setValue, reset, handleSubmit} = useForm();
 
+  const selectedCorp = state.ManagedCareCorporate.selectedCorporate.organizationDetail;
+  console.log(selectedCorp)
+
+
   const handleAddNewPlan = plan => {
     setPlans(prev => [plan, ...prev]);
   };
@@ -47,58 +51,66 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
   };
 
   const createInvoice = async data => {
-    showActionLoader();
-    const currentDeal = state.DealModule.selectedDeal;
+  //  showActionLoader();
+   // const currentDeal = state.DealModule.selectedDeal;
     const employee = user.currentEmployee;
+    console.log(data)
 
     const document = {
       ...data,
       plans,
-      createdAt: new Date(),
-      dealId: currentDeal._id,
+     // createdAt: new Date(),
+     // dealId: currentDeal._id,
       createdBy: employee.userId,
       createdByName: `${employee.firstname} ${employee.lastname}`,
-      customerName: currentDeal.name,
-      customerEmail: currentDeal.email,
-      customerPhone: currentDeal.phone,
-      customerAddress: currentDeal.address,
-      customerCity: currentDeal.city,
-      customerLGA: currentDeal.lga,
-      customerState: currentDeal.state,
-      customerCountry: currentDeal.country,
+      customerName: selectedCorp.facilityName,
+      customerEmail: selectedCorp.facilityEmail,
+      customerPhone: selectedCorp.facilityContactPhone      ,
+      customerAddress: selectedCorp.facilityAddress,
+      customerCity: selectedCorp.facilityCity,
+      customerLGA: selectedCorp.facilityLGA,
+      customerState: selectedCorp.facilityState,
+      customerCountry: selectedCorp.facilityCountry,
+      customerType: selectedCorp.facilityType,
+      customerCategory: selectedCorp.facilityCategory,
+      customer:selectedCorp,
+      customerId:selectedCorp._id,
+      facilityId:user.currentEmployee.facilityDetail._id, //hmo insuing invoice
+      faciltyName:user.currentEmployee.facilityDetail.facilityName,
+      facility:user.currentEmployee.facilityDetail,
       status: "Pending",
-      _id: uuidv4(),
+    
     };
 
     const notificationObj = {
-      type: "CRM",
-      title: "New Invoice Created For a Deal",
-      description: `${employee.firstname} ${employee.lastname} Created a new Invoice with ${currentDeal.type} ${currentDeal.name} in CRM`,
+      type: "Invoice",
+      title: "New Invoice Created For Renewal",
+      description: `${employee.firstname} ${employee.lastname} Created a new Invoice  for Renewal for  ${selectedCorp.facilityName}`,
       facilityId: employee.facilityDetail._id,
       sender: `${employee.firstname} ${employee.lastname}`,
       senderId: employee._id,
-      pageUrl: "/app/crm/lead",
+      pageUrl: "/app/managedcare/invoice",
       priority: "normal",
-      dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
+     // dest_userId: currentDeal.assignStaff.map(item => item.employeeId),
     };
 
     //return console.log(document);
 
-    const prevInvoices = currentDeal.invoices || [];
+    //const prevInvoices = currentDeal.invoices || [];
 
-    const newInvoices = [document, ...prevInvoices];
+    //const newInvoices = [document, ...prevInvoices];
 
-    const documentId = currentDeal._id;
-    await dealServer
-      .patch(documentId, {invoices: newInvoices})
+    //const documentId = currentDeal._id;
+    await InvoiceServer
+      .create(document)
       .then(async res => {
         await notificationsServer.create(notificationObj);
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+       /*  setState(prev => ({
           ...prev,
           DealModule: {...prev.DealModule, selectedDeal: res},
-        }));
+        })); */
         //closeModal();
         reset({
           subscription_category: "",
@@ -120,10 +132,147 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
       });
   };
 
+const processPlans=()=>{
+  let planObject = {}; 
+  console.log(policies)
+  const employee = user.currentEmployee;
+//find unqiue plans
+//count number of heads
+//
+
+const uniqueArr = [...new Set(policies.map(data => data.plan._id))];
+const uniqueplan= [...new Set(policies.map(data => data.plan.planName ))]
+const uniqueplanid= [...new Set(policies.map(data => data.plan.planId ))]
+
+console.log("uniqueArr",uniqueArr)
+console.log("uniqueplan",uniqueplan)
+console.log("uniqueplanid",uniqueplanid)
+
+
+const arrlength=uniqueArr.length
+let planx=[]
+let planobj={
+  type: "",
+  premium: "",
+  heads: "",
+  calendrical: "",
+  length: "",
+  amount: "",
+ /*  _id: uuidv4(), */
+  created_at: new Date(),
+  createdBy: employee.userId,
+  createdByName: `${employee.firstname} ${employee.lastname}`
+}
+
+policies.forEach(el => {
+  const planId = el.plan._id?el.plan._id:el.plan.planId;
+
+    // Check if the planId is already in the planObject
+    if (planObject.hasOwnProperty(planId)) {
+      // If it exists, increment the count
+      planObject[planId].count++;
+      planObject[planId].policy.push(el)
+     // planObject[planId].plans.push(el.plan)
+      if (el.planType==="Family"){
+        planObject[planId].familyplan.push(el.plan)
+      }else(
+        planObject[planId].individualplan.push(el.plan)
+      )
+
+    } else {
+      // If it doesn't exist, add it to the planObject with initial count of 1
+      planObject[planId] = {
+        plan: el.plan,
+        planName:el.plan.planName,
+        planType: el.planType,
+        count: 1,
+        policy: [el],
+        familyplan:[],
+        individualplan:[]
+      }; 
+      if (el.planType==="Family"){
+        planObject[planId].familyplan.push(el.plan)
+      }else(
+        planObject[planId].individualplan.push(el.plan)
+      ) 
+    }
+   });
+
+console.log("planObject",planObject)
+
+const keys = Object.keys(planObject);
+
+keys.forEach((property) => {
+  //console.log(`${property}: ${person[property]}`);
+
+  if (planObject[property].familyplan.length>0){
+   const familypremium= planObject[property].plan.premiums.find(el=>el.planType==="Family")
+    const amount = (+familypremium.premiumAmount)*(+planObject[property].familyplan.length)
+
+    let planobj={
+      name: planObject[property].planName,
+      type:"Family",   
+      planId: property,
+      premium: familypremium.premiumAmount,
+      heads: planObject[property].familyplan.length,
+      
+      calendrical: "Year(s)",
+      length: "1",
+      amount: amount,
+      utilizationStatus:"Incomplete",
+      tracking:0,
+      created_at: new Date(),
+      createdBy: employee.userId,
+      createdByName: `${employee.firstname} ${employee.lastname}`,
+      oldPolicies:planObject[property].familyplan,
+    }
+    
+    handleAddNewPlan(planobj)
+  }
+  if (planObject[property].individualplan.length>0){
+    const individualpremium= planObject[property].plan.premiums.find(el=>el.planType==="Individual")
+    const amount = (+individualpremium.premiumAmount)*(+planObject[property].individualplan.length)
+
+    let planobj={
+      name: planObject[property].planName,
+      type:"Individual",    
+      planId: property,
+      premium: individualpremium.premiumAmount,
+      heads: planObject[property].individualplan.length,
+      calendrical: "Year(s)",
+      length: "1",
+      amount: amount,
+      utilizationStatus:"Incomplete",
+      tracking:0,
+      created_at: new Date(),
+      createdBy: employee.userId,
+      createdByName: `${employee.firstname} ${employee.lastname}`,
+      oldPolicies:planObject[property].individualplan,
+
+    }
+    
+    handleAddNewPlan(planobj)
+    
+  }
+  
+});
+
+
+/* let planArray=[... planObject]
+console.log(planArray) */
+
+}
+
   useEffect(() => {
+  //  const selectedCorp = state.ManagedCareCorporate.selectedCorporate;
     setValue("invoice_number", random(12, "uppernumeric"));
     setValue("date", new Date());
     setValue("total_amount", 0);
+    setValue("subscription_category","Renewal")
+    if(policies!==undefined){
+      processPlans()
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -183,7 +332,7 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
             </Box>
 
             <Grid container spacing={1} mb={1.5}>
-              <Grid item lg={2} md={3} sm={4}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
                 <MuiCustomDatePicker
                   label="Date"
                   disabled={true}
@@ -191,14 +340,14 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                   name="date"
                 />
               </Grid>
-              <Grid item lg={2} md={3} sm={4}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
                 <Input
                   label="Invoice Number"
                   register={register("invoice_number")}
                   disabled={true}
                 />
               </Grid>
-              <Grid item lg={2} md={3} sm={4}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
                 <Input
                   label="Total Amount"
                   register={register("total_amount")}
@@ -207,7 +356,7 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                 />
               </Grid>
 
-              <Grid item lg={2} md={3} sm={4}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
                 <CustomSelect
                   label="Payment Mode"
                   options={["Cash", "Cheque", "Transfer"]}
@@ -217,7 +366,7 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                 />
               </Grid>
 
-              <Grid item lg={2} md={3} sm={4}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
                 <CustomSelect
                   label="Payment Option"
                   options={["Annually", "Bi-Annually", "Quarterly"]}
@@ -227,13 +376,20 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
                 />
               </Grid>
 
-              <Grid item lg={2} md={3} sm={4}>
-                <CustomSelect
+              <Grid item lg={3} md={4} sm={6} xs={12}>
+                {/* <CustomSelect
                   label="Subscribtion Category"
                   options={["New", "Renewal", "Additional"]}
                   control={control}
                   name="subscription_category"
                   required
+                /> */}
+                 <Input
+                  label="Subscribtion Category"
+                  register={register("subscription_category")}
+                  disabled={true}
+                  type="text"
+              
                 />
               </Grid>
             </Grid>
@@ -362,7 +518,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
           {...params}
           inputProps={{
             ...params.inputProps,
-            autoComplete: "new-password", // disable autocomplete and autofill
+            autoComplete: false, // disable autocomplete and autofill
           }}
           label={"Choose Your Plan"}
           //ref={inputEl}
@@ -375,7 +531,7 @@ export const HealthPlanSearchSelect = ({handleChange, clearValue}) => {
             },
           }}
           InputLabelProps={{
-            Autocomplete: "new-password",
+            Autocomplete: false,
             shrink: true,
             style: {color: "#2d2d2d"},
           }}

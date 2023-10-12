@@ -43,21 +43,30 @@ import ReferralFormForConsultation from "../clientForm/forms/referralFormForCons
 import VitalSignsFlowSheet from "../clientForm/forms/vitalSignsFlowSheet";
 import VitalSignsRecord from "../clientForm/forms/vitalSignsRecord";
 import VitalSignsChart from "../clientForm/forms/vitalSignChart";
-import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import DentalLab from "./DentalLab";
+import PhysiotherapyHistory from "./PhysiotherapyHistory";
 import SurgicalBookletConsentForm from "../clientForm/forms/surgicalBookletConsentForm";
 import { usePosition } from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import { Box, getValue } from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
+
+// new
+import CustomSelect from "../../components/inputs/basic/Select";
+import CustomTable from "../../components/customtable";
+import Icd11Search from "../helpers/icd11search";
+import ModalBox from "../../components/modal";
+import ClaimCreateDiagnosis from "../Corporate/components/claims/Diagnosis";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import {
   Button,
   Grid,
   IconButton,
   Typography,
-  FormGroup,
   RadioGroup,
   Radio,
   FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import { FormsHeaderText } from "../../components/texts";
@@ -219,19 +228,29 @@ export default function EncounterRight() {
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
-        "Eye examination" && <EyeExamination onSubmit={submitDocument} />}
+        "Eye examination" && <EyeExamination />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Orthodontic Analysis" && (
         <OrthodonticAnalysis onSubmit={submitDocument} />
       )}
+
+      {/*  */}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Preventive Care" && <PreventiveCare />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Lab" && <DentalLab />}
-        {state.DocumentClassModule.selectedDocumentClass.name ===
+      {state.DocumentClassModule.selectedDocumentClass.name ===
         "Physiotherapy Medical Screening" && <MedicalScreeningForm />}
+      {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Physiotherapy History & Interview Form" && <PhysiotherapyHistory />}
+      {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Back Pain Questionnaire" && <BackPainQuestionnaireCreate />}
+      {state.DocumentClassModule.selectedDocumentClass.name ===
+        "Fear-Avoidance Beliefs Questionnaire (FABQ)" && (
+        <FearAvoidanceBeliefsQuestionnaireCreate />
+      )}
     </div>
   );
 }
@@ -568,7 +587,7 @@ export function VitalSignCreate() {
 }
 
 export function ClinicalNoteCreate() {
-  const { register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
+  const { control, register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -582,17 +601,96 @@ export function ClinicalNoteCreate() {
   const { state, setState } = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmationDialog, setConfirmationDialog] = useState(false);
+  //new diagonsis
+  const [data, setData] = useState([]);
+  const [icd, setIcd] = useState([]);
+  const [clear, setClear] = useState(false);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [diagnosisModal, setDiagnosisModal] = useState(false);
+
+  const columnSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.diagnosis,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  // const handleGetService = (param) => {
+  //   //console.log(data);
+  //   setIcd(param);
+  //   // setValue("unitprice", data ? data.price : 0);
+  // };
+
+  // const handleAddDiagnosis = (data) => {
+  //   const diagnosis = {
+  //     ...data,
+  //     ...icd,
+  //     // _id: uuidv4(),
+  //   };
+  //   setDiagnosis((prev) => [diagnosis, ...prev]);
+  //   toast.success("Diagnosis successfully listed.");
+  //   reset({
+  //     type: null,
+  //     diagnosis: null,
+  //     code: "",
+  //   });
+  // };
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+
+        if (keys === "diagnosis") {
+          setDiagnosis(value);
+        }
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -604,6 +702,7 @@ export function ClinicalNoteCreate() {
 
     return () => {};
   }, [user]);
+
   useEffect(() => {
     if (!user.stacker) {
     }
@@ -612,6 +711,10 @@ export function ClinicalNoteCreate() {
   const document_name = state.DocumentClassModule.selectedDocumentClass.name;
 
   const onSubmit = (data, e) => {
+    console.log("start now", {
+      data,
+      diagnosis,
+    });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -621,7 +724,17 @@ export function ClinicalNoteCreate() {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
+
+    // const dataDetail = {
+    //   ...data,
+    //   diagnosis,
+    // };
+    data.diagnosis = diagnosis;
     document.documentdetail = data;
+
+    console.log("start now document", {
+      documentdetail: document.documentdetail,
+    });
     document.documentname =
       state.DocumentClassModule.selectedDocumentClass.name;
     document.documentClassId =
@@ -653,6 +766,7 @@ export function ClinicalNoteCreate() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("Clinincal note created draft");
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -670,12 +784,17 @@ export function ClinicalNoteCreate() {
           toast.error("Error updating Documentation " + err);
         });
     } else {
+      console.log("Clinincal note created");
       ClientServ.create(document)
         .then((res) => {
-          // console.log("Clinincal note data", res)
+          console.log("Clinincal note data", res);
+          setDiagnosis([]);
+
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
+
+          console.log("goood");
           setSuccess(true);
           toast.success("Documentation created succesfully");
           setSuccess(false);
@@ -687,6 +806,7 @@ export function ClinicalNoteCreate() {
         });
     }
   };
+
   const handleChangeStatus = async (e) => {
     setDocStatus(e.target.value);
   };
@@ -711,6 +831,18 @@ export function ClinicalNoteCreate() {
           message={`You are about to save this document ${document_name}`}
           confirmationAction={handleSubmit(onSubmit)}
         />
+
+        <ModalBox
+          open={diagnosisModal}
+          onClose={() => setDiagnosisModal(false)}
+          header="Add Diagnosis to Claim"
+        >
+          <ClaimCreateDiagnosis
+            closeModal={() => setDiagnosisModal(false)}
+            setDiagnosis={setDiagnosis}
+          />
+        </ModalBox>
+
         <Box
           sx={{
             display: "flex",
@@ -745,14 +877,101 @@ export function ClinicalNoteCreate() {
                 placeholder="Enter clinical findings......"
               />
             </Box>
+            {/*  */}
             <Box>
-              <Textarea
-                register={register("diagnosis")}
-                name=""
-                type="text"
-                label="Diagnosis"
-                placeholder="Enter diagnosis......"
-              />
+              {/* <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  fontWeight: "200",
+                  marginBottom: "8px",
+                }}
+              >
+                Add Diagnosis to form
+              </Typography>
+              <Grid container spacing={2} mb={3} mt={0.2}>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <CustomSelect
+                    // important
+                    label="Diagnosis Type"
+                    control={control}
+                    name="type"
+                    options={[
+                      "Associated diagnosis",
+                      "Co-morbidity Diagnosis",
+                      "Principal diagnosis",
+                      "Provisional Diagnosis",
+                      "Rule-Out Diagnosis ",
+                      "Working Diagnosis",
+                    ]}
+                    required={false}
+                  />
+                </Grid>
+
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <Input
+                    required={false}
+                    // important
+                    label="Diagnosis"
+                    register={register("diagnosis", {
+                      required: "Please enter Diagnosis",
+                    })}
+                  />
+                </Grid>
+
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  <Icd11Search
+                    getSearchfacility={handleGetService}
+                    clear={clear}
+                  />
+                </Grid>
+              </Grid> */}
+
+              {/* 
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                }}
+              >
+                <GlobalCustomButton onClick={handleSubmit(handleAddDiagnosis)}>
+                  Save Diagnosis
+                </GlobalCustomButton>
+              </Box> */}
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Diagnosis Data" />
+
+                <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                  <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                  Add Diagnosis
+                </GlobalCustomButton>
+              </Box>
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={columnSchema}
+                  data={diagnosis}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  //conditionalRowStyles={conditionalRowStyles}
+                  progressPending={false}
+                  CustomEmptyData={
+                    <Typography sx={{ fontSize: "0.8rem" }}>
+                      You've not added a Diagnosis yet...
+                    </Typography>
+                  }
+                />
+              </Box>
             </Box>
 
             <Box>
@@ -795,7 +1014,2686 @@ export function ClinicalNoteCreate() {
   );
 }
 
-/** 888  **/
+export function FearAvoidanceBeliefsQuestionnaireCreateNew() {
+  const { control, register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
+  //new diagonsis
+  const [data, setData] = useState([]);
+  const [icd, setIcd] = useState([]);
+  const [clear, setClear] = useState(false);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [diagnosisModal, setDiagnosisModal] = useState(false);
+  const [totalScore, setTotalScore] = useState(0);
+  const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
+
+  const columnSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Type",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.type,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.diagnosis,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD 11 Code",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Code,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "ICD11 Diagnosis",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => row.Title,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  const handleCheckboxChange = (
+    event,
+    painIntensityCheckBoxSchema,
+    setPainIntensityCheckBoxSchema,
+    selectedSchemaName
+  ) => {
+    const { name, checked, value } = event.target;
+    let totalPoint;
+    let totalPointObtain;
+    let total;
+    const existcheckbox = false;
+    const currentPoint = Number(value);
+    const selectedCheckBoxSchema = {
+      schemaName: painIntensityCheckBoxSchema[0].schemaName,
+      schemaPoint: currentPoint,
+    };
+
+    console.log("==>>>  state allCheckBoxSchema", {
+      allCheckBoxSchema,
+    });
+
+    if (allCheckBoxSchema.length > 0) {
+      // const existcheckboxSchema = allCheckBoxSchema.find(
+      //   (data) => data.name === selectedSchemaName
+      // );
+      const othercheckboxSchemaArr = allCheckBoxSchema.filter(
+        (data) => data.schemaName !== selectedSchemaName
+      );
+      const prevTotalPoint = othercheckboxSchemaArr.length * 5;
+      totalPoint = prevTotalPoint + 5;
+      const totalPointObtainFromOther = othercheckboxSchemaArr.reduce(
+        (accumulator, currentObject) => {
+          return accumulator + currentObject.schemaPoint;
+        },
+        0
+      );
+
+      totalPointObtain = totalPointObtainFromOther + currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+
+      const updatedCheckboxSchemaArr = [
+        ...othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+      ];
+      setTotalScore(total);
+      setAllCheckBoxSchema(updatedCheckboxSchemaArr);
+      console.log("==>>>  score for lenght != 0", {
+        othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+        updatedCheckboxSchemaArr,
+        prevTotalPoint,
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    if (allCheckBoxSchema.length === 0) {
+      totalPoint = 5 * 1;
+      totalPointObtain = currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+      setTotalScore(total);
+      setAllCheckBoxSchema([selectedCheckBoxSchema]);
+      console.log("==>>>  score for lenght == 0", {
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    setValue(name, checked);
+    if (checked) {
+      const updatedData = painIntensityCheckBoxSchema.map((data) => {
+        const checkboxName = data.name;
+        if (checkboxName !== name) {
+          setValue(checkboxName, false);
+        }
+        if (data.name === name) {
+          return {
+            ...data,
+            checked: true,
+          };
+        } else {
+          return {
+            ...data,
+            checked: false,
+          };
+        }
+      });
+      setPainIntensityCheckBoxSchema(updatedData);
+    }
+  };
+
+  const selectOptions = [
+    {
+      label: "0",
+      value: "0",
+    },
+    {
+      label: "1",
+      value: "1",
+    },
+    {
+      label: "2",
+      value: "2",
+    },
+    {
+      label: "3",
+      value: "3",
+    },
+    {
+      label: "4",
+      value: "4",
+    },
+    {
+      label: "5",
+      value: "5",
+    },
+    {
+      label: "6",
+      value: "6",
+    },
+  ];
+
+  const painDropdownSchema = [
+    {
+      description: "My pain was caused by physical activity",
+      name: "painDropdown_one",
+    },
+
+    {
+      description: "Physical activity makes my pain worse",
+      name: "painDropdown_Two",
+    },
+    {
+      description: "Physical activity might harm my back",
+      name: "painDropdown_Three",
+    },
+    {
+      description:
+        "I should not do physical activities which (might) make my pain worse",
+      name: "painDropdown_Four",
+    },
+    {
+      description:
+        "I cannot do physical activities which (might) make my pain worse",
+      name: "painDropdown_Five",
+    },
+  ];
+
+  const painDropdownTwoSchema = [
+    {
+      description: "My pain was caused by my work or by an accident at work",
+      name: "painDropdown_Six",
+    },
+    {
+      description: "My work aggravated my pain",
+      name: "painDropdown_Seven",
+    },
+    {
+      description: "I have a claim for compensation for my pain",
+      name: "painDropdown_Eight",
+    },
+    {
+      description: "My work is too heavy for me",
+      name: "painDropdown_Nine",
+    },
+    {
+      description: "My work makes or would make my pain worse",
+      name: "painDropdown_Ten",
+    },
+    {
+      description: "My work might harm my back",
+      name: "painDropdown_Eleven",
+    },
+    {
+      description: "I should not do my normal work with my present pain",
+      name: "painDropdown_Twelve",
+    },
+    {
+      description: "I cannot do my normal work with my present pain",
+      name: "painDropdown_Thirteen",
+    },
+    {
+      description: "I cannot do my normal work till my pain is treated",
+      name: "painDropdown_Fourteen",
+    },
+    {
+      description:
+        "I do not think that I will be back to my normal work within 3 months",
+      name: "painDropdown_Fifteen",
+    },
+    {
+      description:
+        "I do not think that I will ever be able to go back to that work",
+      name: "painDropdown_Sixteen",
+    },
+  ];
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+
+        // if (keys === "diagnosis") {
+        //   setDiagnosis(value);
+        // }
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      });
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+  useEffect(() => {
+    setCurrentUser(user);
+
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.stacker) {
+    }
+  });
+
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
+
+  const onSubmit = (data, e) => {
+    console.log("start now", {
+      data,
+    });
+
+    return;
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+
+    // const dataDetail = {
+    //   ...data,
+    //   diagnosis,
+    // };
+    data.diagnosis = diagnosis;
+    document.documentdetail = data;
+
+    console.log("start now document", {
+      documentdetail: document.documentdetail,
+    });
+    document.documentname =
+      state.DocumentClassModule.selectedDocumentClass.name;
+    document.documentClassId =
+      state.DocumentClassModule.selectedDocumentClass._id;
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("Clinincal note created draft");
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+        });
+    } else {
+      console.log("Clinincal note created");
+      ClientServ.create(document)
+        .then((res) => {
+          console.log("Clinincal note data", res);
+          setDiagnosis([]);
+
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          console.log("goood");
+          setSuccess(true);
+          toast.success("Documentation created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Documentation " + err);
+        });
+    }
+  };
+
+  const handleChangeStatus = async (e) => {
+    setDocStatus(e.target.value);
+  };
+
+  const closeEncounterRight = async () => {
+    setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          type="create"
+          message={`You are about to save this Fear-Avoidance Beliefs Questionnaire (FABQ) document?`}
+          confirmationAction={handleSubmit(onSubmit)}
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText
+            text={"Fear-Avoidance Beliefs Questionnaire (FABQ)"}
+          />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable">
+          {/* <form>
+            <Box>
+              <Textarea
+                register={register("Symptoms")}
+                type="text"
+                label="Symptoms"
+                placeholder="Enter Symptoms......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Clinical Findings")}
+                type="text"
+                label="Clinical Findings"
+                placeholder="Enter clinical findings......"
+              />
+            </Box>
+       
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                mb={1.5}
+              >
+                <FormsHeaderText text="Diagnosis Data" />
+
+                <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+                  <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
+                  Add Diagnosis
+                </GlobalCustomButton>
+              </Box>
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={columnSchema}
+                  data={diagnosis}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  //conditionalRowStyles={conditionalRowStyles}
+                  progressPending={false}
+                  CustomEmptyData={
+                    <Typography sx={{ fontSize: "0.8rem" }}>
+                      You've not added a Diagnosis yet...
+                    </Typography>
+                  }
+                />
+              </Box>
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("plan")}
+                name="Plan"
+                type="text"
+                label="Plan"
+                placeholder="Enter plan......"
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Clinical Note
+              </GlobalCustomButton>
+            </Box>
+          </form> */}
+          <form>
+            {/*  Fear-Avoidance Beliefs Questionnaire (FABQ)  */}
+            <Grid container spacing={0.1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Fear-Avoidance Beliefs Questionnaire (FABQ)
+              </Typography>
+              <Grid container spacing={0.1} alignItems="center">
+                <Typography
+                  variant="p"
+                  sx={{ color: "black", fontSize: "14px" }}
+                >
+                  Here are some of the things which other patients have told us
+                  about their pain. For each statement please circle any number
+                  from 0 to 6 to say how many physical activities such as
+                  bending, lifting, walking or driving affect or would affect
+                  your back pain.
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {/* no 1-5 drop down    */}
+            <Grid container spacing={1} mt={1}>
+              {painDropdownSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 1}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        label="select"
+                        // required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                The following statements are about how your normal work affects
+                or would affect your back pain
+              </Typography>
+            </Grid>
+
+            {/* <Grid container spacing={1} mt={1}>
+              {painDropdownTwoSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index + 6}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 6}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      <CustomSelect
+                        label="select"
+                        required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid> */}
+
+            {/*  score  */}
+
+            {/* <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Total Points:
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Physical activity subscale:
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Work Subscale:
+              </Typography>
+            </Grid> */}
+
+            {/* Recommendation field */}
+            <Grid container spacing={1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                Comment
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  placeholder="Comment"
+                  name="Comment"
+                  type="text"
+                  register={register("Comment")}
+                />
+              </Grid>
+            </Grid>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Lab Result
+              </GlobalCustomButton>
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function FearAvoidanceBeliefsQuestionnaireCreate() {
+  const { register, handleSubmit, setValue, reset, getValues, control } =
+    useForm(); //, watch, errors, reset
+
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+  const [confirmationDialog, setConfirmationDialog] = useState(false);
+  const [docStatus, setDocStatus] = useState("Draft"); //employmentHomemaking
+  const [totalScore, setTotalScore] = useState(0);
+  const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      );
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+  const getSearchfacility = (obj) => {
+    setValue("facility", obj._id, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
+    }
+  });
+
+  // const onSubmit = (data, e) => {
+  //   e.preventDefault();
+  //   console.log("===>>>> data", { data });
+  // };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    // data.createdby=user._id
+    //console.log(data);
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    data.totalScore = totalScore;
+
+    const updatedData = {
+      ...data,
+    };
+    console.log("===>>>> data onsubmit", { data: updatedData });
+    document.documentdetail = data;
+    document.documentname = `Fear-Avoidance Beliefs Questionnaire (FABQ)`; //"Lab Result"
+    document.documentType = "Fear-Avoidance Beliefs Questionnaire (FABQ)";
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    // console.log(document)??????????
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+          reset(data);
+          setConfirmationDialog(false);
+        });
+    } else {
+      ClientServ.create(document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmationDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Lab Result " + err);
+          setConfirmationDialog(false);
+        });
+    }
+    // }
+  };
+
+  const handleChangeStatus = async (e) => {
+    // await setAppointment_type(e.target.value)
+
+    setDocStatus(e.target.value);
+
+    //console.log(e.target.value)
+  };
+  const handleChangePart = (e) => {
+    console.log(e);
+  };
+
+  const closeEncounterRight = async () => {
+    setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  const handleCheckboxChange = (
+    event,
+    painIntensityCheckBoxSchema,
+    setPainIntensityCheckBoxSchema,
+    selectedSchemaName
+  ) => {
+    const { name, checked, value } = event.target;
+    let totalPoint;
+    let totalPointObtain;
+    let total;
+    const existcheckbox = false;
+    const currentPoint = Number(value);
+    const selectedCheckBoxSchema = {
+      schemaName: painIntensityCheckBoxSchema[0].schemaName,
+      schemaPoint: currentPoint,
+    };
+
+    console.log("==>>>  state allCheckBoxSchema", {
+      allCheckBoxSchema,
+    });
+
+    if (allCheckBoxSchema.length > 0) {
+      // const existcheckboxSchema = allCheckBoxSchema.find(
+      //   (data) => data.name === selectedSchemaName
+      // );
+      const othercheckboxSchemaArr = allCheckBoxSchema.filter(
+        (data) => data.schemaName !== selectedSchemaName
+      );
+      const prevTotalPoint = othercheckboxSchemaArr.length * 5;
+      totalPoint = prevTotalPoint + 5;
+      const totalPointObtainFromOther = othercheckboxSchemaArr.reduce(
+        (accumulator, currentObject) => {
+          return accumulator + currentObject.schemaPoint;
+        },
+        0
+      );
+
+      totalPointObtain = totalPointObtainFromOther + currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+
+      const updatedCheckboxSchemaArr = [
+        ...othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+      ];
+      setTotalScore(total);
+      setAllCheckBoxSchema(updatedCheckboxSchemaArr);
+      console.log("==>>>  score for lenght != 0", {
+        othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+        updatedCheckboxSchemaArr,
+        prevTotalPoint,
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    if (allCheckBoxSchema.length === 0) {
+      totalPoint = 5 * 1;
+      totalPointObtain = currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+      setTotalScore(total);
+      setAllCheckBoxSchema([selectedCheckBoxSchema]);
+      console.log("==>>>  score for lenght == 0", {
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    setValue(name, checked);
+    if (checked) {
+      const updatedData = painIntensityCheckBoxSchema.map((data) => {
+        const checkboxName = data.name;
+        if (checkboxName !== name) {
+          setValue(checkboxName, false);
+        }
+        if (data.name === name) {
+          return {
+            ...data,
+            checked: true,
+          };
+        } else {
+          return {
+            ...data,
+            checked: false,
+          };
+        }
+      });
+      setPainIntensityCheckBoxSchema(updatedData);
+    }
+  };
+
+  const selectOptions = [
+    {
+      label: "0",
+      value: "0",
+    },
+    {
+      label: "1",
+      value: "1",
+    },
+    {
+      label: "2",
+      value: "2",
+    },
+    {
+      label: "3",
+      value: "3",
+    },
+    {
+      label: "4",
+      value: "4",
+    },
+    {
+      label: "5",
+      value: "5",
+    },
+    {
+      label: "6",
+      value: "6",
+    },
+  ];
+
+  const painDropdownSchema = [
+    {
+      description: "My pain was caused by physical activity",
+      name: "painDropdown_one",
+    },
+
+    {
+      description: "Physical activity makes my pain worse",
+      name: "painDropdown_Two",
+    },
+    {
+      description: "Physical activity might harm my back",
+      name: "painDropdown_Three",
+    },
+    {
+      description:
+        "I should not do physical activities which (might) make my pain worse",
+      name: "painDropdown_Four",
+    },
+    {
+      description:
+        "I cannot do physical activities which (might) make my pain worse",
+      name: "painDropdown_Five",
+    },
+  ];
+
+  const painDropdownTwoSchema = [
+    {
+      description: "My pain was caused by my work or by an accident at work",
+      name: "painDropdown_Six",
+    },
+    {
+      description: "My work aggravated my pain",
+      name: "painDropdown_Seven",
+    },
+    {
+      description: "I have a claim for compensation for my pain",
+      name: "painDropdown_Eight",
+    },
+    {
+      description: "My work is too heavy for me",
+      name: "painDropdown_Nine",
+    },
+    {
+      description: "My work makes or would make my pain worse",
+      name: "painDropdown_Ten",
+    },
+    {
+      description: "My work might harm my back",
+      name: "painDropdown_Eleven",
+    },
+    {
+      description: "I should not do my normal work with my present pain",
+      name: "painDropdown_Twelve",
+    },
+    {
+      description: "I cannot do my normal work with my present pain",
+      name: "painDropdown_Thirteen",
+    },
+    {
+      description: "I cannot do my normal work till my pain is treated",
+      name: "painDropdown_Fourteen",
+    },
+    {
+      description:
+        "I do not think that I will be back to my normal work within 3 months",
+      name: "painDropdown_Fifteen",
+    },
+    {
+      description:
+        "I do not think that I will ever be able to go back to that work",
+      name: "painDropdown_Sixteen",
+    },
+  ];
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmationDialog}
+          cancelAction={() => setConfirmationDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this Fear-Avoidance Beliefs Questionnaire (FABQ) document?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText
+            text={"Fear-Avoidance Beliefs Questionnaire (FABQ)"}
+          />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+            {/*  Fear-Avoidance Beliefs Questionnaire (FABQ)  */}
+            <Grid container spacing={0.1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Fear-Avoidance Beliefs Questionnaire (FABQ)
+              </Typography>
+              <Grid container spacing={0.1} alignItems="center">
+                <Typography
+                  variant="p"
+                  sx={{ color: "black", fontSize: "14px" }}
+                >
+                  Here are some of the things which other patients have told us
+                  about their pain. For each statement please circle any number
+                  from 0 to 6 to say how many physical activities such as
+                  bending, lifting, walking or driving affect or would affect
+                  your back pain.
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {/* no 1-5 drop down    */}
+            <Grid container spacing={1} mt={1}>
+              {painDropdownSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 1}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      {/* <CustomSelect
+                        label="select"
+                        // required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      /> */}
+                      <CustomSelect
+                        label="select"
+                        name={data.description}
+                        options={selectOptions}
+                        register={register(`${data.description}`, {
+                          required: false,
+                        })}
+                        // onChange={(e)=>handleChangeMode(e.target.value)}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                The following statements are about how your normal work affects
+                or would affect your back pain
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={1} mt={1}>
+              {painDropdownTwoSchema.map((data, index) => (
+                <Grid
+                  container
+                  key={index + 6}
+                  spacing={2}
+                  alignItems="center"
+                  mt={0.5}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: "black",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {index + 6}.
+                    </Typography>{" "}
+                    <Typography
+                      variant="p"
+                      sx={{ color: "black", fontSize: "14px" }}
+                    >
+                      {data.description}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                      {/* <CustomSelect
+                        label="select"
+                        //required
+                        control={control}
+                        name={data.name}
+                        options={selectOptions}
+                      /> */}
+                      <CustomSelect
+                        label="select"
+                        name={data.description}
+                        options={selectOptions}
+                        register={register(`${data.description}`, {
+                          required: false,
+                        })}
+                        // onChange={(e)=>handleChangeMode(e.target.value)}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+
+            {/*  score  */}
+
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Total Points:
+              </Typography>
+            </Grid>
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Physical activity subscale:
+              </Typography>
+            </Grid>
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Work Subscale:
+              </Typography>
+            </Grid>
+
+            {/* Recommendation field */}
+            <Grid container spacing={1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                Comment
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  placeholder="Comment"
+                  name="Comment"
+                  type="text"
+                  register={register("Comment")}
+                />
+              </Grid>
+            </Grid>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmationDialog(true)}
+              >
+                Submit Lab Result
+              </GlobalCustomButton>
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function BackPainQuestionnaireCreate() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
+
+  const painIntensityCheckBoxSchemaData = [
+    {
+      name: "pain_intensity_check_0",
+      label:
+        "I can tolerate the pain I have without having to use pain medication",
+      checked: false,
+      schemaName: "painIntensity",
+      displaySchemaName: "Pain Intensity",
+    },
+    {
+      name: "pain_intensity_check_1",
+      label:
+        "The pain is bad, but I can manage without having to take pain medication.",
+      checked: false,
+    },
+    {
+      name: "pain_intensity_check_2",
+      label: "Pain medication provides me with complete relief from pain.",
+      checked: false,
+    },
+    {
+      name: "pain_intensity_check_3",
+      label: "Pain medication provides me with moderate relief from pain.",
+      checked: false,
+    },
+    {
+      name: "pain_intensity_check_4",
+      label: "Pain medication provides me with little relief from pain.",
+      checked: false,
+    },
+    {
+      name: "pain_intensity_check_5",
+      label: "Pain medication has no effect on my pain.",
+      checked: false,
+    },
+  ];
+
+  const personalCareCheckBoxSchemaData = [
+    {
+      name: "personal_care_0",
+      label:
+        "I can take care of myself normally without causing increased pain.",
+      checked: false,
+      schemaName: "personalCare",
+      displaySchemaName: "Personal Care",
+    },
+    {
+      name: "personal_care_1",
+      label: "I can take care of myself normally, but it increases my pain.",
+      checked: false,
+    },
+    {
+      name: "personal_care_2",
+      label: "It is painful to take care of myself, and I am slow and careful.",
+      checked: false,
+    },
+    {
+      name: "personal_care_3",
+      label: "I need help, but I am able to manage most of my personal care.",
+      checked: false,
+    },
+    {
+      name: "personal_care_4",
+      label: "I need help every day in most aspects of my care.",
+      checked: false,
+    },
+    {
+      name: "personal_care_6",
+      label: "I do not get dressed, I wash with difficulty, and I stay in bed.",
+      checked: false,
+    },
+  ];
+
+  const liftingCheckBoxSchemaData = [
+    {
+      name: "lifting_0",
+      label: "I can lift heavy weights without increased pain.",
+      checked: false,
+      schemaName: "lifting",
+      displaySchemaName: "Lifting",
+    },
+    {
+      name: "lifting_1",
+      label: "I can lift heavy weights, but it causes increased pain.",
+      checked: false,
+    },
+    {
+      name: "lifting_2",
+      label:
+        "Pain prevents me from lifting heavy weights off the floor, but I can manage if the weights are conveniently positioned (e.g., on a table).",
+      checked: false,
+    },
+    {
+      name: "lifting_3",
+      label:
+        "Pain prevents me from lifting heavy weights, but I can manage light to medium weights if they are conveniently positioned.",
+      checked: false,
+    },
+    {
+      name: "lifting_4",
+      label: "I can lift only very light weights.",
+      checked: false,
+    },
+    {
+      name: "lifting_5",
+      label: "I cannot lift or carry anything at all.",
+      checked: false,
+    },
+  ];
+
+  const walkingCheckBoxSchemaData = [
+    {
+      name: "walking_0",
+      label: "I can lift heavy weights without increased pain.",
+      checked: false,
+      schemaName: "walking",
+      displaySchemaName: "Walking",
+    },
+    {
+      name: "walking_1",
+      label: "Pain does not prevent me from walking any distance.",
+      checked: false,
+    },
+    {
+      name: "walking_2",
+      label:
+        "Pain prevents me from walking more than 1 mile. (1 mile = 1.6 km).",
+      checked: false,
+    },
+    {
+      name: "walking_3",
+      label: "Pain prevents me from walking more than 1/2 mile.",
+      checked: false,
+    },
+    {
+      name: "walking_4",
+      label: "Pain prevents me from walking more than 1/4 mile.",
+      checked: false,
+    },
+    {
+      name: "walking_5",
+      label: "I can walk only with crutches or a cane.",
+      checked: false,
+    },
+    {
+      name: "walking_6",
+      label: "I am in bed most of the time and have to crawl to the toilet.",
+      checked: false,
+    },
+  ];
+
+  const sittingCheckBoxSchemaData = [
+    {
+      name: "sitting_0",
+      label: "I can sit in any chair as long as I like.",
+      checked: false,
+      schemaName: "sitting",
+      displaySchemaName: "Sitting",
+    },
+    {
+      name: "sitting_1",
+      label: "I can only sit in my favorite chair as long as I like.",
+      checked: false,
+    },
+    {
+      name: "sitting_2",
+      label: "Pain prevents me from sitting for more than 1 hour.",
+      checked: false,
+    },
+    {
+      name: "sitting_3",
+      label: "Pain prevents me from sitting for more than 1/2 hour.",
+      checked: false,
+    },
+    {
+      name: "sitting_4",
+      label: "Pain prevents me from sitting for more than 10 minutes.",
+      checked: false,
+    },
+    {
+      name: "sitting_5",
+      label: "Pain prevents me from sitting at all.",
+      checked: false,
+    },
+  ];
+
+  const standingCheckBoxSchemaData = [
+    {
+      name: "standing_0",
+      label: "I can stand as long as I want without increased pain.",
+      checked: false,
+      schemaName: "standing",
+      displaySchemaName: "Standing",
+    },
+    {
+      name: "standing_1",
+      label: "I can stand as long as I want, but it increases my pain.",
+      checked: false,
+    },
+    {
+      name: "standing_2",
+      label: "Pain prevents me from standing for more than 1 hour.",
+      checked: false,
+    },
+    {
+      name: "standing_3",
+      label: "Pain prevents me from standing for more than 1/2 hour.",
+      checked: false,
+    },
+    {
+      name: "standing_4",
+      label: "Pain prevents me from standing for more than 10 minutes.",
+      checked: false,
+    },
+    {
+      name: "standing_5",
+      label: "Pain prevents me from standing at all.",
+      checked: false,
+    },
+  ];
+
+  const sleepingCheckBoxSchemaData = [
+    {
+      name: "sleeping_0",
+      label: "Pain does not prevent me from sleeping well.",
+      checked: false,
+      schemaName: "sleeping",
+      displaySchemaName: "Sleeping",
+    },
+    {
+      name: "sleeping_1",
+      label: "I can sleep well only by using pain medication.",
+      checked: false,
+    },
+    {
+      name: "sleeping_2",
+      label: "Even when I take medication, I sleep less than 6 hours.",
+      checked: false,
+    },
+    {
+      name: "sleeping_3",
+      label: "Even when I take medication, I sleep less than 4 hours.",
+      checked: false,
+    },
+    {
+      name: "sleeping_4",
+      label: "Even when I take medication, I sleep less than 2 hours.",
+      checked: false,
+    },
+    {
+      name: "sleeping_5",
+      label: "Pain prevents me from sleeping at all.",
+      checked: false,
+    },
+  ];
+
+  const socialLifeCheckBoxSchemaData = [
+    {
+      name: "social_life_0",
+      label: "My social life is normal and does not increase my pain.",
+      checked: false,
+      schemaName: "socialLife",
+      displaySchemaName: "Social Life",
+    },
+    {
+      name: "social_life_1",
+      label: "My social life is normal, but it increases my level of pain.",
+      checked: false,
+    },
+    {
+      name: "social_life_2",
+      label:
+        "Pain prevents me from participating in more energetic activities (e.g., sports, dancing).",
+      checked: false,
+    },
+    {
+      name: "social_life_3",
+      label: "Pain prevents me from going out very often.",
+      checked: false,
+    },
+    {
+      name: "social_life_4",
+      label: "Pain has restricted my social life to my home.",
+      checked: false,
+    },
+    {
+      name: "social_life_5",
+      label: "I have hardly any social life because of my pain.",
+      checked: false,
+    },
+  ];
+
+  const travellingCheckBoxSchemaData = [
+    {
+      name: "travelling_0",
+      label: "I can travel anywhere without increased pain.",
+      checked: false,
+      schemaName: "travelling",
+      displaySchemaName: "Travelling",
+    },
+    {
+      name: "travelling_1",
+      label: "I can travel anywhere, but it increases my pain.",
+      checked: false,
+    },
+    {
+      name: "travelling_2",
+      label: "My pain restricts my travel over 2 hours.",
+      checked: false,
+    },
+    {
+      name: "travelling_3",
+      label: "My pain restricts my travel over 1 hour.",
+      checked: false,
+    },
+    {
+      name: "travelling_4",
+      label:
+        "My pain restricts my travel to short necessary journeys under 1/2 hour.",
+      checked: false,
+    },
+    {
+      name: "travelling_5",
+      label:
+        "My pain prevents all travel except for visits to the physician / therapist or hospital.",
+      checked: false,
+    },
+  ];
+
+  const employmentHomemakingCheckBoxSchemaData = [
+    {
+      name: "employment_homemaking_0",
+      label: "My normal homemaking / job activities do not cause pain.",
+      checked: false,
+      schemaName: "employmentHome",
+      displaySchemaName: "Employment Home",
+    },
+    {
+      name: "employment_homemaking_1",
+      label:
+        "My normal homemaking / job activities increase my pain, but I can still perform all that is required of me.",
+      checked: false,
+    },
+    {
+      name: "employment_homemaking_2",
+      label:
+        "I can perform most of my homemaking / job duties, but pain prevents me from performing more physically stressful activities (e.g., lifting, vacuuming).",
+      checked: false,
+    },
+    {
+      name: "employment_homemaking_3",
+      label: "Pain prevents me from doing anything but light duties.",
+      checked: false,
+    },
+    {
+      name: "employment_homemaking_4",
+      label: "Pain prevents me from doing even light duties.",
+      checked: false,
+    },
+    {
+      name: "employment_homemaking_5",
+      label: "Pain prevents me from performing any job or homemaking chores.",
+      checked: false,
+    },
+  ];
+
+  const allSchemaData = [
+    painIntensityCheckBoxSchemaData,
+    personalCareCheckBoxSchemaData,
+    liftingCheckBoxSchemaData,
+    walkingCheckBoxSchemaData,
+    sittingCheckBoxSchemaData,
+    travellingCheckBoxSchemaData,
+    employmentHomemakingCheckBoxSchemaData,
+    socialLifeCheckBoxSchemaData,
+    sleepingCheckBoxSchemaData,
+    standingCheckBoxSchemaData,
+  ];
+
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [docStatus, setDocStatus] = useState("Draft"); //employmentHomemaking
+  const [totalScore, setTotalScore] = useState(0);
+  const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
+
+  const [
+    employmentHomemakingCheckBoxSchema,
+    setEmploymentHomemakingCheckBoxSchema,
+  ] = useState(employmentHomemakingCheckBoxSchemaData);
+
+  const [travelingCheckBoxSchema, setTravelingCheckBoxSchema] = useState(
+    travellingCheckBoxSchemaData
+  );
+
+  const [socialLifeCheckBoxSchema, setSocialLifeCheckBoxSchema] = useState(
+    socialLifeCheckBoxSchemaData
+  );
+  const [sleepingCheckBoxSchema, setSleepingCheckBoxSchema] = useState(
+    sleepingCheckBoxSchemaData
+  );
+  const [painIntensityCheckBoxSchema, setPainIntensityCheckBoxSchema] =
+    useState(painIntensityCheckBoxSchemaData);
+  const [personalCareCheckBoxSchema, setPersonalCareCheckBoxSchema] = useState(
+    personalCareCheckBoxSchemaData
+  );
+  const [liftingCheckBoxSchema, setLiftingCheckBoxSchema] = useState(
+    liftingCheckBoxSchemaData
+  );
+  const [walkingCheckBoxSchema, setWalkingCheckBoxSchema] = useState(
+    walkingCheckBoxSchemaData
+  );
+  const [sittingCheckBoxSchema, setSittingCheckBoxSchema] = useState(
+    sittingCheckBoxSchemaData
+  );
+  const [standingCheckBoxSchema, setStandingCheckBoxSchema] = useState(
+    standingCheckBoxSchemaData
+  );
+
+  const updateCheckBoxesWithData = (schemaData, responseData) => {
+    // Iterate through the schemaData array
+    schemaData.forEach((checkbox) => {
+      const name = checkbox.name;
+
+      // Check if the name exists as a key in the responseData object
+      if (responseData.hasOwnProperty(name)) {
+        // Check if the value is not false before updating 'checked' to true
+        if (responseData[name] !== false && responseData[name] !== "false") {
+          checkbox.checked = true;
+        }
+      }
+    });
+
+    // Return the updated schemaData
+    return schemaData;
+  };
+
+  const updateAndSetCheckboxSchema = (
+    schemaData,
+    setStateFunction,
+    responseData
+  ) => {
+    const updatedSchemaData = updateCheckBoxesWithData(
+      schemaData,
+      responseData
+    );
+    setStateFunction(updatedSchemaData);
+  };
+
+  const filterCheckedData = (schemaDataArray, resData) => {
+    const filteredData = {};
+
+    schemaDataArray.forEach((schemaData) => {
+      const schemaName = schemaData[0].displaySchemaName;
+      schemaData.forEach((item) => {
+        if (resData[item.name] !== false) {
+          filteredData[schemaName] = item.label;
+        }
+      });
+    });
+
+    return filteredData;
+  };
+
+  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  useEffect(() => {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log("===>>> response data", {
+        data: draftDoc.documentdetail,
+      });
+
+      const checkboxSchemas = [
+        {
+          schemaData: standingCheckBoxSchema,
+          setStateFunction: setStandingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: employmentHomemakingCheckBoxSchema,
+          setStateFunction: setEmploymentHomemakingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: travelingCheckBoxSchema,
+          setStateFunction: setTravelingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: socialLifeCheckBoxSchema,
+          setStateFunction: setSocialLifeCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: sleepingCheckBoxSchema,
+          setStateFunction: setSleepingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: painIntensityCheckBoxSchema,
+          setStateFunction: setPainIntensityCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: personalCareCheckBoxSchema,
+          setStateFunction: setPersonalCareCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: liftingCheckBoxSchema,
+          setStateFunction: setLiftingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: walkingCheckBoxSchema,
+          setStateFunction: setWalkingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+        {
+          schemaData: sittingCheckBoxSchema,
+          setStateFunction: setSittingCheckBoxSchema,
+          responseData: draftDoc.documentdetail,
+        },
+      ];
+
+      checkboxSchemas.forEach((schema) => {
+        updateAndSetCheckboxSchema(
+          schema.schemaData,
+          schema.setStateFunction,
+          schema.responseData
+        );
+      });
+
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "totalScore") {
+          setTotalScore(value);
+        }
+        setValue(keys, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      });
+    }
+    return () => {
+      draftDoc = {};
+    };
+  }, [draftDoc]);
+
+  const getSearchfacility = (obj) => {
+    setValue("facility", obj._id, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
+    }
+  });
+
+  const onSubmit = (data, e) => {
+    // console.log("onsubmit", { data: data });
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    // data.createdby=user._id
+    //console.log(data);
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentname = "Back Pain Questionnaire"; //`${data.Investigation} Result`;
+    document.documentType = "Back Pain Questionnaire"; //"Diagnostic Result";
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = state.ClientModule.selectedClient._id;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    // console.log(document)??????????
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+    // let confirm = window.confirm(
+    //   `You are about to save this document ${document.documentname} ?`
+    // );
+    // if (confirm) {
+    if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForDraft = {
+        ...data,
+        totalScore,
+      };
+
+      const filterDataForFinal = filterCheckedData(allSchemaData, dataForDraft);
+
+      const dataForFinal = {
+        ...filterDataForFinal,
+        Comment: dataForDraft.Comment,
+        "Total Score": totalScore,
+      };
+      console.log("===>>>>>", { dataForFinal });
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
+      ClientServ.patch(draftDoc._id, document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          setDocStatus("Draft");
+          // setAllergies([])
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Documentation updated succesfully");
+          setSuccess(false);
+          setConfirmDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Documentation " + err);
+          reset(data);
+          setConfirmDialog(false);
+        });
+    } else {
+      const dataForDraft = {
+        ...data,
+        totalScore,
+      };
+
+      const filterDataForFinal = filterCheckedData(allSchemaData, dataForDraft);
+
+      const dataForFinal = {
+        ...filterDataForFinal,
+        Comment: dataForDraft.Comment,
+        "Total Score": totalScore,
+      };
+      console.log("===>>>>>", { dataForFinal });
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+      console.log("onsubmit form", { data: dataForDraft, document });
+      ClientServ.create(document)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          Object.keys(data).forEach((key) => {
+            data[key] = "";
+          });
+
+          /*  setMessage("Created Client successfully") */
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          setSuccess(false);
+          reset(data);
+          setConfirmDialog(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Lab Result " + err);
+          setConfirmDialog(false);
+        });
+    }
+    // }
+  };
+
+  const handleChangeStatus = async (e) => {
+    // await setAppointment_type(e.target.value)
+
+    setDocStatus(e.target.value);
+
+    //console.log(e.target.value)
+  };
+  const handleChangePart = (e) => {
+    console.log(e);
+  };
+
+  const closeEncounterRight = async () => {
+    setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
+  const handleCheckboxChange = (
+    event,
+    painIntensityCheckBoxSchema,
+    setPainIntensityCheckBoxSchema,
+    selectedSchemaName
+  ) => {
+    const { name, checked, value } = event.target;
+    let totalPoint;
+    let totalPointObtain;
+    let total;
+    const existcheckbox = false;
+    const currentPoint = Number(value);
+    const selectedCheckBoxSchema = {
+      schemaName: painIntensityCheckBoxSchema[0].schemaName,
+      schemaPoint: currentPoint,
+    };
+
+    console.log("==>>>  state allCheckBoxSchema", {
+      allCheckBoxSchema,
+    });
+
+    if (allCheckBoxSchema.length > 0) {
+      // const existcheckboxSchema = allCheckBoxSchema.find(
+      //   (data) => data.name === selectedSchemaName
+      // );
+      const othercheckboxSchemaArr = allCheckBoxSchema.filter(
+        (data) => data.schemaName !== selectedSchemaName
+      );
+      const prevTotalPoint = othercheckboxSchemaArr.length * 5;
+      totalPoint = prevTotalPoint + 5;
+      const totalPointObtainFromOther = othercheckboxSchemaArr.reduce(
+        (accumulator, currentObject) => {
+          return accumulator + currentObject.schemaPoint;
+        },
+        0
+      );
+
+      totalPointObtain = totalPointObtainFromOther + currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+
+      const updatedCheckboxSchemaArr = [
+        ...othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+      ];
+      setTotalScore(total);
+      setAllCheckBoxSchema(updatedCheckboxSchemaArr);
+      console.log("==>>>  score for lenght != 0", {
+        othercheckboxSchemaArr,
+        selectedCheckBoxSchema,
+        updatedCheckboxSchemaArr,
+        prevTotalPoint,
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    if (allCheckBoxSchema.length === 0) {
+      totalPoint = 5 * 1;
+      totalPointObtain = currentPoint;
+      total = Math.round((totalPointObtain / totalPoint) * 100);
+      setTotalScore(total);
+      setAllCheckBoxSchema([selectedCheckBoxSchema]);
+      console.log("==>>>  score for lenght == 0", {
+        totalPointObtain,
+        totalPoint,
+        total,
+      });
+    }
+
+    setValue(name, checked);
+    if (checked) {
+      const updatedData = painIntensityCheckBoxSchema.map((data) => {
+        const checkboxName = data.name;
+        if (checkboxName !== name) {
+          setValue(checkboxName, false);
+        }
+        if (data.name === name) {
+          return {
+            ...data,
+            checked: true,
+          };
+        } else {
+          return {
+            ...data,
+            checked: false,
+          };
+        }
+      });
+      setPainIntensityCheckBoxSchema(updatedData);
+    }
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <CustomConfirmationDialog
+          open={confirmDialog}
+          cancelAction={() => setConfirmDialog(false)}
+          confirmationAction={handleSubmit(onSubmit)}
+          type="create"
+          message={`You are about to save this Back Pain Questionnaire document?`}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"Back Pain Questionnaire"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+        <div className="card-content vscrollable remPad1">
+          <form>
+            {/*  Modified Oswestry Low Back Pain Disability Questionnairea  */}
+            <Grid container spacing={0.1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Modified Oswestry Low Back Pain Disability Questionnairea
+              </Typography>
+              <Grid container spacing={0.1} alignItems="center">
+                <Typography
+                  variant="p"
+                  sx={{ color: "black", fontSize: "14px" }}
+                >
+                  This questionnaire has been designed to give your therapist
+                  information as to how your back pain has affected your ability
+                  to manage in everyday life. Please answer every question by
+                  placing a mark in the{" "}
+                  <Typography
+                    variant="p"
+                    sx={{
+                      color: "black",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    one
+                  </Typography>{" "}
+                  box that best describes your condition today. We realize you
+                  may feel that two of the statements may describe your
+                  condition,{" "}
+                  <Typography
+                    variant="p"
+                    sx={{
+                      color: "black",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    but please mark only the box that most closely describes
+                    your current condition.
+                  </Typography>
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {/*  Pain Intensity */}
+            <Grid container mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Pain Intensity
+              </Typography>
+              <Grid container alignItems="center">
+                {painIntensityCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              painIntensityCheckBoxSchema,
+                              setPainIntensityCheckBoxSchema,
+                              "painIntensity"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  Personal Care (e.g., Washing, Dressing)  */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Personal Care (e.g., Washing, Dressing)
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {personalCareCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              personalCareCheckBoxSchema,
+                              setPersonalCareCheckBoxSchema,
+                              "personalCare"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  Lifting   */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Lifting
+              </Typography>
+              <Grid containeralignItems="center">
+                {liftingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={data.name} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              liftingCheckBoxSchema,
+                              setLiftingCheckBoxSchema,
+                              "lifting"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  Walking    */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Walking
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {walkingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              walkingCheckBoxSchema,
+                              setWalkingCheckBoxSchema,
+                              "walking"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  sitting    */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Sitting
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {sittingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              sittingCheckBoxSchema,
+                              setSittingCheckBoxSchema,
+                              "sitting"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  standing    */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Standing
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {standingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              standingCheckBoxSchema,
+                              setStandingCheckBoxSchema,
+                              "standing"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  sleeping    */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Sleeping
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {sleepingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              sleepingCheckBoxSchema,
+                              setSleepingCheckBoxSchema,
+                              "sleeping"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  Social Life   */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Social Life
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {socialLifeCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              socialLifeCheckBoxSchema,
+                              setSocialLifeCheckBoxSchema,
+                              "socialLife"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/* Traveling     */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Travelling
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {travelingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              travelingCheckBoxSchema,
+                              setTravelingCheckBoxSchema,
+                              "travelling"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  Employment / Homemaking   */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "blue", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Employment / Homemaking
+              </Typography>
+              <Grid container spacing={0.01} alignItems="center">
+                {employmentHomemakingCheckBoxSchema.map((data, index) => (
+                  <Grid item key={index} xs={12} sm={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register(data.name)}
+                          color="primary"
+                          checked={data.checked}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              employmentHomemakingCheckBoxSchema,
+                              setEmploymentHomemakingCheckBoxSchema,
+                              "employmentHome"
+                            )
+                          }
+                          value={index}
+                        />
+                      }
+                      label={data.label}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+
+            {/*  score   */}
+            <Grid container spacing={0.1} mt={1}>
+              <Typography
+                variant="p"
+                sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
+              >
+                SCORE : {totalScore} %
+              </Typography>
+            </Grid>
+
+            {/* Recommendation field */}
+            <Grid container spacing={1} mt={2}>
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                Comment
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <Textarea
+                  placeholder="Comment"
+                  name="Comment"
+                  type="text"
+                  register={register("Comment")}
+                />
+              </Grid>
+            </Grid>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                type="submit"
+                onClick={() => setConfirmDialog(true)}
+              >
+                Submit Lab Result
+              </GlobalCustomButton>
+            </Box>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export function LabNoteCreate() {
   const { register, handleSubmit, setValue, reset, getValues } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -883,7 +3781,7 @@ export function LabNoteCreate() {
       type: "Point",
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
-    // console.log(document)
+    // console.log(document)??????????
 
     if (
       document.location === undefined ||
@@ -1057,11 +3955,13 @@ export function LabNoteCreate() {
 
 // Eye Examination
 export function EyeExamination() {
-  const { register, handleSubmit, setValue, reset, getValues } = useForm(); //, watch, errors, reset
+  const { control, register, handleSubmit, setValue, reset, getValues } =
+    useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
+  const [facility, setFacility] = useState();
   const ClientServ = client.service("clinicaldocument");
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -1083,12 +3983,47 @@ export function EyeExamination() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        console.log("====>>>> draft", {
+          keys,
+          value,
+        });
+        if (keys === "acuity") {
+          setFormData((prevState) => ({
+            ...prevState,
+            acuity: value,
+          }));
+        }
+        if (keys === "muscles") {
+          setFormData((prevState) => ({
+            ...prevState,
+            muscles: value,
+          }));
+        }
+        if (keys === "degree") {
+          setFormData((prevState) => ({
+            ...prevState,
+            degree: value,
+          }));
+        }
+        if (keys === "colorVision") {
+          setFormData((prevState) => ({
+            ...prevState,
+            colorVision: value,
+          }));
+        }
+        if (keys === "fieldRestriction") {
+          setFormData((prevState) => ({
+            ...prevState,
+            fieldRestriction: value,
+          }));
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -1104,6 +4039,8 @@ export function EyeExamination() {
     if (!user.stacker) {
     }
   });
+
+  const document_name = state.DocumentClassModule.selectedDocumentClass.name;
 
   const handleAcuityChange = (event) => {
     setFormData((prevState) => ({
@@ -1153,23 +4090,24 @@ export function EyeExamination() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
 
-    document.documentdetail = {
-      "Age Of Onset": data.ageOfOnset,
-      History: data.history,
-      "Unaided RVA": data.unaidedRVA,
-      "Unaided LVA": data.unaidedLVA,
-      "Unaided NV": data.unaidedNV,
-      "Aided RVA": data.aidedRVA,
-      "Aided LVA": data.aidedLVA,
-      "Aided NV": data.aidedNV,
-      Acuity: formData.acuity,
-      "Muscle Function": formData.muscles,
-      "Visual Field Test": data.visualFieldTest,
-      Describe: data.describe,
-      Degree: formData.degree,
-      "Field Restriction": formData.fieldRestriction,
-      "Color Vision": formData.colorVision,
-    };
+    // document.documentdetail = {
+    //   ...data,
+    //   // "Age Of Onset": data.ageOfOnset,
+    //   // history: data.history,
+    //   // "Unaided RVA": data.unaidedRVA,
+    //   // "Unaided LVA": data.unaidedLVA,
+    //   // "Unaided NV": data.unaidedNV,
+    //   // "Aided RVA": data.aidedRVA,
+    //   // "Aided LVA": data.aidedLVA,
+    //   // "Aided NV": data.aidedNV,
+    //   acuity: formData.acuity,
+    //   muscles: formData.muscles,
+    //   // "Visual Field Test": data.visualFieldTest,
+    //   // Describe: data.describe,
+    //   degree: formData.degree,
+    //   fieldRestriction: formData.fieldRestriction,
+    //   colorVision: formData.colorVision,
+    // };
     document.documentname = "Eye examination";
     document.documentType = "Eye examination";
     document.location =
@@ -1199,6 +4137,36 @@ export function EyeExamination() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForFinal = {
+        "Age Of Onset": data.ageOfOnset,
+        History: data.history,
+        "Unaided RVA": data.unaidedRVA,
+        "Unaided LVA": data.unaidedLVA,
+        "Unaided NV": data.unaidedNV,
+        "Aided RVA": data.aidedRVA,
+        "Aided LVA": data.aidedLVA,
+        "Aided NV": data.aidedNV,
+        Acuity: formData.acuity,
+        Muscles: formData.muscles,
+        "Visual Field Test": data.visualFieldTest,
+        Describe: data.describe,
+        Degree: formData.degree,
+        "Field Restriction": formData.fieldRestriction,
+        "color Vision": formData.colorVision,
+      };
+      const dataForDraft = {
+        ...data,
+        acuity: formData.acuity,
+        muscles: formData.muscles,
+        degree: formData.degree,
+        fieldRestriction: formData.fieldRestriction,
+        colorVision: formData.colorVision,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -1217,6 +4185,36 @@ export function EyeExamination() {
           setConfirmationDialog(false);
         });
     } else {
+      const dataForFinal = {
+        "Age Of Onset": data.ageOfOnset,
+        History: data.history,
+        "Unaided RVA": data.unaidedRVA,
+        "Unaided LVA": data.unaidedLVA,
+        "Unaided NV": data.unaidedNV,
+        "Aided RVA": data.aidedRVA,
+        "Aided LVA": data.aidedLVA,
+        "Aided NV": data.aidedNV,
+        Acuity: formData.acuity,
+        Muscles: formData.muscles,
+        "Visual Field Test": data.visualFieldTest,
+        Describe: data.describe,
+        Degree: formData.degree,
+        "Field Restriction": formData.fieldRestriction,
+        "color Vision": formData.colorVision,
+      };
+      const dataForDraft = {
+        ...data,
+        acuity: formData.acuity,
+        muscles: formData.muscles,
+        degree: formData.degree,
+        fieldRestriction: formData.fieldRestriction,
+        colorVision: formData.colorVision,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.create(document)
         .then((res) => {
           // console.log("Data", res)
@@ -1236,6 +4234,7 @@ export function EyeExamination() {
         });
     }
   };
+
   const closeEncounterRight = async () => {
     setState((prevstate) => ({
       ...prevstate,
@@ -1258,9 +4257,7 @@ export function EyeExamination() {
           cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Examination?`}
+          message={`You are about to save this document Eye Examination?`}
         />
         <Box
           sx={{
@@ -1284,7 +4281,7 @@ export function EyeExamination() {
             <Box mb={1}>
               <Input
                 register={register("ageOfOnset")}
-                name="text"
+                name="ageOfOnset"
                 type="text"
                 placeholder="Enter age of Onset"
               />
@@ -1296,7 +4293,7 @@ export function EyeExamination() {
               <Textarea
                 color="primary"
                 register={register("history")}
-                name="findings"
+                name="history"
                 type="text"
                 placeholder="Type here...."
               />
@@ -1322,7 +4319,7 @@ export function EyeExamination() {
                 <Box sx={{ marginTop: "10px" }}>
                   <Input
                     register={register("unaidedRVA")}
-                    name="text"
+                    name="unaidedRVA"
                     type="text"
                     placeholder="Enter RVA..."
                     fullWidth
@@ -1335,7 +4332,7 @@ export function EyeExamination() {
                 <Box sx={{ marginTop: "10px" }}>
                   <Input
                     register={register("unaidedLVA")}
-                    name="text"
+                    name="unaidedLVA"
                     type="text"
                     placeholder="Enter LVA..."
                     fullWidth
@@ -1524,8 +4521,8 @@ export function EyeExamination() {
             </Box>
             <Box>
               <Textarea
-                register={register("describe")}
-                name="findings"
+                register={register("describeOne")}
+                name="describeOne"
                 type="text"
                 label="Describe"
                 placeholder="Type here..."
@@ -1545,7 +4542,8 @@ export function EyeExamination() {
             <Box mb={1}>
               <Input
                 register={register("visualFieldTest")}
-                name="text"
+                name="isualFieldTest
+                isualFieldTest"
                 type="text"
                 placeholder="Enter test type"
               />
@@ -1588,8 +4586,8 @@ export function EyeExamination() {
             <Box>
               <Textarea
                 color="primary"
-                register={register("describe")}
-                name="findings"
+                register={register("describeTwo")}
+                name="describeTwo"
                 type="text"
                 label="Description"
                 placeholder="Type here..."
@@ -1734,12 +4732,31 @@ export function DentalClinic() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "Send To") {
+          setFormData((prevState) => ({
+            ...prevState,
+            dentalLaboratory: value,
+          }));
+        }
+        if (keys === "dentalTherapist") {
+          setFormData((prevState) => ({
+            ...prevState,
+            dentalTherapist: value,
+          }));
+        }
+        if (keys === "orthodontist") {
+          setFormData((prevState) => ({
+            ...prevState,
+            orthodontist: value,
+          }));
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -1757,6 +4774,7 @@ export function DentalClinic() {
   });
 
   const onSubmit = (data, e) => {
+    console.log("===>>>data befor create", { data });
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -1769,19 +4787,6 @@ export function DentalClinic() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
 
-    document.documentdetail = {
-      RFA: data.rfa,
-      HPC: data.hpc,
-      PDH: data.pdh,
-      PHM: data.phm,
-      "Intra Oral": data.intraoral,
-      "Extra Oral": data.extraoral,
-      Investigation: data.investigation,
-      Diagnosis: data.diagnosis,
-      "Management Plan": data.managementPlan,
-      Treatment: data.treatment,
-      "Send To": formData.dentalLaboratory,
-    };
     document.documentname = "Dental Clinic";
     document.documentType = "Dental Clinic";
     document.location =
@@ -1811,6 +4816,30 @@ export function DentalClinic() {
     }
 
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const dataForFinal = {
+        RFA: data.rfa,
+        HPC: data.hpc,
+        PDH: data.pdh,
+        PHM: data.phm,
+        "Intra Oral": data.intraoral,
+        "Extra Oral": data.extraoral,
+        Investigation: data.investigation,
+        Diagnosis: data.diagnosis,
+        "Management Plan": data.managementPlan,
+        Treatment: data.treatment,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const dataForDraft = {
+        ...data,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           Object.keys(data).forEach((key) => {
@@ -1822,6 +4851,7 @@ export function DentalClinic() {
           toast.success("Documentation updated successfully");
           setSuccess(false);
           setConfirmationDialog(false);
+          return;
         })
         .catch((err) => {
           toast.error("Error updating Documentation: " + err);
@@ -1829,9 +4859,33 @@ export function DentalClinic() {
           setConfirmationDialog(false);
         });
     } else {
+      const dataForFinal = {
+        RFA: data.rfa,
+        HPC: data.hpc,
+        PDH: data.pdh,
+        PHM: data.phm,
+        "Intra Oral": data.intraoral,
+        "Extra Oral": data.extraoral,
+        Investigation: data.investigation,
+        Diagnosis: data.diagnosis,
+        "Management Plan": data.managementPlan,
+        Treatment: data.treatment,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const dataForDraft = {
+        ...data,
+        "Send To": formData.dentalLaboratory,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? dataForDraft : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.create(document)
         .then((res) => {
-          // console.log("Data", res)
+          console.log("Data not draft", { res, doc: document });
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
@@ -1877,9 +4931,7 @@ export function DentalClinic() {
           cancelAction={() => setConfirmationDialog(false)}
           confirmationAction={handleSubmit(onSubmit)}
           type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Examination?`}
+          message={`You are about to save this Dental Clinic document?`}
         />
         <Box
           sx={{
@@ -1914,7 +4966,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("rfa")}
-                    name="text"
+                    name="rfa"
                     type="text"
                     placeholder="Enter rfa"
                   />
@@ -1925,7 +4977,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("hpc")}
-                    name="text"
+                    name="hpc"
                     type="text"
                     placeholder="Enter hpc"
                   />
@@ -1938,7 +4990,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("pdh")}
-                    name="text"
+                    name="pdh"
                     type="text"
                     placeholder="Enter pdh"
                   />
@@ -1949,7 +5001,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("phm")}
-                    name="text"
+                    name="phm"
                     type="text"
                     placeholder="Enter pmh"
                   />
@@ -1973,7 +5025,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("intraoral")}
-                    name="text"
+                    name="intraoral"
                     type="text"
                     placeholder="Type here..."
                   />
@@ -1986,7 +5038,7 @@ export function DentalClinic() {
                 <Box mb={1}>
                   <Input
                     register={register("extraoral")}
-                    name="text"
+                    name="extraoral"
                     type="text"
                     placeholder="Type here..."
                   />
@@ -2001,7 +5053,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("investigation")}
-                name="findings"
+                name="investigation"
                 type="text"
                 placeholder="Type here...."
               />
@@ -2013,7 +5065,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("diagnosis")}
-                name="findings"
+                name="diagnosis"
                 type="text"
                 placeholder="Type here...."
               />
@@ -2026,7 +5078,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("managementPlan")}
-                name="findings"
+                name="managementPlan"
                 type="text"
                 placeholder="Type here...."
               />
@@ -2038,7 +5090,7 @@ export function DentalClinic() {
               <Textarea
                 color="primary"
                 register={register("treatment")}
-                name="findings"
+                name="treatment"
                 type="text"
                 placeholder="Type here...."
               />
@@ -2146,7 +5198,7 @@ export function OrthodonticAnalysis() {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const { state, setState } = useContext(ObjectContext);
+  const { state, setState, hideActionLoader } = useContext(ObjectContext);
 
   const [docStatus, setDocStatus] = useState("Draft");
   const [confirmationDiaglog, setConfirmationDialog] = useState(false);
@@ -2191,41 +5243,7 @@ export function OrthodonticAnalysis() {
     }
 
     document.documentdetail = {
-      "Teeth Erupted": data.teetherupt,
-      "Teeth of Poor Prognosis": data.prognosis,
-      "First Permanent Molars": data.molars,
-      D: data.d,
-      M: data.m,
-      F: data.f,
-      "AntPost Relationship": data.antpost,
-      Overbite: data.overbite,
-      Overjet: data.overjet,
-      "Tooth Bone Ratio": data.toothbone,
-      Upper: data.upper,
-      Lower: data.lower,
-      "Dental Caries": data.dentalcaries,
-      "Oral Hygiene Gingivities": data.oralhygiene,
-      Lips: data.lips,
-      Habits: data.habits,
-      Tongue: data.tongue,
-      "Dental Ortho": data.dentalortho,
-      "U Incisor Angle": data.uincisor,
-      "L Incisor Angle": data.lincisor,
-      "FM Angle": data.fmangle,
-      "UIncisor Angle2": data.uincisor2,
-      "LIncisor Angle2": data.lincisor2,
-      SNA: data.sna,
-      SNB: data.snb,
-      ANB: data.anb,
-      "Clinical SK Pattern": data.clinicalskpattern,
-      "Cephalometric SK pattern": data.cephalometricskpattern,
-      "MM Angle": data.mmangle,
-      "Unrepted Teeth": data.unreptedteeth,
-      "Absent Teeth": data.absentteeth,
-      "Dental Care": data.dentalcare,
-      "Summary Of Analysis": data.summary,
-      "Plan Of Treatment": data.plantreatment,
-      "Other Remarks": data.otherremarks,
+      ...data,
     };
     document.documentname = "Orthodontic Analysis";
     document.documentType = "Orthodontic Analysis";
@@ -2261,12 +5279,14 @@ export function OrthodonticAnalysis() {
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
-
-          setDocStatus("Draft");
+          setConfirmationDialog(false);
+          hideActionLoader(true);
+          // setDocStatus("Draft");
           setSuccess(true);
+          reset(data);
           toast.success("Documentation updated successfully");
           setSuccess(false);
-          setConfirmationDialog(false);
+          closeForm();
         })
         .catch((err) => {
           toast.error("Error updating Documentation: " + err);
@@ -2280,12 +5300,13 @@ export function OrthodonticAnalysis() {
           Object.keys(data).forEach((key) => {
             data[key] = "";
           });
-
+          hideActionLoader();
           setSuccess(true);
-          toast.success("Orthodontic Analysis created successfully");
-          setSuccess(false);
           reset(data);
           setConfirmationDialog(false);
+          toast.success("Orthodontic Analysis created successfully");
+          setSuccess(false);
+          closeForm();
         })
         .catch((err) => {
           toast.error("Error creating Orthodontic Analysis: " + err);
@@ -2300,6 +5321,22 @@ export function OrthodonticAnalysis() {
         ...prevstate.DocumentClassModule,
         encounter_right: false,
       },
+    }));
+  };
+
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      encounter_right: false,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
     }));
   };
 
@@ -3455,353 +6492,6 @@ export function DoctorsNoteCreate() {
   );
 }
 
-// Dental Lab
-export function DentalLab() {
-  const { register, handleSubmit, setValue, reset, control, getValues } =
-    useForm(); //, watch, errors, reset
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const ClientServ = client.service("clinicaldocument");
-  const { user } = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
-  const { state, setState } = useContext(ObjectContext);
-
-  const [docStatus, setDocStatus] = useState("Draft");
-  const [confirmationDiaglog, setConfirmationDialog] = useState(false);
-
-  let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
-
-  useEffect(() => {
-    if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).forEach(([key, value]) => {
-        {
-          setValue(key, value, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-        }
-      });
-    }
-    return () => {
-      draftDoc = {};
-    };
-  }, [draftDoc]);
-
-  useEffect(() => {
-    setCurrentUser(user);
-    return () => {};
-  }, [user]);
-
-  useEffect(() => {
-    if (!user.stacker) {
-    }
-  });
-
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    setMessage("");
-    setError(false);
-    setSuccess(false);
-
-    let document = {};
-    if (user.currentEmployee) {
-      document.facility = user.currentEmployee.facilityDetail._id;
-      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-    }
-    document.documentdetail = {
-      "Summary of findings ": data.summary,
-      "No of P T": data.nofpt,
-      "D O T Impression": data.dotimpression,
-      Sex: data.sex,
-      Prothesis: data.prothesis,
-      "No of Units": data.noofunits,
-      "OR I/C": data.oric,
-      "Dental Tech": data.dentaltech,
-      Remarks: data.remarks,
-    };
-
-    const dateOfDelivery = new Date(data.dateOfdelivery).toLocaleDateString(
-      undefined,
-      {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }
-    );
-    document.documentdetail["Date of Delivery"] = dateOfDelivery;
-
-    document.documentname = "Dental Lab";
-    document.documentType = "Dental Lab";
-    document.location =
-      state.employeeLocation.locationName +
-      " " +
-      state.employeeLocation.locationType;
-    document.locationId = state.employeeLocation.locationId;
-    document.client = state.ClientModule.selectedClient._id;
-    document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = docStatus === "Draft" ? "Draft" : "completed";
-
-    document.geolocation = {
-      type: "Point",
-      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
-    };
-
-    if (
-      document.location === undefined ||
-      !document.createdByname ||
-      !document.facilityname
-    ) {
-      toast.error(
-        "Documentation data missing, requires location and facility details"
-      );
-      return;
-    }
-
-    if (!!draftDoc && draftDoc.documentdetail.status === "Draft") {
-      ClientServ.patch(draftDoc._id, document)
-        .then((res) => {
-          Object.keys(data).forEach((key) => {
-            data[key] = null;
-          });
-          setConfirmationDialog(false);
-          hideActionLoader();
-          setSuccess(true);
-          reset(data);
-          toast.success("Dental Lab Form updated successfully");
-          setSuccess(false);
-          closeForm();
-        })
-        .catch((err) => {
-          toast.error("Error updating Dental Lab: " + err);
-          reset(data);
-          setConfirmationDialog(false);
-        });
-    } else {
-      ClientServ.create(document)
-        .then((res) => {
-          // console.log("Data", res)
-          Object.keys(data).forEach((key) => {
-            data[key] = "";
-          });
-
-          setSuccess(true);
-          toast.success("Dental Lab created successfully");
-          setSuccess(false);
-          reset(data);
-          setConfirmationDialog(false);
-        })
-        .catch((err) => {
-          toast.error("Error creating Dental Lab: " + err);
-          setConfirmationDialog(false);
-        });
-    }
-  };
-
-  const closeEncounterRight = async () => {
-    setState((prevstate) => ({
-      ...prevstate,
-      DocumentClassModule: {
-        ...prevstate.DocumentClassModule,
-        encounter_right: false,
-      },
-    }));
-  };
-
-  const handleChangeStatus = async (e) => {
-    setDocStatus(e.target.value);
-  };
-
-  return (
-    <>
-      <div className="card ">
-        <CustomConfirmationDialog
-          open={confirmationDiaglog}
-          cancelAction={() => setConfirmationDialog(false)}
-          confirmationAction={handleSubmit(onSubmit)}
-          type="create"
-          message={`You are about to save this document ${getValues(
-            "eye"
-          )} Dental Lab?`}
-        />
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          mb={1}
-        >
-          <FormsHeaderText color="none" text={"DENTAL LAB FORM"} />
-
-          <IconButton onClick={closeEncounterRight}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Box>
-        <div className="card-content vscrollable remPad1">
-          <form>
-            <Typography fontWeight="bold" color="primary" variant="body1">
-              Summary of findings/Doctor prescription to lab
-            </Typography>
-            <Box style={{ marginTop: "10px", marginBottom: "30px" }}>
-              <Textarea
-                color="primary"
-                register={register("summary")}
-                name="summary"
-                type="text"
-                placeholder="Type here..."
-              />
-            </Box>
-
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <Typography color="primary" variant="body2">
-                  No of P.T
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("nofpt")}
-                    name="nofpt"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-                <Typography color="primary" variant="body2">
-                  D.O.T Impression
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("dotimpression")}
-                    name="dotimpression"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography color="primary" variant="body2">
-                  Sex M/F:
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("sex")}
-                    name="sex"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-                <Typography color="primary" variant="body2">
-                  Type of Prothesis:
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("prothesis")}
-                    name="prothesis"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <Typography color="primary" variant="body2">
-                  No of Units
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("noofunits")}
-                    name="noofunits"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-                <Typography color="primary" variant="body2">
-                  Dental Tech:
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("dentaltech")}
-                    name="oric"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography color="primary" variant="body2">
-                  OR I/C
-                </Typography>
-                <Box mb={1}>
-                  <Input
-                    register={register("oric")}
-                    name="dentaltech"
-                    type="text"
-                    placeholder="Type here..."
-                  />
-                </Box>
-                <Box>
-                  <Typography sx={{ fontSize: "0.85rem" }}>
-                    Date of Delivery
-                  </Typography>
-                  <MuiCustomDatePicker
-                    name="dateOfdelivery"
-                    control={control}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-
-            <Typography fontWeight="bold" color="primary" variant="body1">
-              Remarks
-            </Typography>
-            <Box style={{ marginTop: "10px", marginBottom: "30px" }}>
-              <Textarea
-                color="primary"
-                register={register("remarks")}
-                name="remarks"
-                type="text"
-                placeholder="Type in remarks..."
-              />
-            </Box>
-
-            <Box
-              sx={{
-                gap: "1rem",
-              }}
-            >
-              <RadioButton
-                onChange={handleChangeStatus}
-                name="status"
-                options={["Draft", "Final"]}
-                value={docStatus}
-              />
-            </Box>
-            <Box
-              spacing={3}
-              sx={{
-                display: "flex",
-                gap: "3rem",
-              }}
-            >
-              <GlobalCustomButton
-                color="secondary"
-                type="submit"
-                onClick={() => setConfirmationDialog(true)}
-              >
-                Submit Dental Lab Form
-              </GlobalCustomButton>
-            </Box>
-          </form>
-        </div>
-      </div>
-    </>
-  );
-}
-
 export function PrescriptionCreate() {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -4109,6 +6799,7 @@ export function PrescriptionCreate() {
     </>
   );
 }
+
 export function LabrequestCreate() {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);

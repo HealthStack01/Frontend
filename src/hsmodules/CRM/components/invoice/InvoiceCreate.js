@@ -23,8 +23,7 @@ import {toast} from "react-toastify";
 import {v4 as uuidv4} from "uuid";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
-const random = require("random-string-generator");
+import {generateRandomString} from "../../../helpers/generateString";
 
 const InvoiceCreate = ({closeModal, handleGoBack}) => {
   const dealServer = client.service("deal");
@@ -104,7 +103,7 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
           subscription_category: "",
           payment_option: "",
           payment_mode: "",
-          invoice_number: random(12, "uppernumeric"),
+          invoice_number: generateRandomString(12),
           date: new Date(),
           total_amount: 0,
         });
@@ -121,7 +120,7 @@ const InvoiceCreate = ({closeModal, handleGoBack}) => {
   };
 
   useEffect(() => {
-    setValue("invoice_number", random(12, "uppernumeric"));
+    setValue("invoice_number", generateRandomString(12));
     setValue("date", new Date());
     setValue("total_amount", 0);
   }, []);

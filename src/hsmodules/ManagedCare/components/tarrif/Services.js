@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {
   Box,
   Grid,
@@ -25,8 +25,9 @@ import GroupedRadio from "../../../../components/inputs/basic/Radio/GroupedRadio
 import {toast} from "react-toastify";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import {getPlansColumns, getServicesColumns} from "./columns";
+import ReviewRequestComponent from "./ReviewRequest";
 
-const TarrifServices = () => {
+const TarrifServices = ({provider}) => {
   const tarrifsServer = client.service("tariff");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -34,6 +35,9 @@ const TarrifServices = () => {
   const [addServiceModal, setAddServiceModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [services, setServices] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
+  const [chosenServices, setChosenServices] = useState([]);
 
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
@@ -193,11 +197,13 @@ const TarrifServices = () => {
     setEditModal(true);
   };
 
-  const plansColumns = getPlansColumns(confirmDeletePlan);
+  const plansColumns = getPlansColumns(confirmDeletePlan, provider);
 
   const servicesColumns = getServicesColumns(
     confirmDeleteService,
-    handleEditService
+    handleEditService,
+    provider,
+    provider
   );
 
   const conditionalRowStyles = [
@@ -222,6 +228,28 @@ const TarrifServices = () => {
     });
   };
 
+  const handleRowSelected = useCallback(state => {
+    setChosenServices(state.selectedRows);
+  }, []);
+
+  const contextActions = useMemo(() => {
+    const handleAction = () => {
+      setReviewModal(true);
+    };
+
+    return (
+      <Box sx={{display: "flex", gap: "10px"}}>
+        <GlobalCustomButton
+          key="delete"
+          onClick={handleAction}
+          //style={{backgroundColor: 'red'}}
+        >
+          Request Review
+        </GlobalCustomButton>
+      </Box>
+    );
+  }, [chosenServices, services, toggleCleared]);
+
   return (
     <Box>
       <CustomConfirmationDialog
@@ -240,33 +268,47 @@ const TarrifServices = () => {
       </ModalBox>
 
       <ModalBox
+        open={reviewModal}
+        onClose={() => setReviewModal(false)}
+        header={`Request Review on ${chosenServices.length} Services`}
+      >
+        <ReviewRequestComponent
+          closeModal={() => setReviewModal(false)}
+          services={chosenServices}
+        />
+      </ModalBox>
+
+      <ModalBox
         open={editModal}
         onClose={() => setEditModal(false)}
         header={`Edit Service - ${state.TarrifModule.selectedService.serviceName}`}
       >
         <ServiceDetailsEdit closeModal={() => setEditModal(false)} />
       </ModalBox>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        mb={1.5}
-      >
-        <FormsHeaderText text="List of Services" />
 
-        <GlobalCustomButton onClick={() => setAddServiceModal(true)}>
-          Add New Service
-        </GlobalCustomButton>
-      </Box>
+      {!provider && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1.5}
+        >
+          <FormsHeaderText text="List of Services" />
+
+          <GlobalCustomButton onClick={() => setAddServiceModal(true)}>
+            Add New Service
+          </GlobalCustomButton>
+        </Box>
+      )}
 
       <Box
         sx={{
           display: "flex",
           width: "100%",
           justifyContent: "space-between",
-          overflow:"auto"
+          overflow: "auto",
         }}
       >
         <Box
@@ -277,7 +319,7 @@ const TarrifServices = () => {
           }}
         >
           <CustomTable
-            title={""}
+            title={provider ? "List of Tariff Services" : ""}
             columns={servicesColumns}
             data={services}
             pointerOnHover
@@ -286,6 +328,11 @@ const TarrifServices = () => {
             onRowClicked={handleServicesRowClick}
             progressPending={false}
             conditionalRowStyles={conditionalRowStyles}
+            selectable={provider}
+            contextActions={contextActions}
+            clearSelectedRows={toggleCleared}
+            noHeader={false}
+            onSelectedRowsChange={handleRowSelected}
             CustomEmptyData={
               <Typography sx={{fontSize: "0.8rem"}}>
                 There are no services for this Tarrif yet
@@ -302,13 +349,14 @@ const TarrifServices = () => {
             }}
           >
             <CustomTable
-              title={""}
+              title={`Listed Plans for Service - ${selectedService?.serviceName}`}
               columns={plansColumns}
               data={selectedService.plans || []}
               pointerOnHover
               highlightOnHover
               striped
               progressPending={false}
+              noHeader={false}
               onRowClicked={handlePlansRowClick}
               CustomEmptyData={
                 <Typography sx={{fontSize: "0.8rem"}}>

@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 import ServiceSearch from "../helpers/ServiceSearch";
-var random = require("random-string-generator");
+
 // eslint-disable-next-line
 const searchfacility = {};
 

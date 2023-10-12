@@ -10,7 +10,7 @@ const malePlaceholder =
 const placeholder =
   "https://media.istockphoto.com/id/1266829552/vector/institution-icon-court-building-symbol-bank-financial-institute-wall-street-symbol-federal.jpg?s=612x612&w=0&k=20&c=0tA516OTE8mMxicWdsHOVIVT07zX2WZtSz3pQZvRM2g=";
 
-const DefaultFacilityDetail = ({detail, goBack}) => {
+const DefaultFacilityDetail = ({detail, goBack, editable}) => {
   const {register, reset} = useForm();
   const [edit, setEdit] = useState(false);
 
@@ -23,7 +23,7 @@ const DefaultFacilityDetail = ({detail, goBack}) => {
     };
 
     reset(defaultValues);
-  }, []);
+  }, [detail]);
 
   return (
     <Box p={2}>
@@ -113,9 +113,10 @@ const DefaultFacilityDetail = ({detail, goBack}) => {
         >
           <Box
             sx={{
-              width: "150px",
+              width: "8rem",
               height: "calc(2.55rem * 3)",
               border: "1px solid #bbbbbb",
+              p: 0.5,
             }}
           >
             <img
@@ -131,45 +132,51 @@ const DefaultFacilityDetail = ({detail, goBack}) => {
           </Box>
 
           <Grid container spacing={1}>
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityName")}
                 label="Facility Name"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityOwner")}
                 label="Facility Owner"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityType")}
                 label="Facility Type"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCategory")}
                 label="Facility Category"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityContactPhone")}
                 label="Contact Phone"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityEmail")}
                 label="Contact Email"
+                disabled={!editable}
               />
             </Grid>
 
@@ -177,14 +184,19 @@ const DefaultFacilityDetail = ({detail, goBack}) => {
               <Input
                 register={register("facilityAddress")}
                 label="Facility Address"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
-              <Input register={register("facilityLga")} label="Facility LGA" />
+            <Grid item lg={4} md={3} sm={6} xs={12}>
+              <Input
+                register={register("facilityLga")}
+                label="Facility LGA"
+                disabled={!editable}
+              />
             </Grid>
 
-            {/* <Grid item lg={4}>
+            {/* <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCountry")}
                 label="Facility Country"
@@ -195,24 +207,27 @@ const DefaultFacilityDetail = ({detail, goBack}) => {
 
         <Box>
           <Grid container spacing={1}>
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCity")}
                 label="Facility City"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityState")}
                 label="Facility State"
+                disabled={!editable}
               />
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item lg={4} md={3} sm={6} xs={12}>
               <Input
                 register={register("facilityCountry")}
                 label="Facility Country"
+                disabled={!editable}
               />
             </Grid>
           </Grid>

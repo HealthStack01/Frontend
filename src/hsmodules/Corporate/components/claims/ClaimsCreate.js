@@ -1,16 +1,16 @@
-import {useState, useEffect, useCallback, useContext} from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import client from "../../../../feathers";
-import {ObjectContext, UserContext} from "../../../../context";
+import { ObjectContext, UserContext } from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
-import {ClientSearch} from "../../../helpers/ClientSearch";
+import { ClientSearch } from "../../../helpers/ClientSearch";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import {useForm} from "react-hook-form";
-import {FormsHeaderText} from "../../../../components/texts";
+import { useForm } from "react-hook-form";
+import { FormsHeaderText } from "../../../../components/texts";
 import ModalBox from "../../../../components/modal";
 import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
@@ -25,18 +25,17 @@ import CustomTable from "../../../../components/customtable";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import Input from "../../../../components/inputs/basic/Input";
 import dayjs from "dayjs";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
+import { generateRandomString } from "../../../helpers/generateString";
 
-const random = require("random-string-generator");
-
-const ClaimCreateComponent = ({handleGoBack, client_id}) => {
+const ClaimCreateComponent = ({ handleGoBack, client_id }) => {
   const claimsServer = client.service("claims");
   const preAuthServer = client.service("preauth");
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [clearClientSearch, setClearClientSearch] = useState(false);
   const [complaints, setComplaints] = useState([]);
   const [complaintModal, setComplaintModal] = useState(false);
@@ -57,14 +56,14 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   const [treatmentInputType, setTreatmentInputType] = useState("type");
   const [commentsInputType, setCommentsInputType] = useState("type");
 
-  const {control, handleSubmit, register, reset, watch, setValue} = useForm({
+  const { control, handleSubmit, register, reset, watch, setValue } = useForm({
     defaultValues: {
       claimtype: "Fee for Service",
     },
   });
 
   useEffect(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       ClientModule: {
         ...prev.ClientModule,
@@ -89,16 +88,16 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
     getTotalClaimsAmount();
   }, [getTotalClaimsAmount]);
 
-  const handleSelectClient = client => {
+  const handleSelectClient = (client) => {
     const hmos = client.paymentinfo.filter(
-      item => item.paymentmode.toLowerCase() === "hmo"
+      (item) => item.paymentmode.toLowerCase() === "hmo"
     );
 
     const firstHMO = hmos[0];
 
     setPolicy(firstHMO.policy);
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       ClientModule: {
         ...prev.ClientModule,
@@ -113,7 +112,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
   const diagnosisColumns = getDiagnosisColumns();
   const servicesColumns = getServicesColumns();
 
-  const handleCreateClaim = async data => {
+  const handleCreateClaim = async (data) => {
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -152,7 +151,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
       submissiondate: dayjs(),
       submissionby: employee,
       status: "Submitted",
-      claimid: random(12, "uppernumeric"),
+      claimid: generateRandomString(14),
       appointmentid: selectedAppointment,
       admissionid: selectedAdmission,
       geolocation: {
@@ -170,11 +169,11 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
 
     await claimsServer
       .create(document)
-      .then(res => {
+      .then((res) => {
         hideActionLoader();
         toast.success("You have succesfully created a Claim");
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(`Failed to create Claim ${err}`);
       });
@@ -190,13 +189,13 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
     }
   }, [patientState]);
 
-  const handleSelectAppointment = appointment => {
+  const handleSelectAppointment = (appointment) => {
     setSelectedAppointment(appointment);
     setSelectedAdmission(null);
     setAppointmentModal(false);
   };
 
-  const handleSelectAdmission = admission => {
+  const handleSelectAdmission = (admission) => {
     setSelectedAdmission(admission);
     setSelectedAppointment(null);
     setAdmissionModal(false);
@@ -216,10 +215,10 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         const data = res.data[0].services;
         const approvedServices = data.filter(
-          item => item.status.toLowerCase() === "approved"
+          (item) => item.status.toLowerCase() === "approved"
         );
         //setPreAuthServices(approvedServices);
         setServices([...approvedServices, ...services]);
@@ -312,7 +311,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
           gap={1}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <ArrowBackIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Back
           </GlobalCustomButton>
 
@@ -334,7 +333,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
           gap={1}
         >
           <GlobalCustomButton onClick={handleSubmit(handleCreateClaim)}>
-            <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Create Claim
           </GlobalCustomButton>
         </Box>
@@ -423,7 +422,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               <FormsHeaderText text="Complaints Data" />
 
               <GlobalCustomButton onClick={() => setComplaintModal(true)}>
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Complaint
               </GlobalCustomButton>
             </Box>
@@ -440,7 +439,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
                 //conditionalRowStyles={conditionalRowStyles}
                 progressPending={false}
                 CustomEmptyData={
-                  <Typography sx={{fontSize: "0.8rem"}}>
+                  <Typography sx={{ fontSize: "0.8rem" }}>
                     You've not added a Complaint yet...
                   </Typography>
                 }
@@ -454,7 +453,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               type={clinicFindInputType}
               changeType={setClinicFindInputType}
               register={register("clinical_findings")}
-              voiceOnChange={value => setValue("clinical_findings", value)}
+              voiceOnChange={(value) => setValue("clinical_findings", value)}
             />
             {/* <FormsHeaderText text="Clinical Findings" />
 
@@ -478,7 +477,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               <FormsHeaderText text="Diagnosis Data" />
 
               <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Diagnosis
               </GlobalCustomButton>
             </Box>
@@ -495,7 +494,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
                 //conditionalRowStyles={conditionalRowStyles}
                 progressPending={false}
                 CustomEmptyData={
-                  <Typography sx={{fontSize: "0.8rem"}}>
+                  <Typography sx={{ fontSize: "0.8rem" }}>
                     You've not added a Diagnosis yet...
                   </Typography>
                 }
@@ -509,7 +508,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               type={investigationInputType}
               changeType={setInvestigationInputType}
               register={register("investigation")}
-              voiceOnChange={value => setValue("investigation", value)}
+              voiceOnChange={(value) => setValue("investigation", value)}
             />
             {/* <FormsHeaderText text="Investigation" />
 
@@ -527,7 +526,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               type={drugsInputType}
               changeType={setDrugsInputType}
               register={register("drugs")}
-              voiceOnChange={value => setValue("drugs", value)}
+              voiceOnChange={(value) => setValue("drugs", value)}
             />
             {/* <FormsHeaderText text="Drugs" />
 
@@ -545,7 +544,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               type={treatmentInputType}
               changeType={setTreatmentInputType}
               register={register("treatment")}
-              voiceOnChange={value => setValue("treatment", value)}
+              voiceOnChange={(value) => setValue("treatment", value)}
             />
             {/* <FormsHeaderText text="Treatment" />
 
@@ -606,7 +605,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
                   setServiceModal(true);
                 }}
               >
-                <AddBoxIcon sx={{marginRight: "3px"}} fontSize="small" />
+                <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                 New Service
               </GlobalCustomButton>
             </Box>
@@ -623,7 +622,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
                 //conditionalRowStyles={conditionalRowStyles}
                 progressPending={false}
                 CustomEmptyData={
-                  <Typography sx={{fontSize: "0.8rem"}}>
+                  <Typography sx={{ fontSize: "0.8rem" }}>
                     You've not added a Service yet...
                   </Typography>
                 }
@@ -637,7 +636,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
               type={commentsInputType}
               changeType={setCommentsInputType}
               register={register("comments")}
-              voiceOnChange={value => setValue("comments", value)}
+              voiceOnChange={(value) => setValue("comments", value)}
             />
             {/* <FormsHeaderText text="Comments" />
 
@@ -656,9 +655,9 @@ const ClaimCreateComponent = ({handleGoBack, client_id}) => {
 
 export default ClaimCreateComponent;
 
-export const SelectAppointment = ({selectAppointment}) => {
+export const SelectAppointment = ({ selectAppointment }) => {
   const appointmentServer = client.service("appointments");
-  const {state} = useContext(ObjectContext);
+  const { state } = useContext(ObjectContext);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -674,7 +673,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       lastname: selectedClient.lastname,
     };
 
-    const resp = await appointmentServer.find({query: query});
+    const resp = await appointmentServer.find({ query: query });
 
     await setAppointments(resp.data);
     setLoading(false);
@@ -685,7 +684,7 @@ export const SelectAppointment = ({selectAppointment}) => {
     getClientAppointments();
   }, [getClientAppointments]);
 
-  const handleRow = item => {
+  const handleRow = (item) => {
     selectAppointment(item);
   };
 
@@ -694,7 +693,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -703,7 +702,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Date/Time",
       key: "date",
       description: "Date/Time",
-      selector: row => dayjs(row.start_time).format("DD/MM/YYYY HH:mm"),
+      selector: (row) => dayjs(row.start_time).format("DD/MM/YYYY HH:mm"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -712,7 +711,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: row => row.firstname,
+      selector: (row) => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -722,7 +721,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: row => row.lastname,
+      selector: (row) => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -731,7 +730,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Classification",
       key: "classification",
       description: "Classification",
-      selector: row => row.appointmentClass,
+      selector: (row) => row.appointmentClass,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -740,7 +739,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Location",
       key: "location",
       description: "Location",
-      selector: row => row.location_name,
+      selector: (row) => row.location_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -749,7 +748,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Type",
       key: "type",
       description: "Type",
-      selector: row => row.appointment_type,
+      selector: (row) => row.appointment_type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -758,7 +757,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Status",
       key: "status",
       description: "Status",
-      selector: row => row.appointment_status,
+      selector: (row) => row.appointment_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -767,7 +766,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Reason",
       key: "reason",
       description: "Reason",
-      selector: row => row.appointment_reason,
+      selector: (row) => row.appointment_reason,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -776,7 +775,7 @@ export const SelectAppointment = ({selectAppointment}) => {
       name: "Practitioner",
       key: "practitioner",
       description: "Practitioner",
-      selector: row => row.practitioner_name,
+      selector: (row) => row.practitioner_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -809,9 +808,9 @@ export const SelectAppointment = ({selectAppointment}) => {
   );
 };
 
-export const SelectAdmission = ({selectAdmission}) => {
+export const SelectAdmission = ({ selectAdmission }) => {
   const admissionServer = client.service("order");
-  const {state} = useContext(ObjectContext);
+  const { state } = useContext(ObjectContext);
   const [admissions, setAdmissions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -827,7 +826,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       lastname: selectedClient.lastname,
     };
 
-    const resp = await admissionServer.find({query: query});
+    const resp = await admissionServer.find({ query: query });
 
     await setAdmissions(resp.data);
     setLoading(false);
@@ -838,7 +837,7 @@ export const SelectAdmission = ({selectAdmission}) => {
     getClientAppointments();
   }, [getClientAppointments]);
 
-  const handleRow = item => {
+  const handleRow = (item) => {
     selectAdmission(item);
   };
 
@@ -847,7 +846,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -855,7 +854,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Date/Time",
       key: "createdAt",
       description: "Date/Time",
-      selector: row => dayjs(row?.createdAt).format("DD/MM/YYYY HH:mm"),
+      selector: (row) => dayjs(row?.createdAt).format("DD/MM/YYYY HH:mm"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -864,7 +863,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: row => row.client.firstname,
+      selector: (row) => row.client.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -873,7 +872,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: row => row.client.lastname,
+      selector: (row) => row.client.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -882,7 +881,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Admission Order",
       key: "order",
       description: "Admission Order",
-      selector: row => row.order,
+      selector: (row) => row.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -891,7 +890,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Fulfilled",
       key: "fulfilled",
       description: "Fulfilled",
-      selector: row => (row.fulfilled ? "Yes" : "No"),
+      selector: (row) => (row.fulfilled ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -901,7 +900,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Status",
       key: "order_status",
       description: "Status",
-      selector: row => row.order_status,
+      selector: (row) => row.order_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -910,7 +909,7 @@ export const SelectAdmission = ({selectAdmission}) => {
       name: "Requesting Practitioner",
       key: "requestingdoctor_Name",
       description: "Practitioner",
-      selector: row => row.requestingdoctor_Name,
+      selector: (row) => row.requestingdoctor_Name,
       sortable: true,
       required: true,
       inputType: "TEXT",

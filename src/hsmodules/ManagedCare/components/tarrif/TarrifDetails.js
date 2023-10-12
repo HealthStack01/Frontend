@@ -10,7 +10,7 @@ import TariffProviders from "./Providers";
 import ModalBox from "../../../../components/modal";
 import InheritTariff from "./InheritTariff";
 
-const TarrifDetailsComponent = ({goBack}) => {
+const TarrifDetailsComponent = ({goBack, provider}) => {
   const {state, setState} = useContext(ObjectContext);
   const [view, setView] = useState("services");
   const [selectedTarrif, setSelectedTarrif] = useState({});
@@ -94,60 +94,62 @@ const TarrifDetailsComponent = ({goBack}) => {
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-          gap={1}
-        >
-          <GlobalCustomButton
-            color="success"
-            onClick={() => setInheritModal(true)}
+        {!provider && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+            gap={1}
           >
-            Inherit Tarrif
-          </GlobalCustomButton>
+            <GlobalCustomButton
+              color="success"
+              onClick={() => setInheritModal(true)}
+            >
+              Inherit Tarrif
+            </GlobalCustomButton>
 
-          <GlobalCustomButton
-            onClick={() => changeView("services")}
-            sx={
-              view === "services"
-                ? {
-                    backgroundColor: "#ffffff",
-                    color: "#000000",
-                    "&:hover": {
+            <GlobalCustomButton
+              onClick={() => changeView("services")}
+              sx={
+                view === "services"
+                  ? {
                       backgroundColor: "#ffffff",
-                    },
-                  }
-                : {}
-            }
-          >
-            Tarrif's Services
-          </GlobalCustomButton>
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              Tarrif's Services
+            </GlobalCustomButton>
 
-          <GlobalCustomButton
-            onClick={() => changeView("providers")}
-            sx={
-              view === "providers"
-                ? {
-                    backgroundColor: "#ffffff",
-                    color: "#000000",
-                    "&:hover": {
+            <GlobalCustomButton
+              onClick={() => changeView("providers")}
+              sx={
+                view === "providers"
+                  ? {
                       backgroundColor: "#ffffff",
-                    },
-                  }
-                : {}
-            }
-          >
-            Tarrif's Providers
-          </GlobalCustomButton>
-        </Box>
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }
+                  : {}
+              }
+            >
+              Tarrif's Providers
+            </GlobalCustomButton>
+          </Box>
+        )}
       </Box>
 
       <Box p={2}>
         {view === "services" && (
           <Box>
-            <Services />
+            <Services provider={provider} />
           </Box>
         )}
 

@@ -143,11 +143,6 @@ const CreateCorporateComponent = ({closeModal}) => {
     if (!facility || !band)
       return toast.error("Please complete all form fields");
 
-    // const checkOrganization = obj =>
-    //   obj.organizationDetail._id === facility._id;
-
-    // const isPresent = organizationClients.some(checkOrganization);
-
     const isPresent = organizationClients.find(
       item => item?.organizationDetail?._id === facility._id
     );
@@ -189,10 +184,11 @@ const CreateCorporateComponent = ({closeModal}) => {
       <Box>
         <ReactCustomSearchSelectComponent
           control={control}
+          label="Select Organization"
           onInputChange={handleFacilitySearch}
           isLoading={fetchingFacilities}
           name="facility"
-          placeholder="Select organization"
+          placeholder="Searh here..."
           options={facilities.map(item => {
             return {
               label: item.facilityName,
@@ -205,10 +201,11 @@ const CreateCorporateComponent = ({closeModal}) => {
 
       <Box>
         <ReactCustomSelectComponent
+          label="Select Band"
           isLoading={fetchingBands}
           control={control}
           name="band"
-          placeholder="Select Band"
+          placeholder="Search here..."
           options={bands.map(item => {
             return {
               label: item.name,
