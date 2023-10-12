@@ -9,7 +9,12 @@ import {ObjectContext, UserContext} from "../../../context";
 import {toast} from "react-toastify";
 import {FormsHeaderText} from "../../../components/texts";
 
-const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
+const ProviderPaymentClaimsStatus = ({
+  closeModal,
+  claims = [],
+  selectedClaims,
+  setSelectedProviders,
+}) => {
   const claimsServer = client.service("claims");
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -54,6 +59,8 @@ const ProviderPaymentClaimsStatus = ({closeModal, claims = []}) => {
 
     hideActionLoader();
     toast.success(`Updated status for ${claims.length} Claim(s)`);
+    selectedClaims && selectedClaims([]);
+    setSelectedProviders && setSelectedProviders([]);
     closeModal();
     setToggleCleared(prev => !prev);
     //console.log(data);

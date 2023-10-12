@@ -71,6 +71,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
   const [rendered, setRendered] = useState(false);
   const [selectedProviders, setSelectedProviders] = useState([]);
   const [selectedClaims, setSelectedClaims] = useState([]);
+  const [statusModal, setStatusModal] = useState(false);
 
   const title = `${type} List`;
 
@@ -113,6 +114,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
         claimsId: item[0].claimid,
         dateCreated: item[0].createdAt,
         provider: item[0].provider.facilityName,
+        providerId: item[0].provider._id,
         aggAmount: totalAmounts,
         status: item[0].status,
         claims: item,
@@ -250,8 +252,8 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 
   const contextActions = useMemo(() => {
     const handleAction = () => {
-      //setStatusModal(true);
-      console.log(selectedClaims);
+      setStatusModal(true);
+      //console.log(selectedClaims);
     };
 
     return (
@@ -261,7 +263,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
           onClick={handleAction}
           //style={{backgroundColor: 'red'}}
         >
-          Update All Status
+          Update Selected Provider Claims
         </GlobalCustomButton>
       </Box>
     );
@@ -269,6 +271,19 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
 
   return (
     <Box p={2}>
+      <ModalBox
+        open={statusModal}
+        onClose={() => setStatusModal(false)}
+        header={`Update Status for ${selectedClaims?.length} Claim(s)`}
+      >
+        <ProviderPaymentClaimsStatus
+          closeModal={() => setStatusModal(false)}
+          setToggleCleared={setToggleCleared}
+          claims={selectedClaims}
+          selectedClaims={selectedClaims}
+        />
+      </ModalBox>
+
       <Box
         sx={{
           display: "flex",
@@ -299,7 +314,12 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
           {options.map(item => (
             <GlobalCustomButton
               key={item.name}
-              onClick={() => changeType(item.value)}
+              onClick={() => {
+                changeType(item.value);
+                setToggleCleared(prev => !prev);
+                setSelectedClaims([]);
+                setSelectedProviders([]);
+              }}
               color={item.type}
               sx={
                 type === item.value
@@ -348,6 +368,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
             noHeader={false}
             contextActions={contextActions}
             onSelectedRowsChange={handleRowSelected}
+            clearSelectedRows={toggleCleared}
           />
         </Box>
 
@@ -367,6 +388,7 @@ const ProvidersPaymentList = ({showClaimsDetail}) => {
               selectedClaims={selectedClaims}
               setSelectedClaims={setSelectedClaims}
               providers={selectedProviders}
+              selectedProvdier={selectedPayment}
             />
           </Box>
         )}
@@ -385,25 +407,47 @@ const ClaimsTableComoponent = ({
   selectedClaims,
   setSelectedClaims,
   providers,
+  selectedProvdier,
 }) => {
   const [statusModal, setStatusModal] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
+  const [hidden, setHidden] = useState(false);
   // const [selectedClaims, setSelectedClaims] = useState([]);
+
+  const providerSelectedClaims = selectedClaims.filter(
+    item => item.provider._id === selectedProvdier.providerId
+  );
 
   const handleParentChange = e => {
     const isChecked = e.target.checked;
     if (isChecked) {
-      setSelectedClaims(claims);
+      setSelectedClaims(prev => [...claims, ...prev]);
+      console.log(claims);
       setSelectAll(true);
     } else {
-      setSelectedClaims([]);
+      claims.map(claim => {
+        setSelectedClaims(prev => prev.filter(item => item._id !== claim._id));
+      });
+      // setSelectedClaims([]);
       setSelectAll(false);
     }
   };
 
+  useEffect(() => {
+    if (providers.length > 0) {
+      setHidden(false);
+    } else {
+      setHidden(true);
+    }
+  }, [providers]);
+
   const handleChildChange = (e, claim) => {
     const isChecked = e.target.checked;
-    console.log(claim);
+    if (isChecked) {
+      setSelectedClaims(prev => [claim, ...prev]);
+    } else {
+      setSelectedClaims(prev => prev.filter(item => item._id !== claim._id));
+    }
   };
 
   const claimsColumns = [
@@ -412,11 +456,17 @@ const ClaimsTableComoponent = ({
         <Checkbox
           size="small"
           color="success"
-          checked={selectAll}
-          // indeterminate={
-          //   claims.length > 0 && selectedClaims.length !== claims.length
-          // }
+          checked={providerSelectedClaims.length === claims.length}
+          indeterminate={
+            providerSelectedClaims.length > 0 &&
+            providerSelectedClaims.length !== claims.length
+          }
           onChange={handleParentChange}
+          sx={{
+            transform: "scale(0.8)",
+            padding: 0,
+            marginLeft: "13px",
+          }}
         />
       ),
       key: "healthcare plan",
@@ -424,15 +474,22 @@ const ClaimsTableComoponent = ({
       cell: (row, i) => (
         <Checkbox
           size="small"
-          checked={selectedClaims.find(item => item.id === row.id)}
+          checked={selectedClaims.some(obj => {
+            return obj._id === row._id;
+          })}
           onChange={e => handleChildChange(e, row)}
+          sx={{
+            transform: "scale(0.8)",
+            padding: 0,
+            marginLeft: "10px",
+          }}
         />
       ),
       sortable: false,
       required: true,
       inputType: "HIDDEN",
       width: "60px",
-      omit: providers.legnth === 0,
+      omit: hidden,
     },
     {
       name: "S/N",
@@ -474,7 +531,7 @@ const ClaimsTableComoponent = ({
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-      selector: "beneficiary",
+      //selector: "beneficiary",
     },
     {
       name: "State",
@@ -488,7 +545,7 @@ const ClaimsTableComoponent = ({
       style: {
         textTransform: "capitalize",
       },
-      selector: "patientstate",
+      //selector: "patientstate",
     },
 
     {
@@ -499,7 +556,7 @@ const ClaimsTableComoponent = ({
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-      selector: "services",
+      //selector: "services",
     },
 
     {
@@ -510,7 +567,7 @@ const ClaimsTableComoponent = ({
       sortable: true,
       required: true,
       inputType: "TEXT",
-      selector: "totalamount",
+      //selector: "totalamount",
     },
   ];
 
@@ -551,12 +608,12 @@ const ClaimsTableComoponent = ({
         <ProviderPaymentClaimsStatus
           closeModal={() => setStatusModal(false)}
           setToggleCleared={setToggleCleared}
-          claims={claims}
+          claims={selectedClaims}
         />
       </ModalBox>
 
       <CustomTable
-        title={`Claims List for `}
+        title={`Showing Claims for ${selectedProvdier.provider}`}
         columns={claimsColumns}
         data={claims || []}
         pointerOnHover
@@ -564,7 +621,7 @@ const ClaimsTableComoponent = ({
         striped
         onRowClicked={onRowClicked}
         progressPending={false}
-        selectable={providers.legnth === 0}
+        selectable={hidden}
         contextActions={contextActions}
         clearSelectedRows={toggleCleared}
         noHeader={false}
