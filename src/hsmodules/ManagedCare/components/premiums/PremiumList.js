@@ -381,11 +381,11 @@ export function BillingList({openModal, showCreateScreen}) {
   useEffect(() => {
     // //console.log("started")
     getFacilities();
-    BillServ.on("created", obj => getFacilities());
-    BillServ.on("updated", obj => getFacilities());
-    BillServ.on("patched", obj => getFacilities());
-    BillServ.on("removed", obj => getFacilities());
-    console.log(facilities)
+    PremServ.on("created", obj => getFacilities());
+    PremServ.on("updated", obj => getFacilities());
+    PremServ.on("patched", obj => getFacilities());
+    PremServ.on("removed", obj => getFacilities());
+    //console.log(facilities)
     return () => {};
   }, []);
 
