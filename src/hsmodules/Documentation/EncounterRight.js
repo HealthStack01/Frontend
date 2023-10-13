@@ -68,6 +68,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+
 import Input from "../../components/inputs/basic/Input";
 import { FormsHeaderText } from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -79,6 +80,11 @@ import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-di
 import VoiceTextArea from "../../components/inputs/basic/Textarea/VoiceInput";
 import GlobalTable from "../../components/customtable/GlobalTable";
 import GlobalCheckbox from "../../components/global-checkbox/GlobalCheckbox";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
 export default function EncounterRight() {
   const { state, setState } = useContext(ObjectContext);
@@ -1767,18 +1773,132 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
   const [docStatus, setDocStatus] = useState("Draft"); //employmentHomemaking
   const [totalScore, setTotalScore] = useState(0);
+  const [workSubscaleTotalScore, setWorkSubscaleTotalScore] = useState(0);
+  const [
+    physicalActivitiesSubscaleTotalScore,
+    setPhysicalActivitiesSubscaleTotalScore,
+  ] = useState(0);
   const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
+
+  const [customSelectValues, setCustomSelectValues] = useState({
+    painDropdown_one: 0,
+    painDropdown_Two: 0,
+    painDropdown_Three: 0,
+    painDropdown_Four: 0,
+    painDropdown_Five: 0,
+    painDropdown_Six: 0,
+    painDropdown_Seven: 0,
+    painDropdown_Eight: 0,
+    painDropdown_Nine: 0,
+    painDropdown_Ten: 0,
+    painDropdown_Eleven: 0,
+    painDropdown_Twelve: 0,
+    painDropdown_Thirteen: 0,
+    painDropdown_Fourteen: 0,
+    painDropdown_Fifteen: 0,
+    painDropdown_Sixteen: 0,
+  });
+
+  const calculateTotalScore = (values) => {
+    const selectedValues = Object.values(data)
+      .filter((value) => value !== undefined && value !== "")
+      .map(Number); // Convert selected values to numbers for addition
+
+    const refineSelectedValues = selectedValues.filter(function (value) {
+      return !isNaN(value);
+    });
+
+    const totalPoints = refineSelectedValues.reduce(
+      (acc, value) => acc + value,
+      0
+    );
+    setCustomSelectValues(values); // Update the custom select values
+    // setValue('totalScore', totalPoints); // Update the totalScore field
+    setTotalScore(totalPoints);
+  };
+
+  // Function to handle custom select change
+  const handleCustomSelectChange = (name, value) => {
+    console.log("event name", {
+      name,
+      value,
+    });
+    const updatedCustomSelectValues = {
+      ...customSelectValues,
+      [name]: parseInt(value),
+    };
+    calculateTotalScore(updatedCustomSelectValues);
+  };
+
+  const processData = (data) => {
+    // Define a mapping for the score values
+    const scoreMapping = {
+      0: "Completely Disagree",
+      1: "Unsure",
+      2: "Unsure",
+      3: "Unsure",
+      4: "Completely Agree",
+      5: "Completely Agree",
+      6: "Completely Agree",
+    };
+
+    // Extract the totalScore
+    const totalScore = data["Total Score"];
+
+    // Process the comments and replace them based on the mapping
+    const updatedData = {
+      Comment: data.Comment,
+      "Total Score": totalScore,
+      "Physical activity subscale Point":
+        data["Physical activity subscale Point"],
+      "Work Subscale Point": data["Work Subscale Point"],
+    };
+
+    for (const key in data) {
+      if (key !== "Comment" && key !== "Total Score") {
+        const score = data[key];
+        updatedData[key] = scoreMapping[score];
+      }
+    }
+
+    return updatedData;
+  };
+
+  const getTotalValueForSubscale = (selectData, dropdownSchema) => {
+    let totalValue = 0;
+
+    dropdownSchema.forEach((item) => {
+      const key = item.description;
+      const value = parseInt(selectData[key]);
+      if (!isNaN(value)) {
+        totalValue += value;
+      }
+    });
+
+    return totalValue;
+  };
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
-      Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
+      Object.entries(draftDoc.documentdetail).map(([keys, value], i) => {
+        if (keys === "Work Subscale Point") {
+          setWorkSubscaleTotalScore(value);
+        }
+
+        if (keys === "Physical activity subscale Point") {
+          setPhysicalActivitiesSubscaleTotalScore(value);
+        }
+        if (keys === "Total Score") {
+          setTotalScore(value);
+        }
+
         setValue(keys, value, {
           shouldValidate: true,
           shouldDirty: true,
-        })
-      );
+        });
+      });
     }
     return () => {
       draftDoc = {};
@@ -1822,18 +1942,81 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     setSuccess(false);
     let document = {};
     // data.createdby=user._id
-    //console.log(data);
+
+    const finalData = {};
+
+    for (const key in data) {
+      if (
+        key !== "Comment" &&
+        key !== "Physical activity subscale Point" &&
+        key !== "Work Subscale Point" &&
+        key !== "Total Score" &&
+        key !== "totalScore"
+      ) {
+        finalData[key] = data[key];
+      }
+    }
+    console.log("===>datttaa", { data, finalData });
+
+    // Check if all custom selects are selected
+    const selectedValues = Object.values(finalData)
+      .filter((value) => value !== undefined && value !== "")
+      .map(Number); // Convert selected values to numbers for addition
+
+    const refineSelectedValues = selectedValues.filter(function (value) {
+      return !isNaN(value);
+    });
+
+    const totalPoints = refineSelectedValues.reduce(
+      (acc, value) => acc + value,
+      0
+    );
+
+    const totalScoreForWorkSubscale = getTotalValueForSubscale(
+      data,
+      painDropdownSchemaForWorkSubscale
+    );
+    const totalScoreForPhysicalActivitiesSubscale = getTotalValueForSubscale(
+      data,
+      painDropdownSchemaForPhysicalActivitiesSubscale
+    );
+
+    setWorkSubscaleTotalScore(totalScoreForWorkSubscale);
+    setPhysicalActivitiesSubscaleTotalScore(
+      totalScoreForPhysicalActivitiesSubscale
+    );
+    setTotalScore(totalPoints);
+
+    let addedData = {
+      ...data,
+      "Physical activity subscale Point":
+        totalScoreForPhysicalActivitiesSubscale,
+      "Work Subscale Point": totalScoreForWorkSubscale,
+      "Total Score": totalPoints,
+    };
+
+    console.log("====>>>> ", { refineSelectedValues, addedData, docStatus });
+
+    // Check if any custom select is not selected
+    if (refineSelectedValues.length < 15 && docStatus !== "Draft") {
+      // Adjust the count based on your selects
+      setError(true);
+      setMessage("Please select all custom selects.");
+      toast.error(
+        "Please, You are yet to select an option for all the questions"
+      );
+      setSuccess(false);
+      setConfirmationDialog(false);
+      return;
+    }
+
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
-    data.totalScore = totalScore;
 
-    const updatedData = {
-      ...data,
-    };
-    console.log("===>>>> data onsubmit", { data: updatedData });
-    document.documentdetail = data;
+    console.log("===>>>> data onsubmit", { data: "updatedData" });
+    document.documentdetail = addedData;
     document.documentname = `Fear-Avoidance Beliefs Questionnaire (FABQ)`; //"Lab Result"
     document.documentType = "Fear-Avoidance Beliefs Questionnaire (FABQ)";
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
@@ -1868,6 +2051,19 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     // );
     // if (confirm) {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const processdata = processData(addedData);
+      const dataForFinal = {
+        ...processdata,
+        "Physical activity subscale Point":
+          totalScoreForPhysicalActivitiesSubscale,
+        "Work Subscale Point": totalScoreForWorkSubscale,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? addedData : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -1889,6 +2085,18 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
           setConfirmationDialog(false);
         });
     } else {
+      const processdata = processData(addedData);
+      const dataForFinal = {
+        ...processdata,
+        "Physical activity subscale Point":
+          totalScoreForPhysicalActivitiesSubscale,
+        "Work Subscale Point": totalScoreForWorkSubscale,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? addedData : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.create(document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -2131,6 +2339,70 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     },
   ];
 
+  const painDropdownSchemaForWorkSubscale = [
+    {
+      description: "My pain was caused by my work or by an accident at work",
+      name: "painDropdown_Six",
+    },
+    {
+      description: "My work aggravated my pain",
+      name: "painDropdown_Seven",
+    },
+    {
+      description: "My work is too heavy for me",
+      name: "painDropdown_Nine",
+    },
+    {
+      description: "My work makes or would make my pain worse",
+      name: "painDropdown_Ten",
+    },
+    {
+      description: "My work might harm my back",
+      name: "painDropdown_Eleven",
+    },
+    {
+      description: "I should not do my normal work with my present pain",
+      name: "painDropdown_Twelve",
+    },
+    {
+      description:
+        "I do not think that I will be back to my normal work within 3 months",
+      name: "painDropdown_Fifteen",
+    },
+  ];
+  const painDropdownSchemaForPhysicalActivitiesSubscale = [
+    {
+      description: "Physical activity makes my pain worse",
+      name: "painDropdown_Two",
+    },
+    {
+      description: "Physical activity might harm my back",
+      name: "painDropdown_Three",
+    },
+    {
+      description:
+        "I should not do physical activities which (might) make my pain worse",
+      name: "painDropdown_Four",
+    },
+    {
+      description:
+        "I cannot do physical activities which (might) make my pain worse",
+      name: "painDropdown_Five",
+    },
+  ];
+  const columnStyle = { width: "33.33%" };
+  const cellStyle = {
+    border: "1px solid #000",
+    textAlign: "center",
+    padding: "8px",
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+  };
+  const separationLineStyle = {
+    border: "1px solid #000",
+    height: "100%", // Vertical line height
+    margin: "0 auto",
+  };
   return (
     <>
       <div className="card ">
@@ -2179,6 +2451,106 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                   your back pain.
                 </Typography>
               </Grid>
+              <Grid container spacing={0.1} alignItems="center" mt={2}>
+                <Table style={{ tableLayout: "fixed" }}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell style={{ ...columnStyle, ...cellStyle }}>
+                        Completely Disagree
+                      </TableCell>
+                      <TableCell style={{ ...columnStyle, ...cellStyle }}>
+                        Unsure
+                      </TableCell>
+                      <TableCell style={{ ...columnStyle, ...cellStyle }}>
+                        Completely Agree
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell style={cellStyle}>
+                        <Grid item>
+                          <Typography
+                            variant="body1"
+                            align="center"
+                            style={separationLineStyle}
+                          >
+                            0
+                          </Typography>
+                        </Grid>
+                      </TableCell>
+                      <TableCell style={{ ...cellStyle, borderLeft: "none" }}>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              1
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={{
+                                ...separationLineStyle,
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              2
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              3
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </TableCell>
+                      <TableCell style={{ ...cellStyle, borderLeft: "none" }}>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              4
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={{
+                                ...separationLineStyle,
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              5
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              6
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Grid>
             </Grid>
 
             {/* no 1-5 drop down    */}
@@ -2212,22 +2584,31 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
 
                   <Grid item container xs={12} sm={6}>
                     <Grid item xs={12} sm={6}>
-                      {/* <CustomSelect
+                      <CustomSelect
                         label="select"
                         // required
                         control={control}
-                        name={data.name}
+                        name={data.description}
                         options={selectOptions}
-                      /> */}
-                      <CustomSelect
+                      />
+                      {/* <CustomSelect
                         label="select"
                         name={data.description}
                         options={selectOptions}
                         register={register(`${data.description}`, {
                           required: false,
                         })}
-                        // onChange={(e)=>handleChangeMode(e.target.value)}
-                      />
+                        // onChange={(e) => {
+                        //   console.log("event", {
+                        //     name: e.target.name,
+                        //     value: e.target.value,
+                        //   });
+                        //   handleCustomSelectChange(
+                        //     e.target.name,
+                        //     e.target.value
+                        //   );
+                        // }}
+                      /> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -2274,22 +2655,31 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
 
                   <Grid item container xs={12} sm={6}>
                     <Grid item xs={12} sm={6}>
-                      {/* <CustomSelect
+                      <CustomSelect
                         label="select"
                         //required
                         control={control}
-                        name={data.name}
+                        name={data.description}
                         options={selectOptions}
-                      /> */}
-                      <CustomSelect
+                      />
+                      {/* <CustomSelect
                         label="select"
                         name={data.description}
                         options={selectOptions}
                         register={register(`${data.description}`, {
                           required: false,
                         })}
-                        // onChange={(e)=>handleChangeMode(e.target.value)}
-                      />
+                        // onChange={(e) => {
+                        //   console.log("event", {
+                        //     name: e.target.name,
+                        //     value: e.target.value,
+                        //   });
+                        //   handleCustomSelectChange(
+                        //     e.target.name,
+                        //     e.target.value
+                        //   );
+                        // }}
+                      /> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -2303,7 +2693,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                 variant="p"
                 sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
               >
-                Total Points:
+                Total Points:{totalScore ? totalScore : 0}
               </Typography>
             </Grid>
             <Grid container spacing={0.1} mt={1}>
@@ -2311,7 +2701,8 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                 variant="p"
                 sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
               >
-                Physical activity subscale:
+                Physical activity subscale Point:
+                {physicalActivitiesSubscaleTotalScore}
               </Typography>
             </Grid>
             <Grid container spacing={0.1} mt={1}>
@@ -2319,7 +2710,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                 variant="p"
                 sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
               >
-                Work Subscale:
+                Work Subscale Point:{workSubscaleTotalScore}
               </Typography>
             </Grid>
 
@@ -3977,6 +4368,8 @@ export function EyeExamination() {
     degree: "",
     colorVision: "",
     fieldRestriction: "",
+    photophobia: "",
+    Prognosis: "",
   });
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
@@ -4016,6 +4409,19 @@ export function EyeExamination() {
           setFormData((prevState) => ({
             ...prevState,
             fieldRestriction: value,
+          }));
+        }
+        if (keys === "photophobia") {
+          setFormData((prevState) => ({
+            ...prevState,
+            photophobia: value,
+          }));
+        }
+
+        if (keys === "Prognosis") {
+          setFormData((prevState) => ({
+            ...prevState,
+            Prognosis: value,
           }));
         }
 
@@ -4074,6 +4480,18 @@ export function EyeExamination() {
     setFormData((prevState) => ({
       ...prevState,
       fieldRestriction: event.target.value,
+    }));
+  };
+  const handlePhotophobiaChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      photophobia: event.target.value,
+    }));
+  };
+  const handlePrognosisChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      Prognosis: event.target.value,
     }));
   };
 
@@ -4153,6 +4571,8 @@ export function EyeExamination() {
         Degree: formData.degree,
         "Field Restriction": formData.fieldRestriction,
         "color Vision": formData.colorVision,
+        Photophobia: formData.photophobia,
+        Prognosis: formData.Prognosis,
       };
       const dataForDraft = {
         ...data,
@@ -4161,6 +4581,8 @@ export function EyeExamination() {
         degree: formData.degree,
         fieldRestriction: formData.fieldRestriction,
         colorVision: formData.colorVision,
+        photophobia: formData.photophobia,
+        Prognosis: formData.Prognosis,
       };
 
       const updatedData =
@@ -4201,6 +4623,8 @@ export function EyeExamination() {
         Degree: formData.degree,
         "Field Restriction": formData.fieldRestriction,
         "color Vision": formData.colorVision,
+        Photophobia: formData.photophobia,
+        Prognosis: formData.Prognosis,
       };
       const dataForDraft = {
         ...data,
@@ -4209,6 +4633,8 @@ export function EyeExamination() {
         degree: formData.degree,
         fieldRestriction: formData.fieldRestriction,
         colorVision: formData.colorVision,
+        photophobia: formData.photophobia,
+        Prognosis: formData.Prognosis,
       };
 
       const updatedData =
@@ -4673,6 +5099,209 @@ export function EyeExamination() {
                 </RadioGroup>
               </Box>
             </Box>
+
+            <Typography color="primary" variant="body1" fontWeight="bold">
+              Photophobia
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "30%", marginBottom: "20px" }}>
+                <RadioGroup
+                  name="photophobia"
+                  value={formData.photophobia}
+                  onChange={handlePhotophobiaChange}
+                >
+                  <FormControlLabel
+                    value="Yes"
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "40%", marginBottom: "20px" }}>
+                <RadioGroup
+                  name="photophobia"
+                  value={formData.photophobia}
+                  onChange={handlePhotophobiaChange}
+                >
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </RadioGroup>
+              </Box>
+            </Box>
+
+            {/*  Diagnosis (Primary cause of visual loss) */}
+
+            <Typography color="primary" variant="body1" fontWeight="bold">
+              Diagnosis (Primary cause of visual loss)
+            </Typography>
+            <Box>
+              <Textarea
+                color="primary"
+                register={register("describeThree")}
+                name="describeThree"
+                type="text"
+                // label="Description"
+                placeholder="Type here..."
+              />
+            </Box>
+
+            {/*  Prognosis */}
+
+            <Typography
+              color="primary"
+              variant="body1"
+              fontWeight="bold"
+              mt={3}
+            >
+              Prognosis
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "30%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Permanent"
+                    control={<Radio />}
+                    label="Permanent"
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "30%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Recurrent"
+                    control={<Radio />}
+                    label="Recurrent"
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "30%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Improving"
+                    control={<Radio />}
+                    label="Improving"
+                  />
+                </RadioGroup>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "30%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Progressive"
+                    control={<Radio />}
+                    label="Progressive"
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "30%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Stable"
+                    control={<Radio />}
+                    label="Stable"
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "30%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Can be improved"
+                    control={<Radio />}
+                    label="Can be improved"
+                  />
+                </RadioGroup>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "50%", marginBottom: "20px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="Unable to determine prognosis at this time"
+                    control={<Radio />}
+                    label="Unable to determine prognosis at this time"
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ width: "50%", marginBottom: "2px" }}>
+                <RadioGroup
+                  name="Prognosis"
+                  value={formData.Prognosis}
+                  onChange={handlePrognosisChange}
+                >
+                  <FormControlLabel
+                    value="At risk for vision loss; this consumer is under 3 and /or degree of vision loss cannot be determined"
+                    control={<Radio />}
+                    label="At risk for vision loss; this consumer is under 3 and /or degree of vision loss cannot be determined"
+                  />
+                </RadioGroup>
+              </Box>
+            </Box>
+
+            <Typography color="primary" variant="body1" fontWeight="bold">
+              Treatment Recommended
+            </Typography>
+            <Box>
+              <Textarea
+                register={register("Treatment Recommended")}
+                name="Treatment Recommended"
+                type="text"
+                // label="Treatment Recommended"
+                placeholder="Enter Treatment Recommended......"
+              />
+            </Box>
+
             <Box
               sx={{
                 gap: "1rem",
