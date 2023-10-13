@@ -68,6 +68,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+
 import Input from "../../components/inputs/basic/Input";
 import { FormsHeaderText } from "../../components/texts";
 import CloseIcon from "@mui/icons-material/Close";
@@ -79,6 +80,11 @@ import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-di
 import VoiceTextArea from "../../components/inputs/basic/Textarea/VoiceInput";
 import GlobalTable from "../../components/customtable/GlobalTable";
 import GlobalCheckbox from "../../components/global-checkbox/GlobalCheckbox";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
 export default function EncounterRight() {
   const { state, setState } = useContext(ObjectContext);
@@ -1769,6 +1775,104 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
   const [totalScore, setTotalScore] = useState(0);
   const [allCheckBoxSchema, setAllCheckBoxSchema] = useState([]);
 
+  const [customSelectValues, setCustomSelectValues] = useState({
+    painDropdown_one: 0,
+    painDropdown_Two: 0,
+    painDropdown_Three: 0,
+    painDropdown_Four: 0,
+    painDropdown_Five: 0,
+    painDropdown_Six: 0,
+    painDropdown_Seven: 0,
+    painDropdown_Eight: 0,
+    painDropdown_Nine: 0,
+    painDropdown_Ten: 0,
+    painDropdown_Eleven: 0,
+    painDropdown_Twelve: 0,
+    painDropdown_Thirteen: 0,
+    painDropdown_Fourteen: 0,
+    painDropdown_Fifteen: 0,
+    painDropdown_Sixteen: 0,
+  });
+
+  const calculateTotalScore = (values) => {
+    const selectedValues = Object.values(data)
+      .filter((value) => value !== undefined && value !== "")
+      .map(Number); // Convert selected values to numbers for addition
+
+    const refineSelectedValues = selectedValues.filter(function (value) {
+      return !isNaN(value);
+    });
+
+    const totalPoints = refineSelectedValues.reduce(
+      (acc, value) => acc + value,
+      0
+    );
+    setCustomSelectValues(values); // Update the custom select values
+    // setValue('totalScore', totalPoints); // Update the totalScore field
+    setTotalScore(totalPoints);
+  };
+
+  // Function to handle custom select change
+  const handleCustomSelectChange = (name, value) => {
+    console.log("event name", {
+      name,
+      value,
+    });
+    const updatedCustomSelectValues = {
+      ...customSelectValues,
+      [name]: parseInt(value),
+    };
+    calculateTotalScore(updatedCustomSelectValues);
+  };
+
+  const processData = (data) => {
+    // Define a mapping for the score values
+    const scoreMapping = {
+      0: "Completely Disagree",
+      1: "Unsure",
+      2: "Unsure",
+      3: "Unsure",
+      4: "Completely Agree",
+      5: "Completely Agree",
+      6: "Completely Agree",
+    };
+
+    // Extract the totalScore
+    const totalScore = data.totalScore;
+
+    // Process the comments and replace them based on the mapping
+    const updatedData = {
+      Comment: data.Comment,
+      totalScore,
+      "Physical activity subscale Point":
+        data["Physical activity subscale Point"],
+      "Work Subscale Point": data["Work Subscale Point"],
+    };
+
+    for (const key in data) {
+      if (key !== "Comment" && key !== "totalScore") {
+        const score = data[key];
+        updatedData[key] = scoreMapping[score];
+      }
+    }
+
+    return updatedData;
+  };
+
+  const getTotalValueForSubscale = (selectData, dropdownSchema) => {
+    let totalValue = 0;
+
+    dropdownSchema.forEach((item) => {
+      const key = item.description;
+      const value = parseInt(selectData[key]);
+      if (!isNaN(value)) {
+        totalValue += value;
+      }
+    });
+
+    return totalValue;
+  };
+
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   useEffect(() => {
@@ -1823,17 +1927,60 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     let document = {};
     // data.createdby=user._id
     //console.log(data);
+
+    // Check if all custom selects are selected
+    const selectedValues = Object.values(data)
+      .filter((value) => value !== undefined && value !== "")
+      .map(Number); // Convert selected values to numbers for addition
+
+    const refineSelectedValues = selectedValues.filter(function (value) {
+      return !isNaN(value);
+    });
+
+    const totalPoints = refineSelectedValues.reduce(
+      (acc, value) => acc + value,
+      0
+    );
+
+    setTotalScore(totalPoints);
+
+    const totalScoreForWorkSubscale = getTotalValueForSubscale(
+      data,
+      painDropdownSchemaForWorkSubscale
+    );
+    const totalScoreForPhysicalActivitiesSubscale = getTotalValueForSubscale(
+      data,
+      painDropdownSchemaForPhysicalActivitiesSubscale
+    );
+
+    let addedData = {
+      ...data,
+      "Physical activity subscale Point":
+        totalScoreForPhysicalActivitiesSubscale,
+      "Work Subscale Point": totalScoreForWorkSubscale,
+      totalScore: totalPoints,
+    };
+
+    console.log("====>>>> ", { refineSelectedValues, addedData });
+
+    // Check if any custom select is not selected
+    if (refineSelectedValues.length !== 16) {
+      // Adjust the count based on your selects
+      setError(true);
+      setMessage("Please select all custom selects.");
+      toast.error(
+        "Please, You are yet to select an option for all the questions"
+      );
+      return;
+    }
+
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
-    data.totalScore = totalScore;
 
-    const updatedData = {
-      ...data,
-    };
-    console.log("===>>>> data onsubmit", { data: updatedData });
-    document.documentdetail = data;
+    console.log("===>>>> data onsubmit", { data: "updatedData" });
+    document.documentdetail = addedData;
     document.documentname = `Fear-Avoidance Beliefs Questionnaire (FABQ)`; //"Lab Result"
     document.documentType = "Fear-Avoidance Beliefs Questionnaire (FABQ)";
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
@@ -1868,6 +2015,19 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     // );
     // if (confirm) {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      const processdata = processData(addedData);
+      const dataForFinal = {
+        ...processdata,
+        "Physical activity subscale Point":
+          totalScoreForPhysicalActivitiesSubscale,
+        "Work Subscale Point": totalScoreForWorkSubscale,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? addedData : dataForFinal;
+
+      document.documentdetail = updatedData;
+
       ClientServ.patch(draftDoc._id, document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -1889,6 +2049,18 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
           setConfirmationDialog(false);
         });
     } else {
+      const processdata = processData(addedData);
+      const dataForFinal = {
+        ...processdata,
+        "Physical activity subscale Point":
+          totalScoreForPhysicalActivitiesSubscale,
+        "Work Subscale Point": totalScoreForWorkSubscale,
+      };
+
+      const updatedData =
+        document.status === "Draft" ? addedData : dataForFinal;
+
+      document.documentdetail = updatedData;
       ClientServ.create(document)
         .then((res) => {
           //console.log(JSON.stringify(res))
@@ -2131,6 +2303,70 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
     },
   ];
 
+  const painDropdownSchemaForWorkSubscale = [
+    {
+      description: "My pain was caused by my work or by an accident at work",
+      name: "painDropdown_Six",
+    },
+    {
+      description: "My work aggravated my pain",
+      name: "painDropdown_Seven",
+    },
+    {
+      description: "My work is too heavy for me",
+      name: "painDropdown_Nine",
+    },
+    {
+      description: "My work makes or would make my pain worse",
+      name: "painDropdown_Ten",
+    },
+    {
+      description: "My work might harm my back",
+      name: "painDropdown_Eleven",
+    },
+    {
+      description: "I should not do my normal work with my present pain",
+      name: "painDropdown_Twelve",
+    },
+    {
+      description:
+        "I do not think that I will be back to my normal work within 3 months",
+      name: "painDropdown_Fifteen",
+    },
+  ];
+  const painDropdownSchemaForPhysicalActivitiesSubscale = [
+    {
+      description: "Physical activity makes my pain worse",
+      name: "painDropdown_Two",
+    },
+    {
+      description: "Physical activity might harm my back",
+      name: "painDropdown_Three",
+    },
+    {
+      description:
+        "I should not do physical activities which (might) make my pain worse",
+      name: "painDropdown_Four",
+    },
+    {
+      description:
+        "I cannot do physical activities which (might) make my pain worse",
+      name: "painDropdown_Five",
+    },
+  ];
+  const columnStyle = { width: "33.33%" };
+  const cellStyle = {
+    border: "1px solid #000",
+    textAlign: "center",
+    padding: "8px",
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+  };
+  const separationLineStyle = {
+    border: "1px solid #000",
+    height: "100%", // Vertical line height
+    margin: "0 auto",
+  };
   return (
     <>
       <div className="card ">
@@ -2179,6 +2415,106 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                   your back pain.
                 </Typography>
               </Grid>
+              <Grid container spacing={0.1} alignItems="center" mt={2}>
+                <Table style={{ tableLayout: "fixed" }}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell style={{ ...columnStyle, ...cellStyle }}>
+                        Completely Disagree
+                      </TableCell>
+                      <TableCell style={{ ...columnStyle, ...cellStyle }}>
+                        Unsure
+                      </TableCell>
+                      <TableCell style={{ ...columnStyle, ...cellStyle }}>
+                        Completely Agree
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell style={cellStyle}>
+                        <Grid item>
+                          <Typography
+                            variant="body1"
+                            align="center"
+                            style={separationLineStyle}
+                          >
+                            0
+                          </Typography>
+                        </Grid>
+                      </TableCell>
+                      <TableCell style={{ ...cellStyle, borderLeft: "none" }}>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              1
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={{
+                                ...separationLineStyle,
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              2
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              3
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </TableCell>
+                      <TableCell style={{ ...cellStyle, borderLeft: "none" }}>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              4
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={{
+                                ...separationLineStyle,
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              5
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              variant="body1"
+                              align="center"
+                              style={separationLineStyle}
+                            >
+                              6
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Grid>
             </Grid>
 
             {/* no 1-5 drop down    */}
@@ -2226,7 +2562,16 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                         register={register(`${data.description}`, {
                           required: false,
                         })}
-                        // onChange={(e)=>handleChangeMode(e.target.value)}
+                        // onChange={(e) => {
+                        //   console.log("event", {
+                        //     name: e.target.name,
+                        //     value: e.target.value,
+                        //   });
+                        //   handleCustomSelectChange(
+                        //     e.target.name,
+                        //     e.target.value
+                        //   );
+                        // }}
                       />
                     </Grid>
                   </Grid>
@@ -2288,7 +2633,16 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                         register={register(`${data.description}`, {
                           required: false,
                         })}
-                        // onChange={(e)=>handleChangeMode(e.target.value)}
+                        onChange={(e) => {
+                          console.log("event", {
+                            name: e.target.name,
+                            value: e.target.value,
+                          });
+                          handleCustomSelectChange(
+                            e.target.name,
+                            e.target.value
+                          );
+                        }}
                       />
                     </Grid>
                   </Grid>
@@ -2303,7 +2657,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                 variant="p"
                 sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
               >
-                Total Points:
+                Total Points:{totalScore ? totalScore : 0}
               </Typography>
             </Grid>
             <Grid container spacing={0.1} mt={1}>
@@ -2311,7 +2665,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                 variant="p"
                 sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
               >
-                Physical activity subscale:
+                Physical activity subscale Point:
               </Typography>
             </Grid>
             <Grid container spacing={0.1} mt={1}>
@@ -2319,7 +2673,7 @@ export function FearAvoidanceBeliefsQuestionnaireCreate() {
                 variant="p"
                 sx={{ color: "black", fontSize: "14px", fontWeight: "bold" }}
               >
-                Work Subscale:
+                Work Subscale Point:
               </Typography>
             </Grid>
 
