@@ -197,7 +197,7 @@ const TarrifServices = ({provider}) => {
     setEditModal(true);
   };
 
-  const plansColumns = getPlansColumns(confirmDeletePlan);
+  const plansColumns = getPlansColumns(confirmDeletePlan, provider);
 
   const servicesColumns = getServicesColumns(
     confirmDeleteService,
@@ -272,7 +272,10 @@ const TarrifServices = ({provider}) => {
         onClose={() => setReviewModal(false)}
         header={`Request Review on ${chosenServices.length} Services`}
       >
-        <ReviewRequestComponent closeModal={() => setReviewModal(false)} />
+        <ReviewRequestComponent
+          closeModal={() => setReviewModal(false)}
+          services={chosenServices}
+        />
       </ModalBox>
 
       <ModalBox
@@ -346,13 +349,14 @@ const TarrifServices = ({provider}) => {
             }}
           >
             <CustomTable
-              title={""}
+              title={`Listed Plans for Service - ${selectedService?.serviceName}`}
               columns={plansColumns}
               data={selectedService.plans || []}
               pointerOnHover
               highlightOnHover
               striped
               progressPending={false}
+              noHeader={false}
               onRowClicked={handlePlansRowClick}
               CustomEmptyData={
                 <Typography sx={{fontSize: "0.8rem"}}>

@@ -48,6 +48,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const [facility, setFacility] = useState();
   const SubwalletTxServ = client.service("subwallettransactions");
   const SubwalletServ = client.service("subwallet");
+  const premiumServ = client.service("premiums");
   const OrderServ = client.service("order");
   const InvoiceServ = client.service("invoice");
   //const navigate=useNavigate()
@@ -174,7 +175,9 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   let calcamount1;
   let hidestatus;
 
-  let medication = state.financeModule.selectedFinance;
+  let medication = state.premiumModule.selectedPremium;
+  let premium = state.premiumModule.selectedPremium;
+  let customerName=premium.participantInfo.client.facilityName
   ////console.log(state.financeModule.state)
 
   const handlecloseModal = () => {
@@ -346,11 +349,11 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     });
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     //   //console.log(productItem)
     getTotal();
     return () => {};
-  }, [productItem]);
+  }, [productItem]); */
 
   //initialize page
 
@@ -378,6 +381,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         financeModule: newProductEntryModule,
       }));
       await setPartPay([]);
+      await setProductItem(premium.paymentInfo.paymentDetails)
     };
   }, []);
 
@@ -570,147 +574,95 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     //1. check if there is sufficient amount
 
     let fraction = 1;
+    let el=premium
 
-    if (part) {
+   
       // apply fraction to all bills
       if (partBulk === "" || partBulk === 0 || partBulk === undefined) {
-        toast.error("Please enter an amount as part payment");
+        toast.error("Please enter an amount for payment");
         return;
       }
-
-      if (partBulk > balance) {
-        toast.error(
-          "Amount entered greater than balance. Kindly top up account or reduce amount entered"
-        );
-
-        return;
-      }
-
-      fraction = +(partBulk / totalamount).toFixed(2);
-      // //console.log(fraction)
-      // //console.log(partBulk)
-
-      productItem.forEach(el => {
-        // //console.log(el)
+      let fullypaid=partBulk===premium.payentInfo.balance
 
         const payObj = {
-          amount: el.proposedpayment.amount * fraction,
-          mode: "Part",
+          amount: partBulk,
+          type: fullypaid?"Full":"Part",
           date: new Date().toLocaleString(),
         };
-        //  el.paymentInfo.paymentDetails.push(payObj)
-        el.proposedpayment = {
+        premium.paymentInfo.paymentDetails.push(payObj)
+        premium.proposedpayment = {
           balance: Number(el.paymentInfo.balance) - Number(payObj.amount),
           paidup: Number(el.paymentInfo.paidup) + Number(payObj.amount),
           amount: payObj.amount,
         };
-      });
-    }
-    if (!part) {
-      //check that balance can pay bills
-      if (totalamount > balance) {
-        toast.error(
-          "Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid"
-        );
+     
+   
+ 
+    
+        premium.paymentInfo.balance = premium.proposedpayment.balance;
+        premium.paymentInfo.paidup =premium.proposedpayment.paidup;
+        premium.paymentInfo.amountpaid = premium.proposedpayment.amount;
 
-        return;
-      }
-
-      //pay all bills in full
-      productItem.forEach(el => {
-        if (el.show === "flex") {
-          const payObj = {
-            amount: el.proposedpayment.amount,
-            mode: "Part",
-            date: new Date().toLocaleString(),
-          };
-          el.paymentInfo.paymentDetails.push(payObj);
-        }
-
-        if (el.show === "none") {
-          const payObj = {
-            amount: el.proposedpayment.amount,
-            mode: "Full",
-            date: new Date().toLocaleString(),
-          };
-          el.paymentInfo.paymentDetails.push(payObj);
-        }
-      });
-    }
-
-    let allItems = productItem;
-
-    allItems.forEach(el => {
-      el.paymentInfo.balance = el.proposedpayment.balance;
-      el.paymentInfo.paidup = el.proposedpayment.paidup;
-      el.paymentInfo.amountpaid = el.proposedpayment.amount;
-
-      if (el.paymentInfo.balance === 0) {
-        el.billing_status = "Fully Paid";
+      if (premium.paymentInfo.balance === 0) {
+        premium.billing_status = "Fully Paid";
       } else {
-        el.billing_status = "Part Payment";
+        premium.billing_status = "Part Payment";
         setIsPart(true);
       }
-      el.show = "none";
-      el.checked = false;
-      delete el.proposedpayment;
-      delete el.partPay;
-    });
+   
+      delete premium.proposedpayment;
 
-    //  //console.log(isPart)
-    const obj = {
-      clientId: medication.participantInfo.client._id, //sending money
-      clientName: source,
-      client: medication.participantInfo.client,
-      facilityId: user.employeeData[0].facilityDetail._id,
-      invoiceNo: documentNo,
-      totalamount: totalamount,
-      createdby: user._id,
-      status: part ? "Part Payment" : "Fully Paid", //billid to be paid : ref invoice to pay
-      bills: allItems,
-      balance: balance,
-      facilityName: user.employeeData[0].facilityDetail.facilityName,
-      subwallet: subWallet,
-      amountPaid: part ? partBulk : totalamount,
-    };
 
-    //  //console.log(obj.amountPaid)
-
-    InvoiceServ.create(obj)
-      .then(async resp => {
-        setProductItem([]);
-        toast.success("payment successful");
-        const newProductEntryModule = {
-          selectedBills: [],
-          selectedFinance: {},
-          show: "create",
-        };
-        await setState(prevstate => ({
-          ...prevstate,
-          finance: newProductEntryModule,
-        }));
-        setPartBulk("");
-        setPart(false);
-        setIsPart(false);
-      })
-      .catch(err => {
-        toast.error("Error occurred with payment" + err);
-      });
-
-    //2. call single end point for billspayment?
-
-    //2.1 create subwallet transaction- debit
-
-    //2.2 update subwallet
-
-    //2.3 mark orders as paid
-
-    //2.4 mark bills as paid
+    await  premiumServ.patch(premium._id,{...premium})
+    .then(()=>{
+      const obj = {
+        clientId: premium.participantInfo.client._id, //sending money
+        clientName: customerName,
+        client: premium.participantInfo.client,
+        facilityId: user.employeeData[0].facilityDetail._id,
+        invoiceNo: documentNo,
+        totalamount: el.paymentInfo.balance,
+        createdby: user._id,
+        status: fullypaid ? "Part Payment" : "Fully Paid", //billid to be paid : ref invoice to pay
+        bills: allItems,
+        balance: balance, //wallet balance
+        facilityName: user.employeeData[0].facilityDetail.facilityName,
+        subwallet: subWallet,
+        amountPaid:premium.paymentInfo.amountpaid,
+      };
+  
+      //  //console.log(obj.amountPaid)
+  
+      InvoiceServ.create(obj)
+        .then(async resp => {
+         // setProductItem([]);
+          toast.success("payment successful");
+          const newProductEntryModule = {
+            selectedBills: [],
+            selectedFinance: {},
+            show: "create",
+          };
+          await setState(prevstate => ({
+            ...prevstate,
+            finance: newProductEntryModule,
+          }));
+          setPartBulk("");
+        
+        })
+        .catch(err => {
+          toast.error("Error occurred with payment" + err);
+        });
+    })
+    .catch(()=>{
+      toast.error("Error occurred with payment" + err)
+    })
+   
   };
 
   const handleBulkAmount = e => {
     setPartBulk(e.target.value);
   };
+ 
 
   const paymentCreateSchema = [
     {
@@ -724,19 +676,19 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       inputType: "HIDDEN",
     },
     {
-      name: "Category",
+      name: "Date",
       key: "category",
       description: "Enter Category",
-      selector: row => <b>{row.orderInfo.orderObj.order_category}</b>,
+      selector: row => format(new Date(row?.date), "dd-MM-yy"),
       sortable: true,
       required: true,
       inputType: "SELECT_TYPE",
     },
     {
-      name: "Description",
+      name: "Amount",
       key: "description",
       description: "Enter Description",
-      selector: row => row.serviceInfo.name,
+      selector: row => row.amount,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -748,7 +700,8 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       key: "sn",
       description: "Enter Type",
       selector: "row",
-      cell: row => (
+      cell: row => row.type,
+     /*  (
         <Box>
           <RadioButton
             onChange={e => {
@@ -778,12 +731,12 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
             </div>
           )}
         </Box>
-      ),
+      ), */
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-    {
+   /*  {
       name: "Amount",
       width: "200px",
       key: "sn",
@@ -807,7 +760,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       sortable: true,
       required: true,
       inputType: "NUMBER",
-    },
+    }, */
   ];
 
   return (
@@ -850,7 +803,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
               color: "2d2d2d",
             }}
           >
-            Pay Premium  for{" "}
+            Pay Premium Balance of{" "}
             <span
               style={{
                 textTransform: "capitalize",
@@ -858,7 +811,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                 color: "#023e8a",
               }}
             >
-              {source}
+               N{premium.paymentInfo.balance.toFixed(2)} for {customerName}
             </span>{" "}
            {/*  #{documentNo} */}
           </Typography>
@@ -873,7 +826,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
         <Box pl={2} pr={2} mb={2}>
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={7} lg={7}>
+            <Grid>
               <Box sx={{display: "flex"}} gap={1} mb={1}>
                 <Box>
                 {/*   <RadioButton
@@ -887,10 +840,10 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
                 </Box>
 
                 
-                  <Box style={{ width: "200px"}}>
+                  <Box style={{ width: "300px"}}>
                     <Input
                       label="Amount"
-                      type="text"
+                      type="number"
                       name="bulkpa"
                       placeholder="Enter amount"
                       value={partBulk}
@@ -909,8 +862,8 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
             
           </Grid>
         </Box>
-
-        {/* productItem.length > 0 && */ (
+                
+        {  premium.paymentInfo.paymentDetails.length > 0 &&  (
           <Box
             pr={2}
             pl={2}
@@ -927,7 +880,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
               }}
             >
               <CustomTable
-                title={""}
+                title={"Premium Payment History"}
                 columns={paymentCreateSchema}
                 data={productItem}
                 pointerOnHover
