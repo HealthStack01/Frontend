@@ -1,9 +1,9 @@
-import {Box, Grid, Typography} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import {forwardRef} from "react";
+import { forwardRef } from "react";
 
 import CustomTable from "../../../components/customtable";
-import {FormsHeaderText} from "../../../components/texts";
+import { FormsHeaderText } from "../../../components/texts";
 import {
   AdmissionOrderPrintOut,
   AdultQuestionnairePrintOut,
@@ -16,7 +16,7 @@ import {
   RadiologyOrdersPrintOut,
 } from "../print-outs/Print-Outs";
 
-export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
+export const AdmissionOrderDocument = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
   return (
     <div
@@ -24,13 +24,13 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <AdmissionOrderPrintOut data={data} Clinic={Clinic} ref={ref} />
       </Box>
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Box sx={{display: "flex"}}>
+            <Box sx={{ display: "flex" }}>
               <Typography
                 sx={{
                   fontSize: "0.75rem",
@@ -42,14 +42,14 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
                 Admit To:
               </Typography>
 
-              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+              <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
                 {data.ward?.name || data.ward}
               </Typography>
             </Box>
           </Grid>
 
           <Grid item xs={12}>
-            <Box sx={{display: "flex"}}>
+            <Box sx={{ display: "flex" }}>
               <Typography
                 sx={{
                   fontSize: "0.75rem",
@@ -61,7 +61,7 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
                 Instructions:
               </Typography>
 
-              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+              <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
                 {data.instruction}
               </Typography>
             </Box>
@@ -72,7 +72,7 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
+export const DischargeOrderComponent = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
   return (
     <div
@@ -80,14 +80,14 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <DischargeOrderPrintOut data={data} ref={ref} Clinic={Clinic} />
       </Box>
 
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Box sx={{display: "flex"}}>
+            <Box sx={{ display: "flex" }}>
               <Typography
                 sx={{
                   fontSize: "0.75rem",
@@ -99,14 +99,14 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
                 Discharge From:
               </Typography>
 
-              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+              <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
                 {data.ward?.name || data.ward}
               </Typography>
             </Box>
           </Grid>
 
           <Grid item xs={12}>
-            <Box sx={{display: "flex"}}>
+            <Box sx={{ display: "flex" }}>
               <Typography
                 sx={{
                   fontSize: "0.75rem",
@@ -118,7 +118,7 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
                 Instructions:
               </Typography>
 
-              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+              <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
                 {data.instruction
                   ? data.instruction
                   : "________________________"}
@@ -131,7 +131,7 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
+export const MedicationListDocument = forwardRef(({ Clinic }, ref) => {
   const AllergiesColumns = [
     {
       name: "S/N",
@@ -147,7 +147,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       name: "Allergine",
       key: "allergine",
       description: "Allergine",
-      selector: row => row.allergine,
+      selector: (row) => row.allergine,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -157,7 +157,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       name: "Reaction",
       key: "reaction",
       description: "Midlle Name",
-      selector: row => row.reaction,
+      selector: (row) => row.reaction,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -179,7 +179,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       name: "Drug Name",
       key: "drugname",
       description: "Allergine",
-      selector: row => row.drugname,
+      selector: (row) => row.drugname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -189,7 +189,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       name: "Strength/Frequency",
       key: "strengthfreq",
       description: "Midlle Name",
-      selector: row => row.strengthfreq,
+      selector: (row) => row.strengthfreq,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -199,7 +199,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       name: "Notes",
       key: "notes",
       description: "Midlle Name",
-      selector: row => row.notes,
+      selector: (row) => row.notes,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -212,7 +212,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <MedicationListPrintOut ref={ref} data={data} Clinic={Clinic} />
       </Box>
 
@@ -224,7 +224,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
                 <Box>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Box sx={{display: "flex"}}>
+                      <Box sx={{ display: "flex" }}>
                         <Typography
                           sx={{
                             fontSize: "0.75rem",
@@ -237,7 +237,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
                         </Typography>
 
                         <Typography
-                          sx={{fontSize: "0.75rem", color: "#000000"}}
+                          sx={{ fontSize: "0.75rem", color: "#000000" }}
                         >
                           {/* {dayjs(value).isValid()
                             ? dayjs(value).format("DD/MM/YYYY")
@@ -257,7 +257,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
                   </Box>
 
                   {data?.Allergies?.length > 0 && (
-                    <Box sx={{height: "auto", width: "100%"}}>
+                    <Box sx={{ height: "auto", width: "100%" }}>
                       <CustomTable
                         title="Allergies"
                         columns={AllergiesColumns}
@@ -279,7 +279,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
                   </Box>
 
                   {data?.Allergies?.length > 0 && (
-                    <Box sx={{height: "auto", width: "100%"}}>
+                    <Box sx={{ height: "auto", width: "100%" }}>
                       <CustomTable
                         title="Medications"
                         columns={MedicationColumns}
@@ -300,7 +300,7 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
+export const PediatricPulmonologyForm = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
 
   const columnsOne = [
@@ -318,7 +318,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       name: "Allergine",
       key: "allergine",
       description: "Allergine",
-      selector: row => row.allergine,
+      selector: (row) => row.allergine,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -328,7 +328,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       name: "Reaction",
       key: "reaction",
       description: "Reaction",
-      selector: row => row.reaction,
+      selector: (row) => row.reaction,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -350,7 +350,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       name: "Symptoms",
       key: "symptom",
       description: "Symptom",
-      selector: row => row.symptom,
+      selector: (row) => row.symptom,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -360,7 +360,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       name: "Duration",
       key: "duration",
       description: "Duration",
-      selector: row => row.duration,
+      selector: (row) => row.duration,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -374,7 +374,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       }
       ref={ref}
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <PediatricPulmonologyList
           ref={ref}
           Clinic={Clinic}
@@ -391,7 +391,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
                   <Box>
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
-                        <Box sx={{display: "flex"}}>
+                        <Box sx={{ display: "flex" }}>
                           <Typography
                             sx={{
                               fontSize: "0.75rem",
@@ -404,7 +404,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
                           </Typography>
 
                           <Typography
-                            sx={{fontSize: "0.75rem", color: "#000000"}}
+                            sx={{ fontSize: "0.75rem", color: "#000000" }}
                           >
                             {/* {dayjs(value).isValid()
                               ? dayjs(value).format("DD/MM/YYYY")
@@ -424,7 +424,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
                   </Box>
 
                   {data?.Allergy_Skin_Test?.length > 0 && (
-                    <Box sx={{height: "auto", width: "100%"}}>
+                    <Box sx={{ height: "auto", width: "100%" }}>
                       <CustomTable
                         title="Tests"
                         columns={columnsOne}
@@ -446,7 +446,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
                   </Box>
 
                   {data?.Presenting_Complaints?.length > 0 && (
-                    <Box sx={{height: "auto", width: "100%"}}>
+                    <Box sx={{ height: "auto", width: "100%" }}>
                       <CustomTable
                         title="Tests"
                         columns={columnsTwo}
@@ -468,7 +468,7 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
+export const AdultAthsmaQuestionaire = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
 
   const columns = [
@@ -486,7 +486,7 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
       name: "Allergine",
       key: "allergine",
       description: "Allergine",
-      selector: row => row.allergine,
+      selector: (row) => row.allergine,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -496,7 +496,7 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
       name: "Reaction",
       key: "reaction",
       description: "Reaction",
-      selector: row => row.reaction,
+      selector: (row) => row.reaction,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -509,7 +509,7 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <AdultQuestionnairePrintOut
           Clinic={Clinic}
           data={Clinic?.documentdetail}
@@ -524,7 +524,7 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
               <Box>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <Box sx={{display: "flex"}}>
+                    <Box sx={{ display: "flex" }}>
                       <Typography
                         sx={{
                           fontSize: "0.75rem",
@@ -536,7 +536,9 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
                         {keys}:
                       </Typography>
 
-                      <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                      <Typography
+                        sx={{ fontSize: "0.75rem", color: "#000000" }}
+                      >
                         {/* {dayjs(value).isValid()
                           ? dayjs(value).format("DD/MM/YYYY")
                           : value} */}
@@ -550,7 +552,7 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
               <Box>
                 <FormsHeaderText text="Tests" />
                 {data?.Allergy_Skin_Test?.length > 0 && (
-                  <Box sx={{height: "auto", width: "100%"}}>
+                  <Box sx={{ height: "auto", width: "100%" }}>
                     <CustomTable
                       title="Tests"
                       columns={columns}
@@ -570,7 +572,7 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
+export const PrescriptionDocument = forwardRef(({ Clinic }, ref) => {
   const columns = [
     {
       name: "S/N",
@@ -586,7 +588,7 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
       name: "Medication",
       key: "medication",
       description: "Test",
-      selector: row => row.medication,
+      selector: (row) => row.medication,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -595,7 +597,7 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
       name: "Instruction",
       key: "instruction",
       description: "Test",
-      selector: row => (row.instruction ? row.instruction : "------"),
+      selector: (row) => (row.instruction ? row.instruction : "------"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -606,7 +608,7 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
       name: "Destination",
       key: "destination",
       description: "destination",
-      selector: row => row.destination,
+      selector: (row) => row.destination,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -619,7 +621,7 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <PrescriptionPrintOut
           data={Clinic.documentdetail}
           ref={ref}
@@ -630,7 +632,7 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
       {Clinic.documentdetail.length > 0 && (
         <div>
           <FormsHeaderText text="Medications" />
-          <Box sx={{height: "auto"}}>
+          <Box sx={{ height: "auto" }}>
             <CustomTable
               columns={columns}
               data={Clinic.documentdetail}
@@ -646,7 +648,83 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
+export const TheatreDocument = forwardRef(({ Clinic }, ref) => {
+  const columns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "50px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Theatre Service",
+      key: "medication",
+      description: "Test",
+      selector: (row) => row.medication,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Procedure Instructions",
+      key: "instruction",
+      description: "Test",
+      selector: (row) => (row.instruction ? row.instruction : "------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
+    },
+
+    {
+      name: "Destination",
+      key: "destination",
+      description: "destination",
+      selector: (row) => row.destination,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  return (
+    <div
+      className={
+        Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
+      }
+    >
+      <Box sx={{ display: "none" }}>
+        <PrescriptionPrintOut
+          data={Clinic.documentdetail}
+          ref={ref}
+          Clinic={Clinic}
+        />
+      </Box>
+
+      {Clinic.documentdetail.length > 0 && (
+        <div>
+          <FormsHeaderText text="Theatre" />
+          <Box sx={{ height: "auto" }}>
+            <CustomTable
+              columns={columns}
+              data={Clinic.documentdetail}
+              pointerOnHover
+              highlightOnHover
+              striped
+              progressPending={false}
+            />
+          </Box>
+        </div>
+      )}
+    </div>
+  );
+});
+
+export const RadiologyOrdersDocument = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
 
   const columns = [
@@ -664,7 +742,7 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Test",
       key: "test",
       description: "Test",
-      selector: row => row.test,
+      selector: (row) => row.test,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -674,7 +752,7 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Destination",
       key: "destination",
       description: "destination",
-      selector: row => row.destination,
+      selector: (row) => row.destination,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -686,7 +764,7 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <RadiologyOrdersPrintOut data={data} ref={ref} Clinic={Clinic} />
       </Box>
 
@@ -695,7 +773,7 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
       </Box>
 
       {data?.length > 0 && (
-        <Box sx={{height: "auto", width: "100%"}}>
+        <Box sx={{ height: "auto", width: "100%" }}>
           <CustomTable
             title="Tests"
             columns={columns}
@@ -711,7 +789,7 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
+export const LabOrdersDocument = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
 
   const columns = [
@@ -729,7 +807,7 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Test",
       key: "test",
       description: "Test",
-      selector: row => row.test,
+      selector: (row) => row.test,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -739,7 +817,7 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Destination",
       key: "destination",
       description: "destination",
-      selector: row => row.destination,
+      selector: (row) => row.destination,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -751,7 +829,7 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
     >
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <LaboratoryOrdersPrintOut data={data} ref={ref} Clinic={Clinic} />
       </Box>
       <Box>
@@ -759,7 +837,7 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
       </Box>
 
       {data?.length > 0 && (
-        <Box sx={{height: "auto", width: "100%"}}>
+        <Box sx={{ height: "auto", width: "100%" }}>
           <CustomTable
             title="Tests"
             columns={columns}
@@ -775,7 +853,7 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
   );
 });
 
-export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
+export const BilledOrdersDocument = forwardRef(({ Clinic }, ref) => {
   const columns = [
     {
       name: "S/NO",
@@ -791,7 +869,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Category",
       key: "category",
       description: "Enter Category",
-      selector: row => row.category,
+      selector: (row) => row.category,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -802,7 +880,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Name",
       key: "name",
       description: "Enter Name",
-      selector: row => row.name,
+      selector: (row) => row.name,
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -815,7 +893,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       width: "100px",
       center: "true",
       description: "Enter Quantity",
-      selector: row => row.quantity,
+      selector: (row) => row.quantity,
       sortable: true,
       required: true,
       center: true,
@@ -826,7 +904,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Unit",
       key: "unit",
       description: "Enter Category",
-      selector: row => row.baseunit,
+      selector: (row) => row.baseunit,
       sortable: true,
       required: true,
       center: true,
@@ -836,7 +914,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Selling Price",
       key: "sellingprice",
       description: "Enter Category",
-      selector: row => row.sellingprice,
+      selector: (row) => row.sellingprice,
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -846,7 +924,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Amount",
       key: "amount",
       description: "Enter Category",
-      selector: row => row.amount,
+      selector: (row) => row.amount,
       sortable: true,
       required: true,
       center: true,
@@ -857,7 +935,7 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
       name: "Mode",
       key: "billMode",
       description: "Enter Category",
-      selector: row => row.billMode.type,
+      selector: (row) => row.billMode.type,
       sortable: true,
       required: true,
       center: true,
@@ -866,14 +944,14 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
   ];
   return (
     <>
-      <Box sx={{display: "none"}}>
+      <Box sx={{ display: "none" }}>
         <BilledOrdersPrintOut
           data={Clinic.documentdetail}
           ref={ref}
           Clinic={Clinic}
         />
       </Box>
-      <Box sx={{height: "auto"}}>
+      <Box sx={{ height: "auto" }}>
         <FormsHeaderText text="Bill Orders" />
         <CustomTable
           title={"Bill Orders:"}

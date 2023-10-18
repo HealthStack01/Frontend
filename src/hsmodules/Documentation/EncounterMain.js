@@ -46,6 +46,7 @@ import {
   PrescriptionDocument,
   RadiologyOrdersDocument,
   BilledOrdersDocument,
+  TheatreDocument,
 } from "./documents/Documents";
 import ModalBox from "../../components/modal";
 import EncounterRight from "./EncounterRight";
@@ -59,6 +60,8 @@ import DocumentationScheduleAppointment from "./ScheduleAppointment";
 import CustomConfirmationDialog from "../../components/confirm-dialog/confirm-dialog";
 import dayjs from "dayjs";
 import CustomTable from "../../components/customtable";
+
+import TheatreRequest, { TheatreCreate } from "./TheatreRequest";
 
 export default function EncounterMain({ nopresc, chosenClient }) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -92,6 +95,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
   const [confirmationDialog, setConfirmationDialog] = useState(false);
 
   const [activateCall, setActivateCall] = useState(false);
+  const [showTheatreModal, setShowTheatreModal] = useState(false);
 
   const open = Boolean(showActions);
 
@@ -119,6 +123,11 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const handleNewPrescription = async () => {
     await setShowPrescriptionModal(true);
+    handleHideActions();
+  };
+
+  const handleNewTheatre = async () => {
+    await setShowTheatreModal(true);
     handleHideActions();
   };
 
@@ -471,6 +480,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
             ref={(el) => (myRefs.current[index] = el)}
           />
         );
+
+      case "theatre orders":
+        return (
+          <TheatreDocument
+            Clinic={Clinic}
+            ref={(el) => (myRefs.current[index] = el)}
+          />
+        );
       case "radiology orders":
         return (
           <RadiologyOrdersDocument
@@ -517,6 +534,11 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     {
       title: "Prescription Request",
       action: handleNewPrescription,
+      show: !nopresc,
+    },
+    {
+      title: "Theatre Request",
+      action: handleNewTheatre,
       show: !nopresc,
     },
     {
@@ -885,6 +907,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                 <Collapse in={Clinic.show}>
                   {Clinic.documentname !== "Prescription" &&
                     Clinic.documentname !== "Billed Orders" &&
+                    Clinic.documentname !== "Theatre Orders" &&
                     Clinic.documentname !== "Lab Orders" &&
                     Clinic.documentname !== "Radiology Orders" &&
                     Clinic.documentname !== "Adult Asthma Questionnaire" &&
@@ -1145,6 +1168,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           header="Prescription"
         >
           <Prescription standalone="true" />
+        </ModalBox>
+
+        <ModalBox
+          open={showTheatreModal}
+          onClose={() => setShowTheatreModal(false)}
+          header="Theatre"
+        >
+          <TheatreRequest standalone="true" />
         </ModalBox>
 
         <ModalBox
