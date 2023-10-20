@@ -372,7 +372,7 @@ const NewComplaints = () => {
                     alignItems: "center",
                     gap: 2,
                     padding: "15px 0",
-                    height: "100%",
+                    height: "calc(100% - 4rem)",
                     overflowY: "auto",
                   }}
                 >
