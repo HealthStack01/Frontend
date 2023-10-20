@@ -223,7 +223,7 @@ export function DocumentClassList({standalone, closeModal}) {
     //console.log("b4",state)
 
     //console.log("handlerow",DocumentClass)
-    return console.log(DocumentClass);
+    //return console.log(DocumentClass);
 
     await setSelectedDocumentClass(DocumentClass);
 
