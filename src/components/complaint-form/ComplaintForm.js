@@ -1,7 +1,8 @@
-import {Box, IconButton, Typography} from "@mui/material";
+import {Box, IconButton, Typography, capitalize} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import {useContext, useState} from "react";
 import ExpandCircleDownOutlinedIcon from "@mui/icons-material/ExpandCircleDownOutlined";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import client from "../../feathers";
 import {ObjectContext, UserContext} from "../../context";
@@ -12,6 +13,7 @@ import Textarea from "../inputs/basic/Textarea";
 import GlobalCustomButton from "../buttons/CustomButton";
 import ReactCustomSearchSelectComponent from "../react-custom-select/ReactSearchSelect";
 import {toast} from "react-toastify";
+import dayjs from "dayjs";
 
 const returnComplaintTo = (object, type) => {
   if (type === "organization") {
@@ -49,6 +51,7 @@ const PopUpComplaintFormComponent = () => {
     useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const {register, handleSubmit, control, reset, watch} = useForm({});
+  const [loading, setLoading] = useState(false);
 
   const closeForm = () => {
     setState(prev => ({
@@ -64,21 +67,31 @@ const PopUpComplaintFormComponent = () => {
     const employee = user.currentEmployee;
     const facility = employee.facilityDetail;
 
-    return toast.error("Something went wrong!");
+    //return toast.error("Something went wrong!");
 
-    showActionLoader();
+    setLoading(true);
 
-    const target = returnComplaintTo({}, "organization");
+    const targetOrg = {
+      type: "Organization",
+      entity: {
+        email: "admin@healthstack.africa",
+        name: "Healthstack Implementation",
+        entityId: "63d275e3b40a06001641ef71",
+        phone: "08036648712",
+      },
+    };
 
-    const copiedOrgs = data.copied_organizations.map(item => {
-      return returnComplaintTo(item, "organization");
-    });
+    const target = targetOrg;
 
-    const copiedClients = data.copied_clients.map(item => {
-      return returnComplaintTo(item, "person");
-    });
+    // const copiedOrgs = data.copied_organizations.map(item => {
+    //   return returnComplaintTo(item, "organization");
+    // });
 
-    const copied = [...copiedOrgs, ...copiedClients];
+    // const copiedClients = data.copied_clients.map(item => {
+    //   return returnComplaintTo(item, "person");
+    // });
+
+    const copied = []; //[...copiedOrgs, ...copiedClients];
 
     const from = returnComplaintTo(facility, "organization");
 
@@ -102,11 +115,13 @@ const PopUpComplaintFormComponent = () => {
           data[key] = null;
         });
         closeForm();
-        hideActionLoader();
-        toast.success("Your Complaint was submitted successfully");
+        setLoading(false);
+        toast.success(
+          "Your Complaint was submitted successfully and it will be attended to."
+        );
       })
       .catch(err => {
-        hideActionLoader();
+        setLoading(false);
         toast.error(`There was an error submitting your Complaint ${err}`);
         console.log(err);
       });
@@ -242,7 +257,7 @@ const PopUpComplaintFormComponent = () => {
         },
       })
       .then(res => {
-        //console.log(res);
+        console.log(res);
         setFacilities(res.data);
         setFetchingFacilities(false);
         //console.log("facility", res.data[0]);
@@ -259,7 +274,7 @@ const PopUpComplaintFormComponent = () => {
       <Box
         sx={{
           width: "400px",
-          height: "600px",
+          height: "470px",
           position: "fixed",
           right: 24,
           bottom: 0,
@@ -269,6 +284,7 @@ const PopUpComplaintFormComponent = () => {
           padding: "20px",
         }}
       >
+        {loading && <LinearProgress sx={{marginBottom: "20px"}} />}
         <Box
           sx={{
             width: "100%",
@@ -316,7 +332,7 @@ const PopUpComplaintFormComponent = () => {
             ]}
           />
 
-          <ReactCustomSearchSelectComponent
+          {/* <ReactCustomSearchSelectComponent
             control={control}
             multiple
             onInputChange={handleFacilitySearch}
@@ -330,9 +346,9 @@ const PopUpComplaintFormComponent = () => {
                 ...item,
               };
             })}
-          />
+          /> */}
 
-          <ReactCustomSearchSelectComponent
+          {/* <ReactCustomSearchSelectComponent
             control={control}
             onInputChange={handleClientSearch}
             isLoading={fetchingClients}
@@ -346,7 +362,7 @@ const PopUpComplaintFormComponent = () => {
                 ...item,
               };
             })}
-          />
+          /> */}
 
           <Textarea
             label="Description"
@@ -365,6 +381,8 @@ const PopUpComplaintFormComponent = () => {
               border: "3px solid",
             }}
             onClick={handleSubmit(handleCreateComplaint)}
+            disabled={loading}
+            //loading={loading}
           >
             Submit Complaint
           </GlobalCustomButton>
