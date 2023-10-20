@@ -47,7 +47,11 @@ const ReactCustomSelectComponent = ({
             isClearable
             isLoading={isLoading}
             styles={{
-              menuPortal: base => ({...base, zIndex: 9999, color: "#2d2d2d"}),
+              menuPortal: base => ({
+                ...base,
+                zIndex: 999999999,
+                color: "#2d2d2d",
+              }),
 
               control: (baseStyles, state) => ({
                 ...baseStyles,
