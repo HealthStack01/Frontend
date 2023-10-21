@@ -32,9 +32,11 @@ import {toast} from "react-toastify";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import {SelectAdmission, SelectAppointment} from "../claims/ClaimsCreate";
 import TextAreaVoiceAndText from "../../../../components/inputs/basic/Textarea/VoiceAndText";
+import ReactCustomSearchSelectComponent from "../../../../components/react-custom-select/ReactSearchSelect";
 
 const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
   const preAuthServer = client.service("preauth");
+  const clientServer = client.service("client");
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
@@ -57,13 +59,20 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
   const [drugsInputType, setDrugsInputType] = useState("type");
   const [treatmentInputType, setTreatmentInputType] = useState("type");
   const [commentsInputType, setCommentsInputType] = useState("type");
+  const [fetchingClients, setFetchingClients] = useState(false);
+  const [clients, setClients] = useState([]);
 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
       preauthtype: "Fee for Service",
     },
   });
-  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";  
+  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
+  const clientSelected = watch("selected_client");
+
+  useEffect(() => {
+    handleSelectClient(clientSelected);
+  }, [clientSelected]);
 
   useEffect(() => {
     setState(prev => ({
@@ -92,6 +101,14 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
   }, [getTotalPreAuthAmount]);
 
   const handleSelectClient = client => {
+    if (client === undefined || client === null)
+      return setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: {},
+        },
+      }));
     const hmos = client.paymentinfo.filter(
       item => item.paymentmode.toLowerCase() === "hmo"
     );
@@ -205,18 +222,92 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
     setSelectedAppointment(null);
     setAdmissionModal(false);
   };
-  const handleSelectOrg = organ =>{
-    console.log("organization chosen", organ)
+  const handleSelectOrg = organ => {
+    console.log("organization chosen", organ);
     setState(prev => ({
       ...prev,
       OrganizationModule: {
-        
         selectedOrganization: organ,
       },
     }));
+  };
 
-  }
- 
+  const handleClientSearch = val => {
+    if (val.length <= 3 && val.trim() === "") return;
+    setFetchingClients(true);
+
+    clientServer
+      .find({
+        query: {
+          $or: [
+            {
+              firstname: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              lastname: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              middlename: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              phone: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              clientTags: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              mrn: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              email: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {
+              specificDetails: {
+                $regex: val,
+                $options: "i",
+              },
+            },
+            {gender: val},
+          ],
+
+          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+      .then(res => {
+        setFetchingClients(false);
+        setClients(res.data);
+      })
+      .catch(err => {
+        setFetchingClients(false);
+        toast.error("An error occured, check your network");
+      });
+  };
+
   return (
     <Box
       sx={{
@@ -349,22 +440,38 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={6} md={6} sm={6} xs={12}> 
-              <ClientSearch
+            <Grid item lg={6} md={6} sm={6} xs={12}>
+              {/* <ClientSearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
+              /> */}
+
+              <ReactCustomSearchSelectComponent
+                control={control}
+                onInputChange={handleClientSearch}
+                isLoading={fetchingClients}
+                name="selected_client"
+                placeholder="Select Client"
+                options={clients.map(item => {
+                  return {
+                    label: `${item.firstname} ${item.lastname}`,
+                    value: item._id,
+                    ...item,
+                  };
+                })}
               />
             </Grid>
-            { user.currentEmployee.facilityDetail.facilityType === "HMO" &&   <Grid item lg={6} md={6} sm={6} xs={12}>
-              < FacilitySearch
-                clear={clearClientSearch2}
-                getSearchfacility={handleSelectOrg}
-                /* id={client_id}
+            {user.currentEmployee.facilityDetail.facilityType === "HMO" && (
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <FacilitySearch
+                  clear={clearClientSearch2}
+                  getSearchfacility={handleSelectOrg}
+                  /* id={client_id}
                 patient={beneficiary} */
-              />
-            </Grid>}
-
+                />
+              </Grid>
+            )}
 
             <Grid item lg={3} md={3.5}>
               <CustomSelect
