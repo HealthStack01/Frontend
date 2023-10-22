@@ -11,6 +11,7 @@ import {returnAvatarString} from "../../../helpers/returnAvatarString";
 
 const BeneficiariesList = ({showDetail, corporate}) => {
   const policyServer = client.service("policy");
+  const ClientServ = client.service("client");
   const [beneficiaries, setBeneficiaries] = useState([]);
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
@@ -19,8 +20,55 @@ const BeneficiariesList = ({showDetail, corporate}) => {
 
   const handleCreateNew = () => {};
 
-  const handleRow = item => {
+  const deepCopy =(obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(deepCopy);
+    }
+    const copy = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            copy[key] = deepCopy(obj[key]);
+        }
+    }
+    return copy;
+}
+
+  const handleRow = async item => {
     console.log("state",item)
+     const newI= deepCopy(item)
+    if (newI.paymentinfo.length==1){
+      console.log("add policy")
+      let result=newI.policy
+      delete newI.policy
+      let clientpolicy= {
+        paymentmode:"HMO",
+        organizationId:result.organizationId,
+        organizationName:result.organizationName,
+        principalId:result.policyNo,
+        clientId:result.policyNo,
+        principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm
+        plan:result.plan.planName, //confirm
+        active:true,
+        principal:result.principal._id,
+        organizationType: result.organizationType,
+        agent:result.agent,
+        agentName:result.agentName,
+        policy:result
+      }
+      newI.paymentinfo.push(clientpolicy)
+      console.log("updated item", newI)
+      await ClientServ.patch(item._id, {paymentinfo:newI.paymentinfo})
+      .then((resp)=>{
+        console.log("update successful "+ resp)
+      })
+      .catch((err)=>{
+        toast.error("Update not successful "+ err)
+      })
+    } 
+   
     setState(prev => ({
       ...prev,
       PolicyModule: {
@@ -34,9 +82,10 @@ const BeneficiariesList = ({showDetail, corporate}) => {
       },
       AppointmentModule: {
         ...prev.AppointmentModule,
-        selectedPatient:item,
+        selectedPatient:newI,
       },
     }));
+
     showDetail(item);
   };
 
@@ -132,10 +181,10 @@ const BeneficiariesList = ({showDetail, corporate}) => {
 
          // organizationId: user.currentEmployee.facilityDetail._id, // || "",
 
-          $sort: {
+         /*  $sort: {
             "principal.firstname": 1,
             "dependantBeneficiaries.firstname":1
-          },
+          }, */
         },
       })
       .then(res => {

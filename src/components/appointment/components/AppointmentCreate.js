@@ -45,7 +45,8 @@ const AppointmentCreate = ({closeModal, showBillModal}) => {
 
   useEffect(() => {
     setPatient(state.AppointmentModule.selectedPatient);
-  }, [state.AppointmentModule.selectedPatient]);
+    console.log("appointment patient", state.AppointmentModule.selectedPatient)
+  }, [state.AppointmentModule.selectedPatient]);//
 
   const handleGetPatient = patient => {
     setPatient(patient);
