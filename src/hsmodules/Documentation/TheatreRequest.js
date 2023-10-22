@@ -37,7 +37,7 @@ import dayjs from "dayjs";
 
 const filter = createFilterOptions();
 
-export default function Prescription() {
+export default function TheatreRequest() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -52,17 +52,17 @@ export default function Prescription() {
     >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={8}>
-          <PrescriptionList />
+          <TheatreRequestList />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={4}>
-          <PrescriptionCreate />
+          <TheatreCreate />
         </Grid>
       </Grid>
     </Box>
   );
 }
 
-export function PrescriptionCreate() {
+export function TheatreCreate() {
   const notificationsServer = client.service("notification");
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -144,6 +144,7 @@ export function PrescriptionCreate() {
   const handleChangeType = async (e) => {
     await setType(e.target.value);
   };
+
   const handleClickProd = async () => {
     await setSuccess(false);
     if (!(productItemI.medication && productItemI.medication.length > 0)) {
@@ -203,7 +204,7 @@ export function PrescriptionCreate() {
     }
     document.documentdetail = productItem;
 
-    document.documentname = "Prescription"; //state.DocumentClassModule.selectedDocumentClass.name
+    document.documentname = "Theatre Orders"; //state.DocumentClassModule.selectedDocumentClass.name "Prescription"; //
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
@@ -226,8 +227,8 @@ export function PrescriptionCreate() {
 
     const notificationObj = {
       type: "Pharmacy",
-      title: "Pending Bill Prescription",
-      description: `You have Pending bill prescription(s) for ${client.firstname} ${client.lastname} in Pharmacy`,
+      title: "Pending Bill Theatre",
+      description: `You have Pending bill theatre(s) for ${client.firstname} ${client.lastname} in Pharmacy`,
       facilityId: user.currentEmployee.facilityDetail._id,
       sender: `${user.firstname} ${user.lastname}`,
       senderId: user._id,
@@ -239,19 +240,21 @@ export function PrescriptionCreate() {
 
     ClientServ.create(document)
       .then(async (res) => {
-        //console.log(JSON.stringify(res))
+        console.log("===>>>> respons from submit", {
+          data: res,
+        });
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
         await notificationsServer.create(notificationObj);
         setSuccess(true);
-        toast.success("Presciption created succesfully");
+        toast.success("Theatre order created succesfully");
         setDestination(user.currentEmployee.facilityDetail.facilityName);
         setDestinationId(user.currentEmployee.facilityDetail._id);
         setSuccess(false);
         setProductItem([]);
       })
       .catch((err) => {
-        toast.error(`Error creating Prescription  ${err}`);
+        toast.error(`Error creating Theatre  ${err}`);
       });
   };
 
@@ -333,7 +336,7 @@ export function PrescriptionCreate() {
         }}
         mb={1.5}
       >
-        <FormsHeaderText text="Create Prescription" />
+        <FormsHeaderText text="Create Theatre Order" />
 
         <GlobalCustomButton
           onClick={() => {
@@ -352,6 +355,7 @@ export function PrescriptionCreate() {
             getSearchfacility={getSearchfacility}
             clear={success}
             hidePanel={hidePanel}
+            label="Search For Service"
           />
           {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
           <input
@@ -370,7 +374,7 @@ export function PrescriptionCreate() {
             value={instruction}
             type="text"
             onChange={(e) => setInstruction(e.target.value)}
-            label="Instructions/Note"
+            label="Instructions for procedure"
             name="instruction"
             disabled={
               !(productItemI.medication && productItemI.medication.length > 0)
@@ -401,7 +405,7 @@ export function PrescriptionCreate() {
               disabled={true}
               type="text"
               onChange={(e) => setDestination(e.target.value)}
-              label="Destination Pharmacy"
+              label="Destination Theatre"
               name="destination"
             />
           </Box>
@@ -418,7 +422,7 @@ export function PrescriptionCreate() {
         {productItem.length > 0 && (
           <Box mb={1.5}>
             <CustomTable
-              title={"Prescription Orders"}
+              title={"Theatre Orders"}
               columns={productItemSchema}
               data={productItem}
               pointerOnHover
@@ -453,7 +457,7 @@ export function PrescriptionCreate() {
   );
 }
 
-export function PrescriptionList({ standalone }) {
+export function TheatreRequestList({ standalone }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -487,13 +491,13 @@ export function PrescriptionList({ standalone }) {
   const handleDelete = (doc) => {
     // console.log(doc)
     let confirm = window.confirm(
-      `You are about to delete the prescription: ${doc.order}?`
+      `You are about to delete the Theatre: ${doc.order}?`
     );
     if (confirm) {
       OrderServ.remove(doc._id)
         .then((res) => {
           toast({
-            message: "Prescription deleted succesfully",
+            message: "Theatre deleted succesfully",
             type: "is-success",
             dismissible: true,
             pauseOnHover: true,
@@ -502,7 +506,7 @@ export function PrescriptionList({ standalone }) {
         })
         .catch((err) => {
           toast({
-            message: "Error deleting Prescription" + err,
+            message: "Error deleting Theatre" + err,
             type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
@@ -549,7 +553,7 @@ export function PrescriptionList({ standalone }) {
             },
           },
         ],
-        order_category: "Prescription",
+        order_category: "Theatre Order",
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
         $limit: 10,
@@ -574,7 +578,7 @@ export function PrescriptionList({ standalone }) {
   const getFacilities = async () => {
     const findProductEntry = await OrderServ.find({
       query: {
-        order_category: "Prescription",
+        order_category: "Theatre Order",
 
         clientId: state.ClientModule.selectedClient._id,
         $limit: 20,
@@ -583,8 +587,7 @@ export function PrescriptionList({ standalone }) {
         },
       },
     });
-
-    console.log("===>>>>", { Prescription: findProductEntry });
+    console.log("===>>>>theatre details", { theatre: findProductEntry });
     await setFacilities(findProductEntry.data);
   };
 
@@ -695,7 +698,7 @@ export function PrescriptionList({ standalone }) {
               </div>
             )}
             <h2 style={{ marginLeft: "10px", fontSize: "0.8rem" }}>
-              List of Presciption
+              List of Theatre Orders
             </h2>
           </div>
 
@@ -719,7 +722,7 @@ export function PrescriptionList({ standalone }) {
             progressPending={false}
             CustomEmptyData={
               <Typography sx={{ fontSize: "0.85rem" }}>
-                No Prescriptions found......
+                No Theatre Order found......
               </Typography>
             }
             //selectableRowsComponent={Checkbox}
@@ -896,13 +899,13 @@ export function DrugAdminList({ standalone }) {
   const handleDelete = (doc) => {
     // console.log(doc)
     let confirm = window.confirm(
-      `You are about to delete the prescription: ${doc.order}?`
+      `You are about to delete the Theatre: ${doc.order}?`
     );
     if (confirm) {
       OrderServ.remove(doc._id)
         .then((res) => {
           toast({
-            message: "Prescription deleted succesfully",
+            message: "Theatre order deleted succesfully",
             type: "is-success",
             dismissible: true,
             pauseOnHover: true,
@@ -911,7 +914,7 @@ export function DrugAdminList({ standalone }) {
         })
         .catch((err) => {
           toast({
-            message: "Error deleting Prescription" + err,
+            message: "Error deleting Theatre order" + err,
             type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
@@ -1173,6 +1176,7 @@ export function DrugAdminList({ standalone }) {
       },
     })
       .then((res) => {
+        // console.log("===>>> res", { facilities: res });
         setFacilities(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
@@ -1201,6 +1205,8 @@ export function DrugAdminList({ standalone }) {
         },
       },
     });
+
+    // console.log("===>>>", { facilities: findProductEntry });
     await setFacilities(findProductEntry.data);
   };
 
@@ -1539,7 +1545,7 @@ export function DrugAdminList({ standalone }) {
               </div>
             )}
             <h2 style={{ marginLeft: "10px", fontSize: "0.8rem" }}>
-              List of Prescriptions
+              List of Theatre Orders
             </h2>
           </div>
 

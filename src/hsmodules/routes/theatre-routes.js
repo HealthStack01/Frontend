@@ -1,4 +1,4 @@
-import {lazy} from "react";
+import { lazy } from "react";
 
 const TheatreBillService = lazy(() => import("../Theatre/BillService"));
 const BillTheatre = lazy(() => import("../Theatre/BillTheatre"));

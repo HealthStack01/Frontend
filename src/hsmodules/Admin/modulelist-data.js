@@ -611,6 +611,134 @@ export const modulesList = [
   },
 
   {
+    label: "Documentation",
+    value: "Documentation",
+
+    children: [
+      {
+        label: "Adult Asthma Questionnaire",
+        value: "Adult Asthma Questionnaire",
+      },
+      {
+        label: "Clinical Note",
+        value: "Clinical Note",
+      },
+      {
+        label: "Doctor Note",
+        value: "Doctor Note",
+      },
+      {
+        label: "Lab Result",
+        value: "Lab Result",
+      },
+      {
+        label: "Medication List",
+        value: "Medication List",
+      },
+      {
+        label: "New Patient Consultation Form",
+        value: "New Patient Consultation Form",
+      },
+      {
+        label: "Nursing Note",
+        value: "Nursing Note",
+      },
+      {
+        label: "Pediatric Pulmonology Form",
+        value: "Pediatric Pulmonology Form",
+      },
+      {
+        label: "Progress Note",
+        value: "Progress Note",
+      },
+      {
+        label: "Vital Signs",
+        value: "Vital Signs",
+      },
+      {
+        label: "Eye Examination",
+        value: "Eye Examination",
+      },
+      {
+        label: "Dental Clinic",
+        value: "Dental Clinic",
+      },
+      {
+        label: "Orthodontic Analysis",
+        value: "Orthodontic Analysis",
+      },
+      {
+        label: "Preventive Care",
+        value: "Preventive Care",
+      },
+      {
+        label: "Dental Lab",
+        value: "Dental Lab",
+      },
+      {
+        label: "Physiotherapy Medical Screening",
+        value: "Physiotherapy Medical Screening",
+      },
+      {
+        label: "Physiotherapy History & Interview Form",
+        value: "Physiotherapy History & Interview Form",
+      },
+      {
+        label: "Back Pain Questionnaire",
+        value: "Back Pain Questionnaire",
+      },
+      {
+        label: "Fear-Avoidance Beliefs Questionnaire (FABQ)",
+        value: "Fear-Avoidance Beliefs Questionnaire (FABQ)",
+      },
+      {
+        label: "Charts",
+        value: "Charts",
+      },
+      {
+        label: "Radiology Request",
+        value: "Radiology Request",
+      },
+      {
+        label: "Laboratory Request",
+        value: "Laboratory Request",
+      },
+      {
+        label: "Prescription Request",
+        value: "Prescription Request",
+      },
+      {
+        label: "End Encounter",
+        value: "End Encounter",
+      },
+      // {
+      //   label: "",
+      //   value: "",
+      // },
+      // {
+      //   label: "",
+      //   value: "",
+      // },
+      // {
+      //   label: "",
+      //   value: "",
+      // },
+      // {
+      //   label: "",
+      //   value: "",
+      // },
+      // {
+      //   label: "",
+      //   value: "",
+      // },
+      // {
+      //   label: "",
+      //   value: "",
+      // },
+    ],
+  },
+
+  {
     label: "Immunization",
     value: "Immunization",
 

@@ -23,7 +23,7 @@ import CustomSelect from "../../inputs/basic/Select";
 import Textarea from "../../inputs/basic/Textarea";
 import GlobalCustomButton from "../../buttons/CustomButton";
 
-const AppointmentCreate = ({ closeModal, showBillModal }) => {
+const AppointmentCreateForTheatre = ({ closeModal, showBillModal }) => {
   const appointmentsServer = client.service("appointments");
   const sendSmsServer = client.service("sendsms");
   const smsServer = client.service("sms");
@@ -45,8 +45,7 @@ const AppointmentCreate = ({ closeModal, showBillModal }) => {
 
   useEffect(() => {
     setPatient(state.AppointmentModule.selectedPatient);
-    console.log("appointment patient", state.AppointmentModule.selectedPatient)
-  }, [state.AppointmentModule.selectedPatient]);//
+  }, [state.AppointmentModule.selectedPatient]);
 
   const handleGetPatient = (patient) => {
     setPatient(patient);
@@ -289,13 +288,7 @@ const AppointmentCreate = ({ closeModal, showBillModal }) => {
             label="Appointment Type"
             required
             important
-            options={[
-              "New",
-              "Followup",
-              "Readmission with 24hrs",
-              "Annual Checkup",
-              "Walk-in",
-            ]}
+            options={["New Procedure", "Repeat Procedure"]}
           />
         </Grid>
 
@@ -311,14 +304,14 @@ const AppointmentCreate = ({ closeModal, showBillModal }) => {
             options={[
               "Scheduled",
               "Confirmed",
+              "Billed",
+              "Paid",
               "Checked In",
               "Checked Out",
-              "Vitals Taken",
-              "With Nurse",
-              "With Doctor",
+              "Procedure in Progress",
+              "Completed Procedure",
               "No Show",
               "Cancelled",
-              "Billed",
             ]}
           />
         </Grid>
@@ -332,6 +325,26 @@ const AppointmentCreate = ({ closeModal, showBillModal }) => {
             placeholder="write here.."
           />
         </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          <Textarea
+            label="Surgical Procedure"
+            //important
+            register={register("surgical_procedure")}
+            type="text"
+            placeholder="write here.."
+          />
+        </Grid>
+
+        {/* <Grid item xs={12} sm={12} md={12} lg={12}>
+          <Textarea
+            label="Other Information"
+            //important
+            register={register("other_information")}
+            type="text"
+            placeholder="write here.."
+          />
+        </Grid> */}
       </Grid>
 
       <Box
@@ -373,4 +386,4 @@ const AppointmentCreate = ({ closeModal, showBillModal }) => {
   );
 };
 
-export default AppointmentCreate;
+export default AppointmentCreateForTheatre;

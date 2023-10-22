@@ -55,7 +55,7 @@ export default function ModuleList({handlecloseModal}) {
     "Bill Client",
     "Adjust Price",
     "Delete Notes",
-   /*  "Membership" */
+    /*  "Membership" */
   ];
 
   let draftDoc = {};
@@ -192,7 +192,10 @@ export default function ModuleList({handlecloseModal}) {
 
   const facilityModulesList =
     facilityModules &&
-    modulesList.filter(item => facilityModules.includes(item.value));
+    modulesList.filter(
+      item =>
+        item.value === "Documentation" || facilityModules.includes(item.value)
+    );
 
   return (
     <>
