@@ -278,9 +278,23 @@ const TopMenu = () => {
           >
             <IconButton
               onClick={toggleComplaintForm}
-              sx={{border: "1px solid #F65F28"}}
+              //sx={{border: "1px solid #F65F28"}}
+              sx={{
+                padding: "3px",
+                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                overflow: "hidden",
+              }}
             >
-              <ReportIcon sx={{fill: "#F65F28"}} fontSize="medium" />
+              {/* <ReportIcon sx={{fill: "#F65F28"}} fontSize="medium" /> */}
+              <img
+                alt=""
+                src="https://www.svgrepo.com/show/192522/customer-service-support.svg"
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  objectFit: "cover",
+                }}
+              />
             </IconButton>
 
             <AppNotifications />
