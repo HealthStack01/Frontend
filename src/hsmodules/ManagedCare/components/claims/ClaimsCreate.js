@@ -539,15 +539,22 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={6} md={6} sm={6} xs={12}>
-              <BeneficiarySearch
+           <Grid item lg={6} md={6} sm={6} xs={12}>
+           {user.currentEmployee.facilityDetail.facilityType === "HMO"?      
+           <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
                 patient={beneficiary}
               /> 
-
-              {/* <ReactCustomSearchSelectComponent
+              :
+              <ClientSearch
+              clear={clearClientSearch}
+              getSearchfacility={handleSelectClient}
+              id={client_id}
+              patient={beneficiary}
+            /> }
+               {/* <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}
                 isLoading={fetchingClients}
@@ -560,7 +567,8 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                     ...item,
                   };
                 })}
-              /> */}
+              />  */}
+          
             </Grid>
 
             {user.currentEmployee.facilityDetail.facilityType === "HMO" && (

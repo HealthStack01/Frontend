@@ -439,11 +439,17 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
         >
           <Grid container spacing={2} mb={2}>
             <Grid item lg={6} md={6} sm={6} xs={12}> 
+            {user.currentEmployee.facilityDetail.facilityType === "HMO"?   
               <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
-              /> 
+              /> :
+              <ClientSearch
+              clear={clearClientSearch}
+              getSearchfacility={handleSelectClient}
+              id={client_id}
+            /> }
 
             {/*   <ReactCustomSearchSelectComponent
                 control={control}

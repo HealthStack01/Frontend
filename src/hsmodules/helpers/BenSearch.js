@@ -267,7 +267,7 @@ export function BeneficiarySearch({
         renderInput={(params) => (
           <TextField
             {...params}
-            label={label ? label : "Search for Organization"}
+            label={label ? label : "Search for Beneficiary with Policy ID"}
            // onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
             /* sx={{
