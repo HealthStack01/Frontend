@@ -35,14 +35,15 @@ const HmoClientDetail = ({detail, goBack, showHeader, updateClient}) => {
   const [sendLinkModal, setSendLinkModal] = useState(false);
 
   useEffect(() => {
-    //console.log(detail);
+    console.log(detail);
     const defaultValues = {
-      ...detail,
+      ...detail, 
       dob: dayjs(detail?.dob).format("MMM DD, YYYY"),
       createdAt: dayjs(detail?.createdAt).format("MMM DD, YYYY"),
     };
 
     reset(defaultValues);
+    console.log("patinetinfo", detail)
   }, []);
 
   const setAppointment =()=>{

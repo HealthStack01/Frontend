@@ -7,8 +7,9 @@ import client from "../../../../feathers";
 import {ObjectContext, UserContext} from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
-import {ClientSearch} from "../../../helpers/ClientSearch";
-import {FacilitySearch} from "../../../helpers/hospitalSearch";
+import { ClientSearch } from "../../../helpers/ClientSearch";
+import { BeneficiarySearch } from "../../../helpers/BenSearch";
+import { FacilitySearch } from "../../../helpers/hospitalSearch";
 
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
@@ -81,6 +82,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
 
   const clientSelected = watch("selected_client");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
+  const facility = user.currentEmployee.facilityDetail;
 
   useEffect(() => {
     if (beneficiary) {
@@ -111,7 +113,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     const day = String(today.getDate()).padStart(2, "0");
     const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const year = today.getFullYear();
-    let plan = poliy.plan.planName;
+    let plan = policy.plan.planName;
     let HMOcode = "HM004";
     let providerCode = codeRef.current;
     let todaydate = `${day}/${month}/${year}`;
@@ -137,7 +139,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         relationshiptype: "managedcare", //
       },
     });
-    codeRef.current = code.data[0].code;
+    codeRef.current = "YS-1256" //code.data[0].code;
   };
 
   useEffect(() => {
@@ -537,15 +539,22 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={6} md={6} sm={6} xs={12}>
-              {/* <ClientSearch
+           <Grid item lg={6} md={6} sm={6} xs={12}>
+           {user.currentEmployee.facilityDetail.facilityType === "HMO"?      
+           <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
                 patient={beneficiary}
-              /> */}
-
-              <ReactCustomSearchSelectComponent
+              /> 
+              :
+              <ClientSearch
+              clear={clearClientSearch}
+              getSearchfacility={handleSelectClient}
+              id={client_id}
+              patient={beneficiary}
+            /> }
+               {/* <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}
                 isLoading={fetchingClients}
@@ -558,7 +567,8 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                     ...item,
                   };
                 })}
-              />
+              />  */}
+          
             </Grid>
 
             {user.currentEmployee.facilityDetail.facilityType === "HMO" && (

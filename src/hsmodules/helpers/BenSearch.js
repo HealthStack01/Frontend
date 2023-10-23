@@ -7,8 +7,9 @@ import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "react-toastify";
 import { FacilityCreate } from "../Admin/Facility";
+import {formatDistanceToNowStrict, format} from "date-fns";
 import ModalBox from "../../components/modal";
-
+import {Box, Card, Grow, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
@@ -24,13 +25,13 @@ const filter = createFilterOptions();
 
 // eslint-disable-next-line
 
-export function FacilitySearch({
+export function BeneficiarySearch({
   getSearchfacility,
   clear,
   label,
   closeModal,
 }) {
-  const facilityServ = client.service("facility");
+  const facilityServ = client.service("policy");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
@@ -47,13 +48,29 @@ export function FacilitySearch({
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleRow = async (obj) => {
     setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    setSimpa(obj.facilityName);
+    await setSimpa(
+      obj.firstname +
+        " " +
+        obj.middlename +
+        " " +
+        obj.lastname +
+        " " +
+        obj.gender +
+        " " +
+        obj.policyNo +
+        " " +
+        obj.clientType +
+        " " +
+        obj.sponsortype
+    );
+
 
     // setSelectedFacility(obj)
     setShowPanel(false);
@@ -61,36 +78,42 @@ export function FacilitySearch({
   };
 
   const handleSearch = async (value) => {
+  console.log(value)
     setVal(value);
     if (value === "") {
       setShowPanel(false);
-      getSearchfacility(false);
+    //  getSearchfacility(false);
       //  setFacilities([]);
       return;
     }
     const field = "facilityName"; //field variable
 
     if (value.length >= 3) {
-      facilityServ
+      console.log(value)
+      setLoading(true)
+     await facilityServ
         .find({
           query: {
-            facilityType: {
-              $ne: "Corporate",
-            },
-            [field]: {
+            policyNo: {
               $regex: value,
               $options: "i",
-            },
-            $limit: 20,
-            $sort: {
-              createdAt: -1,
             },
           },
         })
         .then((res) => {
-          setFacilities(res.data);
+          const policies = res.data;
+          const data = returnBeneficiaries(policies);
+         /*  setBeneficiaries(data);
+          
+            console.log("product  fetched successfully"); */
+            console.log(value)
+            console.log(res.data,data);
+            //facilities.current=data
+           
+            setFacilities(data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
+          setLoading(false)
         })
         .catch((err) => {
           toast.error(`Error Creating Service due to ${err}`);
@@ -99,6 +122,40 @@ export function FacilitySearch({
       setShowPanel(false);
       setFacilities([]);
     }
+  };
+
+  const returnBeneficiaries = policies => {
+    const data = policies.map(policy => {
+      const dependents = policy.dependantBeneficiaries.map(item => {
+        return {
+          ...item,
+          policyNo: policy.policyNo,          
+          sponsor: policy.sponsor,
+          plan: policy.plan,
+          clientType: "Dependent",
+          sponsortype: policy?.sponsorshipType,
+          approved: policy?.approved,
+          policy: policy,
+        };
+      });
+      return [
+        {
+          ...policy.principal,
+          policyNo: policy.policyNo,
+          sponsor: policy.sponsor,
+          plan: policy.plan,
+          clientType: "Principal",
+          sponsortype: policy?.sponsorshipType,
+          approved: policy?.approved,
+          policy: policy,
+        },
+        ...dependents,
+      ];
+    });
+
+    const beneficiariesData = [].concat.apply([], data);
+
+    return beneficiariesData;
   };
 
   const handleAddproduct = () => {
@@ -119,24 +176,27 @@ export function FacilitySearch({
       <Autocomplete
         size="small"
         value={simpa}
-        //loading={loading}
-        onChange={(event, newValue, reason) => {
+        loading={loading}
+         onChange={(event, newValue, reason) => {
           if (reason === "clear") {
             setSimpa("");
           } else {
-            if (typeof newValue === "string") {
+            //232D1034634
+            handleRow(newValue);
+          /*   if (typeof newValue === "string") {
               // timeout to avoid instant validation of the dialog's form.
               setTimeout(() => {
-                handleAddproduct();
+               // handleAddproduct();
               });
             } else if (newValue && newValue.inputValue) {
-              handleAddproduct();
+             // handleAddproduct();
             } else {
               handleRow(newValue);
-            }
+            } */
           }
-        }}
-        filterOptions={(options, params) => {
+        }} 
+        onInputChange={(e,value) => handleSearch(value)}
+       /*  filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
           if (params.inputValue !== "") {
@@ -147,43 +207,77 @@ export function FacilitySearch({
           }
 
           return filtered;
-        }}
+        }} */
         id="free-solo-dialog-demo"
         options={facilities}
-        getOptionLabel={(option) => {
+         getOptionLabel={(option) => {
           if (typeof option === "string") {
             return option;
           }
-          if (option.inputValue) {
-            return option.inputValue;
+          if (option?.inputValue) {
+            return option?.inputValue;
           }
-          return option.facilityName;
-        }}
+          const label=  `${option?.firstname} ${option?.lastname} ${option?.gender} ${option?.policyNo}   ${option?.clientType} `
+          return label
+        }} 
         selectOnFocus
         clearOnBlur
-        handleHomeEndKeys
-        renderOption={(props, option) => (
-          <li {...props} style={{ fontSize: "0.75rem" }}>
-            {option.facilityName}
-          </li>
-        )}
-        sx={{ width: "100%" }}
         freeSolo
+        handleHomeEndKeys
+        /* getOptionLabel={(option) =>{
+          if (option===undefined){
+            const label=""
+            return label
+          }else{
+     
+        const label=  `${option?.firstname} ${option?.lastname} ${option?.gender} ${option?.policyNo}   ${option?.clientType} `
+         return label
+        }}
+      } */
+       /*  renderOption={(props, option) => (
+          <Box {...props} style={{ fontSize: "0.75rem" }}>
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option?.firstname}
+            </Typography>
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option?.middlename}
+            </Typography>
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option?.lastname}
+            </Typography>
+
+            {option.dob && (
+              <Typography sx={{fontSize: "0.75rem"}}>
+                {option?.dob && formatDistanceToNowStrict(new Date(option?.dob))}
+              </Typography>
+            )}
+
+            <Typography sx={{fontSize: "0.75rem"}}>{option?.gender}</Typography>
+
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option?.clientType}
+            </Typography>
+
+            <Typography sx={{fontSize: "0.75rem"}}>{option?.sponsortype}</Typography>
+          </Box>
+        )} */
+        sx={{ width: "100%" }}
+       
         //size="small"
         renderInput={(params) => (
           <TextField
             {...params}
-            label={label ? label : "Search for Organization"}
-            onChange={(e) => handleSearch(e.target.value)}
+            label={label ? label : "Search for Beneficiary with Policy ID"}
+           // onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
-            sx={{
+            /* sx={{
               fontSize: "0.75rem !important",
               backgroundColor: "#ffffff !important",
               "& .MuiInputBase-input": {
                 height: "0.9rem",
                 fontSize: "0.8rem",
               },
-            }}
+            }} */
             InputLabelProps={{
               shrink: true,
             }}

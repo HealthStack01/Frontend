@@ -106,10 +106,7 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
       setBand("NHIS") 
     }else{
       setBand(bandx.data[0].band)
-  }
-  }
-
-
+  }}
   }
 
   const handleSearch = async value => {
@@ -128,6 +125,7 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
     }
 
     findband()
+    console.log("facid",facid);
     console.log(facid,policy);
     setVal(value);
     if (value === "") {
@@ -137,6 +135,9 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
       return;
     }
     const field = "name"; //field variable
+    console.log("status", isHMO)
+    console.log("hmo id", hmoid)
+    console.log("fac id", facid)
 
     if (value.length >= 3) {
       
@@ -146,30 +147,34 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
         //check if the hmo is a state hmo or not
         //console.log(mode);
 
-
+console.log("band", band)
+      let query={
+               
+        organizationId:hmoid ,
+       'providers.dest_org':facid,
+        $limit: 10,
+     
+      }
+      if (band==="NHIS"){
+       // query.band="NHIS"
+      }
         
         tariffServ
             .find({
-              query: {
-               
-                organizationId:hmoid ,
-                'providers.dest_org':facid,
-             
-                band:band?band:"NHIS",
-                $limit: 10,
-             
-              },
+              query,
             })
             .then(res => {
               // console.log("product  fetched successfully")
               let resultarray=[]
-              console.log(res.data)
+              console.log("result1",res)
               let contracts=  res.data[0].contracts
+              if (contracts.length>0){
               contracts.forEach(el=>{
                 if(el.serviceName.toLowerCase().includes(val.toLowerCase())){
                   resultarray=[...resultarray, el]
                 }
               })
+            }
               console.log("result", resultarray)
               setFacilities(resultarray);
               setSearchMessage(" product  fetched successfully");

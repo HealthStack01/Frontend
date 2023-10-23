@@ -8,6 +8,7 @@ import {ObjectContext, UserContext} from "../../../../context";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import PatientProfile from "../../../Client/PatientProfile";
 import {ClientSearch} from "../../../helpers/ClientSearch";
+import { BeneficiarySearch } from "../../../helpers/BenSearch";
 import {FacilitySearch} from "../../../helpers/hospitalSearch";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import {useForm} from "react-hook-form";
@@ -67,12 +68,9 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
       preauthtype: "Fee for Service",
     },
   });
-  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
-  const clientSelected = watch("selected_client");
+  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";  
+  const facility = user.currentEmployee.facilityDetail;
 
-  useEffect(() => {
-    handleSelectClient(clientSelected);
-  }, [clientSelected]);
 
   useEffect(() => {
     setState(prev => ({
@@ -166,7 +164,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
       patientstate: data.patientstate,
       provider: facility,
       services: services,
-      priority: data.prioriy,
+      priority: data.priority,
       beneficiary: state.ClientModule.selectedClient,
       submissiondate: dayjs(),
       submissionby: employee,
@@ -440,14 +438,20 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           }}
         >
           <Grid container spacing={2} mb={2}>
-            <Grid item lg={6} md={6} sm={6} xs={12}>
-              {/* <ClientSearch
+            <Grid item lg={6} md={6} sm={6} xs={12}> 
+            {user.currentEmployee.facilityDetail.facilityType === "HMO"?   
+              <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
-              /> */}
+              /> :
+              <ClientSearch
+              clear={clearClientSearch}
+              getSearchfacility={handleSelectClient}
+              id={client_id}
+            /> }
 
-              <ReactCustomSearchSelectComponent
+            {/*   <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}
                 isLoading={fetchingClients}
@@ -460,7 +464,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
                     ...item,
                   };
                 })}
-              />
+              /> */}
             </Grid>
             {user.currentEmployee.facilityDetail.facilityType === "HMO" && (
               <Grid item lg={6} md={6} sm={6} xs={12}>
