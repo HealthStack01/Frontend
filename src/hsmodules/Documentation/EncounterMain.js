@@ -79,7 +79,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
   const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
@@ -239,7 +239,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         setMessage(" Clinic  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Clinic, probable network issues " + err);
         setError(true);
