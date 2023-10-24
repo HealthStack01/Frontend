@@ -1,14 +1,14 @@
-import React, {useContext, useState, useEffect} from "react";
-import {useForm} from "react-hook-form";
-import {toast, ToastContainer} from "react-toastify";
+import React, { useContext, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
 import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
 import BasicDatePicker from "../../components/inputs/Date";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import client from "../../feathers";
 import SaveIcon from "@mui/icons-material/Save";
-import {FileUploader} from "react-drag-drop-files";
+import { FileUploader } from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import {
   BottomWrapper,
@@ -18,17 +18,17 @@ import {
   ViewBox,
 } from "../app/styles";
 import ModalBox from "../../components/modal";
-import {createClientSchema} from "./schema";
+import { createClientSchema } from "./schema";
 import Textarea from "../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
-import {Box, Grid, Typography} from "@mui/material";
-import {FormsHeaderText} from "../../components/texts";
+import { Box, Grid, Typography } from "@mui/material";
+import { FormsHeaderText } from "../../components/texts";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ClientGroup from "./ClientGroup";
-import {ObjectContext, UserContext} from "../../context";
-import {Nigeria} from "../app/Nigeria";
+import { ObjectContext, UserContext } from "../../context";
+import { Nigeria } from "../app/Nigeria";
 import dayjs from "dayjs";
 import GoogleAddressInput from "../../components/google-autocomplete";
 
@@ -53,7 +53,7 @@ const UploadComponent = ({}) => {
   );
 };
 
-const ClientForm = ({closeModal, setOpen}) => {
+const ClientForm = ({ closeModal, setOpen }) => {
   const ClientServ = client.service("client");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -61,9 +61,9 @@ const ClientForm = ({closeModal, setOpen}) => {
   // const data = localStorage.getItem("user");
   const [patList, setPatList] = useState([]);
   const [duplicateModal, setDuplicateModal] = useState(false);
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [dependant, setDependant] = useState(false);
   // const user = JSON.parse(data);
   const mpiServ = client.service("mpi");
@@ -71,7 +71,7 @@ const ClientForm = ({closeModal, setOpen}) => {
   const {
     register,
     handleSubmit,
-    formState: {isSubmitSuccessful, errors},
+    formState: { isSubmitSuccessful, errors },
     control,
     getValues,
     reset,
@@ -107,13 +107,13 @@ const ClientForm = ({closeModal, setOpen}) => {
     };
 
     await ClientServ.create(clientData)
-      .then(res => {
+      .then((res) => {
         toast.success(`Client successfully created`);
 
         setLoading(false);
         hideActionLoader();
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error(`Sorry, You weren't able to create an client. ${err}`);
         setLoading(false);
         hideActionLoader();
@@ -150,7 +150,7 @@ const ClientForm = ({closeModal, setOpen}) => {
     }
   };
 
-  const checkQuery = query => {
+  const checkQuery = (query) => {
     setPatList([]);
     if (
       !(
@@ -159,8 +159,8 @@ const ClientForm = ({closeModal, setOpen}) => {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({query: query})
-        .then(res => {
+      ClientServ.find({ query: query })
+        .then((res) => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -169,15 +169,15 @@ const ClientForm = ({closeModal, setOpen}) => {
             return;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
   };
 
-  const dupl = client => {
+  const dupl = (client) => {
     const data = getValues();
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       data[key] = null;
     });
 
@@ -189,19 +189,19 @@ const ClientForm = ({closeModal, setOpen}) => {
     //console.log(Client)
   };
 
-  const reg = async client => {
-    setState(prev => ({
+  const reg = async (client) => {
+    setState((prev) => ({
       ...prev,
-      actionLoader: {open: true, message: "Creating Client..."},
+      actionLoader: { open: true, message: "Creating Client..." },
     }));
     const data = getValues();
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       data[key] = null;
     });
 
     if (
       client.relatedfacilities.findIndex(
-        el => el.facility === user.currentEmployee.facilityDetail._id
+        (el) => el.facility === user.currentEmployee.facilityDetail._id
       ) === -1
     ) {
       //create mpi record
@@ -215,19 +215,19 @@ const ClientForm = ({closeModal, setOpen}) => {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then(resp => {
+        .then((resp) => {
           toast.success("Client created succesfully");
           reset(data);
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
-            actionLoader: {open: false, message: ""},
+            actionLoader: { open: false, message: "" },
           }));
           setDuplicateModal(false);
         })
-        .catch(err => {
-          setState(prev => ({
+        .catch((err) => {
+          setState((prev) => ({
             ...prev,
-            actionLoader: {open: false, message: ""},
+            actionLoader: { open: false, message: "" },
           }));
           toast.error("Error creating Client " + err);
         });
@@ -238,13 +238,13 @@ const ClientForm = ({closeModal, setOpen}) => {
     //cash payment
   };
 
-  const depen = client => {
+  const depen = (client) => {
     setDependant(true);
     toast.success("You're Creating a Dependent Client");
     setDuplicateModal(false);
   };
 
-  const handleGoogleAddressSelect = obj => {
+  const handleGoogleAddressSelect = (obj) => {
     setValue("residentialaddress", obj.address);
     setValue("state", obj.state);
     setValue("town", obj.lga);
@@ -292,13 +292,16 @@ const ClientForm = ({closeModal, setOpen}) => {
                 <GlobalCustomButton onClick={() => setFullRegistration(false)}>
                   <ElectricBoltIcon
                     fontSize="small"
-                    sx={{marginRight: "5px"}}
+                    sx={{ marginRight: "5px" }}
                   />
                   Quick Registration
                 </GlobalCustomButton>
               ) : (
                 <GlobalCustomButton onClick={() => setFullRegistration(true)}>
-                  <OpenInFullIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  <OpenInFullIcon
+                    fontSize="small"
+                    sx={{ marginRight: "5px" }}
+                  />
                   Full Registration
                 </GlobalCustomButton>
               )}
@@ -308,8 +311,24 @@ const ClientForm = ({closeModal, setOpen}) => {
 
             {!isFullRegistration ? (
               <>
-                <Box sx={{/* width: "85vw", maxHeight: "80vh", */ display:"flex", flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
-                  <Grid container spacing={1}  sx={{display:"flex", flexWrap:"wrap" , flexDirection:"row", }}>
+                <Box
+                  sx={{
+                    /* width: "85vw", maxHeight: "80vh", */ display: "flex",
+                    flexWrap: "wrap",
+                    flexDirection: "row",
+                    overflow: "auto",
+                  }}
+                >
+                  <Grid
+                    container
+                    spacing={1}
+                    sx={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      flexDirection: "row",
+                      marginTop: "4px",
+                    }}
+                  >
                     <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="First Name"
@@ -346,7 +365,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                         important={true}
                       />
                     </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>  
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
                       <Input
                         label="Email"
                         register={register("email")}
@@ -367,11 +386,11 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <Grid item lg={3} md={4} sm={6} xs={12}>
                       <CustomSelect
                         label="Gender"
-                        register={register("gender", {required: true})}
+                        register={register("gender", { required: true })}
                         onBlur={checkClient}
                         options={[
-                          {label: "Male", value: "Male"},
-                          {label: "Female", value: "Female"},
+                          { label: "Male", value: "Male" },
+                          { label: "Female", value: "Female" },
                         ]}
                         errorText={errors?.gender?.message}
                       />
@@ -381,9 +400,9 @@ const ClientForm = ({closeModal, setOpen}) => {
                         label="Marital Status"
                         register={register("maritalstatus")}
                         options={[
-                          {label: "Single", value: "Single"},
-                          {label: "Married", value: "Married"},
-                          {label: "Widowed", value: "Widowed"},
+                          { label: "Single", value: "Single" },
+                          { label: "Married", value: "Married" },
+                          { label: "Widowed", value: "Widowed" },
                           {
                             label: "Divorced/Seperated",
                             value: "Divorced/Seperated",
@@ -438,9 +457,9 @@ const ClientForm = ({closeModal, setOpen}) => {
                         control={control}
                         name="clientLevel"
                         options={[
-                          {label: "Level 1", value: "1"},
-                          {label: "Level 2", value: "2"},
-                          {label: "Level 3", value: "3"},
+                          { label: "Level 1", value: "1" },
+                          { label: "Level 2", value: "2" },
+                          { label: "Level 3", value: "3" },
                         ]}
                       />
                     </Grid>
@@ -457,7 +476,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <GlobalCustomButton
                       color="warning"
                       onClick={closeModal}
-                      sx={{marginRight: "15px"}}
+                      sx={{ marginRight: "15px" }}
                     >
                       Cancel
                     </GlobalCustomButton>
@@ -467,7 +486,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       loading={loading}
                       onClick={handleSubmit(submit)}
                     >
-                      <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
+                      <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
                       Register Client
                     </GlobalCustomButton>
                   </Box>
@@ -475,8 +494,15 @@ const ClientForm = ({closeModal, setOpen}) => {
               </>
             ) : (
               <>
-                <Box sx={{/* width: "80vw", maxHeight: "80vh", */ display:"flex", flexWrap:"wrap" , flexDirection:"row", overflow:"auto"}}>
-                  <Grid container spacing={1}  >
+                <Box
+                  sx={{
+                    /* width: "80vw", maxHeight: "80vh", */ display: "flex",
+                    flexWrap: "wrap",
+                    flexDirection: "row",
+                    overflow: "auto",
+                  }}
+                >
+                  <Grid container spacing={1}>
                     <Grid item xs={12}>
                       <FormsHeaderText text="Client Names" />
                     </Grid>
@@ -527,8 +553,8 @@ const ClientForm = ({closeModal, setOpen}) => {
                         register={register("gender")}
                         onBlur={checkClient}
                         options={[
-                          {label: "Male", value: "male"},
-                          {label: "Female", value: "female"},
+                          { label: "Male", value: "male" },
+                          { label: "Female", value: "female" },
                         ]}
                       />
                     </Grid>
@@ -557,9 +583,9 @@ const ClientForm = ({closeModal, setOpen}) => {
                         label="Marital Status"
                         register={register("maritalstatus")}
                         options={[
-                          {label: "Single", value: "Single"},
-                          {label: "Married", value: "Married"},
-                          {label: "Widowed", value: "Widowed"},
+                          { label: "Single", value: "Single" },
+                          { label: "Married", value: "Married" },
+                          { label: "Widowed", value: "Widowed" },
                           {
                             label: "Divorced/Seperated",
                             value: "Divorced/Seperated",
@@ -580,12 +606,12 @@ const ClientForm = ({closeModal, setOpen}) => {
                         label="Religion"
                         register={register("religion")}
                         options={[
-                          {label: "Buddhism", value: "Buddhism"},
-                          {label: "Christianity", value: "Christianity"},
-                          {label: "Hinduism", value: "Hinduism"},
-                          {label: "Judaism", value: "Judaism"},
-                          {label: "Islam", value: "Islam"},
-                          {label: "Taoism", value: "Taoism"},
+                          { label: "Buddhism", value: "Buddhism" },
+                          { label: "Christianity", value: "Christianity" },
+                          { label: "Hinduism", value: "Hinduism" },
+                          { label: "Judaism", value: "Judaism" },
+                          { label: "Islam", value: "Islam" },
+                          { label: "Taoism", value: "Taoism" },
                         ]}
                       />
                       {/* <Input label="Religion" register={register("religion")} /> */}
@@ -609,9 +635,9 @@ const ClientForm = ({closeModal, setOpen}) => {
                         name="clientLevel"
                         important
                         options={[
-                          {label: "Level 1", value: "1"},
-                          {label: "Level 2", value: "2"},
-                          {label: "Level 3", value: "3"},
+                          { label: "Level 1", value: "1" },
+                          { label: "Level 2", value: "2" },
+                          { label: "Level 3", value: "3" },
                         ]}
                       />
                     </Grid>
@@ -682,7 +708,9 @@ const ClientForm = ({closeModal, setOpen}) => {
                       />
                     </Grid>
 
-                    <Grid item lg={12} md={4} sm={6}> xs={12}
+                    <Grid item lg={12} md={4} sm={6}>
+                      {" "}
+                      xs={12}
                       <Input
                         label="Specific Details "
                         register={register("specificDetails")}
@@ -738,7 +766,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                     <GlobalCustomButton
                       color="warning"
                       onClick={closeModal}
-                      sx={{marginRight: "15px"}}
+                      sx={{ marginRight: "15px" }}
                     >
                       Cancel
                     </GlobalCustomButton>
@@ -748,7 +776,7 @@ const ClientForm = ({closeModal, setOpen}) => {
                       loading={loading}
                       onClick={handleSubmit(submit)}
                     >
-                      <SaveIcon fontSize="small" sx={{marginRight: "5px"}} />
+                      <SaveIcon fontSize="small" sx={{ marginRight: "5px" }} />
                       Register Client
                     </GlobalCustomButton>
                   </Box>
