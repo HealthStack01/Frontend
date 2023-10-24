@@ -1,25 +1,26 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 //import {Route, Switch,   Link, NavLink, } from 'react-router-dom'
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
+import {DebounceInput} from "react-debounce-input";
 import DebouncedInput from "./ui-components/inputs/DebouncedInput";
 //import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format} from "date-fns";
 import TextField from "@mui/material/TextField";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import CircularProgress from '@mui/material/CircularProgress';
 import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 //const searchfacility={};
-import { Box, Card, Grow, Typography } from "@mui/material";
+import {Box, Card, Grow, Typography} from "@mui/material";
 import ModalBox from "./ui-components/modal";
 import Input from "../../components/inputs/basic/Input";
 
 const useOnClickOutside = (ref, handler) => {
   useEffect(() => {
-    const listener = (event) => {
+    const listener = event => {
       // Do nothing if clicking ref's element or descendent elements
       if (!ref.current || ref.current.contains(event.target)) {
         return;
@@ -35,7 +36,7 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export function ClientSearch({
+export function BeneficiarySearch({
   getSearchfacility,
   clear,
   label,
@@ -44,7 +45,9 @@ export function ClientSearch({
   patient,
 }) {
   const ClientServ = client.service("client");
+  const policyServ = client.service("policy");
   const [facilities, setFacilities] = useState([]);
+//const facilities=useRef([])
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
@@ -59,21 +62,22 @@ export function ClientSearch({
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dropDownRef = useRef(null);
 
-  const getInitial = async (id) => {
+  const getInitial = async id => {
     //console.log("ID from client search", id);
     if (!!id) {
       await ClientServ.get(id)
-        .then((resp) => {
+        .then(resp => {
           console.log(resp);
           handleRow(resp);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   };
 
@@ -82,7 +86,7 @@ export function ClientSearch({
     return () => {};
   }, [id]);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     // console.log(obj);
     await setChosen(true);
     //alert("something is chaning")
@@ -97,7 +101,11 @@ export function ClientSearch({
         " " +
         obj.gender +
         " " +
-        obj.phone
+        obj.policyNo +
+        " " +
+        obj.clientType +
+        " " +
+        obj.sponsortype
     );
 
     // setSelectedFacility(obj)
@@ -117,7 +125,7 @@ export function ClientSearch({
     handleRow(patient);
   }, [patient]);
 
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     /*   if (count===2){
              console.log("stuff was chosen")
          } */
@@ -134,19 +142,25 @@ export function ClientSearch({
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
-    setVal(val);
-    if (val === "") {
+  const handleSearch = async (value) => {
+   
+    setVal(value);
+    if (value === "") {
       setShowPanel(false);
-      getSearchfacility(false);
+    //  getSearchfacility(false);
       return;
     }
     const field = "name"; //field variable
 
-    if (val.length >= 3) {
-      ClientServ.find({
+    if (value.length >= 3) {
+      
+     policyServ.find({
         query: {
-          $or: [
+          policyNo: {
+            $regex: value,
+            $options: "i",
+          },
+         /*  $or: [
             {
               firstname: {
                 $regex: val,
@@ -190,9 +204,9 @@ export function ClientSearch({
               },
             },
           ],
-
+ */
           //facility: user.currentEmployee.facilityDetail._id,
-          // "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
+         // "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
           //storeId: state.StoreModule.selectedStore._id,
           $limit: 10,
          /*  $sort: {
@@ -200,30 +214,73 @@ export function ClientSearch({
           }, */
         },
       })
-        .then((res) => {
-          console.log("product  fetched successfully");
-          console.log(res.data);
-          setFacilities(res.data);
+        .then(res => {
+         
+          const policies = res.data;
+        const data = returnBeneficiaries(policies);
+       /*  setBeneficiaries(data);
+
+          console.log("product  fetched successfully"); */
+          console.log(res.data,data);
+          //facilities.current=data
+         
+          setFacilities(data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
+        
         })
-        .catch((err) => {
+        .catch(err => {
+         
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
+         
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+   
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      
+   
     }
   };
 
+  const returnBeneficiaries = policies => {
+    const data = policies.map(policy => {
+      const dependents = policy.dependantBeneficiaries.map(item => {
+        return {
+          ...item,
+          policyNo: policy.policyNo,          
+          sponsor: policy.sponsor,
+          plan: policy.plan,
+          clientType: "Dependent",
+          sponsortype: policy?.sponsorshipType,
+          approved: policy?.approved,
+          policy: policy,
+        };
+      });
+      return [
+        {
+          ...policy.principal,
+          policyNo: policy.policyNo,
+          sponsor: policy.sponsor,
+          plan: policy.plan,
+          clientType: "Principal",
+          sponsortype: policy?.sponsorshipType,
+          approved: policy?.approved,
+          policy: policy,
+        },
+        ...dependents,
+      ];
+    });
+
+    const beneficiariesData = [].concat.apply([], data);
+
+    return beneficiariesData;
+  };
   const handleAddproduct = () => {
     setProductModal(true);
   };
@@ -260,19 +317,23 @@ export function ClientSearch({
       }}
     >
       <Autocomplete
-        disabled={disabled}
+        //disabled={disabled}
         size="small"
+       
         value={simpa}
-        onChange={(event, newValue, reason) => {
+         onChange={(event, newValue, reason) => {
           if (reason === "clear") {
             setSimpa("");
           } else {
             handleRow(newValue);
           }
-        }}
+        }}  
+       /*  openOnFocus={true} */
         id="free-solo-dialog-demo"
+        onInputChange={(e,value) => handleSearch(value)}
         options={facilities}
-        getOptionLabel={(option) => {
+        loading={loading}
+        getOptionLabel={option => {
           if (typeof option === "string") {
             return option;
           }
@@ -281,58 +342,56 @@ export function ClientSearch({
           }
           return option.firstname;
         }}
-        isOptionEqualToValue={(option, value) =>
+      /*   isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option._id === value._id
-        }
+        } */
         selectOnFocus
-        clearOnBlur
+        clearOnBlur={false}
         handleHomeEndKeys
         noOptionsText={
           val === "" ? "Type something..." : `${val} was not found`
-        }
-        renderOption={(props, option) => (
+        } 
+       /*  renderOption={(props, option) => (
           <Box
             {...props}
-            style={{ display: "flex", flexWrap: "wrap" }}
+            style={{display: "flex", flexWrap: "wrap"}}
             gap={1}
-            //onClick={() => handleRow(option)}
+             onClick={() => handleRow(option)} 
           >
-            <Typography sx={{ fontSize: "0.75rem" }}>
+            <Typography sx={{fontSize: "0.75rem"}}>
               {option.firstname}
             </Typography>
-            <Typography sx={{ fontSize: "0.75rem" }}>
+            <Typography sx={{fontSize: "0.75rem"}}>
               {option.middlename}
             </Typography>
-            <Typography sx={{ fontSize: "0.75rem" }}>
+            <Typography sx={{fontSize: "0.75rem"}}>
               {option.lastname}
             </Typography>
 
             {option.dob && (
-              <Typography sx={{ fontSize: "0.75rem" }}>
+              <Typography sx={{fontSize: "0.75rem"}}>
                 {option.dob && formatDistanceToNowStrict(new Date(option.dob))}
               </Typography>
             )}
 
-            <Typography sx={{ fontSize: "0.75rem" }}>
-              {option.gender}
+            <Typography sx={{fontSize: "0.75rem"}}>{option.gender}</Typography>
+
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option.clientType}
             </Typography>
 
-            <Typography sx={{ fontSize: "0.75rem" }}>
-              {option.profession}
-            </Typography>
-
-            <Typography sx={{ fontSize: "0.75rem" }}>{option.phone}</Typography>
+            <Typography sx={{fontSize: "0.75rem"}}>{option.sponsortype}</Typography>
           </Box>
-        )}
+        )} */
         sx={{
           width: "100%",
         }}
-        freeSolo={false}
-        renderInput={(params) => (
+        freeSolo
+         renderInput={params => (
           <TextField
             {...params}
-            label={label || "Search for Client"}
-            onChange={(e) => handleSearch(e.target.value)}
+            label={label || "Search for Beneficiary with Policy Number"}
+            //onChange={e => handleSearch(e.target.value)} 
             ref={inputEl}
             sx={{
               fontSize: "0.75rem",
@@ -346,14 +405,47 @@ export function ClientSearch({
                 WebkitTextFillColor: "#000000",
               },
             }}
-            disabled={disabled}
+           // disabled={disabled}
             InputLabelProps={{
               shrink: true,
-              style: { color: "#2d2d2d" },
+              style: {color: "#2d2d2d"},
             }}
           />
-        )}
+        )}  
       />
+      {/* <Autocomplete
+       id="search"
+       options={facilities}
+       getOptionLabel={option => {
+        if (typeof option === "string") {
+          return option;
+        }
+        if (option.inputValue) {
+          return option.inputValue;
+        }
+        return option.firstname;
+      }}
+       inputValue={val}
+       onInputChange={handleSearch}
+       loading={loading}
+
+        renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Search by Name"
+          variant="outlined"
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
+          }}
+        />
+        )}   
+      /> */}
 
       <ModalBox open={productModal} onClose={handlecloseModal}>
         <div className={`modal ${productModal ? "is-active" : ""}`}>

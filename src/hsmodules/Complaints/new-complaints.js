@@ -372,7 +372,7 @@ const NewComplaints = () => {
                     alignItems: "center",
                     gap: 2,
                     padding: "15px 0",
-                    height: "100%",
+                    height: "calc(100% - 4rem)",
                     overflowY: "auto",
                   }}
                 >
@@ -1011,16 +1011,6 @@ const CreateNewComplaint = () => {
             ]}
           />
         </Grid>
-
-        {/* <Grid item xs={12}>
-          <CustomSelect
-            options={["Category 1", "Category 2", "Category 3"]}
-            label="Category"
-            name="category"
-            required
-            control={control}
-          />
-        </Grid> */}
 
         <Grid item xs={12}>
           <Textarea

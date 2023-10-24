@@ -21,6 +21,7 @@ const NewBeneficiaryModule = ({corporate}) => {
   const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
 
   const showBeneficairyDetails = data => {
+   console.log("data",data)
     setPatient(data);
     setView("details");
   };

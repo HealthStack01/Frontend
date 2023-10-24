@@ -15,6 +15,7 @@ import AppRoutes from "./hsmodules/routes";
 import {GlobalStyle} from "./ui/styled/global";
 import {darkTheme, lightTheme} from "./ui/styled/theme";
 import ActionLoader from "./components/action-loader/Action-Loader";
+import PopUpComplaintFormComponent from "./components/complaint-form/ComplaintForm";
 
 function App() {
   const [state, setState] = useState({
@@ -83,6 +84,7 @@ function App() {
     },
     ComplaintModule: {
       selectedComplaint: {},
+      popup: false,
     },
     ProposalModule: {
       selectedProposal: {},
@@ -365,6 +367,7 @@ function App() {
           >
             <MyUserProvider>
               <ActionLoader />
+              <PopUpComplaintFormComponent />
               <AnimatePresence initial exitBeforeEnter>
                 <Router>
                   <AppRoutes />

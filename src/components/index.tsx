@@ -3,7 +3,7 @@ import keyBy from "lodash/keyBy";
 import React, {useEffect, useState, useContext} from "react";
 import {ObjectContext} from "../context";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
+import ReportIcon from "@mui/icons-material/Report";
 import {Models} from "../hsmodules/app/Constants";
 import Breadcrumbs from "./breadcrumb";
 import GlobalCustomButton from "./buttons/CustomButton";
@@ -159,6 +159,17 @@ const TopMenu = () => {
     ]);
   };
 
+  const toggleComplaintForm = () => {
+    const isOpen = state.ComplaintModule.popup;
+    setState(prev => ({
+      ...prev,
+      ComplaintModule: {
+        ...prev.ComplaintModule,
+        popup: !isOpen,
+      },
+    }));
+  };
+
   return (
     <>
       <ModalBox
@@ -257,7 +268,35 @@ const TopMenu = () => {
             </Box>
           )}
 
-          <div className="profile-item">
+          <div
+            className="profile-item"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 24,
+            }}
+          >
+            <IconButton
+              onClick={toggleComplaintForm}
+              //sx={{border: "1px solid #F65F28"}}
+              sx={{
+                padding: "3px",
+                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                overflow: "hidden",
+              }}
+            >
+              {/* <ReportIcon sx={{fill: "#F65F28"}} fontSize="medium" /> */}
+              <img
+                alt=""
+                src="https://www.svgrepo.com/show/192522/customer-service-support.svg"
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  objectFit: "cover",
+                }}
+              />
+            </IconButton>
+
             <AppNotifications />
 
             <ProfileMenu />

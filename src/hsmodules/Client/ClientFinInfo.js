@@ -3,12 +3,13 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {FacilitySearch} from "../helpers/FacilitySearch";
 import {ClientSearch} from "../helpers/ClientSearch";
-import {Box, Button, Collapse, Grid} from "@mui/material";
+import {Box, Button, Collapse, Grid,  IconButton} from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Input from "../../components/inputs/basic/Input";
+import {DeleteOutline} from "@mui/icons-material";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import CustomTable from "../../components/customtable";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
@@ -146,6 +147,23 @@ export default function ClientFinInfo({closeModal}) {
     resetform();
     //
   };
+  const handleRemove=(row, i)=>{
+    console.log(row,i)
+
+
+    if (row.paymentmode=== 'Cash') {
+      toast.error('You cannot remove cash billing')
+        
+      return;
+    } 
+
+    //setProductItem(prevstate=> prevstate.splice(i,1))
+    setProductItem((prevstate) =>
+      prevstate.filter((row, index) => i !== index)
+    );
+
+
+  }
 
   const handlePayment = async () => {
     // console.log(productItem)
@@ -354,6 +372,26 @@ export default function ClientFinInfo({closeModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+    },
+    {
+      name: "Delete",
+      width: "50px",
+      center: true,
+      key: "delete",
+      description: "Delete row",
+      selector: (row, i) => (
+        <IconButton
+          onClick={()=>
+          handleRemove(row,i)
+          }
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
     },
   ];
 
