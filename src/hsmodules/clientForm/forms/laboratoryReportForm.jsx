@@ -960,7 +960,13 @@ export function Haematology() {
 }
 
 export function Serology() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -1136,6 +1142,65 @@ export function Serology() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* specimen details field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            SPECIMEN Details
+          </Typography>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Specimen"
+                name="specimen"
+                type="text"
+                register={register("specimen", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Date Of Request"
+                name="request_date"
+                type="text"
+                register={register("request_date", { required: true })}
+                defaultValue={dayjs(order.createdAt).format(
+                  "DD/MM/YYYY hh:mm A"
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <MuiCustomDatePicker
+                control={control}
+                label="Date Of Collection"
+                name="collection_date"
+                required={true}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Time Of Collection"
+                name="collection_time"
+                type="time"
+                register={register("collection_time", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Volume"
+                name="volume"
+                type="text"
+                register={register("volume", { required: false })}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
         <p style={{ fontWeight: "700" }} className="label is-small">
           SEROLOGY
         </p>
