@@ -505,7 +505,7 @@ export function Haematology() {
     },
   ];
 
-  const redBloodCellStudiesSchema = [
+  const redBloodCellStudiesOneSchema = [
     {
       label: "ESR (MM/HR)",
       name: "red_blood_cell_studies_ESR",
@@ -521,6 +521,9 @@ export function Haematology() {
       name: "red_blood_cell_studies_Reticulocytes",
       des: "Range: 0-3",
     },
+  ];
+
+  const redBloodCellStudiesTwoSchema = [
     {
       label: "Rhesus",
       name: "red_blood_cell_studies_Rhesus",
@@ -644,7 +647,7 @@ export function Haematology() {
           SPECIMEN Details
         </Typography>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2.4}>
             <Input
               label="Specimen"
               name="specimen"
@@ -652,7 +655,7 @@ export function Haematology() {
               register={register("specimen", { required: false })}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2.4}>
             <Input
               label="Date Of Request"
               name="request_date"
@@ -661,7 +664,7 @@ export function Haematology() {
               defaultValue={dayjs(order.createdAt).format("DD/MM/YYYY hh:mm A")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2.4}>
             <MuiCustomDatePicker
               control={control}
               label="Date Of Collection"
@@ -669,7 +672,7 @@ export function Haematology() {
               required={true}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2.4}>
             <Input
               label="Time Of Collection"
               name="collection_time"
@@ -677,7 +680,7 @@ export function Haematology() {
               register={register("collection_time", { required: false })}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2.4}>
             <Input
               label="Volume"
               name="volume"
@@ -705,9 +708,9 @@ export function Haematology() {
           </Typography>
           <Grid container alignItems="center" mt={1}>
             {fullBloodCountSchema.map((data, index) => (
-              <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
+              <Grid key={index} spacing={2} item xs={12} sm={3} mb={2}>
                 <Grid container spacing={1}>
-                  <Grid item xs={12} sm={7}>
+                  <Grid item xs={12} sm={6}>
                     <Input
                       label={data.label}
                       name={data.name}
@@ -717,12 +720,15 @@ export function Haematology() {
                       })}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={5}>
-                    <Typography>
-                      {" "}
-                      <label className={classes.boldLabel}>
-                        {data.des}
-                      </label>{" "}
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      sx={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {data.des}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -740,16 +746,16 @@ export function Haematology() {
               color: "blue",
               fontSize: "14px",
               fontWeight: "bold",
-              marginBottom: "4px",
+              marginBottom: "8px",
             }}
           >
             Differential White Blood Cell Count
           </Typography>
           <Grid container alignItems="center" mt={1}>
             {differentialWhiteBloodCellCountSchema.map((data, index) => (
-              <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
+              <Grid key={index} spacing={2} item xs={12} sm={3} mb={2}>
                 <Grid container spacing={1}>
-                  <Grid item xs={12} sm={7}>
+                  <Grid item xs={12} sm={6}>
                     <Input
                       label={data.label}
                       name={data.name}
@@ -759,12 +765,15 @@ export function Haematology() {
                       })}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={5}>
-                    <Typography>
-                      {" "}
-                      <label className={classes.boldLabel}>
-                        {data.des}
-                      </label>{" "}
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      sx={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {data.des}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -788,7 +797,7 @@ export function Haematology() {
             Red Blood Cell Studies
           </Typography>
           <Grid container alignItems="center" spacing={2} mt={1}>
-            {redBloodCellStudiesSchema.map((data, index) => (
+            {redBloodCellStudiesOneSchema.map((data, index) => (
               <Grid key={index} spacing={2} item xs={12} sm={4} mb={2}>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={7}>
@@ -802,14 +811,29 @@ export function Haematology() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={5}>
-                    <Typography>
-                      {" "}
-                      <label className={classes.boldLabel}>
-                        {data.des}
-                      </label>{" "}
+                    <Typography
+                      sx={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {data.des}
                     </Typography>
                   </Grid>
                 </Grid>
+              </Grid>
+            ))}
+            {redBloodCellStudiesTwoSchema.map((data, index) => (
+              <Grid key={index} spacing={2} item xs={12} sm={3} mb={2}>
+                <Input
+                  label={data.label}
+                  name={data.name}
+                  type="text"
+                  register={register(`${data.name}`, {
+                    required: false,
+                  })}
+                />
               </Grid>
             ))}
           </Grid>
@@ -830,7 +854,7 @@ export function Haematology() {
           </Typography>
           <Grid container spacing={2} alignItems="center" mt={0.5}>
             {combsTestSchema.map((data, index) => (
-              <Grid key={index} item xs={12} sm={4}>
+              <Grid key={index} item xs={12} sm={3}>
                 <Input
                   label={data.label}
                   name={data.name}
@@ -860,7 +884,7 @@ export function Haematology() {
           </Typography>
           <Grid container spacing={2} alignItems="center" mt={0.5}>
             {coagulationStudiesSchema.map((data, index) => (
-              <Grid key={index} item xs={12} sm={4}>
+              <Grid key={index} item xs={12} sm={3}>
                 <Input
                   label={data.label}
                   name={data.name}
@@ -888,7 +912,10 @@ export function Haematology() {
         >
           Recommendation
         </Typography>
-        <Grid item xs={12} sm={12}>
+      </Grid>
+
+      <Grid container spacing={1} mt={2}>
+        <Grid item xs={12} sm={6}>
           <Textarea
             placeholder="Recommendation"
             name="Recommendation"
@@ -1156,7 +1183,7 @@ export function Serology() {
             SPECIMEN Details
           </Typography>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2.4}>
               <Input
                 label="Specimen"
                 name="specimen"
@@ -1164,7 +1191,7 @@ export function Serology() {
                 register={register("specimen", { required: false })}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2.4}>
               <Input
                 label="Date Of Request"
                 name="request_date"
@@ -1175,7 +1202,7 @@ export function Serology() {
                 )}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2.4}>
               <MuiCustomDatePicker
                 control={control}
                 label="Date Of Collection"
@@ -1183,7 +1210,7 @@ export function Serology() {
                 required={true}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2.4}>
               <Input
                 label="Time Of Collection"
                 name="collection_time"
@@ -1191,7 +1218,7 @@ export function Serology() {
                 register={register("collection_time", { required: false })}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2.4}>
               <Input
                 label="Volume"
                 name="volume"
@@ -1205,7 +1232,7 @@ export function Serology() {
           SEROLOGY
         </p>
         <Grid container spacing={1} mt={1}>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="HBsAG"
               name="hbsag"
@@ -1213,7 +1240,7 @@ export function Serology() {
               register={register("hbsag")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="HCV"
               name="hcv"
@@ -1221,7 +1248,7 @@ export function Serology() {
               register={register("hcv")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="VDRL"
               name="vdrl"
@@ -1229,7 +1256,7 @@ export function Serology() {
               register={register("vdrl")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="RPHA"
               name="rpha"
@@ -1237,7 +1264,7 @@ export function Serology() {
               register={register("rpha")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="COOMBS"
               name="coombs"
@@ -1245,7 +1272,7 @@ export function Serology() {
               register={register("coombs")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="A.S.O Titre"
               name="asoTitre"
@@ -1253,7 +1280,7 @@ export function Serology() {
               register={register("asoTitre")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="SLE"
               name="sle"
@@ -1261,7 +1288,7 @@ export function Serology() {
               register={register("sle")}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="R.A Factor"
               name="raFactor"
@@ -1269,7 +1296,7 @@ export function Serology() {
               register={register("raFactor")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="B-HCG"
               name="bHcg"
@@ -1277,7 +1304,7 @@ export function Serology() {
               register={register("bHcg")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="MANTOUX"
               name="mantoux"
@@ -1285,7 +1312,7 @@ export function Serology() {
               register={register("mantoux")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="Blood Preg. Test"
               name="bloodPregTest"
@@ -1293,7 +1320,7 @@ export function Serology() {
               register={register("bloodPregTest")}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <Input
               label="XYZ"
               name="xyz"
@@ -1301,7 +1328,7 @@ export function Serology() {
               register={register("xyz")}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={6}>
             <Textarea
               placeholder="Recommendation"
               name="Recommendation"
