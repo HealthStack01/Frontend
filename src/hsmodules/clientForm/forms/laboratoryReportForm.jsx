@@ -510,16 +510,22 @@ export function Haematology() {
       label: "ESR (MM/HR)",
       name: "red_blood_cell_studies_ESR",
       des: "Range: 0-07",
+      minRange: 0,
+      maxRange: 7,
     },
     {
       label: "MCHC (G/DL)",
       name: "red_blood_cell_studies_MCHC",
       des: "Range: 31-34",
+      minRange: 31,
+      maxRange: 34,
     },
     {
       label: "Reticulocytes (%)",
       name: "red_blood_cell_studies_Reticulocytes",
       des: "Range: 0-3",
+      minRange: 0,
+      maxRange: 3,
     },
   ];
 
@@ -626,6 +632,16 @@ export function Haematology() {
   ];
 
   const classes = useStyles();
+
+  const validateAndDisplayMessage = (fieldName, value, minRange, maxRange) => {
+    if (value < minRange) {
+      return "Smaller";
+    } else if (value > maxRange) {
+      return "Greater";
+    } else {
+      return "Good";
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -820,6 +836,40 @@ export function Haematology() {
                     >
                       {data.des}
                     </Typography>
+                    {watch(data.name) !== "" && (
+                      <Typography
+                        variant="p"
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          marginBottom: "4px",
+                          color: `${
+                            validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            ) === "Good"
+                              ? "green"
+                              : validateAndDisplayMessage(
+                                  data.name,
+                                  parseFloat(watch(data.name)),
+                                  data.minRange,
+                                  data.maxRange
+                                ) === "Greater"
+                              ? "red"
+                              : "blue"
+                          }`,
+                        }}
+                      >
+                        {validateAndDisplayMessage(
+                          data.name,
+                          parseFloat(watch(data.name)),
+                          data.minRange,
+                          data.maxRange
+                        )}
+                      </Typography>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -884,6 +934,409 @@ export function Haematology() {
           </Typography>
           <Grid container spacing={2} alignItems="center" mt={0.5}>
             {coagulationStudiesSchema.map((data, index) => (
+              <Grid key={index} item xs={12} sm={3}>
+                <Input
+                  label={data.label}
+                  name={data.name}
+                  type="text"
+                  register={register(`${data.name}`, {
+                    required: false,
+                  })}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {/* Recommendation field */}
+      <Grid container spacing={1} mt={2}>
+        <Typography
+          variant="p"
+          sx={{
+            color: "blue",
+            fontSize: "14px",
+            fontWeight: "bold",
+            marginBottom: "4px",
+          }}
+        >
+          Recommendation
+        </Typography>
+      </Grid>
+
+      <Grid container spacing={1} mt={2}>
+        <Grid item xs={12} sm={6}>
+          <Textarea
+            placeholder="Recommendation"
+            name="Recommendation"
+            type="text"
+            register={register("Recommendation")}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} sm={2}>
+          <input
+            type="radio"
+            name="status"
+            value="Draft"
+            checked={reportStatus === "Draft" || reportStatus === "Pending"}
+            onChange={(e) => {
+              handleChangePart(e);
+            }}
+            disabled={bill_report_status === "Final"}
+            style={{
+              margin: "1rem",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "1rem",
+            }}
+          >
+            {" "}
+            Draft
+          </span>
+        </Grid>{" "}
+        <Grid item xs={12} sm={2}>
+          <input
+            type="radio"
+            name="status"
+            value="Final"
+            checked={reportStatus === "Final"}
+            onChange={(e) => handleChangePart(e)}
+            disabled={bill_report_status === "Final"}
+            style={{
+              margin: "1rem",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "1rem",
+            }}
+          >
+            {" "}
+            Final{" "}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={1}>
+        <Grid item xs={12} sm={12}>
+          {bill_report_status !== "Final" && (
+            <GlobalCustomButton
+              text={bill_report_status === "Pending" ? "Save" : "Update"}
+              onClick={handleSubmit(onSubmit)}
+              color="success"
+            />
+          )}
+        </Grid>
+      </Grid>
+    </form>
+  );
+}
+
+export function HaematologyTest() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const dClientServ = client.service("clinicaldocument");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const { state, setState } = useContext(ObjectContext);
+
+  const [docStatus, setDocStatus] = useState("Draft");
+  const [reportStatus, setReportStatus] = useState("Draft");
+  const ClientServ = client.service("labresults");
+  const order = state.financeModule.selectedFinance;
+  const bill_report_status = state.financeModule.report_status;
+
+  // let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
+
+  useEffect(() => {
+    // setState((prevstate)=>({...prevstate, labFormType:value}))
+    if (!order.resultDetail?.documentdetail) {
+      setValue("Finding", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue("Recommendation", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      // setReportStatus(order.report_status)
+
+      return;
+    }
+    if (order.report_status !== "Pending") {
+      Object.entries(order.resultDetail.documentdetail).map(
+        ([keys, value], i) =>
+          setValue(keys, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+          })
+      );
+    }
+
+    return () => {};
+  }, [order]);
+
+  const getSearchfacility = (obj) => {
+    setValue("facility", obj._id, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+      setValue("facility", user.currentEmployee.facilityDetail._id,  {
+          shouldValidate: true,
+          shouldDirty: true
+      })  */
+    }
+  });
+
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    let document = {};
+    // data.createdby=user._id
+    //  console.log(data);
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+    }
+    document.documentdetail = data;
+    document.documentType = "Diagnostic Result";
+    document.documentname = `${order.serviceInfo.name} Result`;
+    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
+    document.location =
+      state.employeeLocation.locationName +
+      " " +
+      state.employeeLocation.locationType;
+    document.locationId = state.employeeLocation.locationId;
+    document.client = order.orderInfo.orderObj.clientId;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + " " + user.lastname;
+    document.status = reportStatus;
+    document.billId = order._id;
+
+    if (
+      document.location === undefined ||
+      !document.createdByname ||
+      !document.facilityname
+    ) {
+      toast.error(
+        " Documentation data missing, requires location and facility details"
+      );
+      return;
+    }
+
+    if (bill_report_status === "Pending") {
+      document.labFormType = state.labFormType;
+      ClientServ.create(document)
+        .then((res) => {
+          setSuccess(true);
+          toast.success("Lab Result created succesfully");
+          setSuccess(false);
+        })
+        .catch((err) => {
+          toast.error("Error creating Lab Result " + err);
+        });
+    }
+
+    if (bill_report_status === "Draft") {
+      ClientServ.patch(order.resultDetail._id, document)
+        .then((res) => {
+          setSuccess(true);
+          toast.success("Lab Result updated succesfully");
+          setSuccess(false);
+        })
+        .catch((err) => {
+          toast.error("Error updating Lab Result " + err);
+        });
+    }
+    const newProductEntryModule = {
+      selectedFinance: order,
+      show: "show",
+      // report_status:order.report_status
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      financeModule: newProductEntryModule,
+    }));
+  };
+
+  const handleChangePart = async (e) => {
+    console.log(e.target.value);
+    await setReportStatus(e.target.value);
+  };
+  const inputStyle = {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    padding: "0.9rem",
+    width: "100%",
+    height: "100%",
+    borderRadius: " 4px",
+    border: "1.5px solid #BBBBBB",
+    width: "100%",
+    // on focus
+    "&:focus": {
+      border: "2px solid #0364FF",
+    },
+  };
+  const labelStyle = {
+    position: "absolute",
+    left: "1rem",
+    top: "-0.5rem",
+    padding: "0 0.25rem",
+    backgroundColor: "#fff",
+    transition: "0.4s",
+  };
+
+  const fullBloodCountSchema = [
+    {
+      label: "Hb",
+      name: "full_blood_count_Hb",
+      des: "Range: 12-16",
+    },
+    {
+      label: "WBC (CMM)",
+      name: "full_blood_count_WBC",
+      des: "Range: 3000-11000",
+    },
+    {
+      label: "Platelet",
+      name: "full_blood_count_Platelet",
+      des: "Range: 150000-400000",
+    },
+    {
+      label: "RBC",
+      name: "full_blood_count_RBC",
+      des: "Range: 12-16",
+    },
+    {
+      label: "MCV (FL)",
+      name: "full_blood_count_MCV",
+      des: "Range: 34-55",
+    },
+    {
+      label: "MCH",
+      name: "full_blood_count_MCH",
+      des: "Range: 27-32",
+    },
+    {
+      label: "Haematocrit (HCT)",
+      name: "full_blood_count_Haematocrit",
+      des: "Range 0.37- 0.54",
+    },
+  ];
+
+  const combsTestSchema = [
+    {
+      label: "Direct Comb",
+      name: "combs_test_Direct_Comb",
+    },
+    {
+      label: "Indirect Comb",
+      name: "combs_test_Indirect_Comb",
+    },
+  ];
+
+  const classes = useStyles();
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <p style={{ fontWeight: "700" }} className="label is-small">
+        HEAMATOLOGY
+      </p>
+
+      <Grid container spacing={1} mt={2}>
+        {/*  Full blood count (Total white blood cell count) */}
+        <Grid item xs={12} sm={12}>
+          {" "}
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Full blood count (Total white blood cell count)
+          </Typography>
+          <Grid container alignItems="center" mt={1}>
+            {fullBloodCountSchema.map((data, index) => (
+              <Grid key={index} spacing={2} item xs={12} sm={3} mb={2}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      label={data.label}
+                      name={data.name}
+                      type="text"
+                      register={register(`${data.name}`, {
+                        required: false,
+                      })}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      sx={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {data.des}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        {/* Combs Test */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "8px",
+            }}
+          >
+            Combs Test
+          </Typography>
+          <Grid container spacing={2} alignItems="center" mt={0.5}>
+            {combsTestSchema.map((data, index) => (
               <Grid key={index} item xs={12} sm={3}>
                 <Input
                   label={data.label}
@@ -1777,7 +2230,7 @@ export function ChemicalPathologyAndTumorMarkers() {
             SPECIMEN Details
           </Typography>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Input
                 label="Specimen"
                 name="specimen"
@@ -1785,7 +2238,7 @@ export function ChemicalPathologyAndTumorMarkers() {
                 register={register("specimen", { required: false })}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Input
                 label="Date Of Request"
                 name="request_date"
@@ -1796,7 +2249,7 @@ export function ChemicalPathologyAndTumorMarkers() {
                 )}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <MuiCustomDatePicker
                 control={control}
                 label="Date Of Collection"
@@ -1804,7 +2257,7 @@ export function ChemicalPathologyAndTumorMarkers() {
                 required={true}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Input
                 label="Time Of Collection"
                 name="collection_time"
@@ -1812,7 +2265,7 @@ export function ChemicalPathologyAndTumorMarkers() {
                 register={register("collection_time", { required: false })}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Input
                 label="Volume"
                 name="volume"
@@ -1820,7 +2273,7 @@ export function ChemicalPathologyAndTumorMarkers() {
                 register={register("volume", { required: false })}
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Input
                 label="LMP"
                 name="lmp"
