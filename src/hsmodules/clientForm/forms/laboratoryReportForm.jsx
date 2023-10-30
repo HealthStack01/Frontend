@@ -1623,6 +1623,12 @@ export function Serology() {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* specimen details field */}
+
+        <Grid container spacing={0.1} mt={1}>
+          <p style={{ fontWeight: "700" }} className="label is-small">
+            SEROLOGY
+          </p>
+        </Grid>
         <Grid container spacing={0.1} mt={1}>
           <Typography
             variant="p"
@@ -1681,9 +1687,7 @@ export function Serology() {
             </Grid>
           </Grid>
         </Grid>
-        <p style={{ fontWeight: "700" }} className="label is-small">
-          SEROLOGY
-        </p>
+
         <Grid container spacing={1} mt={1}>
           <Grid item xs={12} sm={2}>
             <Input
@@ -1781,6 +1785,144 @@ export function Serology() {
               register={register("xyz")}
             />
           </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={2}>
+          <Grid item sm={6}>
+            <Grid container xs={12} spacing={1}>
+              <Grid item spacing={1} sm={4}>
+                <Typography
+                  variant="p"
+                  sx={{
+                    color: "black",
+                    fontSize: "14px",
+                    // fontWeight: "lighter",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Salmonella Typhi :
+                </Typography>
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="H"
+                  name="Salmonella_Typhi_H"
+                  type="text"
+                  register={register("Salmonella_Typhi_H")}
+                />
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="O"
+                  name="Salmonella_Typhi_O"
+                  type="text"
+                  register={register("Salmonella_Typhi_O")}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item sm={6}>
+            <Grid container xs={12} spacing={1}>
+              <Grid item spacing={1} sm={4}>
+                <Typography
+                  variant="p"
+                  sx={{
+                    color: "black",
+                    fontSize: "14px",
+                    // fontWeight: "lighter",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Salmonella Paratyphi A :
+                </Typography>
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="H"
+                  name="Salmonella_Paratyphi_A_H"
+                  type="text"
+                  register={register("Salmonella_Paratyphi_A_H")}
+                />
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="O"
+                  name="Salmonella_Paratyphi_A_O"
+                  type="text"
+                  register={register("Salmonella_Paratyphi_A_O")}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item sm={6}>
+            <Grid container xs={12} spacing={1}>
+              <Grid item spacing={1} sm={4}>
+                <Typography
+                  variant="p"
+                  sx={{
+                    color: "black",
+                    fontSize: "14px",
+                    // fontWeight: "lighter",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Salmonella Paratyphi B :
+                </Typography>
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="H"
+                  name="Salmonella_Paratyphi_B_H"
+                  type="text"
+                  register={register("Salmonella_Paratyphi_B_H")}
+                />
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="O"
+                  name="Salmonella_Paratyphi_B_O"
+                  type="text"
+                  register={register("Salmonella_Paratyphi_B_O")}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item sm={6}>
+            <Grid container xs={12} spacing={1}>
+              <Grid item spacing={1} sm={4}>
+                <Typography
+                  variant="p"
+                  sx={{
+                    color: "black",
+                    fontSize: "14px",
+                    // fontWeight: "lighter",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Salmonella Paratyphi C :
+                </Typography>
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="H"
+                  name="Salmonella_Paratyphi_C_H"
+                  type="text"
+                  register={register("Salmonella_Paratyphi_C_H")}
+                />
+              </Grid>
+              <Grid item spacing={1} sm={4}>
+                <Input
+                  label="O"
+                  name="Salmonella_Paratyphi_C_O"
+                  type="text"
+                  register={register("Salmonella_Paratyphi_C_O")}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={1}>
           <Grid item xs={12} sm={6}>
             <Textarea
               placeholder="Recommendation"
@@ -1790,7 +1932,7 @@ export function Serology() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2} mt={1}>
+        <Grid container spacing={1} mt={1}>
           <Grid item xs={12} sm={2}>
             <input
               type="radio"
@@ -1836,6 +1978,7 @@ export function Serology() {
             </span>
           </Grid>
         </Grid>
+
         <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== "Final" && (
