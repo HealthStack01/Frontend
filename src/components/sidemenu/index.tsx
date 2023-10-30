@@ -117,6 +117,8 @@ export const menuItems = [
       {name: "HMO Authorization", to: "/app/finance/hmoauthorization"},
       {name: "Dashboard", to: "/app/finance/dashboard"},
       {name: "Tariffs", to: "/app/finance/tariffs"},
+      {name: "Authorization", to: "/app/finance/authorization"},
+      {name: "Claims", to: "/app/finance/claims"},
     ],
   },
   {

@@ -12,6 +12,8 @@ const FinanceDashboard = lazy(() =>
 );
 const ClientTransactions = lazy(() => import("../Finance/ClientTransactions"));
 const EMRTarrifsComponent = lazy(() => import("../Finance/Tariffs"));
+const Claims = lazy(() => import("../Finance/Claims"));
+const PreAuth = lazy(() => import("../Finance/PreAuth"));
 
 export const financeRoutes = [
   {
@@ -53,5 +55,13 @@ export const financeRoutes = [
   {
     path: "/app/finance/tariffs",
     Component: EMRTarrifsComponent,
+  },
+  {
+    path: "/app/finance/authorization",
+    Component: PreAuth,
+  },
+  {
+    path: "/app/finance/claims",
+    Component:Claims,
   },
 ];
