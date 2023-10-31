@@ -229,7 +229,8 @@ export function BandList({ showCreateModal }) {
   const [hList, setHList] = useState([]);
   const [pList, setPList] = useState([]);
   const clientCountRef=useRef()
-  const policyCountRef=useRef()
+  const policyCountRef=useRef(0)
+  
   
   
 
@@ -347,7 +348,7 @@ export function BandList({ showCreateModal }) {
 
   useEffect(() => {
     //getFacilities();
-    findstuff()
+    //findstuff()
     
 
     BandServ.on("created", (obj) => getFacilities());
@@ -1735,13 +1736,237 @@ const check=async(hospList2)=>{
   console.log("finished  creating policies")
 }
  const addNHIS =async()=>{
+
 //find all nhis hospitals
-const find=await accServ.find()
+let p=3
+let skip=40000
+let limit =100
+
+/* const find=await accServ.find(
+  {
+    query:{
+      orgId:user.currentEmployee.facilityDetail._id,
+      limit:10000,
+      skip:skip
+    }
+  }
+) */
 // patch nhisband with the data
-console.log("stuff", find)
+//console.log("stuff", find)
+console.log("count",skip)
+
+  //await policyServ.
+  await ClientServ.find({
+  query:{
+    
+   /*  organizationId:user.currentEmployee.facilityDetail._id,
+    $limit:limit,
+    $skip:skip */
+    paymentinfo:   {
+      $size: 1 // Change 1 to the desired minimum array size
+    }
+,
+    clientTags:"nhia beneficiary"
+  },
+  //paginate:false
+}).then(async resp=>{
+  console.log("success",resp.total)
+  console.log(resp.data)
+
+  await setText(resp.data)
+  findPolicies(resp.data)
+ /*  findPolicy(resp.data) */
+})
+.catch(err=>console.log(err))
+
 
  }
 
+ const findPolicies= async (booked)=>{
+  let people=[]
+  for (let p = 0; p <= booked.length-1; p++) {
+    let person=booked[p]
+    await policyServ.find({
+      query:{
+        $or:[
+          {
+            "dependantBeneficiaries._id":person._id
+          },
+          {
+            "principal._id":person._id
+          }
+        ]
+      }
+    }).then((resp)=>{
+        people=[...people, ...resp.data]
+        console.log("people",people)
+
+    })
+    .catch(err=>console.log(err))
+  }
+findPolicy(people)
+ }
+
+ const findPolicy =async(all)=>{
+  const allpolicy=all
+  for (let p= 0; p<= all.length-1; p++) { //
+    // let client = allpolicy[p]
+     let result= allpolicy[p]
+     let principalstate=true
+     //console.log(p)
+     //principal
+    // console.log(result)
+     try{
+
+    
+     if (!!result.principal){
+
+    
+     let principalx=result.principal._id
+
+    // console.log(principalx)
+     let pclient= await ClientServ.get(principalx)
+     
+    /*  .then(async(resp)=>{
+       pclient=resp */
+       // console.log("final",resp)
+       //context.result=resp
+
+       let payinfo=pclient.paymentinfo
+       if (payinfo.length==1){
+         let clientpolicy= {
+           paymentmode:"HMO",
+           organizationId:result.organizationId,
+           organizationName:result.organizationName,
+           principalId:result.policyNo,
+           clientId:result.policyNo,
+           principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm --result.principal.name?result.principal.name:
+           plan:result.plan.planName, //confirm --result.plan.name?result.plan.name: 
+           active:true,
+           principal:result.principal._id,
+           organizationType: result.organizationType,
+           agent:result.agent,
+           agentName:result.agentName,
+           policy:result
+         }
+         // add hmo policy
+      payinfo.push(clientpolicy)
+        await ClientServ.patch(principalx, {paymentinfo:payinfo})
+        
+       /*  .then((resp)=>{
+          //console.log("final",resp)
+         //context.result=resp
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+        */
+       }
+     /*  })
+      .catch((err)=>{
+        console.log("principal" + err,principalx)
+      }) */
+     }else{
+       console.log("no principal",result)
+       principalstate=false
+     }
+     
+//dependents
+     if (result.dependantBeneficiaries.length >0){
+       for (let i = 0; i <= result.dependantBeneficiaries.length-1; i++) {
+      // for (let element of result.dependantBeneficiaries) {
+           let element = result.dependantBeneficiaries[i]
+         let dept=element._id
+     let dclient= await ClientServ.get(dept)
+     //.then(async(dresp)=>{
+       // console.log("final",resp)
+       //context.result=resp
+      // dclient=dresp
+       let dpayinfo=dclient.paymentinfo
+       if (dpayinfo.length==1){
+            
+         let clientpolicy1= {
+           paymentmode:"HMO",
+           organizationId:result.organizationId,
+           organizationName:result.organizationName,
+           principalId:result.policyNo,
+           clientId:element.policyNo?element.policyNo:result.policyNo,
+           principalName:principalstate?`${result.principal.firstname} ${result.principal.lastname}`:"", //confirm
+           plan:result.plan.planName, //confirm
+           active:true,
+           principal:principalstate?result.principal._id:"",
+           organizationType: result.organizationType,
+           agent:result.agent,
+           agentName:result.agentName,
+           policy:result
+         }
+ 
+         //let patient1 = await clientServ.get(element._id)
+         let paymentinfo1=dpayinfo
+         paymentinfo1.push(clientpolicy1)
+         await ClientServ.patch(element._id, {paymentinfo:paymentinfo1})
+        /*  ).then((resp)=>{
+          // console.log("final",resp)
+          //context.result=resp
+         })
+         .catch((err)=>{
+           console.log(err) //throw error
+         }) */
+ 
+       }
+
+     /*  })
+      .catch((err)=>{
+        console.log("dependent"+err,dept )
+      })
+      
+   }} */
+    }
+   }
+ }
+ catch(error){
+   console.log(error)
+   console.log(p,result)
+ }
+ //let step=p+skip
+ console.log("done")
+}
+ }
+
+
+ const handleCreatePolicy = async item => {
+  console.log("state",item)
+   const newI= deepCopy(item)
+  if (newI.paymentinfo.length==1){
+    console.log("add policy")
+    let result=newI.policy
+    delete newI.policy
+    let clientpolicy= {
+      paymentmode:"HMO",
+      organizationId:result.organizationId,
+      organizationName:result.organizationName,
+      principalId:result.policyNo,
+      clientId:result.policyNo,
+      principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm
+      plan:result.plan.planName, //confirm
+      active:true,
+      principal:result.principal._id,
+      organizationType: result.organizationType,
+      agent:result.agent,
+      agentName:result.agentName,
+      policy:result
+    }
+    newI.paymentinfo.push(clientpolicy)
+    console.log("updated item", newI)
+    await ClientServ.patch(item._id, {paymentinfo:newI.paymentinfo})
+    .then((resp)=>{
+      console.log("update successful "+ resp)
+    })
+    .catch((err)=>{
+      toast.error("Update not successful "+ err)
+    })
+  } 
+}
 
 
   return (
@@ -1750,7 +1975,7 @@ console.log("stuff", find)
       {/* <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
       <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } /> */}
       <GlobalCustomButton onClick={addNHIS}>
-         Add to NHIS band
+         Add Policy detail
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
         </GlobalCustomButton>  
       </Box> 
@@ -1871,6 +2096,7 @@ console.log("stuff", find)
     </>
   );
 }
+
 
 export function BandDetail({ showModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,

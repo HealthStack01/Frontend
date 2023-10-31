@@ -118,6 +118,7 @@ export default function EmployeeSearch({
         locationType: { type: String }, */
 
     if (val.length >= 3) {
+      console.log("about to start")
       ClientServ.find({
         query: {
           $or: [

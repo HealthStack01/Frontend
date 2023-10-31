@@ -64,6 +64,15 @@ export function ClientSearch({
   const [productModal, setProductModal] = useState(false);
 
   const dropDownRef = useRef(null);
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    const getData = setTimeout(() => {
+        handleSearch(search)
+        console.log(search)
+    }, 1000);
+
+    return () => clearTimeout(getData);
+  }, [search]);
 
   const getInitial = async (id) => {
     //console.log("ID from client search", id);
@@ -134,75 +143,79 @@ export function ClientSearch({
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
-    setVal(val);
-    if (val === "") {
+  const handleSearch = async value => {
+  /*   console.log("start", new Date()) */
+    setVal(value);
+    if (value === "") {
       setShowPanel(false);
-      getSearchfacility(false);
+     // getSearchfacility(false);
       return;
     }
     const field = "name"; //field variable
 
-    if (val.length >= 3) {
+    if (value.length >= 3) {
+      console.log("about to start")
+      console.log()
       ClientServ.find({
         query: {
           $or: [
             {
               firstname: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
             {
               lastname: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
             {
               middlename: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
             {
               phone: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
             {
               clientTags: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
             {
               mrn: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
             {
               specificDetails: {
-                $regex: val,
+                $regex: value,
                 $options: "i",
               },
             },
           ],
 
           //facility: user.currentEmployee.facilityDetail._id,
-          // "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
+         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
           //storeId: state.StoreModule.selectedStore._id,
           $limit: 10,
-         /*  $sort: {
-            createdAt: -1,
+        /*   $sort: {
+           lastname: 1,
           }, */
         },
       })
-        .then((res) => {
+        .then(res => {
+         /*  console.log("found", new Date())
           console.log("product  fetched successfully");
-          console.log(res.data);
+          console.log(res.data); */
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -216,11 +229,11 @@ export function ClientSearch({
           });
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+     /*  console.log("less than 3 ");
+      console.log(val); */
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+     /*  console.log(facilities); */
     }
   };
 
@@ -260,7 +273,7 @@ export function ClientSearch({
       }}
     >
       <Autocomplete
-        disabled={disabled}
+       /*  disabled={disabled} */
         size="small"
         value={simpa}
         onChange={(event, newValue, reason) => {
@@ -272,25 +285,28 @@ export function ClientSearch({
         }}
         id="free-solo-dialog-demo"
         options={facilities}
-        getOptionLabel={(option) => {
+        onInputChange={(e,value) => setSearch(value)}
+        getOptionLabel={option => {
           if (typeof option === "string") {
             return option;
           }
           if (option.inputValue) {
             return option.inputValue;
           }
-          return option.firstname;
+          const age = option.dob? formatDistanceToNowStrict(new Date(option.dob)):""
+          const label=  `${option?.firstname} ${option?.lastname} ${option?.gender}  ${age} `
+          return label
         }}
-        isOptionEqualToValue={(option, value) =>
+       /*  isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option._id === value._id
-        }
+        } */
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
         noOptionsText={
           val === "" ? "Type something..." : `${val} was not found`
         }
-        renderOption={(props, option) => (
+     /*    renderOption={(props, option) => (
           <Box
             {...props}
             style={{ display: "flex", flexWrap: "wrap" }}
@@ -323,18 +339,18 @@ export function ClientSearch({
 
             <Typography sx={{ fontSize: "0.75rem" }}>{option.phone}</Typography>
           </Box>
-        )}
+        )} */
         sx={{
           width: "100%",
         }}
-        freeSolo={false}
-        renderInput={(params) => (
+        freeSolo
+        renderInput={params => (
           <TextField
             {...params}
             label={label || "Search for Client"}
-            onChange={(e) => handleSearch(e.target.value)}
+          /*   onChange={e => handleSearch(e.target.value)} */
             ref={inputEl}
-            sx={{
+           /*  sx={{
               fontSize: "0.75rem",
               backgroundColor: "#ffffff",
               "& .MuiInputBase-input": {
@@ -345,8 +361,8 @@ export function ClientSearch({
               "& .MuiInputBase-input.Mui-disabled": {
                 WebkitTextFillColor: "#000000",
               },
-            }}
-            disabled={disabled}
+            }} */
+            //disabled={disabled}
             InputLabelProps={{
               shrink: true,
               style: { color: "#2d2d2d" },
