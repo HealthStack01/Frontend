@@ -429,36 +429,51 @@ export function Haematology() {
       label: "Hb",
       name: "full_blood_count_Hb",
       des: "Range: 12-16",
+      minRange: 12,
+      maxRange: 16,
     },
+
     {
       label: "WBC (CMM)",
       name: "full_blood_count_WBC",
       des: "Range: 3000-11000",
+      minRange: 3000,
+      maxRange: 11000,
     },
     {
       label: "Platelet",
       name: "full_blood_count_Platelet",
       des: "Range: 150000-400000",
+      minRange: 150000,
+      maxRange: 400000,
     },
     {
       label: "RBC",
       name: "full_blood_count_RBC",
       des: "Range: 12-16",
+      minRange: 12,
+      maxRange: 16,
     },
     {
       label: "MCV (FL)",
       name: "full_blood_count_MCV",
       des: "Range: 34-55",
+      minRange: 34,
+      maxRange: 55,
     },
     {
       label: "MCH",
       name: "full_blood_count_MCH",
       des: "Range: 27-32",
+      minRange: 27,
+      maxRange: 32,
     },
     {
       label: "Haematocrit (HCT)",
       name: "full_blood_count_Haematocrit",
       des: "Range 0.37- 0.54",
+      minRange: 0.37,
+      maxRange: 0.54,
     },
   ];
 
@@ -467,26 +482,36 @@ export function Haematology() {
       label: "Neutrophils (%)",
       name: "differential_white_blood_cell_count_Neutrophils",
       des: "Range: 40-70",
+      minRange: 40,
+      maxRange: 70,
     },
     {
       label: "Basophils (%)",
       name: "differential_white_blood_cell_count_Basophils",
       des: "Range: 0-1",
+      minRange: 0,
+      maxRange: 1,
     },
     {
       label: "Lymphocytes (%)",
       name: "differential_white_blood_cell_count_Lymphocytes",
       des: "Range: 20-50",
+      minRange: 20,
+      maxRange: 50,
     },
     {
       label: "Monocytes (%)",
       name: "differential_white_blood_cell_count_Monocytes",
       des: "Range: 2-30",
+      minRange: 2,
+      maxRange: 30,
     },
     {
       label: "Eosinophils (%)",
       name: "differential_white_blood_cell_count_Eosinophils",
       des: "Range: 20-50",
+      minRange: 20,
+      maxRange: 50,
     },
     {
       label: "Meta-Myelocyte",
@@ -509,7 +534,7 @@ export function Haematology() {
     {
       label: "ESR (MM/HR)",
       name: "red_blood_cell_studies_ESR",
-      des: "Range: 0-07",
+      des: "Range: 0-7",
       minRange: 0,
       maxRange: 7,
     },
@@ -635,11 +660,13 @@ export function Haematology() {
 
   const validateAndDisplayMessage = (fieldName, value, minRange, maxRange) => {
     if (value < minRange) {
-      return "Smaller";
+      return "low";
     } else if (value > maxRange) {
-      return "Greater";
+      return "High";
+    } else if (value >= minRange && value <= maxRange) {
+      return "Normal";
     } else {
-      return "Good";
+      return "Invalid Input";
     }
   };
 
@@ -746,6 +773,33 @@ export function Haematology() {
                     >
                       {data.des}
                     </Typography>
+                    {watch(data.name) !== "" && data.des && (
+                      <Typography
+                        variant="p"
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          marginBottom: "4px",
+                          color: `${
+                            validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            ) === "Normal"
+                              ? "green"
+                              : "red"
+                          }`,
+                        }}
+                      >
+                        {validateAndDisplayMessage(
+                          data.name,
+                          parseFloat(watch(data.name)),
+                          data.minRange,
+                          data.maxRange
+                        )}
+                      </Typography>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -791,6 +845,33 @@ export function Haematology() {
                     >
                       {data.des}
                     </Typography>
+                    {watch(data.name) !== "" && data.des !== "" && (
+                      <Typography
+                        variant="p"
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          marginBottom: "4px",
+                          color: `${
+                            validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            ) === "Normal"
+                              ? "green"
+                              : "red"
+                          }`,
+                        }}
+                      >
+                        {validateAndDisplayMessage(
+                          data.name,
+                          parseFloat(watch(data.name)),
+                          data.minRange,
+                          data.maxRange
+                        )}
+                      </Typography>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -836,7 +917,7 @@ export function Haematology() {
                     >
                       {data.des}
                     </Typography>
-                    {watch(data.name) !== "" && (
+                    {watch(data.name) !== "" && data.des && (
                       <Typography
                         variant="p"
                         sx={{
@@ -849,16 +930,9 @@ export function Haematology() {
                               parseFloat(watch(data.name)),
                               data.minRange,
                               data.maxRange
-                            ) === "Good"
+                            ) === "Normal"
                               ? "green"
-                              : validateAndDisplayMessage(
-                                  data.name,
-                                  parseFloat(watch(data.name)),
-                                  data.minRange,
-                                  data.maxRange
-                                ) === "Greater"
-                              ? "red"
-                              : "blue"
+                              : "red"
                           }`,
                         }}
                       >
