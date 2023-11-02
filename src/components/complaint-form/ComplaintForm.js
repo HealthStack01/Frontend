@@ -102,8 +102,8 @@ const PopUpComplaintFormComponent = () => {
       const smsMessage = {
         message: `There is a new ${data.category.value} complaint from ${facility.facilityName} with subject ${data.subject} and complaint is: ${data.complaint}`,
         receiver: phone,
-        facilityName: facility.facilityName,
-        facilityId: facility._id,
+        facilityName: "Healthstack Implementation",
+        facilityId: "63d275e3b40a06001641ef71",
       };
       await sendSmsServer.create(smsMessage);
     });
