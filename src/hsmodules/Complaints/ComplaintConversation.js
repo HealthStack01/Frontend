@@ -52,7 +52,7 @@ const ComplaintConversation = ({closeConvo}) => {
     await complaintServer
       .get(id)
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
         setMessages(resp.convo || []);
       })
       .catch(err => {
@@ -95,6 +95,7 @@ const ComplaintConversation = ({closeConvo}) => {
   const sendMessage = async () => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
+    const facility = employee.facilityDetail;
     //const currentComplaint = state.ComplaintModule.selectedComplaint;
 
     const messageDoc = {
@@ -103,8 +104,9 @@ const ComplaintConversation = ({closeConvo}) => {
       _id: uuidv4(),
       seen: [],
       status: "delivered",
-      //senderId: "000",
       senderId: employee.userId,
+      senderOrgId: facility._id,
+      senderOrgName: facility.facilityName,
       dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
