@@ -372,7 +372,7 @@ const NewComplaints = () => {
                     alignItems: "center",
                     gap: 2,
                     padding: "15px 0",
-                    height: "calc(100% - 4rem)",
+                    height: "calc(100% - 27rem)",
                     overflowY: "auto",
                   }}
                 >
@@ -525,9 +525,19 @@ const EachComplaint = ({complaint, showConversation}) => {
             sx={{
               fontSize: "0.85rem",
               fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
             }}
           >
             {`${complaint?.submissionby?.firstname} ${complaint?.submissionby?.lastname}`}
+            <Typography
+              sx={{
+                color: "#1976d2",
+                fontWeight: "600",
+                fontSize: "0.85rem",
+              }}
+            >{`(${complaint.from.entity.name})`}</Typography>
           </Typography>
         </Box>
 

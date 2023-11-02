@@ -237,9 +237,20 @@ const ComplaintConversation = ({closeConvo}) => {
               sx={{
                 fontSize: "0.8rem",
                 fontWeight: "600",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
               }}
             >
               {`${complaint?.submissionby?.firstname} ${complaint?.submissionby?.lastname}`}
+
+              <Typography
+                sx={{
+                  color: "#1976d2",
+                  fontWeight: "600",
+                  fontSize: "0.85rem",
+                }}
+              >{`(${complaint?.from?.entity?.name})`}</Typography>
             </Typography>
 
             {complaint?.complaint?.length > 200 && (
