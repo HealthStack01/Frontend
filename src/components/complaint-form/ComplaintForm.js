@@ -41,6 +41,7 @@ const returnComplaintTo = (object, type) => {
 
 const PopUpComplaintFormComponent = () => {
   const complaintServer = client.service("complaints");
+  const sendSmsServer = client.service("sendsms");
   const facilityServer = client.service("facility");
   const clientServer = client.service("client");
   const [clients, setClients] = useState([]);
@@ -95,6 +96,18 @@ const PopUpComplaintFormComponent = () => {
 
     const from = returnComplaintTo(facility, "organization");
 
+    const contactSmsNumbers = ["08036648712", "07066858155", "09060148161"];
+
+    const promises = contactSmsNumbers.map(async phone => {
+      const smsMessage = {
+        message: `There is a new ${data.category.value} complaint from ${facility.facilityName} with subject ${data.subject} and complaint is: ${data.complaint}`,
+        receiver: phone,
+        facilityName: facility.facilityName,
+        facilityId: facility._id,
+      };
+      await sendSmsServer.create(smsMessage);
+    });
+
     const document = {
       resolution: false,
       from: from,
@@ -110,10 +123,11 @@ const PopUpComplaintFormComponent = () => {
 
     await complaintServer
       .create(document)
-      .then(res => {
+      .then(async res => {
         Object.keys(data).forEach(key => {
           data[key] = null;
         });
+        await Promise.all(promises);
         closeForm();
         setLoading(false);
         toast.success(
