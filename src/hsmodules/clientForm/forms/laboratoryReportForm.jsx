@@ -2249,31 +2249,43 @@ export function ChemicalPathologyAndTumorMarkers() {
       label: "TSH",
       name: "thyriod_hormone_tsh",
       des: "mIU/L (0.4 - 5.2)",
+      minRange: 0.4,
+      maxRange: 5.2,
     },
     {
-      label: " Free T3",
+      label: "Free T3",
       name: "thyriod_hormone_Free_T3",
       des: "ug/dL (60.0 – 1800.0)",
+      minRange: 60.0,
+      maxRange: 1800.0,
     },
     {
-      label: " Free T4 ",
+      label: "Free T4",
       name: "thyriod_hormone_Free_T4",
       des: "ug/dL (0.8 – 2.8)",
+      minRange: 0.8,
+      maxRange: 2.8,
     },
     {
       label: "Total T3",
       name: "thyriod_hormone_Total_T3",
       des: "ug/dL (130.0 – 450.0)",
+      minRange: 130.0,
+      maxRange: 450.0,
     },
     {
       label: "Total T4",
       name: "thyriod_hormone_Total_T4",
       des: "ng/dL (5.0 – 12.0)",
+      minRange: 5.0,
+      maxRange: 12.0,
     },
     {
-      label: "TPO Ab ",
-      name: "thyriod_hormone_Total_T4",
+      label: "TPO Ab",
+      name: "thyriod_hormone_TPO_Ab",
       des: "Iu/mL (0 - 34)",
+      minRange: 0,
+      maxRange: 34,
     },
   ];
 
@@ -2282,16 +2294,22 @@ export function ChemicalPathologyAndTumorMarkers() {
       label: "Estrogen",
       name: "female_hormone_profile_Estrogen",
       des: "pg/mL (10 - 350)",
+      minRange: 10,
+      maxRange: 350,
     },
     {
       label: "Progesterone",
       name: "female_hormone_profile_Progesterone",
       des: "ng/mL (0 - 300)",
+      minRange: 0,
+      maxRange: 300,
     },
     {
       label: "FSH",
       name: "female_hormone_profile_FSH",
       des: "mIU/L (0 – 135)",
+      minRange: 0,
+      maxRange: 135,
     },
     {
       label: "CH",
@@ -2301,12 +2319,16 @@ export function ChemicalPathologyAndTumorMarkers() {
     {
       label: "Prolactin",
       name: "female_hormone_profile_Prolactin",
-      des: "ng/mL (20 - 400 )",
+      des: "ng/mL (20 - 400)",
+      minRange: 20,
+      maxRange: 400,
     },
     {
       label: "Estradiol",
       name: "female_hormone_profile_Estradiol",
       des: "pg/mL (0 – 400)",
+      minRange: 0,
+      maxRange: 400,
     },
   ];
 
@@ -2314,37 +2336,52 @@ export function ChemicalPathologyAndTumorMarkers() {
     {
       label: "PSA",
       name: "tumor_maker_hormone_PSA",
-      des: "ng/mL ( )",
+      des: "ng/mL",
+      isRange: false,
     },
     {
       label: "AFP",
       name: "tumor_maker_hormone_AFP",
-      des: "ng/mL ( )",
+      des: "ng/mL",
+      isRange: false,
     },
     {
       label: "CFA",
       name: "tumor_maker_hormone_CFA",
-      des: "ug/L (0.7 – 1.9)",
+      des: "ug/L (0.7 - 1.9)",
+      minRange: 0.7,
+      maxRange: 1.9,
+      isRange: true,
     },
     {
       label: "CA-125",
       name: "tumor_maker_hormone_CA-125",
       des: "",
+      isRange: true,
     },
     {
       label: "B-HCG",
       name: "tumor_maker_hormone_B-HCG",
-      des: "mIU/L (6.3 - )",
+      des: "mIU/L (6.3 - 12 )",
+      minRange: 6.3,
+      maxRange: 12,
+      isRange: true,
     },
     {
       label: "CA-15-3",
       name: "tumor_maker_hormone_CA-15-3",
       des: "U/mL (0 - 37)",
+      minRange: 0,
+      maxRange: 37,
+      isRange: true,
     },
     {
       label: "CA-19-9",
       name: "tumor_maker_hormone_CA-19-9",
       des: "U/mL (0 - 37)",
+      minRange: 0,
+      maxRange: 37,
+      isRange: true,
     },
   ];
 
@@ -2353,36 +2390,48 @@ export function ChemicalPathologyAndTumorMarkers() {
       label: "Cortisol",
       name: "other_tumor_maker_hormone_Cortisol",
       des: "ug/dL (0 - 20)",
+      minRange: 0,
+      maxRange: 20,
     },
     {
       label: "ACTH",
       name: "other_tumor_maker_hormone_ACTH",
       des: "pg/mL (0 - 60)",
+      minRange: 0,
+      maxRange: 60,
     },
     {
       label: "Ferritin",
       name: "other_tumor_maker_hormone_Ferritin",
-      des: "ng/mL (20 – > 300)",
+      des: "ng/mL (20 - 300)",
+      minRange: 20,
+      maxRange: 300,
     },
     {
       label: "Folate",
       name: "other_tumor_maker_hormone_Folate",
-      des: "ng/mL (2 - > 20)",
+      des: "ng/mL (2 - 20)",
+      minRange: 2,
+      maxRange: 20,
     },
     {
       label: "Vit. B12",
       name: "other_tumor_maker_hormone_Vitamin_B12",
-      des: "pg/mL ( )",
+      des: "",
     },
     {
       label: "Vit. D2",
       name: "other_tumor_maker_hormone_Vitamin_D2",
-      des: "ng/mL (10 - > 100)",
+      des: "ng/mL (10 - 100)",
+      minRange: 10,
+      maxRange: 100,
     },
     {
-      label: "Vitamin D3 ",
-      name: "other_tumor_maker_hormone_Vitamin_D3 ",
-      des: "mIU/mL (0 - > 20 )",
+      label: "Vitamin D3",
+      name: "other_tumor_maker_hormone_Vitamin_D3",
+      des: "mIU/mL (0 - 20)",
+      minRange: 0,
+      maxRange: 20,
     },
     {
       label: "Insulin",
@@ -2391,8 +2440,10 @@ export function ChemicalPathologyAndTumorMarkers() {
     },
     {
       label: "C-Peptide",
-      name: "other_tumor_maker_hormone_-Peptide",
-      des: "ng/mL (0 - > 5)",
+      name: "other_tumor_maker_hormone_C-Peptide",
+      des: "ng/mL (0 - 5)",
+      minRange: 0,
+      maxRange: 5,
     },
   ];
 
@@ -2422,6 +2473,18 @@ export function ChemicalPathologyAndTumorMarkers() {
   };
 
   const classes = useStyles();
+
+  const validateAndDisplayMessage = (fieldName, value, minRange, maxRange) => {
+    if (value < minRange) {
+      return "low";
+    } else if (value > maxRange) {
+      return "High";
+    } else if (value >= minRange && value <= maxRange) {
+      return "Normal";
+    } else {
+      return "Invalid Input";
+    }
+  };
 
   return (
     <>
@@ -2531,12 +2594,42 @@ export function ChemicalPathologyAndTumorMarkers() {
                         />
                       </Grid>
                       <Grid item xs={12} sm={5}>
-                        <Typography>
-                          {" "}
-                          <label className={classes.boldLabel}>
-                            {data.des}
-                          </label>{" "}
+                        <Typography
+                          sx={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          {data.des}
                         </Typography>
+                        {watch(data.name) !== "" && data.des && (
+                          <Typography
+                            variant="p"
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              marginBottom: "4px",
+                              color: `${
+                                validateAndDisplayMessage(
+                                  data.name,
+                                  parseFloat(watch(data.name)),
+                                  data.minRange,
+                                  data.maxRange
+                                ) === "Normal"
+                                  ? "green"
+                                  : "red"
+                              }`,
+                            }}
+                          >
+                            {validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            )}
+                          </Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -2573,12 +2666,42 @@ export function ChemicalPathologyAndTumorMarkers() {
                         />
                       </Grid>
                       <Grid item xs={12} sm={5}>
-                        <Typography>
-                          {" "}
-                          <label className={classes.boldLabel}>
-                            {data.des}
-                          </label>{" "}
+                        <Typography
+                          sx={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          {data.des}
                         </Typography>
+                        {watch(data.name) !== "" && data.des && (
+                          <Typography
+                            variant="p"
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              marginBottom: "4px",
+                              color: `${
+                                validateAndDisplayMessage(
+                                  data.name,
+                                  parseFloat(watch(data.name)),
+                                  data.minRange,
+                                  data.maxRange
+                                ) === "Normal"
+                                  ? "green"
+                                  : "red"
+                              }`,
+                            }}
+                          >
+                            {validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            )}
+                          </Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -2615,12 +2738,42 @@ export function ChemicalPathologyAndTumorMarkers() {
                         />
                       </Grid>
                       <Grid item xs={12} sm={5}>
-                        <Typography>
-                          {" "}
-                          <label className={classes.boldLabel}>
-                            {data.des}
-                          </label>{" "}
+                        <Typography
+                          sx={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          {data.des}
                         </Typography>
+                        {watch(data.name) !== "" && data.isRange && (
+                          <Typography
+                            variant="p"
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              marginBottom: "4px",
+                              color: `${
+                                validateAndDisplayMessage(
+                                  data.name,
+                                  parseFloat(watch(data.name)),
+                                  data.minRange,
+                                  data.maxRange
+                                ) === "Normal"
+                                  ? "green"
+                                  : "red"
+                              }`,
+                            }}
+                          >
+                            {validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            )}
+                          </Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -2667,12 +2820,42 @@ export function ChemicalPathologyAndTumorMarkers() {
                         />
                       </Grid>
                       <Grid item xs={12} sm={5}>
-                        <Typography>
-                          {" "}
-                          <label className={classes.boldLabel}>
-                            {data.des}
-                          </label>{" "}
+                        <Typography
+                          sx={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          {data.des}
                         </Typography>
+                        {watch(data.name) !== "" && data.des && (
+                          <Typography
+                            variant="p"
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "bold",
+                              marginBottom: "4px",
+                              color: `${
+                                validateAndDisplayMessage(
+                                  data.name,
+                                  parseFloat(watch(data.name)),
+                                  data.minRange,
+                                  data.maxRange
+                                ) === "Normal"
+                                  ? "green"
+                                  : "red"
+                              }`,
+                            }}
+                          >
+                            {validateAndDisplayMessage(
+                              data.name,
+                              parseFloat(watch(data.name)),
+                              data.minRange,
+                              data.maxRange
+                            )}
+                          </Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -4945,7 +5128,14 @@ export function Urine() {
 }
 
 export function Urinalysis() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -5131,197 +5321,184 @@ export function Urinalysis() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+
+  const urinalysisSchema = [
+    {
+      label: "Appearance",
+      name: "appearance",
+      des: "",
+    },
+    {
+      label: "Color",
+      name: "color",
+      des: "",
+    },
+    {
+      label: "PH",
+      name: "ph",
+      des: "",
+    },
+    {
+      label: "Protein",
+      name: "protein",
+      des: "",
+    },
+    {
+      label: "Sugar",
+      name: "sugar",
+      des: "",
+    },
+    {
+      label: "Ketones",
+      name: "ketones",
+      des: "",
+    },
+    {
+      label: "Blood",
+      name: "blood",
+      des: "",
+    },
+    {
+      label: "Billirubin",
+      name: "billirubin",
+      des: "",
+    },
+    {
+      label: "S.G",
+      name: "sg",
+      des: "",
+    },
+    {
+      label: "Nitrite",
+      name: "nitrite",
+      des: "",
+    },
+    {
+      label: "Urobilin",
+      name: "urobilin",
+      des: "",
+    },
+    {
+      label: "Urobilinogen",
+      name: "urobilinogin",
+      des: "",
+    },
+    {
+      label: "Leucocyte",
+      name: "leucocyte",
+      des: "",
+    },
+  ];
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className="label is-small">URINALYSIS</label>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Appearance</label>
-                <p className="control is-expanded">
-                  <input
-                    name="appearance"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Color</label>
-                <p className="control is-expanded">
-                  <input name="color" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">PH</label>
-                <p className="control is-expanded">
-                  <input name="ph" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Protein</label>
-                <p className="control is-expanded">
-                  <input
-                    name="protein"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Sugar</label>
-                <p className="control is-expanded">
-                  <input name="sugar" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Ketones</label>
-                <p className="control is-expanded">
-                  <input
-                    name="ketones"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Blood</label>
-                <p className="control is-expanded">
-                  <input name="blood" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Billirubin</label>
-                <p className="control is-expanded">
-                  <input
-                    name="billirubin"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">S.G</label>
-                <p className="control is-expanded">
-                  <input name="sg" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Nitrite</label>
-                <p className="control is-expanded">
-                  <input
-                    name="nitrite"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Urobilin</label>
-                <p className="control is-expanded">
-                  <input
-                    name="urobilin"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Urobilinogen</label>
-                <p className="control is-expanded">
-                  <input
-                    name="urobilinogin"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Leucocyte</label>
-                <p className="control is-expanded">
-                  <input
-                    name="leucocyte"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register("x")}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
+        <p style={{ fontWeight: "700" }} className="label is-small">
+          URINALYSIS
+        </p>
+        {/* specimen details field */}
+        <Grid container spacing={0.1} mt={1}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            SPECIMEN Details
+          </Typography>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={2.4}>
+              <Input
+                label="Specimen"
+                name="specimen"
+                type="text"
+                register={register("specimen", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.4}>
+              <Input
+                label="Date Of Request"
+                name="request_date"
+                type="text"
+                register={register("request_date", { required: true })}
+                defaultValue={dayjs(order.createdAt).format(
+                  "DD/MM/YYYY hh:mm A"
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.4}>
+              <MuiCustomDatePicker
+                control={control}
+                label="Date Of Collection"
+                name="collection_date"
+                required={true}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.4}>
+              <Input
+                label="Time Of Collection"
+                name="collection_time"
+                type="time"
+                register={register("collection_time", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.4}>
+              <Input
+                label="Volume"
+                name="volume"
+                type="text"
+                register={register("volume", { required: false })}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2} mt={2}>
+          {urinalysisSchema.map((data, index) => (
+            <Grid key={index} spacing={2} item xs={6} sm={2.4} mb={2}>
+              <Input
+                label={data.label}
+                name={data.name}
+                type="text"
+                register={register(`${data.name}`, {
+                  required: false,
+                })}
+              />
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Recommendation field */}
+        <Grid container spacing={1} mt={2}>
+          <Typography
+            variant="p"
+            sx={{
+              color: "blue",
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginBottom: "4px",
+            }}
+          >
+            Recommendation
+          </Typography>
+        </Grid>
+
+        <Grid container spacing={1} mt={2}>
+          <Grid item xs={12} sm={6}>
+            <Textarea
+              placeholder="Recommendation"
+              name="Recommendation"
+              type="text"
+              register={register("Recommendation")}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -5331,11 +5508,20 @@ export function Urinalysis() {
                 handleChangePart(e);
               }}
               disabled={bill_report_status === "Final"}
+              style={{
+                margin: "1rem",
+              }}
             />
-            <span> Draft</span>
-          </label>{" "}
-          <br />
-          <label className=" is-small">
+            <span
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              {" "}
+              Draft
+            </span>
+          </Grid>{" "}
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -5343,26 +5529,31 @@ export function Urinalysis() {
               checked={reportStatus === "Final"}
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === "Final"}
+              style={{
+                margin: "1rem",
+              }}
             />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <GlobalCustomButton
-              text={bill_report_status === "Pending" ? "Save" : "Update"}
-              onClick={handleSubmit(onSubmit)}
-              color="success"
-              disabled={bill_report_status === "Final"}
-            />
-          </p>
-          {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        </div>
+            <span
+              style={{
+                fontSize: "1rem",
+              }}
+            >
+              {" "}
+              Final{" "}
+            </span>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={12}>
+            {bill_report_status !== "Final" && (
+              <GlobalCustomButton
+                text={bill_report_status === "Pending" ? "Save" : "Update"}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
+            )}
+          </Grid>
+        </Grid>
       </form>
     </>
   );
