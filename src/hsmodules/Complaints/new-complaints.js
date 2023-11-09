@@ -360,6 +360,7 @@ const NewComplaints = () => {
             <Box
               sx={{
                 width: "100%",
+                height: "calc(100% - 4rem)",
               }}
             >
               {complaints.length > 0 ? (
@@ -372,7 +373,7 @@ const NewComplaints = () => {
                     alignItems: "center",
                     gap: 2,
                     padding: "15px 0",
-                    height: "calc(100% - 27rem)",
+                    height: "100%",
                     overflowY: "auto",
                   }}
                 >
