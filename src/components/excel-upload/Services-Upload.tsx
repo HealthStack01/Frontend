@@ -9,7 +9,7 @@ interface componentProps {
   actionButton?: React.FC<{triggerInput: () => void}>;
 }
 
-const ExcelEmployeeUpload = ({updateState}: componentProps) => {
+const ExcelServicesUpload = ({updateState}: componentProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFilesSelection = () => {
@@ -45,15 +45,10 @@ const ExcelEmployeeUpload = ({updateState}: componentProps) => {
       const newObjects = objects.map(obj => {
         return {
           // ...obj,
-          firstname: obj?.firstname || "",
-          lastname: obj.lastname || "",
-          position: obj.position || "",
-          email: obj.email || "",
-          phone: obj.phone || "",
-          profession: obj.profession || "",
-          department: obj.department || "",
-          deptunit: obj["department-unit"] || "",
-          password: obj.password || "",
+          name: obj?.name || "",
+          category: obj.category || "",
+          billingType: "Cash",
+          amount: obj.price || 0,
         };
       });
 
@@ -62,7 +57,7 @@ const ExcelEmployeeUpload = ({updateState}: componentProps) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
 
-      updateState(prev => prev.concat(newObjects));
+      updateState(newObjects);
     };
     if (rABS) reader.readAsBinaryString(file);
     else reader.readAsArrayBuffer(file);
@@ -86,13 +81,13 @@ const ExcelEmployeeUpload = ({updateState}: componentProps) => {
         style={{display: "none"}}
       />
       <GlobalCustomButton onClick={handleFilesSelection} color="success">
-        Upload Employees(s)
+        Upload Service(s)
       </GlobalCustomButton>
     </Box>
   );
 };
 
-export default ExcelEmployeeUpload;
+export default ExcelServicesUpload;
 
 const SheetJSFT = [
   "xlsx",
