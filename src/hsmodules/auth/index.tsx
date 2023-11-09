@@ -45,7 +45,7 @@ function Login() {
         email,
         password,
       })
-      .then (async res => {
+      .then(async res => {
         const user = {
           ...res.user,
           currentEmployee: {...res.user.employeeData[0]},
@@ -53,21 +53,21 @@ function Login() {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         setLoading(false);
-       
+
         //log user
-      let logObj={
-        user: res.user,
-        facility:res.user.employeeData[0].facilityDetail,
-        type:"login"
-      }
+        let logObj = {
+          user: res.user,
+          facility: res.user.employeeData[0].facilityDetail,
+          type: "login",
+        };
 
-        await client.service("logins").create(logObj)
+        await client.service("logins").create(logObj);
 
-     let onlineObj={
-      //lastLogin: new Date(),
-      online:true
-     }
-        await client.service("users").patch(user._id, onlineObj)
+        let onlineObj = {
+          //lastLogin: new Date(),
+          online: true,
+        };
+        await client.service("users").patch(user._id, onlineObj);
         toast.success("You successfully logged in");
         navigate("/app");
       })
