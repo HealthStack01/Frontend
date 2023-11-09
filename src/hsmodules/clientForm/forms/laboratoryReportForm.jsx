@@ -4,6 +4,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { makeStyles } from "@material-ui/core/styles";
 import dayjs from "dayjs";
 import Divider from "@mui/material/Divider";
+import QRCode from "qrcode";
+import { styled } from "@mui/material/styles";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import client from "../../../feathers";
@@ -42,6 +44,7 @@ import {
 } from "../../../components/inputs/basic/Input/styles";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { GridBox } from "../../app/styles";
+import { PrintBarcode } from "./PrintBarcode";
 
 const useStyles = makeStyles({
   boldLabel: {
@@ -130,6 +133,7 @@ export default function LaboratoryReportForm() {
       .join(" ");
   };
   console.log(formtype, choosenForm);
+  const clientName = order.orderInfo.orderObj.clientname;
 
   return (
     <>
@@ -267,6 +271,24 @@ export function Haematology() {
   const [monocytes, setMonocytes] = useState("");
   const [eosinophils, setEosinophils] = useState("");
   const [basophils, setBasophils] = useState("");
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [imgSrc, setImgSrc] = useState(
+    "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+  );
+  const [showModal, setShowModal] = useState(false);
+
+  // With promises
+  const getBarCodeUrl = async () => {
+    QRCode.toDataURL(`*** FullName : francis *** PolicyID: 5544 ***`)
+      .then((url) => {
+        console.log("barcode", url);
+        data.qrCodeUrl = url;
+        setQrCodeUrl(url);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   // let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
 
@@ -400,6 +422,8 @@ export function Haematology() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+
+  const generateBarcode = async () => {};
   const inputStyle = {
     position: "absolute",
     top: "0",
@@ -670,25 +694,74 @@ export function Haematology() {
     }
   };
 
+  const clientName = order.orderInfo.orderObj.clientname;
+
+  const ImgStyledId = styled("img")(({ theme }) => ({
+    width: 60,
+    height: 60,
+    marginLeft: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p style={{ fontWeight: "700" }} className="label is-small">
         HEAMATOLOGY
       </p>
 
+      {showModal && (
+        <ModalBox
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          // header={
+          //   checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
+          // }
+        >
+          <h1>test</h1>
+          <PrintBarcode data={clientName} />
+        </ModalBox>
+      )}
+
       {/* specimen details field */}
       <Grid container spacing={0.1} mt={1}>
-        <Typography
-          variant="p"
-          sx={{
-            color: "blue",
-            fontSize: "14px",
-            fontWeight: "bold",
-            marginBottom: "4px",
-          }}
-        >
-          SPECIMEN Details
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={6} sm={6}>
+            {" "}
+            <Typography
+              variant="p"
+              sx={{
+                color: "blue",
+                fontSize: "14px",
+                fontWeight: "bold",
+                marginBottom: "4px",
+              }}
+            >
+              SPECIMEN Details
+            </Typography>{" "}
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Box
+              sx={{
+                width: "100%",
+                height: "60px",
+                float: "right",
+                borderRadius: "10px",
+              }}
+            >
+              <GlobalCustomButton
+                text={"Generate barcode"}
+                onClick={() => setShowModal(true)}
+                color="success"
+                customStyles={{
+                  float: "right",
+                  marginLeft: "auto",
+                }}
+              />
+              {/* <ImgStyledId src={qrCodeUrl ? qrCodeUrl : imgSrc} alt="QR Code" /> */}
+            </Box>
+          </Grid>
+        </Grid>
+
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} sm={2.4}>
             <Input
