@@ -44,7 +44,15 @@ export const PrintBarcode = ({ data, action }) => {
 
   // With promises
   const getBarCodeUrl = async (data) => {
-    QRCode.toDataURL(`*** FullName : francis *** PolicyID:22 ***`)
+    QRCode.toDataURL(
+      `
+      *** Client FullName : ${data.clientName} ***
+      *** Test Name : ${data.labTestName} test ***
+      *** Specimen name : ${data.specimenName} ***
+      *** volume : ${data.volume} ***
+      *** Date of Request : ${data.dateOfRequest} ***
+      *** Date of Collection : ${data.dateOfCollection} ***`
+    )
       .then((url) => {
         console.log("barcode", url);
         data.qrCodeUrl = url;
@@ -146,8 +154,8 @@ export const PrintBarcode = ({ data, action }) => {
   }));
 
   const ImgStyledId = styled("img")(({ theme }) => ({
-    width: 60,
-    height: 60,
+    width: 120,
+    height: 120,
     marginLeft: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
   }));
@@ -231,7 +239,7 @@ export const PrintBarcode = ({ data, action }) => {
           <Grid container spacing={2} sx={{ alignItems: "center" }}>
             <Grid item xs={12} md={8}>
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                NAME: <b>{`${data}`}</b>
+                NAME: <b>{`${data.clientName}`}</b>
               </Typography>
               <Divider />
             </Grid>
@@ -355,8 +363,8 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
   }));
 
   const ImgStyledId = styled("img")(({ theme }) => ({
-    width: 60,
-    height: 60,
+    width: 120,
+    height: 120,
     marginLeft: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
   }));
@@ -380,187 +388,39 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
             minWidth: "540px",
             minHeight: "240px",
             maxHeight: "240px",
-            margin: "2rem",
+            margin: "1rem",
             borderRadius: "10px",
             // bgcolor: 'info.main',
             border: "2px solid blue",
           }}
           p={2}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {/* Comapany Logo */}
-            <Avatar
-              sx={{ marginTop: "5px", marginRight: "10px" }}
-              src={data?.organization?.facilitylogo}
-              alt=""
-            />
-            <h1>{data?.organizationName}</h1>
-          </Box>
           <Grid container spacing={2} sx={{ alignItems: "center" }}>
-            <Grid item xs={12} md={8}>
+            <Grid item xs={6} md={6}>
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                NAME:{" "}
-                <b>
-                  {`${data?.principal?.firstname} ${data?.principal?.lastname}`}
-                </b>
+                NAME: <b>{`${data?.clientName}`}</b>
               </Typography>
               <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                POLICY NO: <b>{data?.policyNo}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                SEX: <b>{data?.principal?.gender}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                DATE OF BIRTH:{" "}
-                <b>{moment(data?.principal?.dob).format("DD/MM/YYYY")}</b>
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                GENOTYPE: <b>{data?.principal?.genotype}</b>
-                <Divider orientation="vertical" flexItem />
-              </Typography>
-              <Divider />
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
-                BLOOD GROUP: <b>{data?.bloodgroup}</b>
-              </Typography>
             </Grid>
-            <Grid item xs={12} md={4} pr={2}>
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <ImgStyled
-                  src={
-                    data?.principal?.imageurl
-                      ? data?.principal?.imageurl
-                      : imgSrc
-                  }
-                  alt="Profile Pic"
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-
-        <Box
-          sx={{
-            maxWidth: "540px",
-            minWidth: "540px",
-            minHeight: "240px",
-            maxHeight: "240px",
-            margin: "2rem",
-            borderRadius: "10px",
-            border: "2px solid blue",
-            // bgcolor: 'info.main',
-          }}
-          p={2}
-        >
-          <Grid container spacing={2} sx={{ alignItems: "center" }}>
-            <Grid item xs={12} md={12}>
-              <Typography
-                sx={{
-                  fontSize: "0.7rem",
-                  color: "#000000",
-                  textAlign: "justify",
-                }}
-                mt={1}
-              >
-                The bearer of this card is a subscriber to
-                {data?.organizationName} and entitled to receive appropriate
-                medical care from his primary care provider and other referral
-                centres as may be necessary.
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "0.7rem",
-                  color: "#000000",
-                  textAlign: "justify",
-                }}
-                mt={1}
-              >
-                This card MUST be presented at the point of service and remains
-                the property of {data?.organizationName}.
-              </Typography>
-              <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                In the event of an emergency, kindly contact
-                {data?.organizationName}
-              </Typography>
-              <Typography sx={{ fontSize: "0.7rem", color: "#000000" }} mt={1}>
-                {`${data?.organization?.facilityAddress} ${
-                  data?.organization?.facilityLGA || ""
-                } ${data?.organization?.facilityCity || ""} ${
-                  data?.organization?.facilityState || ""
-                }`}
-              </Typography>
-              <Typography sx={{ fontSize: "0.7rem", color: "#000000" }}>
-                CALL center: {data?.organization?.facilityContactPhone}
-              </Typography>
-              <Typography sx={{ fontSize: "0.7rem", color: "#000000" }}>
-                EMAIL: {data?.organization?.facilityEmail}
-              </Typography>
-              <Grid
-                container
-                spacing={2}
-                sx={{ alignItems: "center", width: "100%" }}
-              >
-                <Grid item xs={6} md={6}>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      height: "60px",
-                      float: "left",
-                      borderRadius: "10px",
-                      //   bgcolor: "primary.main",
-                      //   border: "2px solid red",
-                    }}
-                  >
-                    <ImgStyledId
-                      src={data?.qrCodeUrl ? data?.qrCodeUrl : imgSrc}
-                      alt="QR Code"
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <Box
-                    sx={{
-                      width: "70px",
-                      height: "60px",
-                      float: "right",
-                      borderRadius: "10px",
-
-                      //   bgcolor: "info.main",
-                      //   border: "2px solid blue",
-                    }}
-                  >
-                    <img
-                      src={userData?.signatureUrl}
-                      alt=""
-                      style={{
-                        width: "60px",
-                        height: "40px",
-                      }}
-                    />
-                    <Divider></Divider>
-                    <b>{userData?.profession}</b>
-                  </Box>
-                </Grid>
+            <Grid item xs={6} md={6} pr={2}>
+              <Grid item xs={6} md={6}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "60px",
+                    float: "left",
+                    borderRadius: "10px",
+                    //   bgcolor: "primary.main",
+                    //   border: "2px solid red",
+                  }}
+                >
+                  <ImgStyledId
+                    src={data?.qrCodeUrl ? data?.qrCodeUrl : imgSrc}
+                    alt="QR Code"
+                  />
+                </Box>
               </Grid>
             </Grid>
-            {/* <Grid
-							item
-							xs={12}
-							md={8}></Grid>
-						<Grid
-							item
-							xs={12}
-							md={4}>
-							
-						</Grid> */}
           </Grid>
         </Box>
       </Box>
@@ -591,7 +451,7 @@ export const SendViaEmail = ({ closeModal, screenshot, data }) => {
     reset({
       to: destinationEmail,
       name: user.currentEmployee.facilityDetail.facilityName,
-      subject: `${data?.organizationName?.toUpperCase()} ID CARD`,
+      subject: `${data?.organizationName?.toUpperCase()} BarCode`,
       from: selectedEmail,
     });
   }, [selectedEmail, destinationEmail]);

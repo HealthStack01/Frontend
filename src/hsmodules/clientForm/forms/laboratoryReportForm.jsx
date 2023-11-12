@@ -276,19 +276,14 @@ export function Haematology() {
     "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
   );
   const [showModal, setShowModal] = useState(false);
-
-  // With promises
-  const getBarCodeUrl = async () => {
-    QRCode.toDataURL(`*** FullName : francis *** PolicyID: 5544 ***`)
-      .then((url) => {
-        console.log("barcode", url);
-        data.qrCodeUrl = url;
-        setQrCodeUrl(url);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const [barcodeDetails, setBarcodeDetails] = useState({
+    specimenName: "",
+    dateOfRequest: "",
+    dateOfCollection: "",
+    volume: "",
+    clientName: "",
+    labTestName: "",
+  });
 
   // let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
 
@@ -422,8 +417,8 @@ export function Haematology() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+  const clientName = order.orderInfo.orderObj.clientname;
 
-  const generateBarcode = async () => {};
   const inputStyle = {
     position: "absolute",
     top: "0",
@@ -694,7 +689,21 @@ export function Haematology() {
     }
   };
 
-  const clientName = order.orderInfo.orderObj.clientname;
+  const generateBarcode = async (data, e) => {
+    e.preventDefault();
+
+    setBarcodeDetails({
+      specimenName: data.specimen,
+      dateOfRequest: data.request_date,
+      dateOfCollection: dayjs(data.collection_date).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      volume: data.volume,
+      clientName: clientName,
+      labTestName: order.serviceInfo.name,
+    });
+    setShowModal(true);
+  };
 
   const ImgStyledId = styled("img")(({ theme }) => ({
     width: 60,
@@ -717,8 +726,7 @@ export function Haematology() {
           //   checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
           // }
         >
-          <h1>test</h1>
-          <PrintBarcode data={clientName} />
+          <PrintBarcode data={barcodeDetails} />
         </ModalBox>
       )}
 
@@ -750,7 +758,7 @@ export function Haematology() {
             >
               <GlobalCustomButton
                 text={"Generate barcode"}
-                onClick={() => setShowModal(true)}
+                onClick={handleSubmit(generateBarcode)}
                 color="success"
                 customStyles={{
                   float: "right",
@@ -1608,8 +1616,22 @@ export function Serology() {
 
   const [docStatus, setDocStatus] = useState("Draft");
   const [reportStatus, setReportStatus] = useState("Draft");
+  const [imgSrc, setImgSrc] = useState(
+    "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [barcodeDetails, setBarcodeDetails] = useState({
+    specimenName: "",
+    dateOfRequest: "",
+    dateOfCollection: "",
+    volume: "",
+    clientName: "",
+    labTestName: "",
+  });
+
   const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
+  const clientName = order.orderInfo.orderObj.clientname;
   const bill_report_status = state.financeModule.report_status;
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
@@ -1766,6 +1788,29 @@ export function Serology() {
     await setReportStatus(e.target.value);
   };
 
+  const generateBarcode = async (data, e) => {
+    e.preventDefault();
+
+    setBarcodeDetails({
+      specimenName: data.specimen,
+      dateOfRequest: data.request_date,
+      dateOfCollection: dayjs(data.collection_date).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      volume: data.volume,
+      clientName: clientName,
+      labTestName: order.serviceInfo.name,
+    });
+    setShowModal(true);
+  };
+
+  const ImgStyledId = styled("img")(({ theme }) => ({
+    width: 60,
+    height: 60,
+    marginLeft: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -1775,19 +1820,56 @@ export function Serology() {
           <p style={{ fontWeight: "700" }} className="label is-small">
             SEROLOGY
           </p>
+          {showModal && (
+            <ModalBox
+              open={showModal}
+              onClose={() => setShowModal(false)}
+              // header={
+              //   checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
+              // }
+            >
+              <PrintBarcode data={barcodeDetails} />
+            </ModalBox>
+          )}
         </Grid>
         <Grid container spacing={0.1} mt={1}>
-          <Typography
-            variant="p"
-            sx={{
-              color: "blue",
-              fontSize: "14px",
-              fontWeight: "bold",
-              marginBottom: "4px",
-            }}
-          >
-            SPECIMEN Details
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
+              {" "}
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                SPECIMEN Details
+              </Typography>{" "}
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "60px",
+                  float: "right",
+                  borderRadius: "10px",
+                }}
+              >
+                <GlobalCustomButton
+                  text={"Generate barcode"}
+                  onClick={handleSubmit(generateBarcode)}
+                  color="success"
+                  customStyles={{
+                    float: "right",
+                    marginLeft: "auto",
+                  }}
+                />
+                {/* <ImgStyledId src={qrCodeUrl ? qrCodeUrl : imgSrc} alt="QR Code" /> */}
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={2.4}>
               <Input
@@ -2169,6 +2251,21 @@ export function ChemicalPathologyAndTumorMarkers() {
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [imgSrc, setImgSrc] = useState(
+    "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [barcodeDetails, setBarcodeDetails] = useState({
+    specimenName: "",
+    dateOfRequest: "",
+    dateOfCollection: "",
+    volume: "",
+    clientName: "",
+    labTestName: "",
+  });
+  const clientName = order.orderInfo.orderObj.clientname;
 
   useEffect(() => {
     if (!order.resultDetail?.documentdetail) {
@@ -2559,6 +2656,29 @@ export function ChemicalPathologyAndTumorMarkers() {
     }
   };
 
+  const generateBarcode = async (data, e) => {
+    e.preventDefault();
+
+    setBarcodeDetails({
+      specimenName: data.specimen,
+      dateOfRequest: data.request_date,
+      dateOfCollection: dayjs(data.collection_date).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      volume: data.volume,
+      clientName: clientName,
+      labTestName: order.serviceInfo.name,
+    });
+    setShowModal(true);
+  };
+
+  const ImgStyledId = styled("img")(({ theme }) => ({
+    width: 60,
+    height: 60,
+    marginLeft: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -2568,20 +2688,57 @@ export function ChemicalPathologyAndTumorMarkers() {
         >
           Chemical Pathology and Tumor Markers
         </p>
+        {showModal && (
+          <ModalBox
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            // header={
+            //   checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
+            // }
+          >
+            <PrintBarcode data={barcodeDetails} />
+          </ModalBox>
+        )}
 
         {/* specimen details field */}
         <Grid container spacing={0.1} mt={1}>
-          <Typography
-            variant="p"
-            sx={{
-              color: "blue",
-              fontSize: "14px",
-              fontWeight: "bold",
-              marginBottom: "4px",
-            }}
-          >
-            SPECIMEN Details
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
+              {" "}
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                SPECIMEN Details
+              </Typography>{" "}
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "60px",
+                  float: "right",
+                  borderRadius: "10px",
+                }}
+              >
+                <GlobalCustomButton
+                  text={"Generate barcode"}
+                  onClick={handleSubmit(generateBarcode)}
+                  color="success"
+                  customStyles={{
+                    float: "right",
+                    marginLeft: "auto",
+                  }}
+                />
+                {/* <ImgStyledId src={qrCodeUrl ? qrCodeUrl : imgSrc} alt="QR Code" /> */}
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={2}>
               <Input
@@ -3051,6 +3208,21 @@ export function Biochemistry() {
   const bill_report_status = state.financeModule.report_status;
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [imgSrc, setImgSrc] = useState(
+    "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [barcodeDetails, setBarcodeDetails] = useState({
+    specimenName: "",
+    dateOfRequest: "",
+    dateOfCollection: "",
+    volume: "",
+    clientName: "",
+    labTestName: "",
+  });
+  const clientName = order.orderInfo.orderObj.clientname;
+
   useEffect(() => {
     if (!order.resultDetail?.documentdetail) {
       setValue("Finding", "", {
@@ -3436,6 +3608,28 @@ export function Biochemistry() {
   ];
 
   const classes = useStyles();
+  const generateBarcode = async (data, e) => {
+    e.preventDefault();
+
+    setBarcodeDetails({
+      specimenName: data.specimen,
+      dateOfRequest: data.request_date,
+      dateOfCollection: dayjs(data.collection_date).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      volume: data.volume,
+      clientName: clientName,
+      labTestName: order.serviceInfo.name,
+    });
+    setShowModal(true);
+  };
+
+  const ImgStyledId = styled("img")(({ theme }) => ({
+    width: 60,
+    height: 60,
+    marginLeft: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
 
   return (
     <>
@@ -3446,20 +3640,51 @@ export function Biochemistry() {
         >
           CHEMICAL PATHOLOGY
         </p>
+        {showModal && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <PrintBarcode data={barcodeDetails} />
+          </ModalBox>
+        )}
 
         {/* specimen details field */}
         <Grid container spacing={0.1} mt={1}>
-          <Typography
-            variant="p"
-            sx={{
-              color: "blue",
-              fontSize: "14px",
-              fontWeight: "bold",
-              marginBottom: "4px",
-            }}
-          >
-            SPECIMEN Details
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
+              {" "}
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                SPECIMEN Details
+              </Typography>{" "}
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "60px",
+                  float: "right",
+                  borderRadius: "10px",
+                }}
+              >
+                <GlobalCustomButton
+                  text={"Generate barcode"}
+                  onClick={handleSubmit(generateBarcode)}
+                  color="success"
+                  customStyles={{
+                    float: "right",
+                    marginLeft: "auto",
+                  }}
+                />
+                {/* <ImgStyledId src={qrCodeUrl ? qrCodeUrl : imgSrc} alt="QR Code" /> */}
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={3}>
               <Input
@@ -3994,6 +4219,21 @@ export function Microbiology() {
   const checkboxCheckedOthersInvestigation = watch("others_investigation");
   const watchantibiotic = watch("antibiotics_susceptibility_drug");
 
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [imgSrc, setImgSrc] = useState(
+    "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [barcodeDetails, setBarcodeDetails] = useState({
+    specimenName: "",
+    dateOfRequest: "",
+    dateOfCollection: "",
+    volume: "",
+    clientName: "",
+    labTestName: "",
+  });
+  const clientName = order.orderInfo.orderObj.clientname;
+
   // console.log("===>>>> order details is called", {
   //   order: order,
   //   draftDoc,
@@ -4417,6 +4657,29 @@ export function Microbiology() {
     "Meropenem",
   ];
 
+  const generateBarcode = async (data, e) => {
+    e.preventDefault();
+
+    setBarcodeDetails({
+      specimenName: data.specimen,
+      dateOfRequest: data.request_date,
+      dateOfCollection: dayjs(data.collection_date).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      volume: data.volume,
+      clientName: clientName,
+      labTestName: order.serviceInfo.name,
+    });
+    setShowModal(true);
+  };
+
+  const ImgStyledId = styled("img")(({ theme }) => ({
+    width: 60,
+    height: 60,
+    marginLeft: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -4426,6 +4689,12 @@ export function Microbiology() {
         >
           MICROBIOLOGY
         </p>
+
+        {showModal && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <PrintBarcode data={barcodeDetails} />
+          </ModalBox>
+        )}
 
         {/* specimen field */}
         <Grid container spacing={0.1} mt={2}>
@@ -4517,17 +4786,43 @@ export function Microbiology() {
 
         {/* specimen details field */}
         <Grid container spacing={0.1} mt={1}>
-          <Typography
-            variant="p"
-            sx={{
-              color: "blue",
-              fontSize: "14px",
-              fontWeight: "bold",
-              marginBottom: "4px",
-            }}
-          >
-            SPECIMEN Details
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
+              {" "}
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                SPECIMEN Details
+              </Typography>{" "}
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "60px",
+                  float: "right",
+                  borderRadius: "10px",
+                }}
+              >
+                <GlobalCustomButton
+                  text={"Generate barcode"}
+                  onClick={handleSubmit(generateBarcode)}
+                  color="success"
+                  customStyles={{
+                    float: "right",
+                    marginLeft: "auto",
+                  }}
+                />
+                {/* <ImgStyledId src={qrCodeUrl ? qrCodeUrl : imgSrc} alt="QR Code" /> */}
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={3}>
               <Input
@@ -5229,6 +5524,21 @@ export function Urinalysis() {
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [imgSrc, setImgSrc] = useState(
+    "https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [barcodeDetails, setBarcodeDetails] = useState({
+    specimenName: "",
+    dateOfRequest: "",
+    dateOfCollection: "",
+    volume: "",
+    clientName: "",
+    labTestName: "",
+  });
+  const clientName = order.orderInfo.orderObj.clientname;
+
   useEffect(() => {
     if (!order.resultDetail?.documentdetail) {
       setValue("Finding", "", {
@@ -5463,25 +5773,80 @@ export function Urinalysis() {
     },
   ];
 
+  const generateBarcode = async (data, e) => {
+    e.preventDefault();
+
+    setBarcodeDetails({
+      specimenName: data.specimen,
+      dateOfRequest: data.request_date,
+      dateOfCollection: dayjs(data.collection_date).format(
+        "DD/MM/YYYY hh:mm A"
+      ),
+      volume: data.volume,
+      clientName: clientName,
+      labTestName: order.serviceInfo.name,
+    });
+    setShowModal(true);
+  };
+
+  const ImgStyledId = styled("img")(({ theme }) => ({
+    width: 60,
+    height: 60,
+    marginLeft: theme.spacing(6.25),
+    borderRadius: theme.shape.borderRadius,
+  }));
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <p style={{ fontWeight: "700" }} className="label is-small">
           URINALYSIS
         </p>
+
+        {showModal && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <PrintBarcode data={barcodeDetails} />
+          </ModalBox>
+        )}
         {/* specimen details field */}
         <Grid container spacing={0.1} mt={1}>
-          <Typography
-            variant="p"
-            sx={{
-              color: "blue",
-              fontSize: "14px",
-              fontWeight: "bold",
-              marginBottom: "4px",
-            }}
-          >
-            SPECIMEN Details
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
+              {" "}
+              <Typography
+                variant="p"
+                sx={{
+                  color: "blue",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "4px",
+                }}
+              >
+                SPECIMEN Details
+              </Typography>{" "}
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "60px",
+                  float: "right",
+                  borderRadius: "10px",
+                }}
+              >
+                <GlobalCustomButton
+                  text={"Generate barcode"}
+                  onClick={handleSubmit(generateBarcode)}
+                  color="success"
+                  customStyles={{
+                    float: "right",
+                    marginLeft: "auto",
+                  }}
+                />
+                {/* <ImgStyledId src={qrCodeUrl ? qrCodeUrl : imgSrc} alt="QR Code" /> */}
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={2.4}>
               <Input
