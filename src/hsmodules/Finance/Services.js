@@ -39,6 +39,7 @@ import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {FormsHeaderText} from "../../components/texts";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
+import ExcelServicesUpload from "../../components/excel-upload/Services-Upload";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -87,7 +88,7 @@ export default function FinanceServices() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        header="Create Finance"
+        header="Create Services"
       >
         <ServicesCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
@@ -153,6 +154,7 @@ export function ServicesCreate({closeModal}) {
   const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const [chosen2, setChosen2] = useState();
   const [hasError, setHasError] = useState(false);
+  const [excelServices, setExcelServices] = useState([]);
 
   const [Services, setServices] = useState({
     productitems: [],
@@ -168,22 +170,7 @@ export function ServicesCreate({closeModal}) {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = obj => {
-    setFacilityId(obj._id);
-    setName(obj.facilityName);
-    setOrgType(obj.facilityType);
-    if (!obj) {
-      setName("");
-      setOrgType("");
-      setFacilityId("");
-      setCostprice("");
-    }
 
-    /*  setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) */
-  };
   const getSearchfacility2 = obj => {
     setCategoryName(obj.categoryname);
     setChosen2(obj);
@@ -193,14 +180,6 @@ export function ServicesCreate({closeModal}) {
       setCategoryName("");
       setChosen2();
     }
-  };
-
-  const getSearchService = obj => {
-    setService(obj);
-    if (!obj) {
-      setService("");
-    }
-    setSuccessService(false);
   };
 
   useEffect(() => {
@@ -235,7 +214,7 @@ export function ServicesCreate({closeModal}) {
         billing_type: "Cash",
         plans: benefittingplans,
       };
-      await setCash("");
+      await setCash("Cash");
     } else {
       productItemI = {
         source_org: facilityId,
@@ -317,40 +296,6 @@ export function ServicesCreate({closeModal}) {
       });
   };
 
-  const handleBenefit = e => {
-    setBenefittingPlans(prevstate => prevstate.concat(plan));
-    setPlan("");
-  };
-
-  const handleRemove = (index, contract) => {
-    ////console.log(index)
-    if (contract.billing_type === "Cash") {
-      toast.error("You cannot remove cash billing");
-      return;
-    }
-
-    //setProductItem(prevstate=> prevstate.splice(i,1))
-    setProductItem(prevstate =>
-      prevstate.filter((ProductionItem, i) => i !== index)
-    );
-
-    /*  const newProductitem = [...productItem]
-   newProductitem.splice(i,1)
-   setProductItem(newProductitem) */
-  };
-  const handleAddPanel = () => {
-    // setSuccessService(false)
-    let newService = {
-      serviceId: service._id,
-      service_name: service.name,
-      panel: service.panel,
-    };
-    setPanelList(prevstate => prevstate.concat(newService));
-    setSuccessService(true);
-    newService = {};
-    setService("");
-    //console.log("something added");
-  };
   const handleCheck = async () => {
     // alert();
     setHasError(false);
@@ -395,6 +340,24 @@ export function ServicesCreate({closeModal}) {
       sortable: true,
       inputType: "HIDDEN",
     },
+    // {
+    //   name: "Name",
+    //   key: "name",
+    //   description: "Enter Organization",
+    //   selector: row => row.name,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
+    // {
+    //   name: "Category",
+    //   key: "category",
+    //   description: "Enter Organization",
+    //   selector: row => row.category,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
     {
       name: "Organization",
       key: "row_source_org_name",
@@ -448,11 +411,146 @@ export function ServicesCreate({closeModal}) {
     },
   ];
 
+  const excelServicesColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Organization",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter Organization",
+      selector: row => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Organization",
+      key: "row_source_org_name",
+      description: "Enter Organization",
+      selector: row => row.contracts[0].source_org_name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "Price",
+      description: "Enter Price",
+      selector: row => row.contracts[0].price,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Billing Type",
+      key: "billing_type",
+      description: "Enter Billing type",
+      selector: row => row.contracts[0].billing_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plans",
+      key: "fromName",
+      description: "Enter Plans",
+      selector: row => {
+        row.contracts[0].plans.map((plan, i) => (
+          <span key={i} className="ml-1">
+            {plan};
+          </span>
+        ));
+      },
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Actions",
+      key: "fromName",
+      description: "Enter Category name",
+      selector: row => <p style={{color: "red", fontSize: "0.7rem"}}>Remove</p>,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const handleExcelUpload = uploads => {
+    const services = uploads.map(item => {
+      return {
+        name: item.name,
+        category: item.category,
+        facility: user.currentEmployee.facilityDetail._id,
+        facilityname: user.currentEmployee.facilityDetail.facilityName,
+        panel: panel,
+        panelServices: panelList,
+        createdBy: user._id,
+        contracts: [
+          {
+            source_org: user.currentEmployee.facilityDetail._id,
+            source_org_name: user.currentEmployee.facilityDetail.facilityName,
+            dest_org: user.currentEmployee.facilityDetail._id,
+            dest_org_name: user.currentEmployee.facilityDetail.facilityName,
+            facilityId: facilityId,
+            price: item.amount,
+            billing_type: "Cash",
+            plans: benefittingplans,
+            quantity: quantity,
+            name: "",
+          },
+        ],
+      };
+    });
+
+    setExcelServices(services);
+  };
+
+  const handleBulkServices = async () => {
+    const promises = excelServices.map(async service => {
+      await ServicesServ.create(service);
+    });
+
+    Promise.all(promises)
+      .then(res => {
+        ////console.log(JSON.stringify(res))
+        resetform();
+        hideActionLoader();
+        /*  setMessage("Created Services successfully") */
+        setSuccess(true);
+        setSuccess2(true);
+        toast.success(`${excelServices.length} Service(s) created succesfully`);
+        setSuccess(false);
+        setSuccess2(false);
+        setProductItem([]);
+        setPanelList([]);
+      })
+      .catch(err => {
+        hideActionLoader();
+        toast.error("Error creating Services " + err);
+      });
+  };
+
   return (
     <>
       <div
         style={{
-          width: "800px",
+          width: "80vw",
           maxHeight: "80vh",
         }}
       >
@@ -469,7 +567,7 @@ export function ServicesCreate({closeModal}) {
             }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={5}>
+              <Grid item xs={3}>
                 <Input
                   //onBlur={handleCheck}
                   name="source"
@@ -479,7 +577,7 @@ export function ServicesCreate({closeModal}) {
                   autoComplete={false}
                 />
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={3}>
                 <input
                   className="input is-small"
                   value={categoryname}
@@ -495,6 +593,29 @@ export function ServicesCreate({closeModal}) {
                   clear={success2}
                 />
               </Grid>
+
+              <Grid item xs={3}>
+                <Input
+                  disabled
+                  name="cash"
+                  value={cash}
+                  type="text"
+                  onChange={e => setCash(e.target.value)}
+                  label="Billing Type"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  name="costprice"
+                  value={costprice}
+                  type="text"
+                  onChange={e => setCostprice(e.target.value)}
+                  label="Price"
+                  style={{
+                    margin: "0 !important",
+                  }}
+                />
+              </Grid>
             </Grid>
           </Box>
 
@@ -504,17 +625,19 @@ export function ServicesCreate({closeModal}) {
               width: "100%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "flex-end",
               margin: "10px 0",
+              gap: "20px",
             }}
           >
-            <FormsHeaderText text="Add Pricing Info" />
+            <ExcelServicesUpload updateState={handleExcelUpload} />
+
             <GlobalCustomButton onClick={handleClickProd}>
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
               Add
             </GlobalCustomButton>
           </Box>
-
+          {/* 
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Input
@@ -538,48 +661,92 @@ export function ServicesCreate({closeModal}) {
                 }}
               />
             </Grid>
-          </Grid>
+          </Grid>  */}
 
           {productItem.length > 0 && (
-            <div style={{width: "100%"}}>
-              <CustomTable
-                columns={productItemSchema}
-                data={productItem}
-                pointerOnHover
-                highlightOnHover
-                striped
-                //onRowClicked={handleRow}
-                progressPending={false}
-              />
-            </div>
+            <>
+              <div style={{width: "100%"}}>
+                <CustomTable
+                  columns={productItemSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  progressPending={false}
+                />
+              </div>
+              <Box
+                container
+                sx={{
+                  display: "flex",
+                  aligntItems: "center",
+                }}
+                mt={2}
+                mb={2}
+              >
+                <GlobalCustomButton
+                  disabled={!productItem.length > 0}
+                  onClick={onSubmit}
+                  style={{
+                    marginRight: "15px",
+                  }}
+                >
+                  Create Service
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => setProductItem([])}
+                >
+                  Cancel
+                </GlobalCustomButton>
+              </Box>
+            </>
           )}
 
-          <Box
-            container
-            sx={{
-              display: "flex",
-              aligntItems: "center",
-            }}
-            mt={2}
-          >
-            <GlobalCustomButton
-              disabled={!productItem.length > 0}
-              onClick={onSubmit}
-              style={{
-                marginRight: "15px",
-              }}
-            >
-              Create Service
-            </GlobalCustomButton>
+          {excelServices.length > 0 && (
+            <Box>
+              <div style={{width: "100%"}}>
+                <CustomTable
+                  columns={excelServicesColumns}
+                  data={excelServices}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  progressPending={false}
+                />
+              </div>
 
-            <GlobalCustomButton
-              variant="outlined"
-              color="warning"
-              onClick={closeModal}
-            >
-              Cancel
-            </GlobalCustomButton>
-          </Box>
+              <Box
+                container
+                sx={{
+                  display: "flex",
+                  aligntItems: "center",
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  onClick={handleBulkServices}
+                  style={{
+                    marginRight: "15px",
+                  }}
+                >
+                  {`Bulk Create ${excelServices.length} Service`}
+                </GlobalCustomButton>
+
+                <GlobalCustomButton
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => setExcelServices([])}
+                >
+                  Cancel
+                </GlobalCustomButton>
+              </Box>
+            </Box>
+          )}
         </div>
       </div>
     </>

@@ -1,21 +1,12 @@
 import {useState, useRef, useEffect, useCallback, useContext} from "react";
-import {Avatar, Box, Button, IconButton, Typography} from "@mui/material";
+import {Avatar, Box, Typography} from "@mui/material";
 import Slide from "@mui/material/Slide";
-import SendIcon from "@mui/icons-material/Send";
-import {ThreeCircles} from "react-loader-spinner";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
-import Zoom from "@mui/material/Zoom";
 import Highlighter from "react-highlight-words";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 import "./styles.scss";
 import moment from "moment";
-
-import FilterMenu from "../utilities/FilterMenu";
-import ExpandableSearchInput from "../inputs/Search/ExpandableSearch";
-import {toast} from "react-toastify";
 import {ObjectContext, UserContext} from "../../context";
-import client from "../../feathers";
 
 const EachChatMessage = ({
   messageObj,
@@ -28,6 +19,8 @@ const EachChatMessage = ({
   const {message, _id, senderId, time, sender, status, dp} = messageObj;
   const currentUser = user.currentEmployee.userId;
   const isUserMsg = currentUser === senderId;
+
+  const healthstackId = "63d275e3b40a06001641ef71";
 
   useEffect(() => {
     if (isUserMsg || messageObj.seen.includes(currentUser)) return;
@@ -62,6 +55,11 @@ const EachChatMessage = ({
         break;
     }
   };
+
+  const isAdmin =
+    messageObj?.senderOrgId === healthstackId ||
+    sender.toLowerCase() === "healthstack admin";
+
   return (
     <Slide direction="right" in={true} container={chatBoxContainerRef.current}>
       <Box
@@ -71,7 +69,7 @@ const EachChatMessage = ({
           justifyContent: isUserMsg ? "flex-end" : "flex-start",
         }}
       >
-        {!isUserMsg && (
+        {isUserMsg && (
           <Avatar
             src={dp}
             sx={{width: "40px", height: "40px", marginRight: "7px"}}
@@ -83,7 +81,11 @@ const EachChatMessage = ({
             padding: "10px",
             boxShadow: 3,
             borderRadius: "7.5px",
-            backgroundColor: isUserMsg ? "#f8f7ff" : "#0064CC",
+            backgroundColor: isAdmin
+              ? "#344E41"
+              : !isAdmin && isUserMsg
+              ? "#f8f7ff"
+              : "#0064CC",
           }}
           mb={2}
         >
@@ -108,9 +110,17 @@ const EachChatMessage = ({
                   color: isUserMsg ? "#0064CC" : "#ffffff",
                   fontWeight: "600",
                   textTransform: "capitalize",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "3px",
                 }}
               >
-                {sender}
+                {`${sender} ${
+                  messageObj.senderOrgName && !isAdmin
+                    ? `(${messageObj.senderOrgName})`
+                    : ""
+                }`}
+                {isAdmin && <AdminPanelSettingsIcon sx={{fill: "#FFB703"}} />}
               </Typography>
             </Box>
             <Typography
@@ -159,7 +169,7 @@ const EachChatMessage = ({
             </Box>
           </Box>
         </Box>
-        {isUserMsg && (
+        {!isUserMsg && (
           <Avatar
             src={dp}
             sx={{width: "40px", height: "40px", marginLeft: "7px"}}

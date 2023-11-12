@@ -360,6 +360,7 @@ const NewComplaints = () => {
             <Box
               sx={{
                 width: "100%",
+                height: "calc(100% - 4rem)",
               }}
             >
               {complaints.length > 0 ? (
@@ -372,7 +373,7 @@ const NewComplaints = () => {
                     alignItems: "center",
                     gap: 2,
                     padding: "15px 0",
-                    height: "calc(100% - 4rem)",
+                    height: "100%",
                     overflowY: "auto",
                   }}
                 >
@@ -525,9 +526,19 @@ const EachComplaint = ({complaint, showConversation}) => {
             sx={{
               fontSize: "0.85rem",
               fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
             }}
           >
             {`${complaint?.submissionby?.firstname} ${complaint?.submissionby?.lastname}`}
+            <Typography
+              sx={{
+                color: "#1976d2",
+                fontWeight: "600",
+                fontSize: "0.85rem",
+              }}
+            >{`(${complaint.from.entity.name})`}</Typography>
           </Typography>
         </Box>
 

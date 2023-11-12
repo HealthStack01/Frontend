@@ -40,7 +40,7 @@ import PasswordIcon from "@mui/icons-material/Password";
 
 // import { createClientSchema } from "./schema";
 
-const EmployeeView = ({open, setOpen, employee}) => {
+const EmployeeView = ({open, closeModal, employee}) => {
   const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -171,8 +171,8 @@ const EmployeeView = ({open, setOpen, employee}) => {
       .then(res => {
         setUpatingEmployee(false);
         toast.success("Employee Data succesfully updated");
-
         changeState(res);
+        closeModal();
       })
       .catch(err => {
         setUpatingEmployee(false);
@@ -191,13 +191,15 @@ const EmployeeView = ({open, setOpen, employee}) => {
         type="danger"
         message={`Are you sure you want to delete this employee ${employee.firstname} ${employee.lastname}?`}
       />
-       <ModalBox
+      <ModalBox
         open={passwordModal}
         onClose={() => setPasswordModal(false)}
         header={`Change Password  for ${employee.firstname} ${employee.lastname}`}
-       
       >
-        <ChangeEmployeePassword2 closeModal={() => setPasswordModal(false)}   employee={employee}/>
+        <ChangeEmployeePassword2
+          closeModal={() => setPasswordModal(false)}
+          employee={employee}
+        />
       </ModalBox>
 
       <ModalBox
@@ -238,7 +240,6 @@ const EmployeeView = ({open, setOpen, employee}) => {
           <Box sx={{display: "flex"}} gap={1}>
             {!editing ? (
               <>
-
                 <GlobalCustomButton
                   disabled={editing}
                   onClick={() => {
@@ -267,7 +268,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
                   onClick={() => setPasswordModal(true)}
                   color="info"
                 >
-                <DriveFileRenameOutlineIcon fontSize="small" />
+                  <DriveFileRenameOutlineIcon fontSize="small" />
                   Change Password
                 </GlobalCustomButton>
               </>
@@ -429,7 +430,7 @@ const EmployeeView = ({open, setOpen, employee}) => {
 export default EmployeeView;
 
 export const ChangeEmployeePassword2 = ({closeModal, employee}) => {
-  const userServ=client.service("users")
+  const userServ = client.service("users");
   const {user} = useContext(UserContext);
   const {state, setState, showActionLoader, hideActionLoader} =
     useContext(ObjectContext);
@@ -449,7 +450,7 @@ export const ChangeEmployeePassword2 = ({closeModal, employee}) => {
         password: data.new_password,
       },
     };
-/* 
+    /* 
      axios
       .post(
         "https://healthstack-backend.herokuapp.com/auth-management",
@@ -458,7 +459,8 @@ export const ChangeEmployeePassword2 = ({closeModal, employee}) => {
         },
         {headers: {Authorization: `Bearer ${token}`}}
       )  */
-      userServ.patch(employee.userId, { password: data.new_password} )
+    userServ
+      .patch(employee.userId, {password: data.new_password})
       .then(() => {
         hideActionLoader();
         closeModal();
@@ -485,8 +487,7 @@ export const ChangeEmployeePassword2 = ({closeModal, employee}) => {
             gap: 2,
           }}
         >
-
-        {/*   <PasswordInput
+          {/*   <PasswordInput
             label="Old Password"
             important
             register={register("old_password", {
