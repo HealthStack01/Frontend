@@ -420,21 +420,25 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
                     getFacilities(user) */
     }
     EmployeeServ.on("created", obj => {
-      const newData = updateOnCreated(facilities, obj);
-      setFacilities(newData);
+      // const newData = updateOnCreated(facilities, obj);
+      // setFacilities(newData);
+      getFacilities();
     });
     EmployeeServ.on("updated", obj => {
-      const newData = updateOnUpdated(facilities, obj);
-      setFacilities(newData);
+      // const newData = updateOnUpdated(facilities, obj);
+      // setFacilities(newData);
+      getFacilities();
     });
     EmployeeServ.on("patched", obj => {
-      const newData = updateOnPatched(facilities, obj);
-      //console.log(newData);
-      setFacilities(newData);
+      // const newData = updateOnPatched(facilities, obj);
+
+      // setFacilities(newData);
+      getFacilities();
     });
     EmployeeServ.on("removed", obj => {
-      const newData = updateOnDeleted(facilities, obj);
-      setFacilities(newData);
+      // const newData = updateOnDeleted(facilities, obj);
+      // setFacilities(newData);
+      getFacilities();
     });
     return () => {};
   }, []);
@@ -560,8 +564,6 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
   ];
 
   const createEmployee = async data => {
-   
-   
     const employeeData = {
       ...data,
       createdby: user._id,
@@ -616,6 +618,7 @@ export function EmployeeList({showCreateModal, showDetailModal}) {
               <EmployeeView
                 employee={selectedEmployee}
                 open={open}
+                closeModal={() => setOpen(false)}
                 setOpen={handleCloseModal}
               />
             </ModalBox>

@@ -52,7 +52,7 @@ const ComplaintConversation = ({closeConvo}) => {
     await complaintServer
       .get(id)
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
         setMessages(resp.convo || []);
       })
       .catch(err => {
@@ -95,6 +95,7 @@ const ComplaintConversation = ({closeConvo}) => {
   const sendMessage = async () => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
+    const facility = employee.facilityDetail;
     //const currentComplaint = state.ComplaintModule.selectedComplaint;
 
     const messageDoc = {
@@ -103,8 +104,9 @@ const ComplaintConversation = ({closeConvo}) => {
       _id: uuidv4(),
       seen: [],
       status: "delivered",
-      //senderId: "000",
       senderId: employee.userId,
+      senderOrgId: facility._id,
+      senderOrgName: facility.facilityName,
       dp: employee.imageurl,
       sender: `${employee.firstname} ${employee.lastname}`,
       type: "text",
@@ -237,9 +239,20 @@ const ComplaintConversation = ({closeConvo}) => {
               sx={{
                 fontSize: "0.8rem",
                 fontWeight: "600",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
               }}
             >
               {`${complaint?.submissionby?.firstname} ${complaint?.submissionby?.lastname}`}
+
+              <Typography
+                sx={{
+                  color: "#1976d2",
+                  fontWeight: "600",
+                  fontSize: "0.85rem",
+                }}
+              >{`(${complaint?.from?.entity?.name})`}</Typography>
             </Typography>
 
             {complaint?.complaint?.length > 200 && (
