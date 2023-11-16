@@ -1001,9 +1001,13 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                               <tbody>
                                 {Object.entries(Clinic.documentdetail).map(
                                   ([keys, value], i) => {
-                                    // if (Array.isArray(value)) {
-                                    //   return null; // Skip rendering for arrays
-                                    // }
+                                    if (
+                                      value === "" ||
+                                      value === undefined ||
+                                      value === null
+                                    ) {
+                                      return null; // Skip rendering for arrays
+                                    }
                                     return (
                                       <tr key={i}>
                                         <td
