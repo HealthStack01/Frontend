@@ -776,7 +776,7 @@ export function Haematology() {
               label="Specimen"
               name="specimen"
               type="text"
-              register={register("specimen", { required: false })}
+              register={register("specimen", { required: true })}
             />
           </Grid>
           <Grid item xs={12} sm={2.4}>
@@ -1876,7 +1876,7 @@ export function Serology() {
                 label="Specimen"
                 name="specimen"
                 type="text"
-                register={register("specimen", { required: false })}
+                register={register("specimen", { required: true })}
               />
             </Grid>
             <Grid item xs={12} sm={2.4}>
@@ -2745,7 +2745,7 @@ export function ChemicalPathologyAndTumorMarkers() {
                 label="Specimen"
                 name="specimen"
                 type="text"
-                register={register("specimen", { required: false })}
+                register={register("specimen", { required: true })}
               />
             </Grid>
             <Grid item xs={12} sm={2}>
@@ -3691,7 +3691,7 @@ export function Biochemistry() {
                 label="Specimen"
                 name="specimen"
                 type="text"
-                register={register("specimen", { required: false })}
+                register={register("specimen", { required: true })}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -5853,7 +5853,7 @@ export function Urinalysis() {
                 label="Specimen"
                 name="specimen"
                 type="text"
-                register={register("specimen", { required: false })}
+                register={register("specimen", { required: true })}
               />
             </Grid>
             <Grid item xs={12} sm={2.4}>
