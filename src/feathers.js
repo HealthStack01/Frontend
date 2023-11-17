@@ -11,7 +11,7 @@ const API =
   process.env.NODE_ENV !== "production"
     ? url
     : "https://healthstack-backend.herokuapp.com";
-const socket = io(url, {
+const socket = io(azure, {
   transports: ["websocket"],
   forceNew: true,
 });
