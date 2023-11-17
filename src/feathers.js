@@ -5,7 +5,7 @@ import authentication from "@feathersjs/authentication-client";
 
 const herok = "https://healthstack-backend.herokuapp.com";
 const azure = "https://hsbackend.azurewebsites.net";
-const url = "http://localhost:3035";
+const url = "http://localhost:8080";
 const herok1="https://hs-backend-59a793db48af.herokuapp.com/"
 const API =
   process.env.NODE_ENV !== "production"
