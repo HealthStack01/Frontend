@@ -283,6 +283,7 @@ export function Haematology() {
     volume: "",
     clientName: "",
     labTestName: "",
+    specimenRoute: "",
   });
 
   // let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
@@ -701,6 +702,7 @@ export function Haematology() {
       volume: data.volume,
       clientName: clientName,
       labTestName: order.serviceInfo.name,
+      specimenRoute: data.specimen_route,
     });
     setShowModal(true);
   };
@@ -810,6 +812,14 @@ export function Haematology() {
               name="volume"
               type="text"
               register={register("volume", { required: false })}
+            />
+          </Grid>
+          <Grid item xs={12} sm={2.4}>
+            <Input
+              label="Specimen route"
+              name="Specimen_route"
+              type="text"
+              register={register("specimen_route", { required: false })}
             />
           </Grid>
         </Grid>
@@ -1627,6 +1637,7 @@ export function Serology() {
     volume: "",
     clientName: "",
     labTestName: "",
+    specimenRoute: "",
   });
 
   const ClientServ = client.service("labresults");
@@ -1800,6 +1811,7 @@ export function Serology() {
       volume: data.volume,
       clientName: clientName,
       labTestName: order.serviceInfo.name,
+      specimenRoute: data.specimen_route,
     });
     setShowModal(true);
   };
@@ -1912,6 +1924,14 @@ export function Serology() {
                 name="volume"
                 type="text"
                 register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.4}>
+              <Input
+                label="Specimen route"
+                name="Specimen_route"
+                type="text"
+                register={register("specimen_route", { required: false })}
               />
             </Grid>
           </Grid>
@@ -2264,6 +2284,7 @@ export function ChemicalPathologyAndTumorMarkers() {
     volume: "",
     clientName: "",
     labTestName: "",
+    specimenRoute: "",
   });
   const clientName = order.orderInfo.orderObj.clientname;
 
@@ -2668,6 +2689,7 @@ export function ChemicalPathologyAndTumorMarkers() {
       volume: data.volume,
       clientName: clientName,
       labTestName: order.serviceInfo.name,
+      specimenRoute: data.specimen_route,
     });
     setShowModal(true);
   };
@@ -2781,6 +2803,14 @@ export function ChemicalPathologyAndTumorMarkers() {
                 name="volume"
                 type="text"
                 register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Input
+                label="Specimen route"
+                name="Specimen_route"
+                type="text"
+                register={register("specimen_route", { required: false })}
               />
             </Grid>
             <Grid item xs={12} sm={2}>
@@ -3220,6 +3250,7 @@ export function Biochemistry() {
     volume: "",
     clientName: "",
     labTestName: "",
+    specimenRoute: "",
   });
   const clientName = order.orderInfo.orderObj.clientname;
 
@@ -3620,6 +3651,7 @@ export function Biochemistry() {
       volume: data.volume,
       clientName: clientName,
       labTestName: order.serviceInfo.name,
+      specimenRoute: data.specimen_route,
     });
     setShowModal(true);
   };
@@ -3727,6 +3759,14 @@ export function Biochemistry() {
                 name="volume"
                 type="text"
                 register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Specimen route"
+                name="Specimen_route"
+                type="text"
+                register={register("specimen_route", { required: false })}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -4231,6 +4271,7 @@ export function Microbiology() {
     volume: "",
     clientName: "",
     labTestName: "",
+    specimenRoute: "",
   });
   const clientName = order.orderInfo.orderObj.clientname;
 
@@ -4669,6 +4710,7 @@ export function Microbiology() {
       volume: data.volume,
       clientName: clientName,
       labTestName: order.serviceInfo.name,
+      specimenRoute: data.specimen_route,
     });
     setShowModal(true);
   };
@@ -4857,6 +4899,14 @@ export function Microbiology() {
                 name="volume"
                 type="text"
                 register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                label="Specimen route"
+                name="Specimen_route"
+                type="text"
+                register={register("specimen_route", { required: false })}
               />
             </Grid>
           </Grid>
@@ -5536,6 +5586,7 @@ export function Urinalysis() {
     volume: "",
     clientName: "",
     labTestName: "",
+    specimenRoute: "",
   });
   const clientName = order.orderInfo.orderObj.clientname;
 
@@ -5785,6 +5836,7 @@ export function Urinalysis() {
       volume: data.volume,
       clientName: clientName,
       labTestName: order.serviceInfo.name,
+      specimenRoute: data.specimen_route,
     });
     setShowModal(true);
   };
@@ -5889,6 +5941,14 @@ export function Urinalysis() {
                 name="volume"
                 type="text"
                 register={register("volume", { required: false })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2.4}>
+              <Input
+                label="Specimen route"
+                name="Specimen_route"
+                type="text"
+                register={register("specimen_route", { required: false })}
               />
             </Grid>
           </Grid>

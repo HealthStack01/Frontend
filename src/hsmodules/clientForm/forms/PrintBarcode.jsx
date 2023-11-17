@@ -51,7 +51,8 @@ export const PrintBarcode = ({ data, action }) => {
       *** Specimen name : ${data.specimenName} ***
       *** volume : ${data.volume} ***
       *** Date of Request : ${data.dateOfRequest} ***
-      *** Date of Collection : ${data.dateOfCollection} ***`
+      *** Date of Collection : ${data.dateOfCollection} ***
+      *** Specimen Route : ${data.specimenRoute} ***`
     )
       .then((url) => {
         console.log("barcode", url);
