@@ -4,6 +4,8 @@ import {UserContext, ObjectContext} from "../../context";
 import "react-datepicker/dist/react-datepicker.css";
 import {v4 as uuidv4} from "uuid";
 import {toast} from "react-toastify";
+import Chart from 'react-apexcharts';
+
 
 import dayjs from "dayjs";
 
@@ -50,6 +52,7 @@ export function LoginList({showTransactions}) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const ClientServ = client.service("logins");
+  const analServ =client.service("loginanlytics")
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -65,6 +68,8 @@ export function LoginList({showTransactions}) {
   const user = JSON.parse(data);
 
   // end
+  const [loginData, setLoginData] = useState(null);
+  const [currentView, setCurrentView] = useState("list");
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -191,7 +196,7 @@ export function LoginList({showTransactions}) {
           },
         },
       });
-     
+    
       await setFacilities(findClient.data);
      
 
@@ -199,6 +204,13 @@ export function LoginList({showTransactions}) {
       const uniqueFacilitiesSet = new Set(findClient.data.map((item) => item.facility._id));
       const uniqueFacilitiesArray = Array.from(uniqueFacilitiesSet);
       setTotalFacilities(uniqueFacilitiesArray.length)
+      analServ.find(). then((resp)=>{
+        console.log(resp)
+        setLoginData(resp);
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
       }
   
 
@@ -396,7 +408,41 @@ export function LoginList({showTransactions}) {
 		/* }, */ 
 	];
 
+  const handleSetCurrentView = view => {
+    setCurrentView(view);
+  };
 
+  const renderChart = () => {
+    if (loginData.length==0) return null;
+
+    const options = {
+      chart: {
+        type: 'line',
+      },
+      xaxis: {
+        categories: loginData.map(entry => entry.date),
+      },
+    };
+
+    const series = [{
+      name: 'Login Count',
+      data: loginData.map(entry => entry.loginCount),
+    },
+    {
+      name: 'Unique Organizations',
+      data: loginData.map(entry => entry.uniqueOrganizationCount),
+    },
+     {
+      name: 'Unique Users',
+      data: loginData.map(entry => entry.uniqueUserCount),
+    }, 
+  
+  ];
+
+    return (
+      <Chart options={options} series={series} type="line" height={350} />
+    );
+  };
 
   return (
     <>
@@ -420,11 +466,54 @@ export function LoginList({showTransactions}) {
                 <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   List of Logins Today ({total})  Number of Facilities:{totalFacilities}
                 </h2>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "calc(100% - 250px)",
+            flexWrap: "wrap",
+          }}
+          mb={2}
+          gap={1}
+        >
+          <GlobalCustomButton
+            onClick={() => handleSetCurrentView("list")}
+            sx={
+              currentView === "list"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
+          >
+           Today's login List
+          </GlobalCustomButton>
 
+          <GlobalCustomButton
+            onClick={() => handleSetCurrentView("90days")}
+            sx={
+              currentView === "90days"
+                ? {
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                    },
+                  }
+                : {}
+            }
+          >
+            90 Day Trend
+          </GlobalCustomButton>
+          </Box>
               </div>
             </TableMenu>
 
-            <div
+          {currentView === "list" &&   <div
               style={{
                 width: "100%",
                 height: "calc(100vh - 200px)",
@@ -441,7 +530,20 @@ export function LoginList({showTransactions}) {
                /*  onRowClicked={handleRow} */
                 progressPending={loading}
               />
-            </div>
+            </div>}
+            {currentView === "90days" &&   <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 200px)",
+                overflow: "auto",
+              }}
+            >
+            {renderChart()}
+            
+            </div>}
+          
+          
+
           </PageWrapper>
         </>
       ) : (
