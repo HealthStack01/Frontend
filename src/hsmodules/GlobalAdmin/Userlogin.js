@@ -195,7 +195,13 @@ export function LoginList({showTransactions}) {
             createdAt: -1,
           },
         },
-      });
+      })
+     /*  .then((resp)=>{
+        console.log("resp recived")
+      })
+      .catch((err)=>{
+        console.log(err)
+      }); */
     
       await setFacilities(findClient.data);
      
@@ -204,6 +210,7 @@ export function LoginList({showTransactions}) {
       const uniqueFacilitiesSet = new Set(findClient.data.map((item) => item.facility._id));
       const uniqueFacilitiesArray = Array.from(uniqueFacilitiesSet);
       setTotalFacilities(uniqueFacilitiesArray.length)
+
       analServ.find(). then((resp)=>{
         console.log(resp)
         setLoginData(resp);
@@ -212,7 +219,7 @@ export function LoginList({showTransactions}) {
         console.log(err)
       })
       }
-  
+   
 
   useEffect(() => {
     if (user) {
@@ -413,7 +420,7 @@ export function LoginList({showTransactions}) {
   };
 
   const renderChart = () => {
-    if (loginData.length==0) return null;
+    if (!loginData) return null;
 
     const options = {
       chart: {
