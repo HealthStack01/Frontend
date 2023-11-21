@@ -137,7 +137,7 @@ const TemplateCreate = ({ closeModal }) => {
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <CustomSelect
-              options={["SLA", "Letter of Intrest", "Invoice", "Proposal"]}
+              options={["Image", "Document"]}
               label="Type"
               onChange={(e) => setDoctype(e.target.value)}
             />
@@ -166,13 +166,13 @@ const TemplateCreate = ({ closeModal }) => {
         </Typography>
       </Box>
 
-      <Box>
+      {/* <Box>
         <Textarea
           label="Comment"
           placeholder="write here..."
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={e => setDescription(e.target.value)}
         />
-      </Box>
+      </Box> */}
 
       <Box sx={{ display: "flex", alignItems: "center" }} mt={2} gap={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>

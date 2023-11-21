@@ -7,6 +7,7 @@ import { DocumentClassList } from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 
 import Drawer from "@mui/material/Drawer";
 
@@ -62,6 +63,8 @@ import dayjs from "dayjs";
 import CustomTable from "../../components/customtable";
 
 import TheatreRequest, { TheatreCreate } from "./TheatreRequest";
+// import TemplateCreate from "../../../src/hsmodules/CRM/components/template";
+import TemplateCreate from "../CRM/components/templates/TemplateCreateForDocument";
 
 export default function EncounterMain({ nopresc, chosenClient }) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -96,6 +99,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const [activateCall, setActivateCall] = useState(false);
   const [showTheatreModal, setShowTheatreModal] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
 
   const open = Boolean(showActions);
 
@@ -604,6 +608,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         flexGrow: "1",
       }}
     >
+      <ModalBox
+        open={uploadModal}
+        onClose={() => setUploadModal(false)}
+        header="Upload New Document"
+      >
+        <TemplateCreate closeModal={() => setUploadModal(false)} />
+      </ModalBox>
+
       <CustomConfirmationDialog
         open={confirmationDialog}
         confirmationAction={() => handleDelete(docToDelete)}
@@ -682,6 +694,34 @@ export default function EncounterMain({ nopresc, chosenClient }) {
             New Document
           </GlobalCustomButton>
         </Box>
+
+        <Box
+          sx={{
+            width: "200px",
+          }}
+        >
+          <GlobalCustomButton
+            color="secondary"
+            sx={{
+              width: "100%",
+              fontSize: "14px",
+            }}
+            onClick={() => setUploadModal(true)}
+          >
+            <AddCircleOutlineOutlinedIcon sx={{ mr: "1px" }} fontSize="small" />
+            Upload document
+          </GlobalCustomButton>
+        </Box>
+
+        {/* <Button
+          variant="contained"
+          size="small"
+          sx={{textTransform: "capitalize"}}
+          onClick={openCreateModal}
+        >
+          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" />
+          Upload New Template
+        </Button> */}
 
         {!nopresc && (
           <Box

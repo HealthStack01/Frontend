@@ -148,14 +148,14 @@ export const PrintBarcode = ({ data, action }) => {
   }, [data]);
 
   const ImgStyled = styled("img")(({ theme }) => ({
-    width: 150,
+    width: 300,
     height: 150,
     marginRight: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
   }));
 
   const ImgStyledId = styled("img")(({ theme }) => ({
-    width: 120,
+    width: 240,
     height: 120,
     marginLeft: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
@@ -238,19 +238,27 @@ export const PrintBarcode = ({ data, action }) => {
           p={2}
         >
           <Grid container spacing={2} sx={{ alignItems: "center" }}>
-            <Grid item xs={12} md={8}>
-              <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
+            <Grid item xs={12} md={12}>
+              <Typography
+                sx={{
+                  fontSize: "1rem",
+                  color: "#000000",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
                 NAME: <b>{`${data.clientName}`}</b>
               </Typography>
               <Divider />
             </Grid>
-            <Grid item xs={12} md={4} pr={2}>
-              <Grid item xs={6} md={6}>
+            <Grid item xs={12} md={12}>
+              <Grid xs={12} md={12}>
                 <Box
                   sx={{
                     width: "100%",
                     height: "60px",
-                    float: "left",
+                    // float: "left",
+                    alignItems: "center",
                     borderRadius: "10px",
                     //   bgcolor: "primary.main",
                     //   border: "2px solid red",
@@ -357,14 +365,14 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
   }, []);
 
   const ImgStyled = styled("img")(({ theme }) => ({
-    width: 150,
+    width: 300,
     height: 150,
     marginRight: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
   }));
 
   const ImgStyledId = styled("img")(({ theme }) => ({
-    width: 120,
+    width: 240,
     height: 120,
     marginLeft: theme.spacing(6.25),
     borderRadius: theme.shape.borderRadius,
@@ -397,14 +405,14 @@ const ComponentToPrint = forwardRef(({ action }, ref) => {
           p={2}
         >
           <Grid container spacing={2} sx={{ alignItems: "center" }}>
-            <Grid item xs={6} md={6}>
+            <Grid item xs={12} md={12}>
               <Typography sx={{ fontSize: "1rem", color: "#000000" }}>
                 NAME: <b>{`${data?.clientName}`}</b>
               </Typography>
               <Divider />
             </Grid>
-            <Grid item xs={6} md={6} pr={2}>
-              <Grid item xs={6} md={6}>
+            <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={12}>
                 <Box
                   sx={{
                     width: "100%",
