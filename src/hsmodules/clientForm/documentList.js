@@ -89,7 +89,7 @@ const documentList = [
   },
   {
     _id: "60643cafd2292800150b5a42",
-    name: "Eye examination",
+    name: "Eye Examination",
     facility: "60203e1c1ec8a00015baa357",
     createdAt: "2021-03-31T09:11:11.469Z",
     updatedAt: "2021-06-06T10:09:59.847Z",

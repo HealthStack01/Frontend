@@ -621,13 +621,13 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           </Box>
 
           <Box mb={2}>
-            <TextAreaVoiceAndText
+            {/* <TextAreaVoiceAndText
               label="Investigation"
               type={investigationInputType}
               changeType={setInvestigationInputType}
               register={register("investigation")}
               voiceOnChange={value => setValue("investigation", value)}
-            />
+            /> */}
 
             {/* <FormsHeaderText text="Investigation" />
 
@@ -640,13 +640,13 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           </Box>
 
           <Box mb={2}>
-            <TextAreaVoiceAndText
+           {/*  <TextAreaVoiceAndText
               label="Drugs"
               type={drugsInputType}
               changeType={setDrugsInputType}
               register={register("drugs")}
               voiceOnChange={value => setValue("drugs", value)}
-            />
+            /> */}
 
             {/* <FormsHeaderText text="Drugs" />
 
@@ -659,13 +659,13 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           </Box>
 
           <Box mb={2}>
-            <TextAreaVoiceAndText
+           {/*  <TextAreaVoiceAndText
               label="Treatments"
               type={treatmentInputType}
               changeType={setTreatmentInputType}
               register={register("treatment")}
               voiceOnChange={value => setValue("treatment", value)}
-            />
+            /> */}
 
             {/* <FormsHeaderText text="Treatment" />
 

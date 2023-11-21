@@ -234,7 +234,7 @@ export default function EncounterRight() {
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Vital Signs Chart" && <VitalSignsChart onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
-        "Eye examination" && <EyeExamination />}
+        "Eye Examination" && <EyeExamination />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
         "Dental Clinic" && <DentalClinic onSubmit={submitDocument} />}
       {state.DocumentClassModule.selectedDocumentClass.name ===
