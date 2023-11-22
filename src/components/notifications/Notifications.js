@@ -60,10 +60,10 @@ const AppNotifications = () => {
       const response = await notificationsServer.find({
         query: {
           facilityId: user.currentEmployee.facilityDetail._id,
-          $limit: 200,
-          senderId: {
-            $ne: userId,
-          },
+          $limit: 50,
+          // senderId: {
+          //   $ne: userId,
+          // },
           // dest_userId: {$in: [userId]},
           isRead: {$nin: [userId]},
           $sort: {
@@ -102,7 +102,7 @@ const AppNotifications = () => {
       const response = await notificationsServer.find({
         query: {
           facilityId: user.currentEmployee.facilityDetail._id,
-          $limit: 200,
+          $limit: 50,
           senderId: {
             $ne: userId,
           },
@@ -121,7 +121,7 @@ const AppNotifications = () => {
       if (user.stacker) {
         const response = await notificationsServer.find({
           query: {
-            $limit: 100,
+            $limit: 50,
             $sort: {
               facility: -1,
             },
