@@ -14,7 +14,7 @@ const useFetchTotal = (service, query, isFacilityId) => {
 					...query,
 					$limit: 1000,
 			  }
-			: { ...query, facility: facilityId, $limit: 1000 };
+			: { ...query, facility: facilityId, $limit: 0 };
 
 	useEffect(() => {
 		service
