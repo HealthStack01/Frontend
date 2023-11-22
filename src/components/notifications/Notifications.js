@@ -61,9 +61,9 @@ const AppNotifications = () => {
         query: {
           facilityId: user.currentEmployee.facilityDetail._id,
           $limit: 50,
-          // senderId: {
-          //   $ne: userId,
-          // },
+          senderId: {
+            $ne: userId,
+          },
           // dest_userId: {$in: [userId]},
           isRead: {$nin: [userId]},
           $sort: {
