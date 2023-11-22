@@ -45,6 +45,7 @@ const TemplateCreate = ({ closeModal }) => {
   const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   const { user } = useContext(UserContext);
+  const ClientServ = client.service("clinicaldocument");
 
   const selectOptions = [
     {
@@ -91,7 +92,9 @@ const TemplateCreate = ({ closeModal }) => {
         const employee = user.currentEmployee;
         const currentDeal = state.DealModule.selectedDeal;
 
-        const document = {
+        let document = {};
+
+        const documentUploadDetails = {
           facilityId: employee.facilityDetail._id,
           facilityNmae: employee.facilityDetail.facilityName,
           upload: {
@@ -107,8 +110,74 @@ const TemplateCreate = ({ closeModal }) => {
             dealId: currentDeal._id,
           },
         };
-        await templateServer
-          .create(document)
+
+        if (user.currentEmployee) {
+          document.facility = user.currentEmployee.facilityDetail._id;
+          document.facilityname =
+            user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
+        }
+
+        let sample = {};
+
+        (sample.URL = res.data.url), (document.documentdetail = sample);
+
+        console.log("start now document", {
+          documentdetail: document.documentdetail,
+        });
+        document.documentname = "Upload document";
+        // state.DocumentClassModule.selectedDocumentClass.name;
+        document.documentClassId =
+          state.DocumentClassModule.selectedDocumentClass._id;
+        document.location =
+          state.employeeLocation.locationName +
+          " " +
+          state.employeeLocation.locationType;
+        document.locationId = state.employeeLocation.locationId;
+        document.client = state.ClientModule.selectedClient._id;
+        document.createdBy = user._id;
+        document.createdByname = user.firstname + " " + user.lastname;
+        document.status = "completed";
+
+        document.geolocation = {
+          type: "Point",
+          coordinates: [
+            state.coordinates.latitude,
+            state.coordinates.longitude,
+          ],
+        };
+
+        if (
+          document.location === undefined ||
+          !document.createdByname ||
+          !document.facilityname
+        ) {
+          toast.error(
+            "Documentation data missing, requires location and facility details"
+          );
+          return;
+        }
+
+        // ClientServ.create(document)
+        // .then((res) => {
+        //   console.log("Clinincal note data", res);
+        //   setDiagnosis([]);
+
+        //   Object.keys(data).forEach((key) => {
+        //     data[key] = "";
+        //   });
+
+        //   console.log("goood");
+        //   setSuccess(true);
+        //   toast.success("Documentation created succesfully");
+        //   setSuccess(false);
+        //   reset(data);
+        //   setConfirmationDialog(false);
+        // })
+        // .catch((err) => {
+        //   toast.error("Error creating Documentation " + err);
+        // });
+
+        await ClientServ.create(document)
           .then((res) => {
             hideActionLoader();
             closeModal();

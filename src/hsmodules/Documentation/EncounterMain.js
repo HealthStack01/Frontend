@@ -354,6 +354,11 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     handleHideActions();
   };
 
+  const handleUploadDocument = async () => {
+    await setUploadModal(true);
+    handleHideActions();
+  };
+
   useEffect(() => {
     getFacilities();
 
@@ -551,11 +556,16 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       action: handleEndEncounter,
       show: !nopresc,
     },
+    {
+      title: "Upload New Document",
+      action: handleUploadDocument,
+      show: !nopresc,
+    },
     // {
     //   title: "New Document",
     //   action: handleNewDocument,
     //   show: true,
-    // },
+    // },Upload New Document
   ];
 
   const diagnosisTableColumns = [
@@ -695,24 +705,6 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           </GlobalCustomButton>
         </Box>
 
-        <Box
-          sx={{
-            width: "200px",
-          }}
-        >
-          <GlobalCustomButton
-            color="secondary"
-            sx={{
-              width: "100%",
-              fontSize: "14px",
-            }}
-            onClick={() => setUploadModal(true)}
-          >
-            <AddCircleOutlineOutlinedIcon sx={{ mr: "1px" }} fontSize="small" />
-            Upload document
-          </GlobalCustomButton>
-        </Box>
-
         {/* <Button
           variant="contained"
           size="small"
@@ -760,7 +752,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                 }}
               >
                 {actionsList.map((action, i) => {
-                  if (action.show && prevRoles.includes(action.title)) {
+                  // && prevRoles.includes(action.title)
+                  if (action.show) {
                     return (
                       <MenuItem
                         key={i}
