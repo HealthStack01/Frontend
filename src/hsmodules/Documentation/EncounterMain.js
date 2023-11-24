@@ -1037,7 +1037,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                                     if (
                                       value === "" ||
                                       value === undefined ||
-                                      value === null
+                                      value === null ||
+                                      keys === "DocumentUploadUrl"
                                     ) {
                                       return null; // Skip rendering for arrays
                                     }
