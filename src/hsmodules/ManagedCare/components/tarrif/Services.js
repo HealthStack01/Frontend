@@ -1,4 +1,11 @@
-import {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import {
   Box,
   Grid,
@@ -8,12 +15,12 @@ import {
   FormControlLabel,
   FormGroup,
 } from "@mui/material";
-import {ObjectContext, UserContext} from "../../../../context";
-import {FormsHeaderText} from "../../../../components/texts";
-import {DeleteOutline, EditOutlined} from "@mui/icons-material";
+import { ObjectContext, UserContext } from "../../../../context";
+import { FormsHeaderText } from "../../../../components/texts";
+import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import CustomTable from "../../../../components/customtable";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import SearchSelect from "../../../helpers/SearchSelect";
 import Input from "../../../../components/inputs/basic/Input";
 import Textarea from "../../../../components/inputs/basic/Textarea";
@@ -22,14 +29,14 @@ import client from "../../../../feathers";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import CustomTariffSelect from "../TariffSelect";
 import GroupedRadio from "../../../../components/inputs/basic/Radio/GroupedRadio";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
-import {getPlansColumns, getServicesColumns} from "./columns";
+import { getPlansColumns, getServicesColumns } from "./columns";
 import ReviewRequestComponent from "./ReviewRequest";
 
-const TarrifServices = ({provider}) => {
+const TarrifServices = ({ provider }) => {
   const tarrifsServer = client.service("tariff");
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   const [selectedService, setSelectedService] = useState(null);
   const [addServiceModal, setAddServiceModal] = useState(false);
@@ -38,6 +45,7 @@ const TarrifServices = ({provider}) => {
   const [toggleCleared, setToggleCleared] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [chosenServices, setChosenServices] = useState([]);
+  const containerScrollRef = useRef(null);
 
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
@@ -45,6 +53,17 @@ const TarrifServices = ({provider}) => {
     type: "",
     action: null,
   });
+
+  const handleOnTableScroll = () => {
+    if (containerScrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } =
+        containerScrollRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        // TO SOMETHING HERE
+        console.log("Reached bottom");
+      }
+    }
+  };
 
   useEffect(() => {
     setServices(state.TarrifModule.selectedTarrif.contracts);
@@ -60,7 +79,7 @@ const TarrifServices = ({provider}) => {
   }, [state.TarrifModule.selectedService]);
 
   const unSelectService = () => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       sideMenu: {
         ...prev.sideMenu,
@@ -71,12 +90,12 @@ const TarrifServices = ({provider}) => {
     setSelectedService(null);
   };
 
-  const handleServicesRowClick = service => {
+  const handleServicesRowClick = (service) => {
     if (selectedService && service._id === selectedService._id)
       return unSelectService();
 
     setSelectedService(service);
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       sideMenu: {
         ...prev.sideMenu,
@@ -85,25 +104,25 @@ const TarrifServices = ({provider}) => {
     }));
   };
 
-  const handlePlansRowClick = plan => {
+  const handlePlansRowClick = (plan) => {
     console.log(plan);
   };
 
-  const handleDeletePlan = plan => {
+  const handleDeletePlan = (plan) => {
     showActionLoader();
     const prevTarrif = state.TarrifModule.selectedTarrif;
     const prevServices = prevTarrif.contracts;
 
     const prevPlans = selectedService.plans || [];
 
-    const newPlans = prevPlans.filter(item => item.planId !== plan.planId);
+    const newPlans = prevPlans.filter((item) => item.planId !== plan.planId);
 
     const newSelectedService = {
       ...selectedService,
       plans: newPlans,
     };
 
-    const newServices = prevServices.map(item => {
+    const newServices = prevServices.map((item) => {
       if (item._id === selectedService._id) {
         return newSelectedService;
       } else {
@@ -111,9 +130,9 @@ const TarrifServices = ({provider}) => {
       }
     });
     return tarrifsServer
-      .patch(prevTarrif._id, {contracts: newServices})
-      .then(res => {
-        setState(prev => ({
+      .patch(prevTarrif._id, { contracts: newServices })
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
           TarrifModule: {
             ...prev.TarrifModule,
@@ -129,24 +148,24 @@ const TarrifServices = ({provider}) => {
           `You have succesfully deleted a plan from Service - ${newSelectedService.serviceName}`
         );
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Failed to delete plan from Service" + err);
         hideActionLoader();
       });
   };
 
-  const handleDeleteService = service => {
+  const handleDeleteService = (service) => {
     showActionLoader();
 
     const prevTarrif = state.TarrifModule.selectedTarrif;
     const prevServices = prevTarrif.contracts;
 
-    const newServices = prevServices.filter(item => item._id !== service._id);
+    const newServices = prevServices.filter((item) => item._id !== service._id);
 
     return tarrifsServer
-      .patch(prevTarrif._id, {contracts: newServices})
-      .then(res => {
-        setState(prev => ({
+      .patch(prevTarrif._id, { contracts: newServices })
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
           TarrifModule: {
             ...prev.TarrifModule,
@@ -162,13 +181,13 @@ const TarrifServices = ({provider}) => {
           `You have succesfully deleted a new Service from Tarrif - ${res.band}`
         );
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Failed to delete Service from Tariff " + err);
         hideActionLoader();
       });
   };
 
-  const confirmDeletePlan = plan => {
+  const confirmDeletePlan = (plan) => {
     setConfirmDialog({
       open: true,
       message: `You're about to delete a plan named - ${plan.planName} from a service - ${selectedService.serviceName}`,
@@ -177,7 +196,7 @@ const TarrifServices = ({provider}) => {
     });
   };
 
-  const confirmDeleteService = service => {
+  const confirmDeleteService = (service) => {
     setConfirmDialog({
       open: true,
       message: `You're about to delete a Service named - ${service.serviceName}`,
@@ -186,8 +205,8 @@ const TarrifServices = ({provider}) => {
     });
   };
 
-  const handleEditService = service => {
-    setState(prev => ({
+  const handleEditService = (service) => {
+    setState((prev) => ({
       ...prev,
       TarrifModule: {
         ...prev.TarrifModule,
@@ -208,7 +227,7 @@ const TarrifServices = ({provider}) => {
 
   const conditionalRowStyles = [
     {
-      when: row => row?._id === selectedService?._id,
+      when: (row) => row?._id === selectedService?._id,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -228,7 +247,7 @@ const TarrifServices = ({provider}) => {
     });
   };
 
-  const handleRowSelected = useCallback(state => {
+  const handleRowSelected = useCallback((state) => {
     setChosenServices(state.selectedRows);
   }, []);
 
@@ -238,7 +257,7 @@ const TarrifServices = ({provider}) => {
     };
 
     return (
-      <Box sx={{display: "flex", gap: "10px"}}>
+      <Box sx={{ display: "flex", gap: "10px" }}>
         <GlobalCustomButton
           key="delete"
           onClick={handleAction}
@@ -311,15 +330,27 @@ const TarrifServices = ({provider}) => {
           overflow: "auto",
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             height: "calc(100% - 170px)",
             transition: "width 0.5s ease-in",
             width: selectedService ? "39.5%" : "100%",
+            overflow: "auto",
           }}
+          ref={containerScrollRef}
+          onScroll={handleOnTableScroll}
+        > */}
+        <div
+          style={{
+            width: selectedService ? "39.5%" : "100%",
+            height: "calc(100% - 170px)",
+            overflow: "auto",
+          }}
+          ref={containerScrollRef}
+          onScroll={handleOnTableScroll}
         >
           <CustomTable
-            title={provider ? "List of Tariff Services" : ""}
+            title={provider ? "List of Tariff Servicess" : ""}
             columns={servicesColumns}
             data={services}
             pointerOnHover
@@ -334,12 +365,14 @@ const TarrifServices = ({provider}) => {
             noHeader={false}
             onSelectedRowsChange={handleRowSelected}
             CustomEmptyData={
-              <Typography sx={{fontSize: "0.8rem"}}>
+              <Typography sx={{ fontSize: "0.8rem" }}>
                 There are no services for this Tarrif yet
               </Typography>
             }
           />
-        </Box>
+        </div>
+
+        {/* </Box> */}
 
         {selectedService && (
           <Box
@@ -359,7 +392,7 @@ const TarrifServices = ({provider}) => {
               noHeader={false}
               onRowClicked={handlePlansRowClick}
               CustomEmptyData={
-                <Typography sx={{fontSize: "0.8rem"}}>
+                <Typography sx={{ fontSize: "0.8rem" }}>
                   There are no Plans for this Service yet
                 </Typography>
               }
@@ -373,20 +406,20 @@ const TarrifServices = ({provider}) => {
 
 export default TarrifServices;
 
-export const AddNewService = ({closeModal}) => {
+export const AddNewService = ({ closeModal }) => {
   const tarrifsServer = client.service("tariff");
   const healthPlanServer = client.service("healthplan");
-  const {user} = useContext(UserContext);
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { user } = useContext(UserContext);
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {register, control, handleSubmit, reset, setValue} = useForm();
+  const { register, control, handleSubmit, reset, setValue } = useForm();
   const [servicePlans, setServicePlans] = useState([]);
 
   const [healthPlans, setHealthPlans] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
   const [clearSearch, setClearSearch] = useState(false);
 
-  const handleGetSearchedResult = service => {
+  const handleGetSearchedResult = (service) => {
     setSearchResult(service);
   };
 
@@ -400,7 +433,7 @@ export const AddNewService = ({closeModal}) => {
       },
     };
 
-    const resp = await healthPlanServer.find({query: query});
+    const resp = await healthPlanServer.find({ query: query });
 
     setHealthPlans(resp.data);
     hideActionLoader();
@@ -410,7 +443,7 @@ export const AddNewService = ({closeModal}) => {
     getHealthPlans();
   }, [getHealthPlans]);
 
-  const handleAddService = data => {
+  const handleAddService = (data) => {
     if (!searchResult) return toast.warning("Please select a Service");
     if (servicePlans.length <= 0)
       return toast.warning("Please include at least one(1) plan");
@@ -438,9 +471,9 @@ export const AddNewService = ({closeModal}) => {
     //return console.log(newServices);
 
     return tarrifsServer
-      .patch(prevTarrif._id, {contracts: newServices})
-      .then(res => {
-        setState(prev => ({
+      .patch(prevTarrif._id, { contracts: newServices })
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
           TarrifModule: {
             ...prev.TarrifModule,
@@ -453,7 +486,7 @@ export const AddNewService = ({closeModal}) => {
           `You have succesfully added a new Service to Tarrif ${res.band}`
         );
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Failed to add new Service to Tariff " + err);
         hideActionLoader();
       });
@@ -481,14 +514,14 @@ export const AddNewService = ({closeModal}) => {
           <Input
             label="Price"
             type="number"
-            register={register("price", {required: true})}
+            register={register("price", { required: true })}
           />
         </Grid>
 
         <Grid item xs={12} sm={12}>
           <Textarea
             label="Comments"
-            register={register("comments", {required: true})}
+            register={register("comments", { required: true })}
           />
         </Grid>
       </Grid>
@@ -524,8 +557,8 @@ export const AddNewService = ({closeModal}) => {
   );
 };
 
-export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
-  const {register, control, watch, setValue} = useForm({
+export const AddServicePlan = ({ plan, setServicePlans, servicePlans }) => {
+  const { register, control, watch, setValue } = useForm({
     defaultValues: {
       service_type: "Fee For Service",
       co_pay_amount: 0,
@@ -536,9 +569,9 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
   const [preAuth, setPreAuth] = useState(false);
   const [benefits, setBenefits] = useState([]);
 
-  const allCategories = plan?.benefits?.map(item => item.category);
+  const allCategories = plan?.benefits?.map((item) => item.category);
 
-  const handleSelectPlan = event => {
+  const handleSelectPlan = (event) => {
     const isChecked = event.target.checked;
     setSelectPlan(isChecked);
 
@@ -556,22 +589,24 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
     };
 
     if (isChecked) {
-      setServicePlans(prev => [planData, ...prev]);
+      setServicePlans((prev) => [planData, ...prev]);
     } else {
-      setServicePlans(prev => prev.filter(item => item.planId !== plan._id));
+      setServicePlans((prev) =>
+        prev.filter((item) => item.planId !== plan._id)
+      );
     }
   };
 
-  const handleChangePreAuth = event => {
+  const handleChangePreAuth = (event) => {
     const isChecked = event.target.checked;
-    const selectedPlan = servicePlans.find(item => item.planId === plan._id);
+    const selectedPlan = servicePlans.find((item) => item.planId === plan._id);
 
     const updatedPlan = {
       ...selectedPlan,
       reqPA: isChecked,
     };
 
-    const newServicePlans = servicePlans.map(item => {
+    const newServicePlans = servicePlans.map((item) => {
       if (item.planId === plan._id) {
         return updatedPlan;
       } else {
@@ -583,16 +618,16 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
     setPreAuth(isChecked);
   };
 
-  const handleChangeCoPay = event => {
+  const handleChangeCoPay = (event) => {
     const isChecked = event.target.checked;
-    const selectedPlan = servicePlans.find(item => item.planId === plan._id);
+    const selectedPlan = servicePlans.find((item) => item.planId === plan._id);
 
     const updatedPlan = {
       ...selectedPlan,
       coPay: isChecked,
     };
 
-    const newServicePlans = servicePlans.map(item => {
+    const newServicePlans = servicePlans.map((item) => {
       if (item.planId === plan._id) {
         return updatedPlan;
       } else {
@@ -610,7 +645,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
   const benefit = watch("benefit");
 
   const handleHookFormChange = useCallback(() => {
-    const selectedPlan = servicePlans.find(item => item.planId === plan._id);
+    const selectedPlan = servicePlans.find((item) => item.planId === plan._id);
 
     const updatedPlan = {
       ...selectedPlan,
@@ -621,7 +656,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
       benefit: benefit || "",
     };
 
-    const newServicePlans = servicePlans.map(item => {
+    const newServicePlans = servicePlans.map((item) => {
       if (item.planId === plan._id) {
         return updatedPlan;
       } else {
@@ -634,9 +669,9 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
 
   const updateBenefits = useCallback(() => {
     const benefitCat = plan.benefits.filter(
-      item => item.category === benefit_category
+      (item) => item.category === benefit_category
     );
-    const fits = benefitCat.map(item => item.comments);
+    const fits = benefitCat.map((item) => item.comments);
     setBenefits(benefitCat);
     setValue("benefit", fits[0]);
   }, [benefit_category]);
@@ -668,7 +703,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
                   size="small"
                   checked={selectPlan}
                   name={plan._id}
-                  onChange={event => handleSelectPlan(event)}
+                  onChange={(event) => handleSelectPlan(event)}
                 />
               }
               label={
@@ -702,7 +737,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
 
             <Grid item lg={2} md={3}>
               <CustomSelect
-                options={benefits.map(item => item.comments)}
+                options={benefits.map((item) => item.comments)}
                 label="Select Benefit"
                 name="benefit"
                 control={control}
@@ -726,7 +761,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
                       size="small"
                       checked={preAuth}
                       name={"pre-auth"}
-                      onChange={event => handleChangePreAuth(event)}
+                      onChange={(event) => handleChangePreAuth(event)}
                     />
                   }
                   label={
@@ -750,7 +785,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
                       size="small"
                       checked={coPay}
                       name={"pre-auth"}
-                      onChange={event => handleChangeCoPay(event)}
+                      onChange={(event) => handleChangeCoPay(event)}
                     />
                   }
                   label={
@@ -765,7 +800,7 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
                 />
               </FormGroup>
 
-              <Box sx={{visibility: coPay ? "visible" : "hidden"}}>
+              <Box sx={{ visibility: coPay ? "visible" : "hidden" }}>
                 <Input
                   register={register("co_pay_amount")}
                   label="Amount"
@@ -780,13 +815,13 @@ export const AddServicePlan = ({plan, setServicePlans, servicePlans}) => {
   );
 };
 
-export const ServiceDetailsEdit = ({closeModal}) => {
+export const ServiceDetailsEdit = ({ closeModal }) => {
   const tarrifsServer = client.service("tariff");
   const healthPlanServer = client.service("healthplan");
   const [currentService, setCurrentService] = useState(null);
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const selectedService = state.TarrifModule.selectedService;
 
   const [healthPlans, setHealthPlans] = useState([]);
@@ -794,7 +829,7 @@ export const ServiceDetailsEdit = ({closeModal}) => {
 
   const [servicePlans, setServicePlans] = useState([...selectedService.plans]);
 
-  const {register, control, handleSubmit, reset, setValue} = useForm({
+  const { register, control, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       comments: selectedService.comments,
       price: Number(selectedService.price),
@@ -811,7 +846,7 @@ export const ServiceDetailsEdit = ({closeModal}) => {
       },
     };
 
-    const resp = await healthPlanServer.find({query: query});
+    const resp = await healthPlanServer.find({ query: query });
 
     setHealthPlans(resp.data);
     hideActionLoader();
@@ -821,11 +856,11 @@ export const ServiceDetailsEdit = ({closeModal}) => {
     getHealthPlans();
   }, [getHealthPlans]);
 
-  const handleGetSearchedResult = service => {
+  const handleGetSearchedResult = (service) => {
     setSearchResult(service);
   };
 
-  const handleUpdateService = data => {
+  const handleUpdateService = (data) => {
     if (!searchResult) return toast.warning("Please select a Service");
     if (servicePlans.length <= 0)
       return toast.warning("Please include at least one(1) plan");
@@ -847,7 +882,7 @@ export const ServiceDetailsEdit = ({closeModal}) => {
           : "Company",
     };
 
-    const newServices = prevServices.map(item => {
+    const newServices = prevServices.map((item) => {
       if (item._id === service._id) {
         return service;
       } else {
@@ -858,9 +893,9 @@ export const ServiceDetailsEdit = ({closeModal}) => {
     //return console.log(newServices);
 
     return tarrifsServer
-      .patch(prevTarrif._id, {contracts: newServices})
-      .then(res => {
-        setState(prev => ({
+      .patch(prevTarrif._id, { contracts: newServices })
+      .then((res) => {
+        setState((prev) => ({
           ...prev,
           TarrifModule: {
             ...prev.TarrifModule,
@@ -874,7 +909,7 @@ export const ServiceDetailsEdit = ({closeModal}) => {
           `You have succesfully added a new Service to Tarrif ${res.band}`
         );
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Failed to add new Service to Tariff " + err);
         hideActionLoader();
       });
@@ -902,14 +937,14 @@ export const ServiceDetailsEdit = ({closeModal}) => {
           <Input
             label="Price"
             type="number"
-            register={register("price", {required: true})}
+            register={register("price", { required: true })}
           />
         </Grid>
 
         <Grid item xs={12} sm={12}>
           <Textarea
             label="Comments"
-            register={register("comments", {required: true})}
+            register={register("comments", { required: true })}
           />
         </Grid>
       </Grid>
@@ -949,7 +984,7 @@ export const ServiceDetailsPlansEdit = ({
   setServicePlans,
   servicePlans,
 }) => {
-  const isCurrentPlan = servicePlans.find(item => item.planId === plan._id);
+  const isCurrentPlan = servicePlans.find((item) => item.planId === plan._id);
 
   const [selectPlan, setSelectPlan] = useState(isCurrentPlan ? true : false);
   const [coPay, setCoPay] = useState(
@@ -960,7 +995,7 @@ export const ServiceDetailsPlansEdit = ({
   );
   const [benefits, setBenefits] = useState([]);
 
-  const {register, control, watch, setValue} = useForm({
+  const { register, control, watch, setValue } = useForm({
     defaultValues: {
       service_type: isCurrentPlan
         ? isCurrentPlan.capitation
@@ -977,9 +1012,9 @@ export const ServiceDetailsPlansEdit = ({
     },
   });
 
-  const allCategories = plan?.benefits?.map(item => item.category);
+  const allCategories = plan?.benefits?.map((item) => item.category);
 
-  const handleSelectPlan = event => {
+  const handleSelectPlan = (event) => {
     const isChecked = event.target.checked;
     setSelectPlan(isChecked);
 
@@ -997,22 +1032,24 @@ export const ServiceDetailsPlansEdit = ({
     };
 
     if (isChecked) {
-      setServicePlans(prev => [planData, ...prev]);
+      setServicePlans((prev) => [planData, ...prev]);
     } else {
-      setServicePlans(prev => prev.filter(item => item.planId !== plan._id));
+      setServicePlans((prev) =>
+        prev.filter((item) => item.planId !== plan._id)
+      );
     }
   };
 
-  const handleChangePreAuth = event => {
+  const handleChangePreAuth = (event) => {
     const isChecked = event.target.checked;
-    const selectedPlan = servicePlans.find(item => item.planId === plan._id);
+    const selectedPlan = servicePlans.find((item) => item.planId === plan._id);
 
     const updatedPlan = {
       ...selectedPlan,
       reqPA: isChecked,
     };
 
-    const newServicePlans = servicePlans.map(item => {
+    const newServicePlans = servicePlans.map((item) => {
       if (item.planId === plan._id) {
         return updatedPlan;
       } else {
@@ -1024,16 +1061,16 @@ export const ServiceDetailsPlansEdit = ({
     setPreAuth(isChecked);
   };
 
-  const handleChangeCoPay = event => {
+  const handleChangeCoPay = (event) => {
     const isChecked = event.target.checked;
-    const selectedPlan = servicePlans.find(item => item.planId === plan._id);
+    const selectedPlan = servicePlans.find((item) => item.planId === plan._id);
 
     const updatedPlan = {
       ...selectedPlan,
       coPay: isChecked,
     };
 
-    const newServicePlans = servicePlans.map(item => {
+    const newServicePlans = servicePlans.map((item) => {
       if (item.planId === plan._id) {
         return updatedPlan;
       } else {
@@ -1051,7 +1088,7 @@ export const ServiceDetailsPlansEdit = ({
   const benefit = watch("benefit");
 
   const handleHookFormChange = useCallback(() => {
-    const selectedPlan = servicePlans.find(item => item.planId === plan._id);
+    const selectedPlan = servicePlans.find((item) => item.planId === plan._id);
 
     const updatedPlan = {
       ...selectedPlan,
@@ -1062,7 +1099,7 @@ export const ServiceDetailsPlansEdit = ({
       benefit: benefit || "",
     };
 
-    const newServicePlans = servicePlans.map(item => {
+    const newServicePlans = servicePlans.map((item) => {
       if (item.planId === plan._id) {
         return updatedPlan;
       } else {
@@ -1075,9 +1112,9 @@ export const ServiceDetailsPlansEdit = ({
 
   const updateBenefits = useCallback(() => {
     const benefitCat = plan.benefits.filter(
-      item => item.category === benefit_category
+      (item) => item.category === benefit_category
     );
-    const fits = benefitCat.map(item => item.comments);
+    const fits = benefitCat.map((item) => item.comments);
     setBenefits(benefitCat);
     setValue("benefit", fits[0]);
   }, [benefit_category]);
@@ -1109,7 +1146,7 @@ export const ServiceDetailsPlansEdit = ({
                   size="small"
                   checked={selectPlan}
                   name={plan._id}
-                  onChange={event => handleSelectPlan(event)}
+                  onChange={(event) => handleSelectPlan(event)}
                 />
               }
               label={
@@ -1143,7 +1180,7 @@ export const ServiceDetailsPlansEdit = ({
 
             <Grid item lg={2} md={3}>
               <CustomSelect
-                options={benefits.map(item => item.comments)}
+                options={benefits.map((item) => item.comments)}
                 label="Select Benefit"
                 name="benefit"
                 control={control}
@@ -1167,7 +1204,7 @@ export const ServiceDetailsPlansEdit = ({
                       size="small"
                       checked={preAuth}
                       name={"pre-auth"}
-                      onChange={event => handleChangePreAuth(event)}
+                      onChange={(event) => handleChangePreAuth(event)}
                     />
                   }
                   label={
@@ -1191,7 +1228,7 @@ export const ServiceDetailsPlansEdit = ({
                       size="small"
                       checked={coPay}
                       name={"pre-auth"}
-                      onChange={event => handleChangeCoPay(event)}
+                      onChange={(event) => handleChangeCoPay(event)}
                     />
                   }
                   label={
@@ -1206,7 +1243,7 @@ export const ServiceDetailsPlansEdit = ({
                 />
               </FormGroup>
 
-              <Box sx={{visibility: coPay ? "visible" : "hidden"}}>
+              <Box sx={{ visibility: coPay ? "visible" : "hidden" }}>
                 <Input
                   register={register("co_pay_amount")}
                   label="Amount"

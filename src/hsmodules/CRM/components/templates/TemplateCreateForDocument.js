@@ -119,12 +119,14 @@ const TemplateCreate = ({ closeModal }) => {
 
         let sample = {};
 
-        (sample.URL = res.data.url), (document.documentdetail = sample);
+        sample.Name = file[0].name;
+        sample.DocumentUploadUrl = res.data.url;
+        document.documentdetail = sample;
 
         console.log("start now document", {
           documentdetail: document.documentdetail,
         });
-        document.documentname = "Upload document";
+        document.documentname = "Upload";
         // state.DocumentClassModule.selectedDocumentClass.name;
         document.documentClassId =
           state.DocumentClassModule.selectedDocumentClass._id;
