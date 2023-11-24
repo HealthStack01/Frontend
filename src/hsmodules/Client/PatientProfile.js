@@ -10,6 +10,7 @@ import {toast} from "react-toastify";
 import {formatDistanceToNowStrict} from "date-fns";
 import VideoConference from "../utils/VideoConference";
 
+
 import {ClientAccount} from "../Finance/Collections";
 
 // Demo styles, see 'Styles' section below for some notes on use.
@@ -42,6 +43,7 @@ import Referral from "../ManagedCare/Referral"
 export default function PatientProfile() {
   const {state, setState} = useContext(ObjectContext); //,setState
   const {user, setUser} = useContext(UserContext);
+  //const ClientServ = client.service("client");
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [billingModal, setBillingModal] = useState(false);
@@ -82,9 +84,118 @@ export default function PatientProfile() {
   } = client;
 
   useEffect(() => {
+    checkpolicy()
     const client = state.ClientModule.selectedClient;
+    console.log("new client" , state.ClientModule.selectedClient)
     setClient(client);
   }, [state.ClientModule]);
+
+  const deepCopy =(obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(deepCopy);
+    }
+    const copy = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            copy[key] = deepCopy(obj[key]);
+        }
+    }
+    return copy;
+}
+
+const checkpolicy=async ()=>{
+  console.log("checking policy")
+  let patient=state.ClientModule.selectedClient
+  let result=patient.policy
+  if(!!result){
+    //check if hmo is in payment info
+      //check if hmo.paymentinfo  has the policy
+          //update
+      if (patient.paymentinfo.length===1){
+        const newI= deepCopy(patient)
+        let result=newI.policy
+        delete newI.policy
+        let clientpolicy= {
+          paymentmode:"HMO",
+          organizationId:result.organizationId,
+          organizationName:result.organizationName,
+          principalId:result.policyNo,
+          clientId:result.policyNo,
+          principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm
+          plan:result.plan.planName, //confirm
+          active:true,
+          principal:result.principal._id,
+          organizationType: result.organizationType,
+          agent:result.agent,
+          agentName:result.agentName,
+          policy:result
+        }
+
+        newI.paymentinfo.push(clientpolicy)
+      console.log("updated item", newI)
+    /*   await ClientServ.patch(patient._id, {paymentinfo:newI.paymentinfo})
+      .then((resp)=>{
+        console.log("update successful "+ resp)
+      })
+      .catch((err)=>{
+        toast.error("Update not successful "+ err)
+      }) */
+
+      setState(prev => ({
+        ...prev,
+      
+          ClientModule:{
+            selectedClient:newI
+        },
+       
+      }));
+
+      }else{
+        if (patient.paymentinfo.length===2){
+          let hmoinfo = patient.paymentinfo.filter(el => el.paymentmode === "HMO");
+          if (hmoinfo[0].organizationId!==result.organizationId){
+            const newI= deepCopy(patient)
+        let result=newI.policy
+        delete newI.policy
+        let clientpolicy= {
+          paymentmode:"HMO",
+          organizationId:result.organizationId,
+          organizationName:result.organizationName,
+          principalId:result.policyNo,
+          clientId:result.policyNo,
+          principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm
+          plan:result.plan.planName, //confirm
+          active:true,
+          principal:result.principal._id,
+          organizationType: result.organizationType,
+          agent:result.agent,
+          agentName:result.agentName,
+          policy:result
+        }
+
+        newI.paymentinfo=[clientpolicy, ...newI.paymentinfo]
+        setState(prev => ({
+          ...prev,
+        
+            ClientModule:{
+              selectedClient:newI
+          },
+         
+        }));
+
+          }
+
+        }
+
+      }
+
+  }
+
+}
+
 
   /*   const {
         cash,

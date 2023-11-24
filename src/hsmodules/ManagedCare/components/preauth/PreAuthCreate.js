@@ -98,8 +98,119 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
     getTotalPreAuthAmount();
   }, [getTotalPreAuthAmount]);
 
+  const deepCopy =(obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(deepCopy);
+    }
+    const copy = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            copy[key] = deepCopy(obj[key]);
+        }
+    }
+    return copy;
+}
+
+const checkpolicy=async ()=>{
+  console.log("checking policy")
+  let patient=state.ClientModule.selectedClient
+  let result=patient.policy
+  if(!!result){
+    //check if hmo is in payment info
+      //check if hmo.paymentinfo  has the policy
+          //update
+      if (patient.paymentinfo.length===1){
+        const newI= deepCopy(patient)
+        let result=newI.policy
+        delete newI.policy
+        let clientpolicy= {
+          paymentmode:"HMO",
+          organizationId:result.organizationId,
+          organizationName:result.organizationName,
+          principalId:result.policyNo,
+          clientId:result.policyNo,
+          principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm
+          plan:result.plan.planName, //confirm
+          active:true,
+          principal:result.principal._id,
+          organizationType: result.organizationType,
+          agent:result.agent,
+          agentName:result.agentName,
+          policy:result
+        }
+
+        newI.paymentinfo.push(clientpolicy)
+      console.log("updated item", newI)
+    /*   await ClientServ.patch(patient._id, {paymentinfo:newI.paymentinfo})
+      .then((resp)=>{
+        console.log("update successful "+ resp)
+      })
+      .catch((err)=>{
+        toast.error("Update not successful "+ err)
+      }) */
+
+      setState(prev => ({
+        ...prev,
+      
+          ClientModule:{
+            selectedClient:newI
+        },
+       
+      }));
+
+      }else{
+        if (patient.paymentinfo.length===2){
+          let hmoinfo = patient.paymentinfo.filter(el => el.paymentmode === "HMO");
+          if (hmoinfo[0].organizationId!==result.organizationId){
+            const newI= deepCopy(patient)
+        let result=newI.policy
+        delete newI.policy
+        let clientpolicy= {
+          paymentmode:"HMO",
+          organizationId:result.organizationId,
+          organizationName:result.organizationName,
+          principalId:result.policyNo,
+          clientId:result.policyNo,
+          principalName:`${result.principal.firstname} ${result.principal.lastname}`, //confirm
+          plan:result.plan.planName, //confirm
+          active:true,
+          principal:result.principal._id,
+          organizationType: result.organizationType,
+          agent:result.agent,
+          agentName:result.agentName,
+          policy:result
+        }
+
+        newI.paymentinfo=[clientpolicy, ...newI.paymentinfo]
+        setState(prev => ({
+          ...prev,
+        
+            ClientModule:{
+              selectedClient:newI
+          },
+         
+        }));
+
+          }
+
+        }
+
+      }
+
+  }
+
+}
+
   const handleSelectClient = client => {
-    if (client === undefined || client === null)
+    console.log("client here ", client)
+    
+    if (client === undefined || client === null){
+
+   
+    console.log("no client")
       return setState(prev => ({
         ...prev,
         ClientModule: {
@@ -107,21 +218,29 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           selectedClient: {},
         },
       }));
+    }else {
+      
+      console.log("setting state")
+      setState(prev => ({
+        ...prev,
+        ClientModule: {
+          ...prev.ClientModule,
+          selectedClient: client,
+        },
+      }));
+    }
+    checkpolicy()
     const hmos = client.paymentinfo.filter(
       item => item.paymentmode.toLowerCase() === "hmo"
     );
 
     const firstHMO = hmos[0];
 
-    setPolicy(firstHMO.policy);
+   // setPolicy(firstHMO.policy);
+   setPolicy(client.policy)
 
-    setState(prev => ({
-      ...prev,
-      ClientModule: {
-        ...prev.ClientModule,
-        selectedClient: client,
-      },
-    }));
+   
+
 
     //
   };
@@ -444,8 +563,8 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
-              /> :
-              <ClientSearch
+              /> : ///why do client search for preauth??
+              <ClientSearch  
               clear={clearClientSearch}
               getSearchfacility={handleSelectClient}
               id={client_id}

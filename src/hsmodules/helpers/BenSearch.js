@@ -53,6 +53,7 @@ export function BeneficiarySearch({
   const handleRow = async (obj) => {
     setChosen(true);
     //alert("something is chaning")
+    console.log("sent", obj)
     getSearchfacility(obj);
 
     await setSimpa(
@@ -195,7 +196,7 @@ export function BeneficiarySearch({
             } */
           }
         }} 
-        onInputChange={(e,value) => handleSearch(value)}
+        //onInputChange={(e,value) => handleSearch(value)}
        /*  filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
@@ -221,7 +222,7 @@ export function BeneficiarySearch({
           return label
         }} 
         selectOnFocus
-        clearOnBlur
+        //clearOnBlur
         freeSolo
         handleHomeEndKeys
         /* getOptionLabel={(option) =>{
@@ -268,7 +269,7 @@ export function BeneficiarySearch({
           <TextField
             {...params}
             label={label ? label : "Search for Beneficiary with Policy ID"}
-           // onChange={(e) => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             ref={inputEl}
             /* sx={{
               fontSize: "0.75rem !important",

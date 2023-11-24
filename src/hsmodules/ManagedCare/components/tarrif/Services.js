@@ -305,6 +305,7 @@ const TarrifServices = ({provider}) => {
 
       <Box
         sx={{
+         // height: "50%",  //"calc(100% - 270px)",
           display: "flex",
           width: "100%",
           justifyContent: "space-between",
@@ -313,9 +314,10 @@ const TarrifServices = ({provider}) => {
       >
         <Box
           sx={{
-            height: "calc(100% - 170px)",
+            height: "calc(100vh - 200px)",
             transition: "width 0.5s ease-in",
             width: selectedService ? "39.5%" : "100%",
+            overflow: "auto",
           }}
         >
           <CustomTable

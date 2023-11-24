@@ -7,7 +7,7 @@ import DebouncedInput from "./ui-components/inputs/DebouncedInput";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ServicesCreate} from "../Finance/Services";
 
 import {Box, Card, Collapse, Grow} from "@mui/material";
@@ -138,6 +138,15 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
     console.log("status", isHMO)
     console.log("hmo id", hmoid)
     console.log("fac id", facid)
+    if (!facid){
+      toast.error("Facility is not selected")
+    }
+    if (!hmoid){
+      toast.error("HMO is not avialable! Kindly login again")
+    }
+  /*   if (!organizationa){
+      toast.error("Facility is not selected")
+    } */
 
     if (value.length >= 3) {
       
@@ -181,12 +190,13 @@ console.log("band", band)
               setShowPanel(true);
             })
             .catch(err => {
-              toast({
+              toast.error("Error creating Services " + err)
+             /*  toast({
                 message: "Error creating Services " + err,
                 type: "is-danger",
                 dismissible: true,
                 pauseOnHover: true,
-              });
+              }); */
             });
         
       }
