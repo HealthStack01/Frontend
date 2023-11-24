@@ -16,6 +16,7 @@ import {GlobalStyle} from "./ui/styled/global";
 import {darkTheme, lightTheme} from "./ui/styled/theme";
 import ActionLoader from "./components/action-loader/Action-Loader";
 import PopUpComplaintFormComponent from "./components/complaint-form/ComplaintForm";
+import GlobalComplaintResponse from "./components/complaint-form/GlobalComplaintResponse";
 
 function App() {
   const [state, setState] = useState({
@@ -84,7 +85,9 @@ function App() {
     },
     ComplaintModule: {
       selectedComplaint: {},
+      complaintId: null,
       popup: false,
+      response: false,
     },
     ProposalModule: {
       selectedProposal: {},
@@ -368,6 +371,7 @@ function App() {
             <MyUserProvider>
               <ActionLoader />
               <PopUpComplaintFormComponent />
+              {state.ComplaintModule.complaintId && <GlobalComplaintResponse />}
               <AnimatePresence initial exitBeforeEnter>
                 <Router>
                   <AppRoutes />

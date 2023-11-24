@@ -284,7 +284,12 @@ const PopUpComplaintFormComponent = () => {
   };
 
   return (
-    <Slide in={state.ComplaintModule.popup} direction="up">
+    <Slide
+      in={state.ComplaintModule.popup}
+      direction="up"
+      mountOnEnter
+      unmountOnExit
+    >
       <Box
         sx={{
           width: "400px",

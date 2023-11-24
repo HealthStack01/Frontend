@@ -284,6 +284,7 @@ export default function BillPrescriptionCreate({closeModal}) {
     await setProductItem(prevProd => prevProd.concat(productItemI));
     handleUpdateTotal();
     // generate billing info
+    //return console.log(productItemI);
     const billInfo = {
       orderInfo: {
         orderId: medication._id,

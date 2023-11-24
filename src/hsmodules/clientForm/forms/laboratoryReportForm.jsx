@@ -3539,7 +3539,7 @@ export function Biochemistry() {
       subValue: "",
     },
     {
-      label: "Uric Acide",
+      label: "Uric Acid",
       name: "bone_chemistry_Uric_Acide",
       des: "mmol/L ( )",
       sup: false,

@@ -7,6 +7,7 @@ import { DocumentClassList } from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 
 import Drawer from "@mui/material/Drawer";
 
@@ -62,6 +63,8 @@ import dayjs from "dayjs";
 import CustomTable from "../../components/customtable";
 
 import TheatreRequest, { TheatreCreate } from "./TheatreRequest";
+// import TemplateCreate from "../../../src/hsmodules/CRM/components/template";
+import TemplateCreate from "../CRM/components/templates/TemplateCreateForDocument";
 
 export default function EncounterMain({ nopresc, chosenClient }) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -96,6 +99,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const [activateCall, setActivateCall] = useState(false);
   const [showTheatreModal, setShowTheatreModal] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
 
   const open = Boolean(showActions);
 
@@ -350,6 +354,11 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     handleHideActions();
   };
 
+  const handleUploadDocument = async () => {
+    await setUploadModal(true);
+    handleHideActions();
+  };
+
   useEffect(() => {
     getFacilities();
 
@@ -547,11 +556,16 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       action: handleEndEncounter,
       show: !nopresc,
     },
+    {
+      title: "Upload New Document",
+      action: handleUploadDocument,
+      show: !nopresc,
+    },
     // {
     //   title: "New Document",
     //   action: handleNewDocument,
     //   show: true,
-    // },
+    // },Upload New Document
   ];
 
   const diagnosisTableColumns = [
@@ -604,6 +618,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         flexGrow: "1",
       }}
     >
+      <ModalBox
+        open={uploadModal}
+        onClose={() => setUploadModal(false)}
+        header="Upload New Document"
+      >
+        <TemplateCreate closeModal={() => setUploadModal(false)} />
+      </ModalBox>
+
       <CustomConfirmationDialog
         open={confirmationDialog}
         confirmationAction={() => handleDelete(docToDelete)}
@@ -683,6 +705,16 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           </GlobalCustomButton>
         </Box>
 
+        {/* <Button
+          variant="contained"
+          size="small"
+          sx={{textTransform: "capitalize"}}
+          onClick={openCreateModal}
+        >
+          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" />
+          Upload New Template
+        </Button> */}
+
         {!nopresc && (
           <Box
             item
@@ -720,7 +752,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                 }}
               >
                 {actionsList.map((action, i) => {
-                  if (action.show && prevRoles.includes(action.title)) {
+                  // && prevRoles.includes(action.title)
+                  if (action.show) {
                     return (
                       <MenuItem
                         key={i}
@@ -1004,7 +1037,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                                     if (
                                       value === "" ||
                                       value === undefined ||
-                                      value === null
+                                      value === null ||
+                                      keys === "DocumentUploadUrl"
                                     ) {
                                       return null; // Skip rendering for arrays
                                     }

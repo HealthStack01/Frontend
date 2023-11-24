@@ -34,6 +34,7 @@ const ThreeCirclesSpinner = () => {
 
 const ComplaintConversation = ({closeConvo}) => {
   const complaintServer = client.service("complaints");
+  const notificationsServer = client.service("notification");
   const {state, setState} = useContext(ObjectContext);
   const {user} = useContext(UserContext);
   const [showMore, setShowMore] = useState(false);
@@ -49,6 +50,7 @@ const ComplaintConversation = ({closeConvo}) => {
 
   const getChatMessages = useCallback(async () => {
     const id = state.ComplaintModule.selectedComplaint._id;
+    if (!id) return setMessage([]);
     await complaintServer
       .get(id)
       .then(resp => {
@@ -92,11 +94,43 @@ const ComplaintConversation = ({closeConvo}) => {
     setSearchValue(value);
   };
 
+  const healthstackId = "63d275e3b40a06001641ef71";
+
   const sendMessage = async () => {
     setSendingMsg(true);
     const employee = user.currentEmployee;
     const facility = employee.facilityDetail;
     //const currentComplaint = state.ComplaintModule.selectedComplaint;
+
+    const employeeFullName = `${employee.firstname} ${employee.lastname}`;
+
+    const isHealthsack = facility.id === healthstackId;
+
+    const healthstackResponse = `Healthstack has posted a response regarding the complaint- "${complaint?.subject}"`;
+
+    const complaintToId = complaint.to.entity.entityId;
+    const complaintFrmId = complaint.from.entity.entityId;
+    const copiedIds = complaint.copied.map(item => item.entity.entityId);
+
+    const concernedIds = [complaintToId, complaintFrmId, ...copiedIds];
+
+    const destUserIds = concernedIds.filter(
+      item => item !== employee._id && item !== facility._id
+    );
+
+    const notificationObj = {
+      type: "Complaint-Message",
+      title: `New Complaint Message`,
+      description: isHealthsack
+        ? healthstackResponse
+        : `${employeeFullName} from ${facility.facilityName} sent a new message regarding the complaint "${complaint?.subject}"`,
+      facilityId: facility._id,
+      sender: employeeFullName,
+      senderId: employee._id,
+      pageUrl: complaint?._id,
+      priority: "normal",
+      dest_userId: concernedIds,
+    };
 
     const messageDoc = {
       message: message,
@@ -108,7 +142,7 @@ const ComplaintConversation = ({closeConvo}) => {
       senderOrgId: facility._id,
       senderOrgName: facility.facilityName,
       dp: employee.imageurl,
-      sender: `${employee.firstname} ${employee.lastname}`,
+      sender: employeeFullName,
       type: "text",
       complaintId: complaint._id,
     };
@@ -119,10 +153,10 @@ const ComplaintConversation = ({closeConvo}) => {
 
     await complaintServer
       .patch(documentId, {convo: newConvo})
-      .then(res => {
+      .then(async res => {
         setMessage("");
         setSendingMsg(false);
-        //toast.success("Message sent");
+        await notificationsServer.create(notificationObj);
       })
       .catch(err => {
         toast.error("Message failed");
@@ -144,6 +178,7 @@ const ComplaintConversation = ({closeConvo}) => {
   }, [getChatMessages]);
 
   useEffect(() => {
+    //console.log(state.ComplaintModule, "whole state ");
     setComplaint(state.ComplaintModule.selectedComplaint);
   }, [state.ComplaintModule]);
 
