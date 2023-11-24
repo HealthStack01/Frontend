@@ -149,6 +149,7 @@ export function BillPrescriptionList({showCreateModal}) {
   const handleMedicationRow = async ProductEntry => {
     //handle selected single order
     //console.log("b4",state)
+    //return console.log(ProductEntry);
 
     //console.log("handlerow",ProductEntry)
     await handleSelectedClient(ProductEntry.client);
@@ -251,6 +252,7 @@ export function BillPrescriptionList({showCreateModal}) {
 
     // console.log("updatedorder", findProductEntry.groupedOrder)
     setLoading(false);
+    console.log(findProductEntry);
     await setFacilities(findProductEntry.groupedOrder);
     await setState(prevstate => ({
       ...prevstate,

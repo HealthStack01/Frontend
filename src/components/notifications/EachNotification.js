@@ -17,7 +17,8 @@ dayjs.extend(relativeTime);
 const EachNotification = ({notification, closeDrawer}) => {
   const notificationsServer = client.service("notification");
   const {user} = useContext(UserContext);
-  const {showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const {showActionLoader, hideActionLoader, setState} =
+    useContext(ObjectContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const navigate = useNavigate();
@@ -52,7 +53,24 @@ const EachNotification = ({notification, closeDrawer}) => {
       });
   };
 
+  const handleComplaintMessage = id => {
+    // return console.log(notification);
+    setState(prev => ({
+      ...prev,
+      ComplaintModule: {
+        ...prev.ComplaintModule,
+        response: true,
+        complaintId: id,
+      },
+    }));
+
+    closeDrawer();
+  };
+
   const viewNotification = async () => {
+    if (notification.type === "Complaint-Message")
+      return handleComplaintMessage(notification.pageUrl);
+
     const notificationPath = notification.pageUrl || "/app";
 
     const prevReads = notification.isRead;

@@ -1,29 +1,32 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
+import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
-import { toast } from "react-toastify";
-import { format, formatDistanceToNowStrict } from "date-fns";
-import { Box, Grid, Typography } from "@mui/material";
+import {toast} from "react-toastify";
+import {format, formatDistanceToNowStrict} from "date-fns";
+import {Box, Grid, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
 import Card from "@mui/material/Card";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import { TableMenu } from "../../ui/styled/global";
+import {TableMenu} from "../../ui/styled/global";
 import Input from "../../components/inputs/basic/Input";
 import Grow from "@mui/material/Grow";
-import { FormsHeaderText } from "../../components/texts";
+import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+import ServiceSearch from "../helpers/ServiceSearch";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
@@ -31,7 +34,7 @@ const searchfacility = {};
 const filter = createFilterOptions();
 
 export default function LabOrders() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -64,13 +67,14 @@ export function LabOrdersCreate() {
   const [facility, setFacility] = useState();
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Purchase Invoice");
   const [documentNo, setDocumentNo] = useState("");
   const [totalamount, setTotalamount] = useState("");
   const [productId, setProductId] = useState("");
+  const OrderServ = client.service("order");
   const [source, setSource] = useState("");
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
@@ -78,11 +82,198 @@ export function LabOrdersCreate() {
   const [destinationId, setDestinationId] = useState("");
   const [destinationModal, setDestinationModal] = useState(false);
   const [test, setTest] = useState();
+  const [testObj, setTestObj] = useState();
   const [instruction, setInstruction] = useState();
   const [productItem, setProductItem] = useState([]);
-  const { state } = useContext(ObjectContext);
+  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
   const ClientServ = client.service("clinicaldocument");
   const [hidePanel, setHidePanel] = useState(false);
+  const [billing, setBilling] = useState(true);
+  const [billMode, setBillMode] = useState("");
+  const [patient, setPatient] = useState("");
+  const [paymentOptions, setPaymentOptions] = useState("");
+  const [paymentmode, setPaymentMode] = useState("Cash");
+  const [contracts, setContracts] = useState([]);
+  const [billingId, setBilllingId] = useState("");
+  const [category, setCategory] = useState("");
+  const [baseunit, setBaseunit] = useState(0);
+  const [inventoryId, setInventoryId] = useState("");
+  const [sellingprice, setSellingPrice] = useState(0);
+
+  const createObj = (pay, name, cover, type) => {
+    let details = {};
+    details = {...pay};
+    details.type = type;
+
+    return {
+      name,
+      value: cover,
+      detail: details,
+      type,
+    };
+  };
+
+  const checkPrice = async (contracts, billMode) => {
+    if (billMode.type === "HMO Cover") {
+      //paymentmode
+      if (billMode.detail.plan === "NHIS") {
+        //find contract for NHIS
+        let contract = contracts.filter(el => el.source_org_name === "NHIS");
+        if (contract.length) {
+          // console.log(contract[0].price)
+          await setSellingPrice(contract[0].price);
+        } else {
+          toast.error(
+            "Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash"
+          );
+          await setSellingPrice(0);
+        }
+      } else {
+        let contract = contracts.filter(
+          el => el.source_org === billMode.detail.organizationId
+        );
+        if (contract.length) {
+          // console.log(contract[0].price)
+          await setSellingPrice(contract[0].price);
+        } else {
+          toast.error(
+            "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount "
+          );
+          await setSellingPrice(0);
+        }
+      }
+    }
+    if (billMode.type === "Company Cover") {
+      //paymentmode
+      let contract = contracts.filter(
+        el => el.source_org === billMode.detail.organizationId
+      );
+      if (contract.length) {
+        // console.log(contract[0].price)
+        await setSellingPrice(contract[0].price);
+      } else {
+        toast.error(
+          "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash"
+        );
+        await setSellingPrice(0);
+      }
+    }
+    if (billMode.type === "Cash" || billMode.type === "Family Cover") {
+      //paymentmode
+      let contract = contracts.filter(el => el.source_org === el.dest_org);
+      if (contract.length) {
+        // console.log(contract[0].price)
+        await setSellingPrice(contract[0].price);
+      } else {
+        toast.error(
+          "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero "
+        );
+        await setSellingPrice(0);
+      }
+    }
+  };
+
+  useEffect(() => {
+    //update selling price
+    if (!!billMode && !!contracts && !billing) {
+      // console.log(contracts)
+      checkPrice(contracts, billMode);
+    }
+
+    return () => {};
+  }, [testObj]);
+
+  useEffect(() => {
+    const client = state.ClientModule.selectedClient;
+    console.log(client);
+    setPatient(client);
+    const oldname = client.clientname;
+    // console.log("oldname",oldname)
+    setSource(client.clientname);
+
+    const newname = source;
+    // console.log("newname",newname)
+    if (oldname !== newname) {
+      //newdispense
+
+      setProductItem([]);
+      setTotalamount(0);
+    }
+
+    return () => {};
+  }, [state.ClientModule]);
+
+  useEffect(() => {
+    //setPatient(medication.client)
+    setProductItem([]);
+    setTotalamount(0);
+    const paymentoptions = [];
+    // const info = client.paymentinfo
+    let billme;
+    let obj;
+    patient &&
+      patient.paymentinfo.forEach((pay, i) => {
+        if (pay.active) {
+          switch (pay.paymentmode) {
+            case "Cash":
+              // code block
+              obj = createObj(pay, "Cash", "Cash", "Cash");
+
+              paymentoptions.push(obj);
+              setPaymentMode("Cash");
+              billme = obj;
+              // console.log("billme",billme)
+              break;
+            case "Family":
+              // code block
+              obj = createObj(
+                pay,
+                "Family Cover",
+                "familyCover",
+                "Family Cover"
+              );
+              paymentoptions.push(obj);
+              setPaymentMode("Family Cover");
+              billme = obj;
+              // console.log("billme",billme)
+              break;
+            case "Company":
+              // code block
+              let name =
+                "Company: " + pay.organizationName + "(" + pay.plan + ")";
+
+              obj = createObj(pay, name, "CompanyCover", "Company Cover");
+              paymentoptions.push(obj);
+              setPaymentMode(
+                "Company: " + pay.organizationName + "(" + pay.plan + ")"
+              );
+              billme = obj;
+              // console.log("billme",billme)
+              break;
+            case "HMO":
+              // code block
+              let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
+
+              obj = createObj(pay, sname, "HMOCover", "HMO Cover");
+              paymentoptions.push(obj);
+              setPaymentMode(
+                "HMO: " + pay.organizationName + "(" + pay.plan + ")"
+              );
+              billme = obj;
+              //  console.log("billme",billme)
+              break;
+            default:
+            // code block
+          }
+        }
+      });
+
+    setPaymentOptions(paymentoptions);
+    setBillMode(billme);
+    //console.log(paymentoptions)
+    // console.log(billMode)
+    return () => {};
+  }, [source]);
 
   const [productEntry, setProductEntry] = useState({
     productitems: [],
@@ -98,19 +289,25 @@ export function LabOrdersCreate() {
     //handleSearch(val)
   };
   const productItemI = {
-    /*   productId,
-        name, */
+    productId,
     test,
+    name: test,
     destination,
     instruction,
     destinationId,
-    /* costprice,
-        amount:quantity*costprice,
-        baseunit */
+    testObj,
+    quantity: 1,
+    sellingprice: sellingprice,
+    amount: sellingprice * 1,
+    category: "Prescription",
+    billingId,
+    billMode,
+    baseunit: baseunit,
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
+    //return console.log(obj);
     if (!obj) {
       //"clear stuff"
       setInstruction("");
@@ -118,6 +315,23 @@ export function LabOrdersCreate() {
     }
     setInstruction(obj.instruction);
     setTest(obj.test);
+    setTestObj(obj);
+  };
+
+  const getServiceSearch = service => {
+    if (!service) {
+      setInstruction("");
+      setTest("");
+    }
+    setInstruction(service?.instruction);
+    setTest(service.name);
+    setContracts(service.contracts);
+    setProductId(service.productId);
+    setCategory(service.category); //Lab Order
+    setBaseunit(service.baseunit);
+    setInventoryId(service.inventoryId);
+    setBilllingId(service._id);
+    setTestObj(service);
   };
 
   useEffect(() => {
@@ -132,7 +346,7 @@ export function LabOrdersCreate() {
     return () => {};
   }, [state.DestinationModule.selectedDestination]);
 
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     await setType(e.target.value);
   };
 
@@ -142,7 +356,7 @@ export function LabOrdersCreate() {
       toast.error("Test can not be empty ");
       return;
     }
-    await setProductItem((prevProd) => prevProd.concat(productItemI));
+    await setProductItem(prevProd => prevProd.concat(productItemI));
     setHidePanel(false);
     setName("");
     setTest("");
@@ -155,14 +369,73 @@ export function LabOrdersCreate() {
       selectedDestination: user.currentEmployee.facilityDetail,
       show: "list",
     };
-    await setState((prevstate) => ({
-      ...prevstate,
-      DestinationModule: newfacilityModule,
-    }));
+    //SET STATE NOT DEFINED
+    // await setState(prevstate => ({
+    //   ...prevstate,
+    //   DestinationModule: newfacilityModule,
+    // }));
   };
 
   const handleChangeDestination = () => {
     setDestinationModal(true);
+  };
+
+  const handleBypassBilling = async orders => {
+    const promises = orders.map(async order => {
+      const query = {
+        order: order.test,
+        order_category: "Lab Order",
+        fulfilled: "False",
+        destination: user.currentEmployee.facilityDetail._id,
+        order_status: "Pending",
+        $limit: 10,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      await OrderServ.find({query: query}).then(async res => {
+        const medication = res.data[0];
+        const billInfo = {
+          orderInfo: {
+            orderId: medication._id,
+            orderObj: medication,
+          },
+          serviceInfo: {
+            price: order.sellingprice,
+            quantity: order.quantity,
+            productId: order.productId,
+            name: order.name,
+            baseunit: order.baseunit,
+            amount: order.amount,
+            billingId: order.billingId,
+            createdby: user._id,
+          },
+          paymentInfo: {
+            amountDue: order.amount,
+            paidup: 0,
+            balance: order.amount,
+            paymentDetails: [],
+          },
+          participantInfo: {
+            billingFacility: medication.destination,
+            billingFacilityName: medication.destination_name,
+            locationId: state.StoreModule.selectedStore._id, //selected location,
+            clientId: medication.clientId,
+            client: medication.client,
+            paymentmode: billMode,
+          },
+          createdBy: user.id,
+          billing_status: "Covered",
+        };
+
+        await OrderServ.patch(medication._id, {
+          order_status: "Covered",
+          billInfo,
+        });
+      });
+    });
+
+    await Promise.all(promises);
   };
 
   const onSubmit = () => {
@@ -173,6 +446,7 @@ export function LabOrdersCreate() {
     setSuccess(false);
     //write document
     let document = {};
+    showActionLoader();
 
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
@@ -199,16 +473,27 @@ export function LabOrdersCreate() {
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
 
+    //return console.log(document);
     ClientServ.create(document)
-      .then((res) => {
+      .then(async res => {
+        console.log("response", res);
+        if (!billing) {
+          await handleBypassBilling(productItem);
+        }
+
         setSuccess(true);
+        hideActionLoader();
         toast.success("Laboratory order created succesfully");
         setDestination(user.currentEmployee.facilityDetail.facilityName);
         setDestinationId(user.currentEmployee.facilityDetail._id);
         setSuccess(false);
         setProductItem([]);
+
+        //console.log(res);
       })
-      .catch((err) => {
+      .catch(err => {
+        hideActionLoader();
+        console.log(err);
         toast(`Error creating LabOrders ${err}`);
       });
   };
@@ -220,14 +505,14 @@ export function LabOrdersCreate() {
   }, []);
 
   const handleRemoveProd = (prod, index) => {
-    setProductItem((prev) => prev.filter((item, i) => i !== index));
+    setProductItem(prev => prev.filter((item, i) => i !== index));
   };
 
   const productItemSchema = [
     {
       name: "S/N",
       key: "_id",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       description: "Enter",
       sortable: true,
       inputType: "HIDDEN",
@@ -237,7 +522,7 @@ export function LabOrdersCreate() {
       name: "Test",
       key: "test",
       description: "Enter Test name",
-      selector: (row) => row.test,
+      selector: row => row.test,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -247,7 +532,7 @@ export function LabOrdersCreate() {
       name: "Destination",
       key: "destination",
       description: "Enter Destination",
-      selector: (row) => row.destination,
+      selector: row => row.destination,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -259,7 +544,7 @@ export function LabOrdersCreate() {
       description: "Enter Destination",
       selector: (row, i) => (
         <DeleteOutlineIcon
-          sx={{ color: "red" }}
+          sx={{color: "red"}}
           fontSize="small"
           onClick={() => handleRemoveProd(row, i)}
         />
@@ -270,6 +555,10 @@ export function LabOrdersCreate() {
       width: "60px",
     },
   ];
+
+  const handleBillingChange = event => {
+    setBilling(event.target.checked);
+  };
 
   return (
     <>
@@ -293,33 +582,59 @@ export function LabOrdersCreate() {
                 () => setHidePanel(true);
               }}
             >
-              <AddCircleOutline fontSize="small" sx={{ marginRight: "5px" }} />
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
               Add
             </GlobalCustomButton>
           </Box>
 
           <Box
-            sx={{ display: "flex", flexDirection: "column" }}
+            sx={{display: "flex", flexDirection: "column"}}
             gap={1.5}
             mb={1.5}
           >
             <Box>
-              <TestHelperSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-                hidePanel={hidePanel}
-              />
-              {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
-              <input
-                className="input is-small"
-                value={test}
-                name="test"
-                type="text"
-                onChange={(e) => setTest(e.target.value)}
-                placeholder="test"
-                style={{ display: "none" }}
+              <FormControlLabel
+                required
+                control={
+                  <Checkbox
+                    checked={billing}
+                    onChange={handleBillingChange}
+                    inputProps={{"aria-label": "controlled"}}
+                  />
+                }
+                label={`Apply Billing Process To Order(s)`}
               />
             </Box>
+
+            {billing && (
+              <Box>
+                <TestHelperSearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                  hidePanel={hidePanel}
+                />
+                {/* INVISIBLE INPUT THAT HOLDS THE VALUE FOR TESTHELPERSEARCH */}
+                <input
+                  className="input is-small"
+                  value={test}
+                  name="test"
+                  type="text"
+                  onChange={e => setTest(e.target.value)}
+                  placeholder="test"
+                  style={{display: "none"}}
+                />
+              </Box>
+            )}
+
+            {!billing && (
+              <Box>
+                <ServiceSearch
+                  getSearchfacility={getServiceSearch}
+                  clear={false}
+                  mode={billMode}
+                />
+              </Box>
+            )}
 
             <Box
               container
@@ -345,7 +660,7 @@ export function LabOrdersCreate() {
                   }
                   disabled={true}
                   type="text"
-                  onChange={(e) => setDestination(e.target.value)}
+                  onChange={e => setDestination(e.target.value)}
                   label="Destination Laboratory"
                   name="destination"
                 />
@@ -408,7 +723,7 @@ export function LabOrdersCreate() {
   );
 }
 
-export function LabOrdersList({ standalone }) {
+export function LabOrdersList({standalone}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -423,27 +738,27 @@ export function LabOrdersList({ standalone }) {
   // eslint-disable-next-line
   const [selectedOrder, setSelectedOrder] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newProductEntryModule = {
       selectedOrder: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       OrderModule: newProductEntryModule,
     }));
   };
-  const handleDelete = (doc) => {
+  const handleDelete = doc => {
     let confirm = window.confirm(
       `You are about to delete a ${doc.order} lab order?`
     );
     if (confirm) {
       OrderServ.remove(doc._id)
-        .then((res) => {
+        .then(res => {
           toast({
             message: "Lab order deleted succesfully",
             type: "is-success",
@@ -452,7 +767,7 @@ export function LabOrdersList({ standalone }) {
           });
           setSuccess(false);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error deleting Lab order" + err,
             type: "is-danger",
@@ -462,20 +777,20 @@ export function LabOrdersList({ standalone }) {
         });
     }
   };
-  const handleRow = async (ProductEntry) => {
+  const handleRow = async ProductEntry => {
     await setSelectedOrder(ProductEntry);
 
     const newProductEntryModule = {
       selectedOrder: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       OrderModule: newProductEntryModule,
     }));
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
 
     OrderServ.find({
@@ -503,12 +818,12 @@ export function LabOrdersList({ standalone }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         setFacilities(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -536,10 +851,10 @@ export function LabOrdersList({ standalone }) {
   useEffect(() => {
     getFacilities();
 
-    OrderServ.on("created", (obj) => getFacilities());
-    OrderServ.on("updated", (obj) => getFacilities());
-    OrderServ.on("patched", (obj) => getFacilities());
-    OrderServ.on("removed", (obj) => getFacilities());
+    OrderServ.on("created", obj => getFacilities());
+    OrderServ.on("updated", obj => getFacilities());
+    OrderServ.on("patched", obj => getFacilities());
+    OrderServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -547,7 +862,7 @@ export function LabOrdersList({ standalone }) {
     {
       name: "S/N",
       key: "_id",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
@@ -557,7 +872,7 @@ export function LabOrdersList({ standalone }) {
       name: "Date",
       key: "name",
       description: "Enter name of band",
-      selector: (row) => format(new Date(row.createdAt), "dd-MM-yy"),
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -566,7 +881,7 @@ export function LabOrdersList({ standalone }) {
       name: "Test",
       key: "facility",
       description: "Enter name of Facility",
-      selector: (row) => row.order,
+      selector: row => row.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -575,7 +890,7 @@ export function LabOrdersList({ standalone }) {
       name: "Note",
       key: "action",
       description: "Enter Action",
-      selector: (row) => (row.instruction ? row.instruction : "-----------"),
+      selector: row => (row.instruction ? row.instruction : "-----------"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -584,7 +899,7 @@ export function LabOrdersList({ standalone }) {
       name: "Fulfilled",
       key: "facility",
       description: "Enter name of Facility",
-      selector: (row) => (row.fulfilled === "true" ? "Yes" : "No"),
+      selector: row => (row.fulfilled === "true" ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -593,7 +908,7 @@ export function LabOrdersList({ standalone }) {
       name: "Status",
       key: "action",
       description: "Enter Action",
-      selector: (row) => row.order_status,
+      selector: row => row.order_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -602,7 +917,7 @@ export function LabOrdersList({ standalone }) {
       name: "Requesting Physician",
       key: "facility",
       description: "Enter name of Facility",
-      selector: (row) => row.requestingdoctor_Name,
+      selector: row => row.requestingdoctor_Name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -611,8 +926,8 @@ export function LabOrdersList({ standalone }) {
       name: "Action",
       key: "destination",
       description: "Enter Destination",
-      selector: (row) => (
-        <DeleteOutlineIcon fontSize="small" sx={{ color: "red" }} />
+      selector: row => (
+        <DeleteOutlineIcon fontSize="small" sx={{color: "red"}} />
       ),
       sortable: true,
       required: true,
@@ -624,26 +939,26 @@ export function LabOrdersList({ standalone }) {
     <>
       <Box>
         <TableMenu>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{ marginLeft: "10px", fontSize: "0.8rem" }}>
+            <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
               List of Laboratory Orders
             </h2>
           </div>
 
           {!standalone && (
             <GlobalCustomButton onClick={handleCreateNew}>
-              <AddCircleOutline fontSize="small" sx={{ marginRight: "5px" }} />
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
               Add
             </GlobalCustomButton>
           )}
         </TableMenu>
 
-        <div style={{ width: "100%", overflowY: "scroll" }}>
+        <div style={{width: "100%", overflowY: "scroll"}}>
           <CustomTable
             title={""}
             columns={ordersListSchema}
@@ -654,7 +969,7 @@ export function LabOrdersList({ standalone }) {
             onRowClicked={handleRow}
             progressPending={false}
             CustomEmptyData={
-              <Typography sx={{ fontSize: "0.85rem" }}>
+              <Typography sx={{fontSize: "0.85rem"}}>
                 No Laboratory Orders found......
               </Typography>
             }
@@ -676,7 +991,7 @@ export function ProductEntryDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const ProductEntry = state.ProductEntryModule.selectedProductEntry;
 
@@ -685,7 +1000,7 @@ export function ProductEntryDetail() {
       selectedProductEntry: ProductEntry,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -903,7 +1218,7 @@ export function ProductEntryDetail() {
 }
 
 export function ProductEntryModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -914,8 +1229,8 @@ export function ProductEntryModify() {
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const ProductEntry = state.ProductEntryModule.selectedProductEntry;
 
@@ -961,7 +1276,7 @@ export function ProductEntryModify() {
       selectedProductEntry: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -972,7 +1287,7 @@ export function ProductEntryModify() {
       selectedProductEntry: {},
       show: "create",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -983,7 +1298,7 @@ export function ProductEntryModify() {
     const dleteId = ProductEntry._id;
     if (conf) {
       ProductEntryServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           reset();
 
           toast({
@@ -994,7 +1309,7 @@ export function ProductEntryModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting ProductEntry, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1020,7 +1335,7 @@ export function ProductEntryModify() {
     data.facility = ProductEntry.facility;
 
     ProductEntryServ.patch(ProductEntry._id, data)
-      .then((res) => {
+      .then(res => {
         toast({
           message: "ProductEntry updated succesfully",
           type: "is-success",
@@ -1030,7 +1345,7 @@ export function ProductEntryModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message:
             "Error updating ProductEntry, probable network issues or " + err,
@@ -1056,7 +1371,7 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", { required: true })}
+                    {...register("x", {required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1073,7 +1388,7 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    {...register("x", { required: true })}
+                    {...register("x", {required: true})}
                     disabled
                     name="ProductEntryType"
                     type="text"
@@ -1185,7 +1500,7 @@ export function ProductEntryModify() {
 const useOnClickOutside = (ref, handler) => {
   useEffect(
     () => {
-      const listener = (event) => {
+      const listener = event => {
         // Do nothing if clicking ref's element or descendent elements
         if (!ref.current || ref.current.contains(event.target)) {
           return;
@@ -1232,13 +1547,13 @@ export function TestHelperSearch({
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
   const dropDownRef = useRef(null);
 
-  const getInitial = async (id) => {
+  const getInitial = async id => {
     console.log(id);
     if (!!id) {
       let obj = {
@@ -1254,7 +1569,7 @@ export function TestHelperSearch({
     return () => {};
   }, []);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
 
@@ -1281,7 +1596,7 @@ export function TestHelperSearch({
     // setProductModal(true)
   };
 
-  const handleSearch = async (value) => {
+  const handleSearch = async value => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -1305,7 +1620,7 @@ export function TestHelperSearch({
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           if (res.total > 0) {
             setFacilities(res.data);
             setSearchMessage(" product  fetched successfully");
@@ -1318,7 +1633,7 @@ export function TestHelperSearch({
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error fetching test " + err,
             type: "is-danger",
@@ -1365,7 +1680,7 @@ export function TestHelperSearch({
         }}
         id="free-solo-dialog-demo"
         options={facilities}
-        getOptionLabel={(option) => {
+        getOptionLabel={option => {
           if (typeof option === "string") {
             return option;
           }
@@ -1398,7 +1713,7 @@ export function TestHelperSearch({
         handleHomeEndKeys
         noOptionsText={val !== "" ? `${val} Not Found` : "Type something"}
         renderOption={(props, option) => (
-          <li {...props} style={{ fontSize: "0.75rem" }}>
+          <li {...props} style={{fontSize: "0.75rem"}}>
             {option.test}
           </li>
         )}
@@ -1406,7 +1721,7 @@ export function TestHelperSearch({
           width: "100%",
         }}
         freeSolo={false}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             label={label || "Search for Test Services"}
@@ -1420,7 +1735,7 @@ export function TestHelperSearch({
             }}
             InputLabelProps={{
               shrink: true,
-              style: { color: "#2d2d2d" },
+              style: {color: "#2d2d2d"},
             }}
           />
         )}
@@ -1429,7 +1744,7 @@ export function TestHelperSearch({
   );
 }
 
-export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
+export function OldTestHelperSearch({getSearchfacility, clear, hidePanel}) {
   const productServ = client.service("labhelper");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1451,7 +1766,7 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
 
   const dropDownRef = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1462,7 +1777,7 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
     await setCount(2);
   };
 
-  const handleBlur = async (value) => {
+  const handleBlur = async value => {
     /*  setShowPanel(false) */
     getSearchfacility({
       test: value,
@@ -1478,7 +1793,7 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
       instruction: "",
     });
   };
-  const handleSearch = async (value) => {
+  const handleSearch = async value => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -1502,7 +1817,7 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           if (res.total > 0) {
             setFacilities(res.data);
             setSearchMessage(" product  fetched successfully");
@@ -1515,7 +1830,7 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error fetching test " + err,
             type: "is-danger",
@@ -1555,7 +1870,7 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
         <div className="control has-icons-left  ">
           <div
             className="dropdown-trigger"
-            style={{ width: "100%", position: "relative" }}
+            style={{width: "100%", position: "relative"}}
           >
             <DebounceInput
               className="input is-small "
@@ -1564,8 +1879,8 @@ export function OldTestHelperSearch({ getSearchfacility, clear, hidePanel }) {
               value={simpa}
               minLength={3}
               debounceTimeout={400}
-              onBlur={(e) => handleBlur(e.target.value)}
-              onChange={(e) => handleSearch(e.target.value)}
+              onBlur={e => handleBlur(e.target.value)}
+              onChange={e => handleSearch(e.target.value)}
               inputRef={inputEl}
               element={Input}
             />
