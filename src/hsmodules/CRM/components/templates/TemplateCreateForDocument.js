@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { FileUploader } from "react-drag-drop-files";
 import CustomSelect from "../../../../components/inputs/basic/Select";
+import Input from "../../../../components/inputs/basic/Input";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import moment from "moment";
@@ -38,6 +39,7 @@ const TemplateCreate = ({ closeModal }) => {
   const dealServer = client.service("deal");
   const templateServer = client.service("templatedoc");
   const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
   const [fileType, setFileType] = useState("");
   const [docType, setDoctype] = useState("");
   const [file, setFile] = useState(null);
@@ -59,7 +61,7 @@ const TemplateCreate = ({ closeModal }) => {
   ];
 
   const imageTypes = ["png", "jpg", "jpeg"];
-  const docTypes = ["docx", "doc", "pdf"];
+  const docTypes = ["docx", "doc", "pdf", "png", "jpg", "jpeg"];
 
   const handleChange = (file) => {
     getBase64(file[0])
@@ -119,8 +121,12 @@ const TemplateCreate = ({ closeModal }) => {
 
         let sample = {};
 
-        sample.Name = file[0].name;
+       
+        sample.Title = title
+        sample.Comments=description
         sample.DocumentUploadUrl = res.data.url;
+        sample.File = file[0].name;
+       
         document.documentdetail = sample;
 
         console.log("start now document", {
@@ -183,21 +189,21 @@ const TemplateCreate = ({ closeModal }) => {
           .then((res) => {
             hideActionLoader();
             closeModal();
-            toast.success(`You've successfully uploaded a template`);
+            toast.success(`You've successfully uploaded a document`);
 
             //setLoading(false);
           })
           .catch((err) => {
             hideActionLoader();
             toast.error(
-              `Sorry, You weren't able to upload the template. ${err}`
+              `Sorry, You weren't able to upload the document. ${err}`
             );
             //setLoading(false);
           });
       })
       .catch((error) => {
         hideActionLoader();
-        toast.error(`An error occured whilst uploading the Template ${error}`);
+        toast.error(`An error occured whilst uploading the document ${error}`);
         console.log(error);
       });
   };
@@ -214,6 +220,21 @@ const TemplateCreate = ({ closeModal }) => {
             />
           </Grid>
         </Grid>
+      </Box>
+      <Box>
+        <Input
+          type="text"
+          label="Title"
+          placeholder="write here..."
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </Box>
+      <Box>
+        <Textarea
+          label="Comment"
+          placeholder="write here..."
+          onChange={(e) => setDescription(e.target.value)}
+        />
       </Box>
 
       <Box>

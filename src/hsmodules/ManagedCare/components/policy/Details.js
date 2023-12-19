@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
+import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import ChangePolicyPrincipal from "./edit-policy/ChangePrincipal";
 import AddDependentToPolicy from "./edit-policy/AddDependent";
 import PolicyAddProvider from "./edit-policy/AddProvider";
@@ -83,6 +84,10 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
         value: state?.PolicyModule?.selectedPolicy?.plan?.planName,
         label: state?.PolicyModule?.selectedPolicy?.plan?.planName,
       },
+      approvalDate:state.PolicyModule.selectedPolicy?.approvalDate,
+      validityEnds:state.PolicyModule.selectedPolicy?.validityEnds,
+      validitystarts:state.PolicyModule.selectedPolicy?.validitystarts,
+      Date_JoinScheme:state.PolicyModule.selectedPolicy?.Date_JoinScheme,
     },
   });
 
@@ -92,8 +97,13 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
   const planType = watch("plan_type");
   const isActive = watch("active");
   const isPaid = watch("isPaid");
+  const approvalDate=watch("approvalDate")
+  const validitystarts= watch("validitystarts")
+  const validityEnds=watch("validityEnds")
+  const Date_JoinScheme=watch("Date_JoinScheme")
   //const isApproved = watch("approved");
   const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
+
 
   const getHealthPlans = useCallback(async () => {
     setFetchingPlans(true);
@@ -456,7 +466,7 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
         toast.error(`Failed to update Beneficiary ${err}`);
       });
   };
-
+console.log(state.PolicyModule.selectedPolicy)
   return (
     <Watermark
       content={
@@ -821,14 +831,24 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
                   {policy?.approved && (
                     <>
                       <Grid item xs={12} sm={6} md={4} lg={4}>
-                        <Input
-                          value={dayjs(policy?.approvalDate).format(
+                        {/* <Input
+                          value={policy?.approvalDate? dayjs(policy?.approvalDate).format(
                             "MMMM DD, YYYY"
-                          )}
+                          ):""}
                           disabled
                           label={`Approval Date`}
                         />
                       </Grid>
+                      <Grid item md={3}> */}
+                    <MuiCustomDatePicker
+                      label="Approval Date"
+                      name="approvalDate"
+                      value={approvalDate}
+                      register={register("approvalDate")}
+                      control={control}
+                      disabled={!edit}
+                    />
+                  </Grid>
                       <Grid item xs={12} sm={6} md={4} lg={4}>
                         <Input
                           value={policy?.approvedby?.employeename}
@@ -840,33 +860,71 @@ const PolicyDetail = ({goBack, beneficiary, corporateOrg,provider}) => {
                   )}
 
                   <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <Input
-                      value={dayjs(policy?.validitystarts).format(
+                   {/*  <Input
+                      value={policy?.validitystarts?dayjs(policy?.validitystarts).format(
                         "MMMM DD, YYYY"
-                      )}
+                      ):""}
                       disabled
                       label={`Validity Start`}
                     />
+                    <div className="field">
+                    <input
+                      name="start_time"
+                      value={policy?.validitystarts}
+                      type="date"
+                    />
+                  </div>
+                  </Grid>
+                  <Grid item md={3}> */}
+                    <MuiCustomDatePicker
+                      label="Validity Start Date"
+                      name="validitystarts"
+                      value={validitystarts}
+                      register={register("validitystarts")}
+                      control={control}
+                      disabled={!edit}
+                    />
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <Input
-                      value={dayjs(policy?.validityEnds).format(
+                   {/*  <Input
+                      value={policy?.validityEnds? dayjs(policy?.validityEnds).format(
                         "MMMM DD, YYYY"
-                      )}
+                      ):""}
                       disabled
                       label={`Validity End`}
                     />
                   </Grid>
+                  <Grid item md={3}> */}
+                    <MuiCustomDatePicker
+                      label="Validity End Date"
+                      name="validityEnds"
+                      value={validityEnds}
+                      register={register("validityEnds")}
+                      control={control}
+                      disabled={!edit}
+                    />
+                  </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <Input
-                      value={dayjs(policy?.Date_JoinScheme).format(
+                   {/*  <Input
+                      value={policy?.date_JoinScheme? dayjs(policy?.date_JoinScheme).format(
                         "MMMM DD, YYYY"
-                      )}
+                      ):""}
                       disabled
                       label={`Date Joined`}
                     />
                   </Grid>
+                  <Grid item md={3}> */}
+                    <MuiCustomDatePicker
+                      label="Date Joined"
+                      name="Date_JoinScheme"
+                      value={Date_JoinScheme}
+                      register={register("Date_JoinScheme")}
+                      control={control}
+                      disabled={!edit}
+                    />
+                  </Grid>
                 </Grid>
+
               </Box>
 
               {corporateOrg && (

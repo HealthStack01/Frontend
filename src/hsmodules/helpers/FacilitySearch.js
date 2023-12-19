@@ -932,7 +932,7 @@ export function BandTariffSearch({getBandfacility, clear, newValue}) {
     await setChosen(true);
     // getSearchfacility(obj);
     getBandfacility(obj);
-    await setSimpa(obj?.facilityName + "," + obj?.facilityCity);
+    await setSimpa(obj?.band );
     setShowPanel(false);
     await setCount(2);
     // check if the facility is already selected, if not add it to the list

@@ -308,7 +308,7 @@ const PolicyClientCreate = ({closeModal}) => {
       if (file) {
         axios
           .post(
-            "https://healthstack-backend.herokuapp.com/upload",
+            "https://hsbackend.azurewebsites.net/upload",
             {uri: file},
             {headers: {Authorization: `Bearer ${token}`}}
           )

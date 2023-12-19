@@ -463,7 +463,7 @@ export function FrontDeskList({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "calc(100% - 80px)",
+                height: "calc(100vh - 180px)",
                 overflowY: "scroll",
               }}
             >

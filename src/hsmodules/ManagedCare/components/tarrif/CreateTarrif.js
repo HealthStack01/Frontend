@@ -264,7 +264,7 @@ const CreateTariffServicesList = ({services, setServices}) => {
       >
         <Box
           sx={{
-            height: "calc(100% - 170px)",
+            height: "calc(100vh - 170px)",
             transition: "width 0.5s ease-in",
             width: selectedService ? "39%" : "100%",
           }}

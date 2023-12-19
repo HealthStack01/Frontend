@@ -632,7 +632,7 @@ const ChangeClientImage = ({closeModal, changeImage}) => {
     const token = localStorage.getItem("feathers-jwt");
     axios
       .post(
-        "https://healthstack-backend.herokuapp.com/upload",
+        "https://hsbackend.azurewebsites.net/upload",
         {uri: file},
         {headers: {Authorization: `Bearer ${token}`}}
       )

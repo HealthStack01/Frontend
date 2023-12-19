@@ -205,7 +205,8 @@ const TariffProviders = () => {
 
       <Box
         sx={{
-          height: "calc(100% - 170px)",
+          height: "calc(100vh - 170px)",
+          overflow:"auto"
         }}
       >
         <CustomTable

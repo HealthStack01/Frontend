@@ -344,14 +344,14 @@ const TarrifServices = ({ provider }) => {
         <div
           style={{
             width: selectedService ? "39.5%" : "100%",
-            height: "calc(100% - 170px)",
+            height: "calc(100vh - 170px)",
             overflow: "auto",
           }}
           ref={containerScrollRef}
           onScroll={handleOnTableScroll}
         >
           <CustomTable
-            title={provider ? "List of Tariff Servicess" : ""}
+            title={provider ? "List of Tariff Services" : ""}
             columns={servicesColumns}
             data={services}
             pointerOnHover

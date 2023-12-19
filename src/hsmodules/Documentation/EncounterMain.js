@@ -1089,7 +1089,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                                           value instanceof Object ? (
                                             JSON.stringify(value)
                                           ) : (
-                                            value
+                                            keys!=="File"?
+                                            value:(<a href={Clinic.documentdetail.DocumentUploadUrl} target="_blank">{value}</a>)
                                           )}
                                         </td>
 

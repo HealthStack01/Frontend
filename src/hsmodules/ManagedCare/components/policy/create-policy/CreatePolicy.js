@@ -609,7 +609,7 @@ const CreateNewPolicy = ({goBack}) => {
         >
           <FormsHeaderText text={"Policy Beneficiaries"} />
           <GlobalCustomButton onClick={handleBeneficiaryModal}>
-            Add New Policy
+            Add Beneficiary
           </GlobalCustomButton>
         </Box>
 

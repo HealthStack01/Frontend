@@ -585,7 +585,7 @@ export const BilledOrdersPrintOut = forwardRef(({ data, Clinic }, ref) => {
       name: "Mode",
       key: "billMode",
       description: "Enter Category",
-      selector: (row) => row.billMode.type,
+      selector: (row) => row.billMode?.type,
       sortable: true,
       required: true,
       center: true,

@@ -792,6 +792,16 @@ export const RadiologyOrdersDocument = forwardRef(({ Clinic }, ref) => {
 export const LabOrdersDocument = forwardRef(({ Clinic }, ref) => {
   const data = Clinic?.documentdetail;
 
+ /*  const removeNullOrUndefinedEmpty=(obj) =>  {
+    return Object.fromEntries(
+      Object.entries(obj).filter(([key, value]) => {
+        // Remove keys with null, undefined, or empty string values
+        return value !== null && value !== undefined && value !== '';
+      })
+    );
+  }
+data = removeNullOrUndefinedEmpty(data) */
+
   const columns = [
     {
       name: "S/N",
@@ -935,7 +945,7 @@ export const BilledOrdersDocument = forwardRef(({ Clinic }, ref) => {
       name: "Mode",
       key: "billMode",
       description: "Enter Category",
-      selector: (row) => row.billMode.type,
+      selector: (row) => row.billMode?.type,
       sortable: true,
       required: true,
       center: true,

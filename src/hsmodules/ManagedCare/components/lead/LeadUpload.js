@@ -79,7 +79,7 @@ const LeadUpload = ({closeModal}) => {
 
     axios
       .post(
-        "https://healthstack-backend.herokuapp.com/upload",
+        "https://hsbackend.azurewebsites.net/upload",
         {uri: base64},
         {headers: {Authorization: `Bearer ${token}`}}
       )

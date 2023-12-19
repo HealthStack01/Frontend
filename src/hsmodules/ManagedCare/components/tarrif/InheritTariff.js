@@ -48,21 +48,31 @@ const InheritTariff = ({closeModal}) => {
     getProviderBand();
   }, []);
 
+  const getBandfacility=(tarrif)=>{
+
+    setState(prev=>({
+      ...prev,
+      inheritTarrif:tarrif
+      
+    }))
+
+  }
+
   // A FUNCTION THAT INHERIT TARIFF
   const onSubmit = async () => {
     showActionLoader();
 
-    const selectedBand = providerBand.find(
+    const  choosenBand= providerBand.find( //selectedBand
       item => item.name.toLowerCase() === selectedBand.toLowerCase()
     );
 
-    const tariff = state.TarrifModule.selectedTarrif;
+    const tariff = state.inheritTarrif;
 
     const tariffData = {
       organizationId: user.currentEmployee.facilityDetail._id,
       organizationName: user.currentEmployee.facilityDetail.facilityName,
-      band: selectedBand.name,
-      bandId: selectedBand._id,
+      band: choosenBand.name,
+      bandId: choosenBand._id,
       contracts: tariff.service,
       providers: [],
     };
@@ -94,7 +104,7 @@ const InheritTariff = ({closeModal}) => {
           />
         </Box>
         <Box>
-          <BandTariffSearch clear={success} />
+          <BandTariffSearch clear={success} getBandfacility={getBandfacility} />
         </Box>
       </Box>
 

@@ -528,7 +528,7 @@ export const SendViaEmail = ({ closeModal, screenshot, data }) => {
     const token = localStorage.getItem("feathers-jwt");
     axios
       .post(
-        "https://healthstack-backend.herokuapp.com/upload",
+        "https://hsbackend.azurewebsites.net/upload",
         { uri: screenshot },
         { headers: { Authorization: `Bearer ${token}` } }
       )

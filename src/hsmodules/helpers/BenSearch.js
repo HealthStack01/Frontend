@@ -95,11 +95,43 @@ export function BeneficiarySearch({
      await facilityServ
         .find({
           query: {
-            policyNo: {
-              $regex: value,
-              $options: "i",
-            },
+         /*    $or:[
+              { */
+                policyNo: {
+                  $regex: value,
+                  $options: "i",
+                },
+              },
+             /*  {
+                "principal.lastname": {
+                  $regex: val,
+                  $options: "i",
+                },
+              },
+              {
+                "principal.firstname": {
+                  $regex: val,
+                  $options: "i",
+                },
+              },
+              {
+                "dependantBeneficiaries.firstname": {
+                  $regex: val,
+                  $options: "i",
+                },
+              },
+              {
+                "dependantBeneficiaries.lastname": {
+                  $regex: val,
+                  $options: "i",
+                },
+              },
+
+            ]
+
+            
           },
+          */
         })
         .then((res) => {
           const policies = res.data;

@@ -99,7 +99,8 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
   }, [getTotalPreAuthAmount]);
 
   const handleSelectClient = client => {
-    if (client === undefined || client === null)
+    console.log(client)
+    if (client === undefined || client === null){
       return setState(prev => ({
         ...prev,
         ClientModule: {
@@ -107,13 +108,15 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
           selectedClient: {},
         },
       }));
+    }
     const hmos = client.paymentinfo.filter(
       item => item.paymentmode.toLowerCase() === "hmo"
     );
 
     const firstHMO = hmos[0];
+   // setPolicy(firstHMO.policy);
 
-    setPolicy(firstHMO.policy);
+    setPolicy(client.policy);
 
     setState(prev => ({
       ...prev,
@@ -439,18 +442,19 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
         >
           <Grid container spacing={2} mb={2}>
             <Grid item lg={6} md={6} sm={6} xs={12}> 
-            {user.currentEmployee.facilityDetail.facilityType === "HMO"?   
+            {/* {user.currentEmployee.facilityDetail.facilityType === "HMO"?    */}
               <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
-              /> :
+              />
+           {/*      :
               <ClientSearch
               clear={clearClientSearch}
               getSearchfacility={handleSelectClient}
               id={client_id}
-            /> }
-
+            /> 
+            */}        
             {/*   <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}

@@ -6,7 +6,7 @@ export const getUploadUrl = async file => {
   // console.log(file);
 
   const response = await axios.post(
-    "https://healthstack-backend.herokuapp.com/upload",
+    "https://hsbackend.azurewebsites.net/upload",
     {uri: file},
     {headers: {Authorization: `Bearer ${token}`}}
   );

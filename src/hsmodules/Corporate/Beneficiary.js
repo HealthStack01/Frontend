@@ -2494,7 +2494,7 @@ export function ClientModify({showModal, setShowModal}) {
     if (imgSrc !== "") {
       axios
         .post(
-          "https://healthstack-backend.herokuapp.com/upload",
+          "https://hsbackend.azurewebsites.net/upload",
           {uri: imgSrc},
           {headers: {Authorization: `Bearer ${token}`}}
         )
