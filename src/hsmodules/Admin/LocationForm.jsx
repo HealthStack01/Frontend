@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {toast, ToastContainer} from "react-toastify";
 // import Button from '../../components/buttons/Button';
@@ -27,6 +27,7 @@ import ModalBox from "../../components/modal";
 export const LocationForm = ({open, setOpen}) => {
   // const { register, handleSubmit,setValue} = useForm();
   const LocationServ = client.service("location");
+  const [branch, setBranch] = useState([]);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
@@ -38,6 +39,33 @@ export const LocationForm = ({open, setOpen}) => {
 
   //Location wasn't initially defined but was consumed in defaultValues, please update your location object
   const location = {};
+
+
+  const getBranch=async()=>{
+    await LocationServ.find({
+      query:{
+        facility: user.currentEmployee.facilityDetail._id,
+        locationType:"Branch"
+
+      }
+    }).then(resp=>{
+      setBranch(resp.data)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+
+  }
+
+
+
+  useEffect(() => {
+    getBranch();
+    LocationServ.on("created", (obj) => getBranch());
+    LocationServ.on("updated", (obj) => getBranch());
+    LocationServ.on("patched", (obj) => getBranch());
+    LocationServ.on("removed", (obj) => getBranch());
+  }, []);
 
   const {
     register,
@@ -62,8 +90,10 @@ export const LocationForm = ({open, setOpen}) => {
     await LocationServ.create(data)
       .then(res => {
         toast.success(`Location successfully created`);
+        reset()
         setLoading(false);
         setOpen(false);
+        
       })
       .catch(err => {
         toast.error(`Sorry, You weren't able to create a location. ${err}`);
@@ -89,6 +119,13 @@ export const LocationForm = ({open, setOpen}) => {
             name="locationType"
             options={locationTypeOptions}
             register={register("locationType")}
+            sx={{marginBottom: "2rem"}}
+          />
+           <CustomSelect
+            label="Choose Branch"
+            name="branch"
+            options={branch}
+            register={register("branch")}
             sx={{marginBottom: "2rem"}}
           />
           {/* <Input

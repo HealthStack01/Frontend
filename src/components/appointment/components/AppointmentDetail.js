@@ -55,11 +55,11 @@ const AppointmentDetail = ({closeModal, module}) => {
   const checkHMO = obj => obj.paymentmode === "HMO";
 
   const defaultCheckinClient = () => {
-    if (appointment?.client?.paymentinfo?.some(checkHMO)) {
+   /*  if (appointment?.client?.paymentinfo?.some(checkHMO)) {
       setOtpModal(true);
-    } else {
+    } else { */
       checkinPatient();
-    }
+   /*  } */
   };
 
   const handleOtpChange = otp => {
@@ -126,7 +126,7 @@ const AppointmentDetail = ({closeModal, module}) => {
       .patch(appointment._id, {appointment_status: "Checked Out"})
       .then(res => {
         hideActionLoader();
-        toast.success("Client succesfully Checked In");
+        toast.success("Client Succesfully Checked Out");
         setState(prev => ({
           ...prev,
           AppointmentModule: {
@@ -142,14 +142,14 @@ const AppointmentDetail = ({closeModal, module}) => {
   };
 
   const hanldeAttendToClient = async () => {
-    if (appointment?.client?.paymentinfo?.some(checkHMO)) {
+   /*  if (appointment?.client?.paymentinfo?.some(checkHMO)) {
      console.log(appointment)
       if (!appointment.verified){
         toast.error("Appointment has not been verified")
         return
       }
      
-    } 
+    }  */
     if (appointment.client) {
       await setState(prev => ({
         ...prev,
@@ -206,7 +206,7 @@ const AppointmentDetail = ({closeModal, module}) => {
 
           <Box>
             <GlobalCustomButton onClick={checkinPatientWithOTP}>
-              Confrim Check-In
+              Confirm Check-In
             </GlobalCustomButton>
           </Box>
         </Box>

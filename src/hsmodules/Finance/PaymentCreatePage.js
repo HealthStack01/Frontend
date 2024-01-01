@@ -680,6 +680,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       .then(async resp => {
         setProductItem([]);
         toast.success("payment successful");
+        printreceipt(obj)
         const newProductEntryModule = {
           selectedBills: [],
           selectedFinance: {},
@@ -712,6 +713,71 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     setPartBulk(e.target.value);
   };
 
+  const printreceipt =(obj)=>{
+
+  }
+  async function connectToPrinter() {
+    try {
+      let devices = await navigator.usb.getDevices() //await navigator.serial.requestPort({ filtersq }) //await navigator.usb.getDevices()
+      console.log(devices)
+      const usbDevice = await navigator.usb.requestDevice( {filters});
+      await usbDevice.open();
+      await usbDevice.selectConfiguration(1); // Select the printer's configuration
+      await usbDevice.claimInterface(0); // Claim the interface for communication
+      console.log('Connected to printer:', usbDevice);
+      const ESC_POS_COMMANDS = `
+      \x1B\x40
+      \x1B\x61\x01 Your Title Here \n
+      This is a line of text.
+      This is another line of text.
+      \x1B\x64\x02
+      \x1D\x56\x41\x10
+      \x1D\x56\x41\x10 
+      \x1B\x40
+      \x1D\x56\x01
+      `;
+      const cutcom = `\x1D\x56\x31`;
+    const ESC_INIT = [0x1B, 0x40];
+
+    let data = printText("simpa")
+    let transformedImage = [];
+    transformedImage.push(...ESC_INIT);
+    let data1=new Uint8Array(transformedImage)
+    console.log(data1)
+   // data = [...data1,...data]
+   let data2= new Uint8Array([...ESC_INIT,"simpa"])
+   let encoder =new TextEncoder()
+   let data3 =encoder.encode(ESC_POS_COMMANDS)
+   let cutI =encoder.encode(cutcom)
+   const receiptData = new TextEncoder().encode(ESC_POS_COMMANDS);
+
+   // Send data to the printer
+   await usbDevice.transferOut(1, receiptData);
+   await usbDevice.transferOut(1, cutI);
+   await usbDevice.close();
+
+    console.log(receiptData)
+    console.log(cutI)
+      /* const writer = await usbDevice.transferOut(1,data3);
+      console.log('Print command sent:', writer); */
+    } catch (error) {
+      console.error('Error connecting to printer:', error);
+    }
+  }
+
+  function printText(text) {
+    return new Uint8Array(text.split('').map(char => char.charCodeAt(0)))
+}
+
+  const filters = [{
+    vendorId: 0x0483,// 1155, // Replace with your printer's Vendor ID
+    productId: 0x05743, //22339, // Replace with your printer's Product ID
+  }];
+
+   const filtersq = [{
+    usbVendorId: 1155, // Replace with your printer's Vendor ID
+    usbProductId: 22339, // Replace with your printer's Product ID
+  }];
   const paymentCreateSchema = [
     {
       name: "S/NO",
@@ -843,6 +909,10 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
             <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
             Back
           </GlobalCustomButton>
+          <GlobalCustomButton onClick={connectToPrinter}>
+            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Print
+          </GlobalCustomButton> 
 
           <Typography
             sx={{

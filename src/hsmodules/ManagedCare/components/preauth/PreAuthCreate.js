@@ -322,9 +322,9 @@ const checkpolicy=async ()=>{
 
   useEffect(() => {
     if (patientState === "outpatient") {
-      setAppointmentModal(true);
+     // setAppointmentModal(true);
     } else if (patientState === "inpatient") {
-      setAdmissionModal(true);
+    //  setAdmissionModal(true);
     }
   }, [patientState]);
 
@@ -627,7 +627,7 @@ const checkpolicy=async ()=>{
             </Grid>
           </Grid>
 
-          {patientState === "inpatient" && (
+          {/* {patientState === "inpatient" && (
             <Grid container spacing={2} mb={2}>
               <Grid item sm={6} xs={12}>
                 <MuiCustomDatePicker
@@ -646,7 +646,7 @@ const checkpolicy=async ()=>{
               </Grid>
             </Grid>
           )}
-
+ */}
           <Box mb={2}>
             <Box
               sx={{

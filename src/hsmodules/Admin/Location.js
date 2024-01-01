@@ -125,6 +125,7 @@ export function LocationCreate({ open, setOpen }) {
     "Pharmacy",
     "Radiology",
     "Managed Care",
+    "Branch"
   ];
   const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
@@ -795,11 +796,11 @@ export function LocationModify() {
       shouldValidate: true,
       shouldDirty: true,
     });
-    /*  setValue("profession", Location.profession,  {
+    setValue("branch", Location.branch,  {
                 shouldValidate: true,
                 shouldDirty: true
-            })
-            setValue("phone", Location.phone,  {
+            });
+      /*        setValue("phone", Location.phone,  {
                 shouldValidate: true,
                 shouldDirty: true
             })
@@ -941,6 +942,13 @@ export function LocationModify() {
             type="text"
             label="Location Type"
             placeholder="Location Type"
+          />
+           <Input
+            {...register("branch", )}
+            name="branch"
+            type="text"
+            label="Branch"
+            placeholder="Branch"
           />
         </form>
         <BottomWrapper>

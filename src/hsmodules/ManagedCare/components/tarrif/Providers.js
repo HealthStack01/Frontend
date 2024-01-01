@@ -12,6 +12,8 @@ import {useForm} from "react-hook-form";
 import {OrgFacilityProviderSearch} from "../../../helpers/FacilitySearch";
 import {toast} from "react-toastify";
 import GroupedRadio from "../../../../components/inputs/basic/Radio/GroupedRadio";
+import CheckboxGroup from "../../../../components/inputs/basic/Checkbox/CheckBoxGroup";
+
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import Input from "../../../../components/inputs/basic/Input";
 
@@ -305,8 +307,8 @@ export const AddNewProvider = ({closeModal}) => {
 
     const returnOnlyIdentities = filterOutUndefined.map(item => item.dest_org);
 
-    if (returnOnlyIdentities.includes(provider._id))
-      return handleExistingProvider();
+ /*    if (returnOnlyIdentities.includes(provider._id))
+      return handleExistingProvider() */;
 
     //toast.error("You already have this Provider in one of your Tariffs");
 
@@ -418,7 +420,7 @@ export const AddNewProvider = ({closeModal}) => {
       <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
         <OrgFacilityProviderSearch getSearchfacility={getSearchfacility} />
 
-        <GroupedRadio
+        <CheckboxGroup
           name="class"
           options={["Primary", "Secondary", "Tertiary"]}
           control={control}

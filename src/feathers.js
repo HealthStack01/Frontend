@@ -3,7 +3,7 @@ import feathers from "@feathersjs/feathers";
 import socketio from "@feathersjs/socketio-client";
 import authentication from "@feathersjs/authentication-client";
 
-const herok = "https://healthstack-backend.herokuapp.com";
+const oldherok = "https://healthstack-backend.herokuapp.com";
 const azure = "https://hsbackend.azurewebsites.net";
 const url = "http://localhost:8080";
 const herok1="https://hs-backend-59a793db48af.herokuapp.com/"

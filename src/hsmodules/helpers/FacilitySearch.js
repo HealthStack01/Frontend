@@ -708,7 +708,7 @@ export function OrgFacilityProviderSearch({
           value === undefined || value === "" || option._id === value._id
         }
         noOptionsText={
-          val === "" ? "Type something.." : `${val} is not an Employee`
+          val === "" ? "Type something.." : `${val} is not an provider`
         }
         sx={{width: "100%"}}
         //size="small"

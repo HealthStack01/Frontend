@@ -285,9 +285,9 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
 
   useEffect(() => {
     if (patientState === "outpatient") {
-      setAppointmentModal(true);
+      //setAppointmentModal(true);
     } else if (patientState === "inpatient") {
-      setAdmissionModal(true);
+      //setAdmissionModal(true);
     }
   }, [patientState]);
 
@@ -603,7 +603,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
             </Grid>
           </Grid>
 
-          {patientState === "inpatient" && (
+          {/* {patientState === "inpatient" && (
             <Grid container spacing={2} mb={2}>
               <Grid item sm={6} xs={12}>
                 <MuiCustomDatePicker
@@ -621,7 +621,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                 />
               </Grid>
             </Grid>
-          )}
+          )} */}
 
           <Box mb={2}>
             <Box

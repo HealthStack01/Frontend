@@ -611,6 +611,7 @@ export function ClinicalNoteCreate() {
   const [data, setData] = useState([]);
   const [icd, setIcd] = useState([]);
   const [clear, setClear] = useState(false);
+  const [newDiag, setNewDiag] = useState(true);
   const [diagnosis, setDiagnosis] = useState([]);
   const [diagnosisModal, setDiagnosisModal] = useState(false);
 
@@ -690,6 +691,8 @@ export function ClinicalNoteCreate() {
         });
 
         if (keys === "diagnosis") {
+          let stuff=Array.isArray(value)
+          setNewDiag(stuff)
           setDiagnosis(value);
         }
         setValue(keys, value, {
@@ -955,13 +958,13 @@ export function ClinicalNoteCreate() {
               >
                 <FormsHeaderText text="Diagnosis Data" />
 
-                <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
+             { newDiag &&  <GlobalCustomButton onClick={() => setDiagnosisModal(true)}>
                   <AddBoxIcon sx={{ marginRight: "3px" }} fontSize="small" />
                   Add Diagnosis
-                </GlobalCustomButton>
+                </GlobalCustomButton>}
               </Box>
               <Box>
-                <CustomTable
+               {newDiag? <CustomTable
                   title={""}
                   columns={columnSchema}
                   data={diagnosis}
@@ -976,7 +979,16 @@ export function ClinicalNoteCreate() {
                       You've not added a Diagnosis yet...
                     </Typography>
                   }
+                />:
+                
+                <Textarea
+                  register={register("diagnosis")}
+                  type="text"
+                  label="Diagnosis"
+                  placeholder="Diagnosis......"
                 />
+             
+                }
               </Box>
             </Box>
 

@@ -59,7 +59,7 @@ export const bandTypeOptions: string[] = [
   "Corporate Sponsor",
 ];
 
-export const locationTypeOptions:string[] =["Front Desk","Clinic","Ward", "Store", "Laboratory", "Finance","Theatre","Pharmacy", "Radiology","Managed Care" ]
+export const locationTypeOptions:string[] =["Front Desk","Clinic","Ward", "Store", "Laboratory", "Finance","Theatre","Pharmacy", "Radiology","Managed Care", "Branch" ]
 
 
 export const status: string[] = ["Single", "Married", "Divorced"];
