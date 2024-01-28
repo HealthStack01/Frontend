@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, {useState, useContext, useEffect, useRef, useCallback} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -80,6 +80,7 @@ export function BillsList({openCreateModal}) {
   const [message, setMessage] = useState("");
   const BillServ = client.service("bills");
   const smsServ = client.service("sendsms");
+  const locationServ =client.service("location")
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -97,6 +98,8 @@ export function BillsList({openCreateModal}) {
   const [loading, setLoading] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
   const [clientBills, setClientBills] = useState([]);
+  //const [branch, setBranch] = useState("");
+  const branchRef=useRef()
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -179,37 +182,51 @@ export function BillsList({openCreateModal}) {
 
   const handleSearch = val => {
     const field = "name";
+    let branch=branchRef.current
+    console.log("branch ", branch)
+    let   query={
+
+      "participantInfo.client.lastname": {
+        $regex: val,
+        $options: "i",
+      },
+
+      $or: [
+        {
+          "participantInfo.paymentmode.type": "Cash",
+        },
+        {
+          "participantInfo.paymentmode.type": "Family Cover",
+        },
+      ],
+
+      "participantInfo.billingFacility":
+        user.currentEmployee.facilityDetail._id,
+      billing_status: {
+        $ne: "Fully Paid",
+      },
+      // billing_status: "Unpaid", // need to set this finally
+      //order_category:"Prescription",
+      // storeId:state.StoreModule.selectedStore._id,
+      //facility:user.currentEmployee.facilityDetail._id || "",
+      $limit: 30,
+      $sort: {
+        createdAt: -1,
+      },
+    }
+    console.log("branch check", branch)
+    if (!!branch){
+      query['participantInfo.branch']=branch
+    }
+   /*  console.log("query check", query)
+    const findProductEntry = await BillServ.find({
+      query: query
+      },
+    );
+      console.log("result:", findProductEntry) */
     ////console.log(val)
     BillServ.find({
-      query: {
-        "participantInfo.paymentmode.detail.principalName": {
-          $regex: val,
-          $options: "i",
-        },
-
-        $or: [
-          {
-            "participantInfo.paymentmode.type": "Cash",
-          },
-          {
-            "participantInfo.paymentmode.type": "Family Cover",
-          },
-        ],
-
-        "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
-        billing_status: {
-          $ne: "Fully Paid",
-        },
-        // billing_status: "Unpaid", // need to set this finally
-        //order_category:"Prescription",
-        // storeId:state.StoreModule.selectedStore._id,
-        //facility:user.currentEmployee.facilityDetail._id || "",
-        $limit: 30,
-        $sort: {
-          createdAt: -1,
-        },
-      },
+      query:query
     })
       .then(res => {
         // //console.log(res)
@@ -227,32 +244,43 @@ export function BillsList({openCreateModal}) {
   };
   const getFacilities = async () => {
     // //console.log("here b4 server")
-    const findProductEntry = await BillServ.find({
-      query: {
-        $or: [
-          {
-            "participantInfo.paymentmode.type": "Cash",
-          },
-          {
-            "participantInfo.paymentmode.type": "Family Cover",
-          },
-        ],
+    await  await setFacilities([]);
+    let branch=branchRef.current
+    console.log("branch ", branch)
+    let query={
+      $or: [
+        {
+          "participantInfo.paymentmode.type": "Cash",
+        },
+        {
+          "participantInfo.paymentmode.type": "Family Cover",
+        },
+      ],
 
-        "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
-        billing_status: {
-          $ne: "Fully Paid",
-        },
-        // billing_status: "Unpaid", // need to set this finally
-        //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
+      "participantInfo.billingFacility":
+        user.currentEmployee.facilityDetail._id,
+      billing_status: {
+        $ne: "Fully Paid",
       },
-    });
-
+      //branch:
+      // billing_status: "Unpaid", // need to set this finally
+      //storeId:state.StoreModule.selectedStore._id,
+      //clientId:state.ClientModule.selectedClient._id,
+      $limit: 100,
+      $sort: {
+        createdAt: -1,
+      }
+    }
+    console.log("branch check", branch)
+    if (!!branch){
+      query['participantInfo.branch']=branch
+    }
+    console.log("query check", query)
+    const findProductEntry = await BillServ.find({
+      query: query
+      },
+    );
+      console.log("result:", findProductEntry)
     //  //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
 
@@ -261,9 +289,36 @@ export function BillsList({openCreateModal}) {
   };
 
   //1.consider using props for global data
-  useEffect(() => {
+
+
+  const findbranch =async()=>{
+    if (!!state.employeeLocation.locationId){  
+   const loc= await locationServ.get(state.employeeLocation.locationId)
+   /*  .then(resp=>{
+     // setBranch(resp.branch)
+      branchRef.current=resp.branch
+      console.log(resp.branch)
+    })
+    .catch(err=>console.log(err)) */
+    branchRef.current=loc.branch
+  }
+  getFacilities();
+}
+useEffect(()=>{
+  findbranch()
+ 
+},[state.employeeLocation])
+
+ /* useEffect(()=>{
+
+  getFacilities();
+},[branchRef.current])  */
+
+  useEffect(async () => {
     // //console.log("started")
-    getFacilities();
+    console.log("location:", state.employeeLocation)
+    await findbranch()
+   
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());
     BillServ.on("patched", obj => getFacilities());
@@ -362,9 +417,9 @@ export function BillsList({openCreateModal}) {
         const bills = row.bills;
         return (
           <>
-            {console.log(row)}
+            {/* {console.log(row)} */}
             {bills.map((category, i) => (
-              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents">
+              <Typography sx={{fontSize: "0.75rem"}} data-tag="allowRowEvents" key={i}>
                 {category.catName} {category.catAmount.toFixed(2)}
               </Typography>
             ))}
@@ -503,7 +558,7 @@ export function BillsList({openCreateModal}) {
                 marginRight: "10px",
               }}
             >
-              Unpaid Bills
+              Unpaid Bills {branchRef.current && ` :  ${branchRef.current} Branch`} 
             </h2>
 
             {selectedClient && (
@@ -531,9 +586,10 @@ export function BillsList({openCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 70px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49%" : "100%",
+              overflow:"auto"
             }}
           >
             <CustomTable

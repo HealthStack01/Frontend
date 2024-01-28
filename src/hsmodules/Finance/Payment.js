@@ -90,6 +90,7 @@ export function BillingList({openModal, showCreateScreen}) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const BillServ = client.service("bills");
+  const locationServ =client.service("location")
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -108,6 +109,7 @@ export function BillingList({openModal, showCreateScreen}) {
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [invoiceModal, setInvoiceModal] = useState(false);
+  const [branch, setBranch] = useState("");
  
 	
 
@@ -273,8 +275,8 @@ export function BillingList({openModal, showCreateScreen}) {
   const handleSearch = val => {
     const field = "name";
     ////console.log(val)
-    BillServ.find({
-      query: {
+    
+   let   query= {
         "participantInfo.paymentmode.detail.principalName": {
           $regex: val,
           $options: "i",
@@ -299,7 +301,15 @@ export function BillingList({openModal, showCreateScreen}) {
         $sort: {
           createdAt: -1,
         },
-      },
+      }
+      if (!!branch){
+        query['participantInfo.branch']=branch
+      }
+
+
+      BillServ.find({
+        query:query
+
     })
       .then(res => {
         //console.log(res);
@@ -317,39 +327,64 @@ export function BillingList({openModal, showCreateScreen}) {
   };
   const getFacilities = async () => {
     // //console.log("here b4 server")
-    setLoading(true);
-    const findProductEntry = await BillServ.find({
-      query: {
-        $or: [
-          {
-            "participantInfo.paymentmode.type": "Cash",
-          },
-          {
-            "participantInfo.paymentmode.type": "Family Cover",
-          },
-        ],
-        "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
-        billing_status: {
-          $ne: "Fully Paid",
-        }, // need to set this finally
-        //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
+    let query={
+      $or: [
+        {
+          "participantInfo.paymentmode.type": "Cash",
         },
+        {
+          "participantInfo.paymentmode.type": "Family Cover",
+        },
+      ],
+
+      "participantInfo.billingFacility":
+        user.currentEmployee.facilityDetail._id,
+      billing_status: {
+        $ne: "Fully Paid",
       },
-    });
+      //branch:
+      // billing_status: "Unpaid", // need to set this finally
+      //storeId:state.StoreModule.selectedStore._id,
+      //clientId:state.ClientModule.selectedClient._id,
+      $limit: 100,
+      $sort: {
+        createdAt: -1,
+      }
+    }
+    if (!!branch){
+      query['participantInfo.branch']=branch
+    }
+    const findProductEntry = await BillServ.find({
+      query: query
+      },
+    );
 
-    //console.log(findProductEntry);
-
-    // //console.log("updatedorder", findProductEntry.groupedOrder)
+    //  //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
-    setLoading(false);
+
     //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
+
+  const findbranch =async()=>{
+    if (!!state.employeeLocation.locationId){  
+    await locationServ.get(state.employeeLocation.locationId)
+    .then(resp=>{
+      setBranch(resp.branch)
+      console.log(resp.branch)
+    })
+    .catch(err=>console.log(err))
+  }
+}
+useEffect(async()=>{
+  await findbranch()
+ 
+},[state.employeeLocation])
+
+useEffect(async()=>{
+
+  await getFacilities();
+},[branch])
 
    const onRowClicked = async (client, e) => {
   //   console.log(client);
@@ -400,6 +435,7 @@ export function BillingList({openModal, showCreateScreen}) {
   //1.consider using props for global data
   useEffect(() => {
     // //console.log("started")
+    findbranch()
     getFacilities();
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());

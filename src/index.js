@@ -1,4 +1,4 @@
-import React from "react";
+import React,  { Profiler }  from "react";
 import ErrorBoundary from "./ErrorBoundary";
 //  import { createRoot } from 'react-dom/client';
 import ReactDOM from "react-dom";
@@ -12,7 +12,9 @@ ReactDOM.render(
     <GlobalStyle />
     <React.StrictMode>
       <ErrorBoundary>
+     
         <App />
+      
       </ErrorBoundary>
     </React.StrictMode>
     ,

@@ -257,6 +257,10 @@ const checkpolicy=async ()=>{
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
+    //check for services
+    if (services.length===0)
+    return toast.warning("Please add Services..");
+
     showActionLoader();
 
     const employee = user.currentEmployee;
@@ -303,6 +307,37 @@ const checkpolicy=async ()=>{
     };
 
     //console.log(document);
+
+    //check for duplicate PA
+    let n= services.length
+    let duplic=[]
+    const today = new Date();
+const twentyFourHoursAgo = new Date(today - 24 * 60 * 60 * 1000);
+    for (let q=0 ; q <= n-1; q++){
+
+  // console.log("n", n)
+   const chkserv= await     preAuthServer.find({
+          query:{
+            'beneficiary._id':state.ClientModule.selectedClient._id,
+            'services.service.serviceName':services[q].service.serviceName,
+            createdAt: {
+              $gte: twentyFourHoursAgo.toISOString(),
+              $lte: today.toISOString()
+            }
+          }
+        })
+//console.log("service check",chkserv)
+       if( chkserv.total>0){
+       // toast.error(`Service ${services[q].service.serviceName} has a duplicate request for same patient in the last 24hrs. Kindly remove`)
+       duplic.push(services[q].service.serviceName) 
+      }
+
+    }
+    if (duplic.length>0){
+      hideActionLoader();
+      toast.error(`Duplicate PA request(s) already exist: ${[...duplic] }`)
+      return
+    }
 
     return preAuthServer
       .create(document)

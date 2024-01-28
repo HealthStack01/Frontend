@@ -165,7 +165,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         label={label}
         name={name}
         notched
-        defaultValue={defaultValue || "Cash"}
+        defaultValue={defaultValue}
         onChange={onChange}
         sx={{
           background: "white",

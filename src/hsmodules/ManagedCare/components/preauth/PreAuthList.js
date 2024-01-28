@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 
-import {List, ListItem, Typography} from "@mui/material";
+import {List, ListItem, Typography, IconButton} from "@mui/material";
 import {Box, Grid} from "@mui/material";
 //import {UserContext, ObjectContext} from "../../context";
 import {ObjectContext, UserContext} from "../../../../context";
@@ -18,6 +18,7 @@ import {TableMenu} from "../../../../ui/styled/global";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import {DeleteOutline} from "@mui/icons-material";
 
 import client from "../../../../feathers";
 import dayjs from "dayjs";
@@ -28,6 +29,7 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("submitted");
 
   const handleCreateNew = async () => {
     showCreate();
@@ -54,17 +56,32 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     //
   };
 
-  const getPreAuth = useCallback(async () => {
+  const getPreAuth = async () => {
     setLoading(true);
+    let query={}
     if (user.currentEmployee) {
-      let query = {
-        "hmopayer._id": user.currentEmployee.facilityDetail._id,
+      if (status==="submitted"){
 
+     
+      query = {
+        "hmopayer._id": user.currentEmployee.facilityDetail._id,
+        status:"Submitted",
         $limit: 100,
         $sort: {
           createdAt: -1,
         },
-      };
+      };}else{
+
+        query = {
+          "hmopayer._id": user.currentEmployee.facilityDetail._id,
+          status: { $ne:"Submitted"},
+          $limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+        }
+
+      }
 
       if (client_id) {
         query = {
@@ -99,12 +116,40 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
         setLoading(false);
       }
     }
+  };
+
+  useEffect(() => {
+    getPreAuth();
+    preAuthServer.on("created", obj =>  getPreAuth());
+    preAuthServer.on("updated", obj =>  getPreAuth());
+    preAuthServer.on("patched", obj =>  getPreAuth());
+    preAuthServer.on("removed", obj =>  getPreAuth());
   }, []);
 
   useEffect(() => {
     getPreAuth();
-  }, [getPreAuth]);
+  }, [status]);
 
+const handleDelete=(row)=>{
+  let conf = window.confirm("Are you sure you want to delete this data?");
+
+  const dleteId = row._id;
+  if (conf) {
+    preAuthServer.remove(dleteId)
+      .then(res => {
+        toast.success("Data deleted succesfully");
+      
+      
+      })
+      .catch(err => {
+        // setMessage("Error deleting Client, probable network issues "+ err )
+        // setError(true)
+        toast.error("Error deleting Client, probable network issues or " + err);
+    
+      });
+  }
+
+}
   const returnCell = status => {
     switch (status.toLowerCase()) {
       case "approved":
@@ -124,6 +169,13 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     }
   };
 
+
+  const handleSubmitted=()=>{
+    setStatus("submitted")
+  }
+  const handleProcessed=()=>{
+    setStatus("processed")
+  }
   const preAuthColumns = [
     {
       name: "S/N",
@@ -260,6 +312,26 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
       required: true,
       inputType: "TEXT",
     },
+    {
+      name: "Del",
+      width: "50px",
+      center: true,
+      key: "contact_email",
+      description: "Enter Date",
+      selector: row => (
+        <IconButton
+          onClick={() => {
+           handleDelete(row)
+          }}
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
   ];
 
   const conditionalRowStyles = [
@@ -326,6 +398,16 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
                 />
               )}
             </Box>
+            <GlobalCustomButton
+                  onClick={handleSubmitted}
+                  color="secondary"
+                  text="Submitted"
+                />
+                <GlobalCustomButton
+                  onClick={handleProcessed}
+                  color="secondary"
+                  text="Processed"
+                />
           </TableMenu>
 
           <Box

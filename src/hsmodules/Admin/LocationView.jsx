@@ -46,11 +46,15 @@ const LocationView = ({ open, setOpen, location }) => {
   const [sublocationData, setSubLocationData] = useState([]);
   const [locationType, setLocationType] = useState(location.locationType);
   const [locationName, setLocationName] = useState(location.name);
+  const [locationBranch, setLocationBranch] = useState(location.branch);//
+  const [branch, setBranch] = useState([]);
 
   // const { state, setState } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
   const data = JSON.parse(result);
   const locationDetails = state.LocationModule.selectedLocation;
+  console.log("location:", state.LocationModule.selectedLocation)
 
   const locationTypeOptions = [
     "Front Desk",
@@ -63,6 +67,7 @@ const LocationView = ({ open, setOpen, location }) => {
     "Pharmacy",
     "Radiology",
     "Managed Care",
+    "Branch"
   ];
 
   // console.log("locationDetails", locationDetails);
@@ -85,6 +90,7 @@ const LocationView = ({ open, setOpen, location }) => {
     defaultValues: {
       name: location.name,
       locationType: location.locationType,
+      branch:location.branch,
       facility: data.currentEmployee.facility,
     },
   });
@@ -133,9 +139,29 @@ const LocationView = ({ open, setOpen, location }) => {
     },
   ];
 
+  const getBranch=async()=>{
+    await LocationServ.find({
+      query:{
+        facility: user.currentEmployee.facilityDetail._id,
+        locationType:"Branch"
+
+      }
+    }).then(resp=>{
+      setBranch(resp.data)
+      console.log(resp.data )
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+
+  }
   useEffect(() => {
+
+    getBranch()
+ 
     reset({
       name: location.name,
+      branch:location.branch,
       bandType: location.locationType,
       facility: data.currentEmployee.facility,
     });
@@ -186,6 +212,7 @@ const LocationView = ({ open, setOpen, location }) => {
     const data = {};
     // e.preventDefault();
     data.name = locationName;
+    data.branch=locationBranch
     data.locationType = locationType;
     data.sublocations = locationDetails.sublocations;
     setSuccess(false);
@@ -413,6 +440,45 @@ const LocationView = ({ open, setOpen, location }) => {
                   options={locationTypeOptions}
                   onChange={(e) => setLocationType(e.target.value)}
                   defaultValue={`${locationType}`}
+                />
+
+                {/* <CustomSelect
+                  label="Choose Location Type "
+                  name="type"
+                  options={locationTypeOptions}
+                  register={register("locationType")}
+                /> */}
+                {/* </div> */}
+              </div>
+            </div>
+          </Grid>
+        )}
+         {!editing ? (
+          <Grid item xs={6}>
+            <Input
+              label="Location Branch"
+              register={register("branch")}
+             /*  defaultValue={location?.branch} */
+              disabled={!editing}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={6}>
+            {/* <Input
+              label="Location Type"
+              register={register("locationType")}
+              // options={Location.sublocations}
+              // errorText={errors?.locationType?.message}
+            /> */}
+            <div className="field">
+              <div className="control">
+                {/* <div className="select"> */}
+                <CustomSelect
+                  label="Choose Branch "
+                  name="type"
+                  options={branch}
+                  onChange={(e) => setLocationBranch(e.target.value)}
+                 /*  defaultValue={`${locationBranch}`} */
                 />
 
                 {/* <CustomSelect

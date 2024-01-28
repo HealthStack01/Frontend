@@ -36,7 +36,8 @@ import { polygon } from "leaflet";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-
+const dataH = require("../../data/hci/NHIA-OTHERS.json"); 
+const dataD = require("../../data/hci/NHIA-DRUGS.json"); 
 //const data = require("../../data/hci/activeClients.json"); 
 
 //const data = require("../../data/hci/updatedproviders2.json"); 
@@ -349,7 +350,7 @@ export function BandList({ showCreateModal }) {
 
   useEffect(() => {
     //getFacilities();
-    //findstuff()
+    findstuff()
     
 
     BandServ.on("created", (obj) => getFacilities());
@@ -789,7 +790,7 @@ export function BandList({ showCreateModal }) {
        
       
      // console.log("end of page", q)
-     console.log("something",contentArray)
+    // console.log("something",contentArray)
      
       //provRef.current={}
    
@@ -810,7 +811,118 @@ export function BandList({ showCreateModal }) {
 
    
   };
+const updateNHisTariff =()=>{
+  let tariffList =[]
+  for (let p = 0 ; p <=dataH.length-1 ; p++){  //dataH.length-1
+    let service=dataH[p]
 
+    let  tarrifobj={
+      source_org: user.currentEmployee.facilityDetail._id, //writer -NHIS,HMO (NHIS is a plan though)
+      source_org_name:user.currentEmployee.facilityDetail.facilityName,
+      
+      serviceName:service.investigations,
+      serviceId:service["NHIS CODE"],
+      
+      price:+service.PRICE,
+      comments:"NHIA Service",
+      plans:[{
+        planName:"NHIS",
+        //planId:{ type: Schema.Types.ObjectId },
+       // benefit:{type: String},
+        //benefitId:{ type: Schema.Types.ObjectId },
+        //benefitcategory:{type: String},
+       // status:{ type: String },
+        feeForService:true,
+        capitation:false,
+        coPay:true,
+        copayDetail:service["% co pay"].toString(), //%
+        reqPA:true, 
+        covered:true,
+       // comments:{ type: String },
+       // band:{ type: String },
+       // bandId:{ type: Schema.Types.ObjectId },
+       }],
+
+     }
+  tariffList.push(tarrifobj) 
+    }
+  
+  console.log(tariffList.length)
+
+  for (let q = 0 ; q <=dataD.length-1 ; q++){  //
+    let service=dataD[q]
+
+    let  tarrifobj={
+      source_org: user.currentEmployee.facilityDetail._id, //writer -NHIS,HMO (NHIS is a plan though)
+      source_org_name:user.currentEmployee.facilityDetail.facilityName,
+      
+      serviceName: `${service["NAME OF MEDICINES"]}, ${service.STRENGTHS},  ${service["DOSAGE FORM"]}, ${service.PRESENTATION} `, //service.investigations,
+      serviceId:service["NHIS CODE"],
+      
+      price:+service.PRICE,
+      comments:"NHIA Drug",
+      plans:[{
+        planName:"NHIS",
+        //planId:{ type: Schema.Types.ObjectId },
+       // benefit:{type: String},
+        //benefitId:{ type: Schema.Types.ObjectId },
+        //benefitcategory:{type: String},
+       // status:{ type: String },
+        feeForService:true,
+        capitation:false,
+        coPay:true,
+        copayDetail:service["% co pay"]?service["% co pay"].toString():"0", //%
+        reqPA:true, 
+        covered:true,
+       // comments:{ type: String },
+       // band:{ type: String },
+       // bandId:{ type: Schema.Types.ObjectId },
+       }],
+
+     }
+     
+     tariffList.push(tarrifobj)
+}
+console.log("tarrif",tariffList.length)
+console.log(tariffList)
+TariffServ.find({
+  query: {
+    organizationId: user.currentEmployee.facilityDetail._id,
+    band:"NHIS",
+   
+    $sort: {
+      createdAt: -1,
+    },
+  },
+}).then(res => {
+  let findtariff=res.data[0]
+  let tariff=findtariff
+ console.log("data fetched");
+/*  console.log("NHIS",findtariff.data)
+
+ let oldcontract=tariff.contracts
+ let newcontract=tariffList
+ let contract=[...oldcontract,...newcontract] */
+ //console.log("combinedcontract",contract)
+ console.log("2",tariffList)
+  TariffServ.patch(tariff._id, {contracts:tariffList}).then(res => {
+  
+   console.log("done updating tariff")
+ 
+ })
+ .catch(err => {
+   
+   console.log("Error updating tariff, probable network issues or " + err);
+ }); 
+ 
+ 
+})
+.catch(err => {
+  
+  toast.error("Error updating Client, probable network issues or " + err);
+});
+
+}
 
 const extractdrugs=async(content)=>{
   let serviceList=[]
@@ -983,11 +1095,13 @@ function convertToPlainNumber(numberString) {
 
 
   const extractFacilities =(pdfContentx)=>{
+    //process upload of enrolee
    console.log("inside", pdfContentx)
     let facil=pdfContentx
 
     let hosplist=[]
     let patList=[]
+    let gimlist=[]
     let providerInfo={}
     let sheet={}
     const pattern = /^[A-Z]{2,3}\/\d{4}\/[A-Z]$/; //facilitycode
@@ -1025,8 +1139,8 @@ function convertToPlainNumber(numberString) {
         }
 
         if (pattern2.test(item.str)) {
-           console.log("firstpass" +i, item.str)
-           
+         // console.log("firstpass" +i, item.str)
+
           let currentPolicy={
             principal:{},
             dependents:[],
@@ -1036,149 +1150,50 @@ function convertToPlainNumber(numberString) {
            // provider:providerInfo
 
           }
+         // gimlist.push(currentPolicy)
+
+
          // console.log("policy@firstpass", currentPolicy)
           let  nchild=1
-          for (let n = i+1; n < sheet.content.items.length-1; n++) {
+          let statement=""
+          let shift=0
+           let keyword=items[i+1].str 
+           if(keyword==="GIFShip"){
+              shift=0
+           }else{
+            shift=1
+           }
+
+           let gimfis={
+            firstname:`${sheet.content.items[i+7+shift].str}`,
+            lastname:`${sheet.content.items[i+3+shift].str}`,
+            gender:`${sheet.content.items[i+5+shift].str}`,
+            dob:`${sheet.content.items[i+6+shift].str}`,
+            code:"GIFSHIP",
+            gifship:true,
+            policyNo:`${item.str}-0`
+
+          }
+
+          currentPolicy.principal=gimfis
+          providerInfo.patients.push(currentPolicy)
+          patList.push(currentPolicy)
+          gimlist.push(currentPolicy)
+
+
+         /*  for (let n = i+1; n < sheet.content.items.length-1; n++) {
             let stuff=sheet.content.items[n].str
-           if (stuff.includes("CHILD")) {
-             // console.log("child found") EXTRA 
-              stuff="Child"
-            }
-               if (stuff.includes("EXTRA")) {
-             // console.log("child found")  
-              stuff="Extra"
-            }
-            if (pattern2.test(stuff)){
-             // console.log("new family",n)
-              providerInfo.patients.push(currentPolicy)
-              patList.push(currentPolicy)
+            if(pattern2.test(stuff)){
               break
+            }{
+              statement= statement+" "+stuff+" "+"("+n+")"+" "
+             
             }
             
-            switch(stuff){
-              case 'PRINCIPAL':
-             //   console.log("principal",n)
-                let principal={
-                  firstname:`${sheet.content.items[n+7].str}`,
-                  lastname:`${sheet.content.items[n+2].str}`,
-                  gender:`${sheet.content.items[n+5].str}`,
-                  dob:`${sheet.content.items[n+6].str}`,
-                  code:`${sheet.content.items[n+4].str}`,
-                  policyNo:`${item.str}-0`
-
-                }
-                currentPolicy.principal=principal
-                if ((n+16)>=sheet.content.items.length-1){
-                  providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                }
-                // code block
-                break
-              case 'SPOUSE':
-               
-                let spouse={
-                  firstname:`${sheet.content.items[n+7].str}`,
-                  lastname:`${sheet.content.items[n+2].str}`,
-                  gender:`${sheet.content.items[n+5].str}`,
-                  dob:`${sheet.content.items[n+6].str}`,
-                  code:`${sheet.content.items[n+4].str}`,
-                  relationship:"Spouse",
-                  policyNo:`${item.str}-1`
-
-                }
-               // console.log("spouse",n)
-                currentPolicy.dependents.push(spouse)
-                if ((n+16)>=sheet.content.items.length-1){
-                  providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                }
-                // code block
-                break;
-              case 'Child':
-                 // console.log("child",n)
-                 nchild++
-                  let child={
-                    firstname:`${sheet.content.items[n+7].str}`,
-                    lastname:`${sheet.content.items[n+2].str}`,
-                    gender:`${sheet.content.items[n+5].str}`,
-                    dob:`${sheet.content.items[n+6].str}`,
-                    code:`${sheet.content.items[n+4].str}`,
-                    relationship:"Child",
-                    policyNo:`${item.str}-${nchild}`
-
-                  }
-                  
-                  currentPolicy.dependents.push(child)
-                  if ((n+16)>=sheet.content.items.length-1){
-                    //console.log("end of items  on page")
-                    providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                  }
-                  // code block
-                  break;
-                  case 'EXTRA':
-                 // console.log("child",n)
-                 nchild++
-                  let extra={
-                    firstname:`${sheet.content.items[n+7].str}`,
-                    lastname:`${sheet.content.items[n+2].str}`,
-                    gender:`${sheet.content.items[n+5].str}`,
-                    dob:`${sheet.content.items[n+6].str}`,
-                    code:`${sheet.content.items[n+4].str}`,
-                    relationship:"Extra Dependant",
-                    policyNo:`${item.str}-${nchild}`
-
-                  }
-                  
-                  currentPolicy.dependents.push(extra)
-                  if ((n+16)>=sheet.content.items.length-1){
-                    //console.log("end of items  on page")
-                    providerInfo.patients.push(currentPolicy)
-                  patList.push(currentPolicy)
-                  break
-                  }
-                  // code block
-                  break;
-              case 'GIFSHIP':
-                     console.log("GIFSHIP",n)
-                    let gimfis={
-                      firstname:`${sheet.content.items[n+6].str}`,
-                      lastname:`${sheet.content.items[n+2].str}`,
-                      gender:`${sheet.content.items[n+4].str}`,
-                      dob:`${sheet.content.items[n+5].str}`,
-                      code:"GIFSHIP",
-                      gifship:true,
-                      policyNo:`${item.str}-0`
-
-                    }
-
-                    currentPolicy.principal=gimfis
-                    if ((n+16)>=sheet.content.items.length-1){
-                      providerInfo.patients.push(currentPolicy)
-                     /*  let patinfo=currentPolicy
-                      patinfo.provider=providerInfo */
-                      patList.push(currentPolicy)
-                      break
-                    }
-                    // code block
-                    break
-            }
-            setPList(patList)
-            plistRef.current=patList
-        }
-
-
-        }
-        
-
-      }
-
-    }
-    console.log("hosp list",hosplist)
-    console.log("patient list",patList)
+          }
+          console.log("statement: ",statement)
+ */
+  
 //merge facilities
 
 
@@ -1187,6 +1202,15 @@ function convertToPlainNumber(numberString) {
 
 
   }
+}
+      }
+      setPList(patList)
+      plistRef.current=patList
+      console.log("hosp list",hosplist)
+      console.log("patient list",patList)
+      console.log("Gim list",gimlist)
+   //   check(hosplist) //uncomment for progress
+    }
 
 const check=async(hospList2)=>{
 
@@ -1279,7 +1303,8 @@ const check=async(hospList2)=>{
   }
 
   console.log("checked" ,hospList2)
- // createpolicy(hospList2) 
+ // createpolicy(hospList2)  //uncomment for progress
+
 
  
 }
@@ -1534,7 +1559,8 @@ const check=async(hospList2)=>{
                   /* provider.code=facilityinfo.code
                   provRef.current=provider */
                 }else{
-                 // console.log("creating new provider for :" +facilityinfo.code,facilityinfo.name)
+                  console.log("creating new provider for :" +facilityinfo.code,facilityinfo.name)
+                 
                 const rd=Math.floor(Math.random() * (100 - 10 + 1)) + 10;
                
                 //create new facility
@@ -1738,6 +1764,7 @@ const check=async(hospList2)=>{
 
 
     const createpolicy=async(provList)=>{
+    console.log("creating policy....")
           let policy={}
           let provider={}
           let newpol=0
@@ -1898,7 +1925,7 @@ const check=async(hospList2)=>{
                     .then((res) => {
                       newpol++
                       policyCountRef.current=newpol
-                    //console.log("policy created succesfully",res);
+                      console.log("policy created succesfully",newpol);//res
                     //console.log("policy #"+n,policy)
                     })
                     .catch((err) => {
@@ -2149,15 +2176,15 @@ findPolicy(people)
       <Box sx={{ gap:2}}>
       {/* <input type="number"  value={start} name="begin" onChange={(e)=> setStart(e.target.value) } />
       <input type="number" value={end} name="end" onChange={(e)=> setEnd(e.target.value) } /> */}
-     {/*  <GlobalCustomButton onClick={addNHIS}>
-         Add Policy detail
+      <GlobalCustomButton onClick={updateNHisTariff}>
+         Update NHIA Tariff
           <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
-        </GlobalCustomButton>   */}
+        </GlobalCustomButton>  
       </Box> 
-      <div className="text-extraction">
+ <div className="text-extraction">
       <h2>PDF Text Extraction</h2>
-      <input type="file" accept=".pdf" onChange={handleFileUpload} />
-      <button onClick={extractTextFromPDF}>Extract Text</button>
+          {/*  <input type="file" accept=".pdf" onChange={handleFileUpload} />
+      <button onClick={extractTextFromPDF}>Extract Text</button> */}
       <div className="extracted-text">
         <h3>Extracted Text:</h3>
         <Box sx={{

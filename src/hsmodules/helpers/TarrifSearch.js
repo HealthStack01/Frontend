@@ -190,7 +190,7 @@ console.log("band", band)
               setShowPanel(true);
             })
             .catch(err => {
-              toast.error("Error creating Services " + err)
+              toast.error("Error searching Services  or provider is not attached to a tarriff" + err)
              /*  toast({
                 message: "Error creating Services " + err,
                 type: "is-danger",
@@ -269,7 +269,7 @@ console.log("band", band)
       rende
       renderOption={(props, option) => (
         <li {...props} style={{fontSize: "0.75rem"}}>
-          {option.serviceName}-{option.price}
+         {option.serviceName}-{option.price}- Copay: {option.plans[0].copayDetail}% {option.serviceId}
         </li>
       )}
       freeSolo={false}

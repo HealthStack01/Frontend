@@ -166,6 +166,7 @@ export function LocationCreate({ open, setOpen }) {
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
+
     LocationServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
@@ -441,6 +442,17 @@ export function LocationList({ showCreateModal, showDetailModal }) {
       options: ["Front Desk", "Clinic", "Store", "Laboratory", "Finance"],
       validator: yup.string().required("Choose a Location Type"),
     },
+    {
+      name: "Location Branch",
+      key: "branch",
+      description: "Enter name of Location",
+      selector: (row) => row.branch,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+     // options: ["Front Desk", "Clinic", "Store", "Laboratory", "Finance"],
+      //validator: yup.string().required("Choose a Location Type"),
+    },
   ];
 
   return (
@@ -682,9 +694,10 @@ export function LocationDetail({ showModifyModal }) {
           </GlobalCustomButton>
         </BottomWrapper>
       </HeadWrapper>
-      <GridWrapper className="two-columns">
+      <GridWrapper className="four-columns">
         <ViewText label="Name" text={Location.name} />
         <ViewText label="Location Type" text={Location.locationType} />
+        <ViewText label="Branch" text={Location.branch} />
       </GridWrapper>
 
       {/* <Grid item xs={12} sm={3} md={4}>

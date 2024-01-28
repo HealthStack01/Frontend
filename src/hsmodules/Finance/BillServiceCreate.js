@@ -37,6 +37,7 @@ export default function BillServiceCreate() {
   //const ProductEntryServ=client.service('productentry')
   const OrderServ = client.service("order");
   const BillCreateServ = client.service("createbilldirect");
+  const locationServ =client.service("location")
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -67,6 +68,7 @@ export default function BillServiceCreate() {
   const [productModal, setProductModal] = useState(false);
   const [patient, setPatient] = useState("");
   const [contracts, setContracts] = useState("");
+  const [branch, setBranch] = useState("");
 
   const {state, setState} = useContext(ObjectContext);
   const inputEl = useRef(0);
@@ -134,7 +136,7 @@ export default function BillServiceCreate() {
     amount: calcamount, //||qamount
     baseunit,
     costprice,
-    category: category === "Inventory" ? "Prescription" : category,
+    category: category === "Inventory" ? "Prescription" : category, //consider change
     billingId,
     billingContract: contracts,
     billMode,
@@ -411,6 +413,7 @@ export default function BillServiceCreate() {
       " " +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
+   
     document.client = patient._id;
     document.clientname =
       patient.firstname + " " + patient.middlename + " " + patient.lastname;
@@ -465,6 +468,7 @@ export default function BillServiceCreate() {
           billingId: element.billingId,
           billingContract: element.billingContract,
           createdby: user._id,
+         
         },
         paymentInfo: {
           amountDue: element.amount,
@@ -479,6 +483,7 @@ export default function BillServiceCreate() {
           clientId: orderinfo.clientId,
           client: orderinfo.client,
           paymentmode: element.billMode,
+          branch:branch
         },
         createdBy: user._id,
         billing_status: "Unpaid", //mark as paid if non billing
@@ -491,8 +496,8 @@ export default function BillServiceCreate() {
       serviceList.push(items);
     });
 
-    console.log("==================");
-    console.log(document, serviceList);
+   // console.log("==================");
+   // console.log(document, serviceList);
 
     let confirm = window.confirm(
       `You are about to bill ${document.clientname} for ${serviceList.length} service(s)?`
@@ -658,9 +663,20 @@ export default function BillServiceCreate() {
     return () => {};
   }, [source]);
 
+
+  const findbranch =async()=>{
+
+    await locationServ.get(state.employeeLocation.locationId)
+    .then(resp=>{
+      setBranch(resp.branch)
+    })
+    .catch(err=>console.log(err))
+  }
+
   useEffect(() => {
-    console.log("startup");
+   // console.log("startup");
     // const medication =state.medicationModule.selectedMedication
+    findbranch()
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);

@@ -49,6 +49,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const [diagnosis, setDiagnosis] = useState([]);
   const [diagnosisModal, setDiagnosisModal] = useState(false);
   const [services, setServices] = useState([]);
+  const [currfac, setCurrFac] = useState();
   const [serviceModal, setServiceModal] = useState(false);
   const policyServer = client.service("policy");
   const [policy, setPolicy] = useState({});
@@ -132,24 +133,46 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   };
 
   const findCode = async () => {
+    //console.log("policy", policy)
+   console.log(currfac, policy.organizationId)
+   
     const code = await orgServer.find({
+      
       query: {
         facility: policy.organizationId, // hmo
-        organization: facility._id, //secondary org
+        organization: currfac, //secondary org
         relationshiptype: "managedcare", //
       },
     });
-    codeRef.current = "YS-1256" //code.data[0].code;
+    console.log("code", code)
+    codeRef.current = code.data[0].code; //"YS-1256" //
   };
 
   useEffect(() => {
+    // set policy
+   // console.log("starting")
+    let policydetail = state.ClientModule.selectedClient.paymentinfo
+    if (!!policydetail && policydetail.length>1){
+     let policyx=policydetail[1].policy
+     setPolicy(policyx)
+    }
+
+    if (isHMO){
+      setCurrFac(state.OrganizationModule.selectedOrganization._id)
+    }else{
+      setCurrFac(facility._id)
+    }
+   // console.log("policydetail", policydetail)
+    //[1].policy
+  
+
     //find provider code
     //get today's date
     //get employee code
     //get treatement code
     //get service code
     //get plan
-  }, []);
+  }, [state.ClientModule.selectedClient]);
 
   const getTotalClaimsAmount = useCallback(() => {
     if (services.length === 0) return;
@@ -158,7 +181,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
       return accumulator + object.amount;
     }, 0);
 
-    console.log(sum);
+    //console.log(sum);
 
     setValue("totalamount", sum);
   }, [services]);
@@ -197,7 +220,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   };
 
   const handleSelectOrg = organ => {
-    console.log("organization chosen", organ);
+   // console.log("organization chosen", organ);
     setState(prev => ({
       ...prev,
       OrganizationModule: {
@@ -274,6 +297,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
       .then(res => {
         hideActionLoader();
         toast.success("You have succesfully created a Claim");
+        handleGoBack()
       })
       .catch(err => {
         hideActionLoader();
@@ -318,7 +342,9 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         },
       })
       .then(res => {
+        if (res.data[0].services!==undefined){
         const data = res.data[0].services;
+
         const approvedServices = data.filter(
           item => item.status.toLowerCase() === "approved"
         );
@@ -326,6 +352,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         setServices([...approvedServices, ...services]);
         // setServices(prev => [...res.data[0].services, ...prev]);
         //console.log(res);
+        }
       });
   }, [state.ClientModule.selectedClient]);
 
@@ -540,20 +567,20 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         >
           <Grid container spacing={2} mb={2}>
            <Grid item lg={6} md={6} sm={6} xs={12}>
-           {user.currentEmployee.facilityDetail.facilityType === "HMO"?      
+       {/*     {user.currentEmployee.facilityDetail.facilityType === "HMO"?       */}
            <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
                 patient={beneficiary}
               /> 
-              :
+             {/*  :
               <ClientSearch
               clear={clearClientSearch}
               getSearchfacility={handleSelectClient}
               id={client_id}
               patient={beneficiary}
-            /> }
+            /> } */}
                {/* <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}
@@ -716,13 +743,13 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
           </Box>
 
           <Box mb={2}>
-            <TextAreaVoiceAndText
+           {/*  <TextAreaVoiceAndText
               label="Investigation"
               type={investigationInputType}
               changeType={setInvestigationInputType}
               register={register("investigation")}
               voiceOnChange={value => setValue("investigation", value)}
-            />
+            /> */}
             {/* <FormsHeaderText text="Investigation" />
 
             <Box>
@@ -734,13 +761,13 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
           </Box>
 
           <Box mb={2}>
-            <TextAreaVoiceAndText
+            {/* <TextAreaVoiceAndText
               label="Drugs"
               type={drugsInputType}
               changeType={setDrugsInputType}
               register={register("drugs")}
               voiceOnChange={value => setValue("drugs", value)}
-            />
+            /> */}
             {/* <FormsHeaderText text="Drugs" />
 
             <Box>
@@ -752,13 +779,13 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
           </Box>
 
           <Box mb={2}>
-            <TextAreaVoiceAndText
+            {/* <TextAreaVoiceAndText
               label="Treatments"
               type={treatmentInputType}
               changeType={setTreatmentInputType}
               register={register("treatment")}
               voiceOnChange={value => setValue("treatment", value)}
-            />
+            /> */}
             {/* <FormsHeaderText text="Treatment" />
 
             <Box>

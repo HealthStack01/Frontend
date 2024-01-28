@@ -54,7 +54,20 @@ const ClaimCreateServices = ({setServices, closeModal}) => {
   const handleGetService = data => {
     console.log(data);
     setService(data);
-    setValue("unitprice", data ? data.price : 0);
+    let amount=data.price
+    if (data.plans.length>0){
+
+   
+    let copay=data.plans[0].coPay
+    let copayAmount=+data.plans[0].copayDetail
+    
+    if (copay){
+      amount =data.price*(1-copayAmount)
+    }
+
+    console.log(copay,amount,copayAmount,data.price)
+  }
+    setValue("unitprice", data ? amount : 0);
   };
 
   const unitprice = watch("unitprice");

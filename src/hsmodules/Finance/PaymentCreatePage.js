@@ -50,6 +50,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const SubwalletServ = client.service("subwallet");
   const OrderServ = client.service("order");
   const InvoiceServ = client.service("invoice");
+  const locationServ =client.service("location")
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -90,6 +91,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const [depositModal, setDepositModal] = useState(false);
   const [walletProfile, setWalletProfile] = useState([]);
   const [createModal, setCreateModal] = useState(false);
+  const [branch, setBranch] = useState("");
   const handleCreateModal = () => {
     setCreateModal(true);
   };
@@ -355,7 +357,8 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   //initialize page
 
   useEffect(() => {
-    // const medication =state.medicationModule.selectedMedication
+    // const medication =state.medicationModule.selectedMedication\\
+    findbranch()
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
@@ -543,6 +546,9 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       facilityName: user.employeeData[0].facilityDetail.facilityName,
       subwallet: subWallet,
       amountPaid: totalamount,
+      paylocationName:state.employeeLocation.locationName,
+      paylocationId:state.employeeLocation.locationId,
+      payBranch:branch,
     };
 
     //console.log(obj)
@@ -565,6 +571,21 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         toast.error("Error occurred with payment" + err);
       });
   };
+
+  const findbranch =async()=>{
+    if (!!state.employeeLocation.locationId){  
+    await locationServ.get(state.employeeLocation.locationId)
+    .then(resp=>{
+      setBranch(resp.branch)
+      console.log(resp.branch)
+    })
+    .catch(err=>console.log(err))
+  }
+}
+useEffect(()=>{
+  findbranch()
+ 
+},[state.employeeLocation])
 
   const handleBulkPayment = async () => {
     //1. check if there is sufficient amount
@@ -736,7 +757,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       \x1B\x40
       \x1D\x56\x01
       `;
-      const cutcom = `\x1D\x56\x31`;
+      const cutcom = `\x1D\x56\x41`;
     const ESC_INIT = [0x1B, 0x40];
 
     let data = printText("simpa")
