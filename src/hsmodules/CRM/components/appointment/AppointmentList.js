@@ -365,7 +365,7 @@ const AppointmentList = ({openCreateModal, openDetailModal, isTab}) => {
       <Box
         sx={{
           width: "100%",
-          height: "calc(100% - 200px)",
+          height: "calc(100vh - 200px)",
           overflow: "auto",
         }}
       >

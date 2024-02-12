@@ -426,7 +426,7 @@ const ClosedDealsList = ({
               View Open Deals
             </GlobalCustomButton> */}
           </TableMenu>
-          <div style={{width: "100%", overflow: "auto"}}>
+          <div style={{width: "100%",  height:"calc(100vh - 180px)", overflow: "auto"}}>
             <CustomTable
               title={""}
               columns={closedDealColumns}

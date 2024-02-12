@@ -250,6 +250,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
       </Box>
 
       <Box>
+      <div style={{width: '100%',  height:"calc(100vh - 180px)", overflow: 'auto'}}>
         <CustomTable
           title={""}
           columns={ProposalSchema}
@@ -261,6 +262,7 @@ const ProposalList = ({showCreate, showDetail, isTab}) => {
           progressPending={loading}
           conditionalRowStyles={conditionalRowStyles}
         />
+        </div>
       </Box>
     </Box>
   );

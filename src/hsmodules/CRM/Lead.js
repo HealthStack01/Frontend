@@ -416,7 +416,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           <div
           className="level"
           style={{
-            height: "80vh",
+            height: "calc(100vh - 180px)",
             overflowY: "scroll",
           }}
         >

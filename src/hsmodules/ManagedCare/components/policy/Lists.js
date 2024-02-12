@@ -809,7 +809,7 @@ const PoliciesList = ({
           highlightOnHover
           striped
           onRowClicked={handleRow}
-          progressPending={isLoading}
+          //progressPending={isLoading}
           CustomEmptyData={
             status === "Approved"
               ? "No Approved Policies"

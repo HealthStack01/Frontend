@@ -37,7 +37,7 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
 
   const selectedemployee =(data)=>{
     setEmailBody(`<p>Please follow this <a style="color:red;" href=${`https://citizen-healthstack.netlify.app/corporate-beneficiary-signup/${invoiceId}/${planId}`}>LINK</a> 
-    to complete your registration as a beneficiary.Use your email to login, no passowrd required. You will setyur passowrd after you log in for the first time. <br>
+    to complete your registration as a beneficiary.Use your email to login, no passowrd required. You will set your passowrd after you log in for the first time. <br>
     Management </p>`)
     setSelectedEmployees(data)
   }
@@ -58,6 +58,8 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
       await setConfig(findConfig.data);
       //console.log(findConfig.data)
     }
+
+
   const handleUpdatePlan = async data => {
     showActionLoader();
     const employee = user.currentEmployee;
@@ -141,17 +143,57 @@ const SendPlanDetail = ({updatePlan, closeModal}) => {
     const invoice=state.InvoiceModule.selectedInvoice
     setPlanId(plan._id)
     setInvoiceId(invoice._id)
+   // console.log("plan",plan)
+   // console.log("invoice",invoice)
    
     reset(plan);
   }, []);
 
+  const useHMOconfig= async()=>{
+    const invoice1=state.InvoiceModule.selectedInvoice
+    const findConfig = await facilityConfigServer.find({
+      query: {
+        organizationId: invoice1.facility._id,
+        $limit: 200,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
+
+    await setConfig(findConfig.data);
+  }
+/*   useEffect(async() => {
+    if (config.length===0){
+      //toast.error("Email configuation missing! kindly set email configuration in Admin module")
+
+    
+    //get hmo config
+  useHMOconfig()
+  }
+  }, [config]); */
+
+ /*  useEffect(() => {
+    if (!selectedEmail){
+      toast.error("Email component missing")
+
+    }
+   
+  }, [selectedEmail]); */
+
 
 const  handlesendlink =async ()=>{
+  if (config.length===0){
+    toast.error("Email configuation missing! kindly set email configuration in Admin module")
+    useHMOconfig()
+  }
 
   if(config.length>0){
+   // console.log("selected email",config[0].emailConfig.username )
     setSelectedEmail(config[0].emailConfig.username)
    
   }else{
+    //set default email from hmo
     toast.error("Email Configuration not set")
     return
   }
@@ -171,14 +213,14 @@ const  handlesendlink =async ()=>{
     to: el.email, //destinationEmail,
     name: user.currentEmployee.facilityDetail.facilityName,
     subject: "Create your account",
-    from: selectedEmail,
+    from: selectedEmail?selectedEmail:"telesales@hcihealthcare.ng",
   }
  
   const facility = user.currentEmployee.facilityDetail;
  
 
  document = {
-    organizationId: facility._id,
+    organizationId: facility._id, //need to replace this with hmo 
     organizationName: facility.facilityName,
     html: emailBody,
     text: "",

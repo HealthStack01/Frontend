@@ -1797,7 +1797,7 @@ export function ClientModify() {
             <div className="field">
               <input
                 name="start_time"
-                {...register("x", {required: true})}
+                {...register("start_time", {required: true})}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1811,7 +1811,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     /* name="type" */ /* value={appointment_type} */ name="appointment_type"
-                    {...register("x", {required: true})}
+                    {...register("appointment_type", {required: true})}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -1868,7 +1868,7 @@ export function ClientModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  {...register("billingservice")}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"

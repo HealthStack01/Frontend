@@ -330,18 +330,32 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const checkForPreauthorization = useCallback(() => {
     if (!state.ClientModule.selectedClient._id) return;
     setPreAuthServices([]);
-    preAuthServer
-      .find({
-        query: {
-          "provider._id": user.currentEmployee.facilityDetail._id,
-          "beneficiary._id": state.ClientModule.selectedClient?._id,
-          $limit: 100,
-          $sort: {
-            createdAt: -1,
-          },
+    let query={}
+    if (isHMO){
+      query= {
+       // "provider._id": user.currentEmployee.facilityDetail._id,
+        "beneficiary._id": state.ClientModule.selectedClient?._id,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
         },
-      })
+      }
+
+    }else{
+      query= {
+        "provider._id": user.currentEmployee.facilityDetail._id,
+        "beneficiary._id": state.ClientModule.selectedClient?._id,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      }
+    }
+
+    preAuthServer
+      .find({query})
       .then(res => {
+        console.log("auth" , res)
         if (res.data[0].services!==undefined){
         const data = res.data[0].services;
 
@@ -352,6 +366,10 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         setServices([...approvedServices, ...services]);
         // setServices(prev => [...res.data[0].services, ...prev]);
         //console.log(res);
+        //check for utilization!
+        }else{
+          toast.error("Client does not any active approved preauthorization")
+        
         }
       });
   }, [state.ClientModule.selectedClient]);

@@ -79,14 +79,14 @@ export const PageCreatePlan = ({addNewPlan}) => {
     //console.log(premium);
     if (!premium || !calendrical || !length || !heads) return;
 
-    if (calendrical === "Month(s)") {
+    if (calendrical === "Year(s)") {
       const amount = Number(premium) * Number(length);
       //console.log(amount);
       const headsAmount = Number(amount) * Number(heads);
       setValue("amount", headsAmount);
     } else {
       const numOfYears = length;
-      const numOfYearsToMonths = 12 * Number(length);
+      const numOfYearsToMonths =  Number(length)/12;
 
       const amount = Number(premium) * Number(numOfYearsToMonths);
       const headsAmount = Number(amount) * Number(heads);

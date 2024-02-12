@@ -278,7 +278,11 @@ const OpenDealsList = ({
               </GlobalCustomButton>
             </Box>
           </TableMenu>
-          <div style={{width: "100%", overflow: "auto"}}>
+          <div style={{
+          width: "100%", 
+          overflow: "auto",
+          height:"calc(100vh - 180px)"
+          }}>
             <CustomTable
               title={""}
               columns={dealsColumns}

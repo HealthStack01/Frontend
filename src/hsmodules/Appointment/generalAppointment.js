@@ -655,7 +655,13 @@ export function ClientList({showModal, setShowModal}) {
       show: "create",
     };
     setState(prevstate => ({...prevstate, ClientModule: newClient}));
-    return () => {};
+    return () => {
+      ClientServ.removeListner("created", obj => handleCalendarClose());
+      ClientServ.removeListener("updated", obj => handleCalendarClose());
+      ClientServ.removeListener("patched", obj => handleCalendarClose());
+      ClientServ.removeListener("removed", obj => handleCalendarClose());
+
+    };
   }, []);
 
   const handleCalendarClose = useCallback(async () => {

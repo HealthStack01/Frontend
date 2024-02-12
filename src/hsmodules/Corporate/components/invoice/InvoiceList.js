@@ -33,7 +33,11 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 		const res = await dealServer.find({
 			query: {
 				customerId: facId,
-				approved:true
+				$or:[
+					{approved:true},
+					{status:"Approved"}
+				]
+				
 			},
 		});
 

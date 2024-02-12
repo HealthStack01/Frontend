@@ -1,9 +1,11 @@
 import {useState, useContext, useEffect, useCallback} from 'react';
-
+import {Box, Typography, IconButton} from "@mui/material";
 import {UserContext, ObjectContext} from '../../../../context';
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
+import {DeleteOutline} from "@mui/icons-material";
 import GlobalCustomButton from '../../../../components/buttons/CustomButton';
 import CustomTable from '../../../../components/customtable';
+import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import {TableMenu} from '../../../../ui/styled/global';
 import {PageWrapper} from '../../../app/styles';
@@ -23,15 +25,25 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	const [startDate, setStartDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
 	const [invoices, setInvoices] = useState([]);
+	const [confirmDialog, setConfirmDialog] = useState({
+		open: false,
+		message: "",
+		type: "",
+		action: null,
+	  });
 
-	const getInvoicesForPage = useCallback(async () => {
+	const getInvoicesForPage = async() => {
 		const testId = '60203e1c1ec8a00015baa357';
 		const facId = user.currentEmployee.facilityDetail._id;
-		setLoading(true);
+		//console.log(facId)
+		//setLoading(true);
 
 		const res = await dealServer.find({
 			query: {
 				facilityId: facId,
+				$sort: {
+					createdAt: -1,
+				  },
 			},
 		});
 
@@ -44,7 +56,18 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 		await setInvoices(invoices.flat(1));
 
 		setLoading(false);
-	}, []);
+	}
+	//, []);
+
+
+	useEffect(() => {
+		getInvoicesForPage();
+	
+		dealServer.on("created", obj => getInvoicesForPage());
+		dealServer.on("updated", obj => getInvoicesForPage());
+		dealServer.on("patched", obj => getInvoicesForPage());
+		dealServer.on("removed", obj => getInvoicesForPage());
+	  }, []);
 
 	useEffect(() => {
 		if (isTab) {
@@ -56,6 +79,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 	}, [state.DealModule, getInvoicesForPage, isTab]);
 
 	const handleRow = async data => {
+		
 		if (isTab) {
 			setState(prev => ({
 				...prev,
@@ -97,6 +121,60 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 		}
 	};
 
+
+	const handleDeleteTariff = async tariff => {
+		//showActionLoader();
+	const deldeal=	await	dealServer
+		  .find({
+			query:{
+			 'invoices._id':tariff._id
+			}
+		  })
+	//console.log(deldeal)
+	//console.log(tariff._id)
+
+	
+	let delInvoice=deldeal.data[0]
+	const newInvoices = delInvoice.invoices.filter(
+		item => item._id !== tariff._id
+	  );
+	//delete delInvoice.invoices
+	//console.log(delInvoice._id, newInvoices)
+	
+	await	dealServer
+		  .patch(delInvoice._id,{invoices:newInvoices})
+		  .then(res => {
+
+			hideActionLoader();
+			cancelConfirmDialog();
+			toast.success("You've succesfully deleted an invoicce");
+			//console.log(res)
+		  })
+		  .catch(error => {
+			hideActionLoader();
+			cancelConfirmDialog();
+			toast.error(`Failed to delete Invoice - ${error}`);
+		  });
+	  };
+	
+	  const confirmDeleteTariff = tariff => {
+		setConfirmDialog({
+		  open: true,
+		  message: `You're about to delete an invoice`,
+		  type: "danger",
+		  action: () => handleDeleteTariff(tariff),
+		});
+	  };
+
+	  const cancelConfirmDialog = () => {
+		setConfirmDialog({
+		  open: false,
+		  message: "",
+		  type: "",
+		  action: null,
+		});
+	  };
+	
 	const InvoiceSchema = [
 		{
 			name: 'S/N',
@@ -170,7 +248,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 			key: 'plan',
 			description: 'Enter bills',
 			selector: row => (
-				<List
+				<List 
 					sx={{
 						listStyleType: 'disc',
 						pl: 2,
@@ -178,8 +256,8 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 							display: 'list-item',
 						},
 					}}>
-					{row.plans.map(item => (
-						<ListItem
+					{row.plans.map(item=> (
+						<ListItem key={item._id}
 							sx={{
 								margin: 0,
 							}}>
@@ -212,12 +290,37 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 			required: true,
 			inputType: 'TEXT',
 		},
+		{
+			name: "Delete",
+			center: true,
+			key: "delete",
+			/* omit: provider, */
+			description: "Delete row",
+			selector: (row, index) => (
+			  <IconButton
+				sx={{color: "red"}}
+				onClick={() => confirmDeleteTariff(row)}
+			  >
+				<DeleteOutline fontSize="small" />
+			  </IconButton>
+			),
+			sortable: true,
+			required: true,
+			inputType: "NUMBER",
+		  },
 	];
 
 	return (
 		<>
 			<div className='level'>
 				<PageWrapper style={{flexDirection: 'column', padding: '0.6rem 1rem'}}>
+				<CustomConfirmationDialog
+					open={confirmDialog.open}
+					message={confirmDialog.message}
+					type={confirmDialog.type}
+					confirmationAction={confirmDialog.action}
+					cancelAction={cancelConfirmDialog}
+				/>
 					<TableMenu>
 						<div style={{display: 'flex', alignItems: 'center'}}>
 							{handleSearch && (
@@ -238,7 +341,7 @@ const InvoiceList = ({showCreateView, showDetailView, isTab}) => {
 							</GlobalCustomButton>
 						)}
 					</TableMenu>
-					<div style={{width: '100%', overflow: 'auto'}}>
+					<div style={{width: '100%',  height:"calc(100vh - 180px)", overflow: 'auto'}}>
 						<CustomTable
 							title={''}
 							columns={InvoiceSchema}

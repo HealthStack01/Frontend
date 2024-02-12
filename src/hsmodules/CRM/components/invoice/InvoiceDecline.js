@@ -42,6 +42,7 @@ const InvoiceDeclineReason = ({closeModal}) => {
     const newInvoiceDetail = {
       ...invoiceDetail,
       status: "Declined",
+      approved:false,
       statusHx: [newStatusHistory, ...oldStatusHistory],
     };
 

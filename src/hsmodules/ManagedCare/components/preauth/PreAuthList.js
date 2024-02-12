@@ -124,6 +124,12 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     preAuthServer.on("updated", obj =>  getPreAuth());
     preAuthServer.on("patched", obj =>  getPreAuth());
     preAuthServer.on("removed", obj =>  getPreAuth());
+    return () => {
+      preAuthServer.removeListener('created',  obj =>  getPreAuth());
+      preAuthServer.removeListener('updated', obj =>  getPreAuth());
+      preAuthServer.removeListener('patched',  obj =>  getPreAuth());
+      preAuthServer.removeListener('removed',  obj =>  getPreAuth());
+    };
   }, []);
 
   useEffect(() => {
@@ -425,7 +431,7 @@ const handleDelete=(row)=>{
               highlightOnHover
               striped
               onRowClicked={handleRow}
-              progressPending={loading}
+              //progressPending={loading}
               //conditionalRowStyles={conditionalRowStyles}
             />
           </Box>
