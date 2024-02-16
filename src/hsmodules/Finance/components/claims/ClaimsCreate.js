@@ -117,7 +117,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     let HMOcode = "HM004";
     let providerCode = codeRef.current;
     let todaydate = `${day}/${month}/${year}`;
-    let servicecode = generateRandomString(4);
+    let servicecode = generateRandomString(4); ///get service code
     let agentcode = `${user.currentEmployee.firstname.slice(2)}.${
       user.currentEmployee.lastname
     }`;
@@ -139,7 +139,8 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         relationshiptype: "managedcare", //
       },
     });
-    codeRef.current = "YS-1256" //code.data[0].code;
+    console.log("code", code)
+    codeRef.current = code.data[0].code;
   };
 
   useEffect(() => {

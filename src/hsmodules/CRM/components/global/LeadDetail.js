@@ -176,12 +176,15 @@ export const PageLeadDetailView = () => {
 	const {user} = useContext(UserContext);
 	const [currentStatus, setCurrentStatus] = useState('');
 
+	const scoredetail= state.DealModule.selectedDeal.opportunityScore
+
 	const udpateLead = async data => {
 		showActionLoader();
 		const employee = user.currentEmployee;
 		const documentId = state.DealModule.selectedDeal._id;
 		const currentDeal = state.DealModule.selectedDeal;
 		const prevStatusHistory = state.DealModule.selectedDeal.statushx || [];
+		
 
 		const dealinfo = {
 			probability: data.probability,
@@ -428,10 +431,49 @@ export const PageLeadDetailView = () => {
 						disabled={true}
 						type='number'
 					/>
+					
+				</Grid>
+				<Grid
+					item
+					lg={3}
+					md={4}
+					sm={6}
+					xs={8}>
+					<Input
+						//register={register('weightForecast', {required: true})}
+						label='Opportunity Score'
+						value={scoredetail?.total}
+						disabled={true}
+						type='number'
+					/>
+					
+				</Grid>
+				<Grid
+					item
+					lg={3}
+					md={4}
+					sm={6}
+					xs={8}>
+					<Input
+						//register={register('weightForecast', {required: true})}
+						label='Opportunity Assessment'
+						value={scoredetail?.assessment}
+						disabled={true}
+						type='text'
+					/>
+					
+				</Grid>
+				<Grid
+					item
+					lg={2}
+					md={3}
+					sm={4}
+					xs={6}>
+					
 					<GlobalCustomButton
 						color='error'
 						onClick={() => setScore(true)}>
-						Opportunity Score
+						Opportunity Score 
 					</GlobalCustomButton>
 				</Grid>
 
@@ -490,6 +532,7 @@ export const Opportunity = ({addInfo, closeModal}) => {
 	const [total, setTotal] = useState(0);
 	const [assessment, setAssessment] = useState("");
 	const totalRef=useRef(0)
+	const scoredetail= state.DealModule.selectedDeal.opportunityScore
 	// const handleAddInfo = data => {
 	//   const newData = {
 	//     created_by: "Sulaimon Olaniran",
@@ -511,13 +554,13 @@ export const Opportunity = ({addInfo, closeModal}) => {
 	  }, [state.DealModule.selectedDeal?.opportunityScore.total, state.DealModule.selectedDeal?.opportunityScore.answers]);  */
 	const updateScore = async data => {
 	  //if (total === 0) return toast.error("Please provide your information");
-	  showActionLoader();
+	 // showActionLoader();
   
 	  const employee = user.currentEmployee;
   
 	  const newScore = {
 		total: total,
-		answer: answer,
+		answer: answers,
 		assessment: assessment,
 		date: new Date(),
 		employeename: `${employee.firstname} ${employee.lastname}`,
@@ -793,6 +836,17 @@ export const Opportunity = ({addInfo, closeModal}) => {
 
 		//setAssessment("Something to do")
 	  }, [answers, questions]);
+
+
+	  useEffect(() => {
+		const scoredetails= state.DealModule.selectedDeal.opportunityScore
+		setAnswers(scoredetails.answer)
+		setTotal(scoredetails.total);
+		
+    	setAssessment(scoredetails.assessment);
+
+		//setAssessment("Something to do")
+	  }, []);
 	
 	
 
