@@ -840,11 +840,17 @@ export const Opportunity = ({addInfo, closeModal}) => {
 
 	  useEffect(() => {
 		const scoredetails= state.DealModule.selectedDeal.opportunityScore
-		setAnswers(scoredetails.answer)
-		setTotal(scoredetails.total);
+		if (!!scoredetails){
+			setAnswers(scoredetails.answer)
+			setTotal(scoredetails.total);
+			setAssessment(scoredetails.assessment);
+		}
+	/* 	if (!!scoredetails.total){
 		
-    	setAssessment(scoredetails.assessment);
-
+		}
+		if (!!scoredetails.assessment){
+    
+		} */
 		//setAssessment("Something to do")
 	  }, []);
 	
