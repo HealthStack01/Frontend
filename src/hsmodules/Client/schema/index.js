@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import moment from "moment";
-import {formatDistanceToNowStrict} from "date-fns";
+import { formatDistanceStrict} from "date-fns";
 import dayjs from "dayjs";
 import {Box} from "@mui/system";
 import {Avatar, Typography} from "@mui/material";
@@ -111,7 +111,8 @@ export const ClientMiniSchema = [
     name: "Age",
     key: "dob",
     description: "Date of Birth",
-    selector: row => formatDistanceToNowStrict(new Date(row.dob)),
+   // selector: row => formatDistanceToNowStrict(new Date(row.dob)),
+   selector: row => (row.dob? formatDistanceStrict(new Date(row.dob),new Date(),{roundingMethod:"floor"}):""),
     sortable: true,
     required: true,
     inputType: "TEXT",

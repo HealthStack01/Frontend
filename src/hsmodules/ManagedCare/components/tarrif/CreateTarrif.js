@@ -16,6 +16,7 @@ import Input from "../../../../components/inputs/basic/Input";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import {AddServicePlan} from "./Services";
 import ModalBox from "../../../../components/modal";
+import UploadTarrifComponent from "../../UploadTarrif"
 
 const CreateTariff = ({goBack}) => {
   const bandServer = client.service("bands");
@@ -169,6 +170,7 @@ export default CreateTariff;
 const CreateTariffServicesList = ({services, setServices}) => {
   const [selectedService, setSelectedService] = useState(null);
   const [addServiceModal, setAddServiceModal] = useState(false);
+  const [importModal, setImportModal] = useState(false);
 
   const deleteService = service => {
     setServices(prev =>
@@ -240,6 +242,16 @@ const CreateTariffServicesList = ({services, setServices}) => {
           setServices={setServices}
         />
       </ModalBox>
+      <ModalBox
+        open={importModal}
+        onClose={() => setImportModal(false)}
+        header={`Import Tarrif Services`}
+      >
+        <UploadTarrifComponent
+         closeModal={() => setImportModal(false)}
+          setServices={setServices}
+        />
+      </ModalBox>
       <Box
         sx={{
           display: "flex",
@@ -252,6 +264,9 @@ const CreateTariffServicesList = ({services, setServices}) => {
 
         <GlobalCustomButton onClick={() => setAddServiceModal(true)}>
           Add New Service
+        </GlobalCustomButton>
+        <GlobalCustomButton onClick={() => setImportModal(true)}>
+          Import Services
         </GlobalCustomButton>
       </Box>
 

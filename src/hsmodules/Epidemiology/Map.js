@@ -88,7 +88,7 @@ import { Icon } from "leaflet";
 });
 L.Marker.prototype.options.icon = DefaultIcon; */
 
-const data = require("./nigeriahealthfacilities.json");
+const data =[]// require("./nigeriahealthfacilities.json");
 const epidalerts=""
 
 function Mapper() {

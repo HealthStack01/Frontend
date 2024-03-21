@@ -155,6 +155,7 @@ const PoliciesList = ({
   };
 
   const getPolicies = useCallback(async () => {
+    console.log(user.currentEmployee.facilityDetail._id,user.currentEmployee.facilityDetail.facilityName )
     setLoading(true);
     let query = {
       $or: [

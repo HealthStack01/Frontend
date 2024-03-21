@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
-import {formatDistanceToNowStrict} from "date-fns";
+import {formatDistanceToNowStrict, formatDistanceToNow, formatDistanceStrict} from "date-fns";
 import VideoConference from "../utils/VideoConference";
 
 
@@ -424,7 +424,9 @@ const checkpolicy=async ()=>{
                     <div className="user-outline">
                       <span>
                         <time dateTime="2016-1-1">
-                          {dob && formatDistanceToNowStrict(new Date(dob))}
+                          {/* {dob && formatDistanceToNowStrict(new Date(dob))} */}
+
+                            {dob && formatDistanceStrict(new Date(dob),new Date(),{roundingMethod:"floor"})}
                         </time>{" "}
                         {gender} {maritalstatus} {religion} {profession}
                         <br />

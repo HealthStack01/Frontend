@@ -22,6 +22,7 @@ interface componentProps {
   value?: any;
   important?: boolean;
   required?: boolean;
+  views?:any
 }
 
 const MuiCustomDatePicker = ({
@@ -36,6 +37,7 @@ const MuiCustomDatePicker = ({
   value,
   important,
   required,
+  views,
 }: componentProps) => {
   //const [value, setValue] = React.useState(null);
 
@@ -112,6 +114,7 @@ const MuiCustomDatePicker = ({
             }
             value={value}
             inputFormat={format}
+            views={views}
             onChange={data => onChange(data.$d)}
             ref={ref}
             disabled={disabled}

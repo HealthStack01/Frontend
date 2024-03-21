@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback, useContext, useRef} from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import {TextField,  Box, Grid, Typography} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
@@ -19,6 +19,7 @@ import ClaimCreateComplaint from "./Complaints";
 import ClaimCreateDiagnosis from "./Diagnosis";
 import ClaimCreateService from "./Services";
 import {generateRandomString} from "../../../helpers/generateString";
+
 
 import {
   getComplaintColumns,
@@ -67,7 +68,10 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const [clients, setClients] = useState([]);
   const claimIdRef = useRef();
   const codeRef = useRef();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [totalAmount, setTotalAmount] = useState('');
 
+ 
   const {control, handleSubmit, register, reset, watch, setValue} = useForm({
     defaultValues: {
       claimtype: "Fee for Service",
@@ -238,6 +242,8 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   const servicesColumns = getServicesColumns();
 
   const handleCreateClaim = async data => {
+    /* console.log(data)
+    return */
     if (!state.ClientModule.selectedClient._id)
       return toast.warning("Please add Client..");
 
@@ -247,6 +253,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     const facility = employee.facilityDetail;
 
     const clinical_data = data;
+    
 
     //REMOVE DATA THAT'S ALREADY IN CLAIM'S OBJECT
     // delete clinical_data.totalamount;
@@ -279,6 +286,8 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
       claimid: claimIdRef.current,
       appointmentid: selectedAppointment,
       admissionid: selectedAdmission,
+      month:data.monthyear,
+      proposedamount:data.proposedamount,
       geolocation: {
         type: "Point",
         coordinates: [state.coordinates.latitude, state.coordinates.longitude],
@@ -452,6 +461,13 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         setFetchingClients(false);
         toast.error("An error occured, check your network");
       });
+  };
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleAmountChange = (event) => {
+    setTotalAmount(event.target.value);
   };
 
   return (
@@ -646,7 +662,39 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                 ]}
               />
             </Grid>
+            <Grid item sm={6} xs={12}>
+                <MuiCustomDatePicker
+                  control={control}
+                  name="monthyear"
+                  label="Month and Year"
+                  views={['month', 'year']} 
+                />
+              </Grid>
+        {/*     <Grid item xs={12} sm={6}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              views={['year', 'month']}
+              openTo="month"
+              label="Select Month and Year"
+              value={selectedDate}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider> 
+        </Grid> */}
           </Grid>
+    {/* <Grid container spacing={2}>
+        
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Total Amount"
+            type="number"
+            value={totalAmount}
+            onChange={handleAmountChange}
+            fullWidth
+          />
+        </Grid>
+      </Grid> */}
 
           {/* {patientState === "inpatient" && (
             <Grid container spacing={2} mb={2}>
@@ -834,12 +882,20 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                 />
               </Grid>
 
-              <Grid item xs={6}>
+              <Grid item xs={3}>
                 <Input
                   label="Total Claim's Amount"
                   disabled
                   type="number"
                   register={register("totalamount")}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label="Proposed Claim's Amount"
+                  
+                  type="number"
+                  register={register("proposedamount")}
                 />
               </Grid>
             </Grid>
