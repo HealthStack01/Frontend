@@ -340,22 +340,22 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
         />
       </ModalBox>
 
-      <ModalBox
+     {/*  <ModalBox
         open={appointmentModal}
         onClose={() => setAppointmentModal(false)}
         header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
       >
         <SelectAppointment selectAppointment={handleSelectAppointment} />
-      </ModalBox>
+      </ModalBox> */}
 
-      <ModalBox
+     {/*  <ModalBox
         open={admissonModal}
         onClose={() => setAdmissionModal(false)}
         header={`Admission Orders for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
       >
         <SelectAdmission selectAdmission={handleSelectAdmission} />
       </ModalBox>
-
+ */}
       <ModalBox
         open={serviceModal}
         onClose={() => setServiceModal(false)}
@@ -512,7 +512,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
             </Grid>
           </Grid>
 
-          {patientState === "inpatient" && (
+          {/* {patientState === "inpatient" && (
             <Grid container spacing={2} mb={2}>
               <Grid item sm={6} xs={12}>
                 <MuiCustomDatePicker
@@ -530,7 +530,7 @@ const PreAuthCreateComponent = ({handleGoBack, client_id}) => {
                 />
               </Grid>
             </Grid>
-          )}
+          )} */}
 
           <Box mb={2}>
             <Box

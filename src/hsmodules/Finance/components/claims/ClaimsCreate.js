@@ -430,7 +430,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         />
       </ModalBox>
 
-      <ModalBox
+    {/*   <ModalBox
         open={appointmentModal}
         onClose={() => setAppointmentModal(false)}
         header={`Appointments for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
@@ -444,7 +444,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         header={`Admission Orders for ${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
       >
         <SelectAdmission selectAdmission={handleSelectAdmission} />
-      </ModalBox>
+      </ModalBox> */}
 
       <ModalBox
         open={diagnosisModal}
@@ -541,20 +541,20 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         >
           <Grid container spacing={2} mb={2}>
            <Grid item lg={6} md={6} sm={6} xs={12}>
-           {user.currentEmployee.facilityDetail.facilityType === "HMO"?      
+          {/*  {user.currentEmployee.facilityDetail.facilityType === "HMO"?   */}    
            <BeneficiarySearch
                 clear={clearClientSearch}
                 getSearchfacility={handleSelectClient}
                 id={client_id}
                 patient={beneficiary}
               /> 
-              :
+             {/*  :
               <ClientSearch
               clear={clearClientSearch}
               getSearchfacility={handleSelectClient}
               id={client_id}
               patient={beneficiary}
-            /> }
+            />  */}{/* } */}
                {/* <ReactCustomSearchSelectComponent
                 control={control}
                 onInputChange={handleClientSearch}
@@ -603,7 +603,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
               />
             </Grid>
           </Grid>
-
+{/* 
           {patientState === "inpatient" && (
             <Grid container spacing={2} mb={2}>
               <Grid item sm={6} xs={12}>
@@ -622,7 +622,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
                 />
               </Grid>
             </Grid>
-          )}
+          )} */}
 
           <Box mb={2}>
             <Box

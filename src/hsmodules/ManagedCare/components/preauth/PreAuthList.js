@@ -35,8 +35,12 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     showCreate();
   };
 
-  const handleRow = item => {
+  const handleRow =async pa => {
     //return console.log(item);
+    console.log("started single item",new Date())
+   const item = await preAuthServer.get(pa._id)
+console.log (item)
+console.log("finished single item",new Date())
     setState(prev => ({
       ...prev,
       PreAuthModule: {
@@ -62,23 +66,32 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     if (user.currentEmployee) {
       if (status==="submitted"){
 
-     
+     console.log("started",new Date())
       query = {
         "hmopayer._id": user.currentEmployee.facilityDetail._id,
         status:"Submitted",
-        $limit: 100,
+        $limit: 10,
         $sort: {
           createdAt: -1,
         },
+        $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+       /*  $populate:[
+          {
+            path: 'beneficiary',
+           select: ['firstname', 'lastname']
+          }
+        ]
+ */
       };}else{
 
         query = {
           "hmopayer._id": user.currentEmployee.facilityDetail._id,
           status: { $ne:"Submitted"},
-          $limit: 100,
+          $limit: 10,
           $sort: {
             createdAt: -1,
           },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
         }
 
       }
@@ -86,20 +99,27 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
       if (client_id) {
         query = {
           "beneficiary._id": client_id,
-          "provider._id": user.currentEmployee.facilityDetail._id,
+          //"provider._id": user.currentEmployee.facilityDetail._id,
 
           $limit: 100,
           $sort: {
             createdAt: -1,
           },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
         };
       }
+    await  preAuthServer.find({query: query})
+      .then(resp=>{
+        setPreAuths(resp.data);
+        setLoading(false);
+        console.log(resp);
+      })
+      .catch(err=>console.log(err))
 
-      const resp = await preAuthServer.find({query: query});
 
-      setPreAuths(resp.data);
-      setLoading(false);
-      console.log(resp);
+     // const resp = await preAuthServer.find({query: query});
+      console.log("finished",new Date())
+     
       //console.log(resp.data);
     } else {
       if (user.stacker) {

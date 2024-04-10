@@ -67,6 +67,7 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
   const [productModal, setProductModal] = useState(false);
 
   const dropDownRef = useRef(null);
+  const isHMO = user.currentEmployee.facilityDetail.facilityType === "HMO";
 
   const handleRow = async obj => {
     await setChosen(true);
@@ -80,7 +81,15 @@ export default function TarrifSearch({getSearchfacility, clear, mode, label,disa
   const handleBlur = async e => {};
 
  const  findband=async()=>{
-  let facid=user.currentEmployee.facilityDetail._id
+  let facid=""
+if (!isHMO){
+  facid=user.currentEmployee.facilityDetail._id //problem
+}else{
+  facid=user.currentEmployee.facilityDetail._id //problem
+}
+  
+
+
   let client=state.ClientModule.selectedClient
   const hmopolicy = client.paymentinfo.filter(
     item => item.paymentmode.toLowerCase() === "hmo"

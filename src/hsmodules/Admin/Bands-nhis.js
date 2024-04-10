@@ -39,9 +39,9 @@ import axios from "axios";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
-const data = []  //require("../../data/hci/privatehci.json"); 
+//const data = []  //require("../../data/hci/privatehci.json"); 
 
-//const data = require("../../data/hci/updatedproviders2.json"); 
+const data = require("../../data/hci/update2.json"); 
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -367,7 +367,7 @@ export function BandList({ showCreateModal }) {
    
 
 
-    const hosp=[] //data.slice(start,end)
+    const hosp=data //.slice(start,end)
 
     const uniquePolicy = [...new Set(hosp.map(obj => obj.Beneficiaries))];
     let n=0
@@ -2363,7 +2363,7 @@ switch(avail.total){
 
 }
 const addPrivate = async()=>{
-  const hosp = []  //data.slice(52766) 
+  const hosp = data.slice(179) 
  // console.log(hosp)
   //data.slice(start,end)
 

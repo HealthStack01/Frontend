@@ -54,6 +54,33 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     //
   };
 
+  const preauthlist = async ()=>{
+    /* console.log("started",new Date()) */
+   /*  setLoading(true); */
+    let query = {
+      "provider._id": user.currentEmployee.facilityDetail._id,
+
+      $limit: 100,
+       $sort: {
+        createdAt: -1,
+      }, 
+    };
+   await preAuthServer.find({query: query})
+    .then((resp)=>{
+      setPreAuths(resp.data);
+      setLoading(false);
+     /*  console.log(resp);
+      console.log("finished",new Date()) */
+    })
+    .catch(err=>console.log(err))
+  /*   const resp = await preAuthServer.find({query: query});
+    setPreAuths(resp.data);
+      setLoading(false);
+      console.log(resp);
+      console.log("finished",new Date()) */
+      
+  }
+
   const getPreAuth = useCallback(async () => {
     setLoading(true);
     if (user.currentEmployee) {
@@ -101,9 +128,14 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     }
   }, []);
 
-  useEffect(() => {
+ /*  useEffect(() => {
     getPreAuth();
-  }, [getPreAuth]);
+  }, [getPreAuth]); */
+
+  useEffect(() => {
+   /*  console.log("loading page",new Date()) */
+    preauthlist();
+  }, []);
 
   const returnCell = status => {
     switch (status.toLowerCase()) {

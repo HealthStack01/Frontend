@@ -142,7 +142,7 @@ const AppNotifications = () => {
   useEffect(() => {
     //return play();
     if (updatedNumOfNote > numberOfNotification) {
-      return play();
+      /* return play(); */
     }
     return;
   }, [updatedNumOfNote, numberOfNotification]);
