@@ -274,7 +274,7 @@ export const TopSection = styled.div`
 export const DashboardPageWrapper = styled.div` 
 background: linear-gradient(to bottom right, white 0%, #f6f6fd 50%);
   width: 100%;
-  height: calc(100vh - 0.01px);
+  height: 100vh; /* calc(100vh - 0.01px); */
   overflow-y: hidden;
   padding: 2.2rem;
   /* transition: width 2s, height 4s;
@@ -573,7 +573,7 @@ export const StatusBatchWrapper = styled.div`
 
 export const DashboardContainer = styled.div`
   display: flex;
-  height: 75vh;
+  height: 95vh;
   overflow-y: auto;
   background: #ebebeb;
 

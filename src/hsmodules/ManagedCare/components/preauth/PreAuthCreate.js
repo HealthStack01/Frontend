@@ -285,7 +285,7 @@ const checkpolicy=async ()=>{
       totalamount: data.totalamount,
       comments: data.comments,
       patientstate: data.patientstate,
-      provider: facility,
+      provider: state.OrganizationModule.selectedOrganization,
       services: services,
       priority: data.priority,
       beneficiary: state.ClientModule.selectedClient,

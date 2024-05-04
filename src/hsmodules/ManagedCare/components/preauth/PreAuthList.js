@@ -30,6 +30,11 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
   const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("submitted");
+  const [total, setTotal] = useState(0);
+  const limitRef =useRef(10)
+  const pageRef=useRef(1) 
+  const stateRef=useRef(0)
+  let list=[]
 
   const handleCreateNew = async () => {
     showCreate();
@@ -37,10 +42,10 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
 
   const handleRow =async pa => {
     //return console.log(item);
-    console.log("started single item",new Date())
+//    console.log("started single item",new Date())
    const item = await preAuthServer.get(pa._id)
-console.log (item)
-console.log("finished single item",new Date())
+//console.log (item)
+//console.log("finished single item",new Date())
     setState(prev => ({
       ...prev,
       PreAuthModule: {
@@ -60,13 +65,12 @@ console.log("finished single item",new Date())
     //
   };
 
-  const getPreAuth = async () => {
-    setLoading(true);
+  const handleLoadMore = async ()=>{
     let query={}
     if (user.currentEmployee) {
       if (status==="submitted"){
 
-     console.log("started",new Date())
+   //  console.log("started",new Date())
       query = {
         "hmopayer._id": user.currentEmployee.facilityDetail._id,
         status:"Submitted",
@@ -93,6 +97,7 @@ console.log("finished single item",new Date())
           },
           $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
         }
+       
 
       }
 
@@ -101,7 +106,75 @@ console.log("finished single item",new Date())
           "beneficiary._id": client_id,
           //"provider._id": user.currentEmployee.facilityDetail._id,
 
-          $limit: 100,
+          $limit: 10,
+          $sort: {
+            createdAt: -1,
+          },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+        };
+      }
+      query.$skip=pageRef.current*limitRef.current
+
+    await preAuthServer.find({query: query})
+    .then((resp)=>{
+      console.log(resp.data,"resp")
+      list=[...preAuths,...resp.data]
+      console.log(list,"list")
+      stateRef.current=list.length
+      setPreAuths([...preAuths,...resp.data]);
+
+      setLoading(false);
+      pageRef.current++
+     
+    
+    })
+    .catch(err=>console.log(err))
+  }
+  }
+
+  const getPreAuth = async () => {
+    setLoading(true);
+    let query={}
+    if (user.currentEmployee) {
+      if (status==="submitted"){
+
+   //  console.log("started",new Date())
+      query = {
+        "hmopayer._id": user.currentEmployee.facilityDetail._id,
+        status:"Submitted",
+        $limit: 10,
+        $sort: {
+          createdAt: -1,
+        },
+        $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+       /*  $populate:[
+          {
+            path: 'beneficiary',
+           select: ['firstname', 'lastname']
+          }
+        ]
+ */
+      };}else{
+
+        query = {
+          "hmopayer._id": user.currentEmployee.facilityDetail._id,
+          status: { $ne:"Submitted"},
+          $limit: 10,
+          $sort: {
+            createdAt: -1,
+          },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+        }
+       
+
+      }
+
+      if (client_id) {
+        query = {
+          "beneficiary._id": client_id,
+          //"provider._id": user.currentEmployee.facilityDetail._id,
+
+          $limit: 10,
           $sort: {
             createdAt: -1,
           },
@@ -113,12 +186,14 @@ console.log("finished single item",new Date())
         setPreAuths(resp.data);
         setLoading(false);
         console.log(resp);
+        stateRef.current=resp.data.length
+        setTotal(resp.total)
       })
       .catch(err=>console.log(err))
 
 
      // const resp = await preAuthServer.find({query: query});
-      console.log("finished",new Date())
+    //  console.log("finished",new Date())
      
       //console.log(resp.data);
     } else {
@@ -155,6 +230,8 @@ console.log("finished single item",new Date())
   useEffect(() => {
     getPreAuth();
   }, [status]);
+
+
 
 const handleDelete=(row)=>{
   let conf = window.confirm("Are you sure you want to delete this data?");
@@ -412,7 +489,7 @@ const handleDelete=(row)=>{
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Preauthorizations
+                List of Preauthorizations { stateRef.current}/{total}
               </h2>
             </div>
             <Box>
@@ -434,6 +511,13 @@ const handleDelete=(row)=>{
                   color="secondary"
                   text="Processed"
                 />
+                <div style={{display: "flex",  "justify-content": "flex-end"}}>
+                <GlobalCustomButton
+                  onClick={handleLoadMore}
+                  color="primary"
+                  text="Load More"
+                />
+        </div>
           </TableMenu>
 
           <Box
@@ -451,8 +535,8 @@ const handleDelete=(row)=>{
               highlightOnHover
               striped
               onRowClicked={handleRow}
-              //progressPending={loading}
-              //conditionalRowStyles={conditionalRowStyles}
+              progressPending={loading}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </Box>
         </PageWrapper>

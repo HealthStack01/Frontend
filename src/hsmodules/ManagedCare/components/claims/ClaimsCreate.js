@@ -176,7 +176,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
     //get treatement code
     //get service code
     //get plan
-  }, [state.ClientModule.selectedClient]);
+  }, [state.ClientModule.selectedClient, state.OrganizationModule.selectedOrganization]);
 
   const getTotalClaimsAmount = useCallback(() => {
     if (services.length === 0) return;
@@ -277,7 +277,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
       totalamount: data.totalamount,
       comments: data.comments,
       patientstate: data.patientstate,
-      provider: facility,
+      provider: currfac, //facility,
       services: services,
       beneficiary: state.ClientModule.selectedClient,
       submissiondate: dayjs(),

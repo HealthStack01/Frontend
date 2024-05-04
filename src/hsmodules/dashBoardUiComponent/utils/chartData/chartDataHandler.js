@@ -1,10 +1,11 @@
+import { useContext } from 'react';
 import useFetch from '../usefetch';
 import { paymentTotal } from './queryHandler';
 import useFetchData from '../useFetchData';
 import useFetchTotal from '../useFetchTotal';
 import useFetchOrder from '../usefetchOrder';
 import { UserContext } from '../../../../context';
-import { useContext } from 'react';
+
 
 // const {user, setUser} = useContext(UserContext);
 
@@ -16,6 +17,7 @@ export const TotalNumOfData = (service) => {
 	};
 	const { data, isPending, error } = useFetch(service, query);
 	let totalValue = Number(data.total);
+
 	let err = error;
 	return {
 		totalValue,
@@ -74,14 +76,19 @@ export const TotalNumOfOtherGenderClient = (service) => {
 };
 
 export const TotalUpcomingAppointment = (service) => {
+	const { user } = useContext(UserContext);
+	const facilityId=user.currentEmployee.facilityDetail._id
 	const query = {
-		$sort: { createdAt: -1 },
-		appoint_status: 'pending',
+		//$sort: { createdAt: -1 },
+		appointment_status: "Scheduled",
+		facility:facilityId
 	};
+	console.log(query,"query")
 	const { data, isPending, error } = useFetch(service, query);
 
 	let totalUpcomingAppointment = Number(data.total);
 	let err = error;
+	console.log(data.total, "upcoming appointment")
 	return {
 		totalUpcomingAppointment,
 		isPending,
@@ -90,16 +97,20 @@ export const TotalUpcomingAppointment = (service) => {
 };
 
 export const TotalNewClientWithinAMonth = (service) => {
+	const { user } = useContext(UserContext);
+	const facilityId=user.currentEmployee.facilityDetail._id
 	const getNumDaysInCurrentMonth = new Date().getDate();
 	const DAY_MS = 24 * 60 * 60 * 1000 * getNumDaysInCurrentMonth;
 	const query = {
 		$sort: { createdAt: -1 },
+		facility:facilityId,
 		createdAt: {
 			$gt: new Date().getTime() - DAY_MS,
 		},
 	};
 	const { data, isPending, error } = useFetch(service, query);
 	let totalNewClient = Number(data.total);
+	console.log("new clients",totalNewClient )
 	let err = error;
 	return {
 		totalNewClient,

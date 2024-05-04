@@ -92,6 +92,7 @@ export function BeneficiarySearch({
     if (value.length >= 3) {
       console.log(value)
       setLoading(true)
+      console.log(new Date(), "start")
      await facilityServ
         .find({
           query: {
@@ -132,14 +133,18 @@ export function BeneficiarySearch({
             
           },
           */
+         $select:['_id','firstname','middlename', 'lastname', 'gender', 'policyNo','clientType', 'sponsortype',], //'dependantBeneficiaries'
+        $limit:10
         })
         .then((res) => {
           const policies = res.data;
           const data = returnBeneficiaries(policies);
+
+          console.log(new Date(), "end")
          /*  setBeneficiaries(data);
           
             console.log("product  fetched successfully"); */
-            console.log(value)
+         //   console.log(value)
             console.log(res.data,data);
             //facilities.current=data
            

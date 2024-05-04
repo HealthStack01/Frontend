@@ -52,7 +52,7 @@ export const paymentTotal = (queryResults) => {
 		paymentModeObject.totalHMO,
 		paymentModeObject.totalComp,
 		paymentModeObject.totalFamilyPlan,
-		paymentModeObject.totalAll,
+		//paymentModeObject.totalAll,
 	];
 	return { paymentModeData };
 };

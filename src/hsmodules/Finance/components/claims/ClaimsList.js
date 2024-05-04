@@ -48,6 +48,11 @@ const ClaimsListComponent = ({
   const provider=useRef(false)
   const [assignModal, setAssignModal] = useState(false);
   const selectRef=useRef(false)
+  const [total, setTotal] = useState(0);
+  const limitRef =useRef(10)
+  const pageRef=useRef(1) 
+  const stateRef=useRef(0)
+  let list=[]
 
   const handleCreateNew = async () => {
     showCreate();
@@ -57,7 +62,8 @@ const ClaimsListComponent = ({
     setChosen([])
     provider.current=false
   }
-  const handleRow = claim => {
+  const handleRow = async pa => {
+    const claim = await claimsServer.get(pa._id)
     setState(prev => ({
       ...prev,
       ClaimsModule: {
@@ -163,6 +169,38 @@ const ClaimsListComponent = ({
 
 
   }
+  const handleLoadMore = async ()=>{
+    //alert("clicked")
+    let query = {
+      $or: [
+        {"provider._id": user.currentEmployee.facilityDetail._id},
+       /*  {"hmopayer._id": user.currentEmployee.facilityDetail._id}, */
+      ],
+       $limit: 10,
+       $skip:pageRef.current*limitRef.current,
+      $sort: {
+        createdAt: -1,
+      },
+    $select:['_id','createdAt','hmopayer.facilityName','sponsor.organizationDetail.facilityName','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+    };
+    await claimsServer.find({query: query})
+    .then((resp)=>{
+      console.log(resp.data,"resp")
+      list=[...claims,...resp.data]
+      console.log(list,"list")
+      stateRef.current=list.length
+      setClaims([...claims,...resp.data]);
+
+      setLoading(false);
+      pageRef.current++
+     
+    
+    })
+    .catch(err=>console.log(err))
+
+
+
+  }
 
   const getClaims = useCallback(async () => {
     setLoading(true);
@@ -172,10 +210,11 @@ const ClaimsListComponent = ({
           {"provider._id": user.currentEmployee.facilityDetail._id},
          /*  {"hmopayer._id": user.currentEmployee.facilityDetail._id}, */
         ],
-        // $limit: 100,
+         $limit: 10,
         $sort: {
           createdAt: -1,
         },
+      $select:['_id','createdAt','hmopayer.facilityName','sponsor.organizationDetail.facilityName','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
       };
 
      /*  if (client_id) {
@@ -211,7 +250,9 @@ const ClaimsListComponent = ({
 
       setClaims(resp.data);
       setLoading(false);
-      //console.log(resp);
+      console.log(resp);
+      stateRef.current=resp.data.length
+      setTotal(resp.total)
       
       ////console.log(resp.data);
     } else {
@@ -369,7 +410,7 @@ const ClaimsListComponent = ({
       name: "Sponsor",
       key: "healthcare plan",
       description: "Enter name of Healthcare Plan",
-      selector: row => row?.sponsor?.facilityDetail?.facilityName,
+      selector: row => row?.sponsor?.organizationDetail?.facilityName, //facilityDetail?.facilityName
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -617,7 +658,7 @@ const ClaimsListComponent = ({
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Claims
+                List of Claims { stateRef.current}/{total}
               </h2>
             </div>
            {isHMO&&<> <Box  style={{
@@ -661,6 +702,11 @@ const ClaimsListComponent = ({
                 <GlobalCustomButton onClick={handleCreateNew}>
                   Add New Claim
                 </GlobalCustomButton>
+                <GlobalCustomButton sx={{marginLeft: "3px"}}
+                  onClick={handleLoadMore}
+                  color="primary"
+                  text="Load More"
+                />
               </Box>
 
             )}
@@ -742,7 +788,15 @@ const ClaimsListComponent = ({
              }
           
         </PageWrapper>
+       {/*  <div style={{display: "flex",  "justifyContent": "flex-end"}}>
+                <GlobalCustomButton
+                  onClick={handleLoadMore}
+                  color="primary"
+                  text="Load More"
+                />
+        </div> */}
       </div>
+    
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}

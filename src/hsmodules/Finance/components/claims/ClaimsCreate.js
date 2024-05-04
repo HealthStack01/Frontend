@@ -139,7 +139,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
         relationshiptype: "managedcare", //
       },
     });
-    console.log("code", code)
+   // console.log("code", code)
     codeRef.current = code.data[0].code;
   };
 
@@ -159,7 +159,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
       return accumulator + object.amount;
     }, 0);
 
-    console.log(sum);
+ //   console.log(sum);
 
     setValue("totalamount", sum);
   }, [services]);
@@ -169,7 +169,11 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   }, [getTotalClaimsAmount]);
 
   const handleSelectClient = client => {
+   // console.log("client", client)
+   // console.log("client 2", client)
+  
     if (client === undefined || client === null)
+
       return setState(prev => ({
         ...prev,
         ClientModule: {
@@ -184,7 +188,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
 
     const firstHMO = hmos[0];
 
-    setPolicy(firstHMO?.policy);
+    setPolicy(client.policy||firstHMO?.policy);
 
     setState(prev => ({
       ...prev,
@@ -198,7 +202,7 @@ const ClaimCreateComponent = ({handleGoBack, client_id, beneficiary}) => {
   };
 
   const handleSelectOrg = organ => {
-    console.log("organization chosen", organ);
+    //console.log("organization chosen", organ);
     setState(prev => ({
       ...prev,
       OrganizationModule: {

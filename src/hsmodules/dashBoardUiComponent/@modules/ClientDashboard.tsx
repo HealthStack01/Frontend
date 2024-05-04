@@ -1,10 +1,11 @@
-import React, {useEffect, useState } from "react";
+import React, {useEffect, useState,useContext } from "react";
 import { Box, Card, CardContent, Grid, Typography} from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import NewClientIcon from '@mui/icons-material/PersonAddAlt';
 import { People } from '@mui/icons-material';
 import ReactApexChart from 'react-apexcharts';
+import { UserContext, ObjectContext } from "../../../context";
 import {
 	DashboardContainer,
 	DashboardPageWrapper,
@@ -32,13 +33,15 @@ import {
 const ClientDashboard = () => {
 const clientService = client.service("/client");
 const billsService = client.service("/bills");
+const appointmentServ = client.service('appointments');
 const {totalNewClient} = TotalNewClientWithinAMonth(clientService);
 const {totalNumMaleClient} = TotalNumOfMaleClient(clientService);
 const {totalNumFemaleClient} = TotalNumOfFemaleClient(clientService);
 const {paymentModeBarSeries} = ClientPaymentMode(clientService);
-const {totalUpcomingAppointment} = TotalUpcomingAppointment(clientService);
-const appointmentServ = client.service('appointments');
+const {totalUpcomingAppointment} = TotalUpcomingAppointment(appointmentServ);
+
 const [appointments, setAppointments] = useState([]);
+const { user } = useContext(UserContext); 
 
 const patientServe = client.service('client');
 const [patients, setPatients] = useState(0);
@@ -53,9 +56,15 @@ const {
 
 const getAppointments = () => {
 	appointmentServ
-		.find()
+		.find({
+			query:{
+				$limit:0,
+				facility:user.currentEmployee.facilityDetail._id,
+				}
+			})
 		.then(res => {
-			setAppointments(res.data.length);
+			console.log("appointmment", res.total)
+			setAppointments(res.total);
 		})
 		.catch(err => {
 			console.log(err);
@@ -64,9 +73,14 @@ const getAppointments = () => {
 
 const getPatients = () => {
 	patientServe
-		.find()
+		.find({
+			query:{
+				$limit:0,
+				facility:user.currentEmployee.facilityDetail._id,
+				}
+			})
 		.then(res => {
-			setPatients(res.data.length);
+			setPatients(res.total);
 		})
 		.catch(err => {
 			console.log(err);
@@ -75,8 +89,9 @@ const getPatients = () => {
   
 
 useEffect(() => {
-getAppointments();
-getPatients();
+	console.log(user.currentEmployee.facilityDetail._id)
+	getAppointments();
+	getPatients();
 }, []);
 
 const paymentModeOption = {
@@ -95,14 +110,14 @@ const paymentModeOption = {
       enabled: true,
     },
     xaxis: {
-      categories: ["Cash", "HMO", "Plan", "Family", "Comp"],
+      categories: ["Cash", "HMO",  "Family",],
       title: {
         text: ".",
       },
     },
     yaxis: {
       title: {
-        text: "Number of Patients Admitted",
+        text: "Number of Patients Registered",
       },
     },
     fill: {
@@ -304,7 +319,7 @@ const totalClientsByGenderOptions = {
 		<Card sx={{ borderRadius: 2 }}>
 		  <CardContent>
 			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
-			Total Clients
+			Total Appointments
 			</Typography>
 			<Box sx={{ display: 'flex', alignItems: 'center' }}>
 			  <Box sx={{ flexGrow: 1 }}>
@@ -314,27 +329,6 @@ const totalClientsByGenderOptions = {
 			  </Box>
 			  <Box>
 				<People sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
-			  </Box>
-			</Box>
-		  </CardContent>
-		</Card>
-	  </Grid>
-	 
-	  {/* Total Clients Card */}
-	  <Grid item xs={12} sm={6} md={3}>
-		<Card sx={{ borderRadius: 2 }}>
-		  <CardContent>
-			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
-			Payment
-			</Typography>
-			<Box sx={{ display: 'flex', alignItems: 'center' }}>
-			  <Box sx={{ flexGrow: 1 }}>
-				<Typography variant="h5" component="div" fontWeight="bold">
-				  {patients}
-				</Typography>
-			  </Box>
-			  <Box>
-				<AttachMoneyIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
 			  </Box>
 			</Box>
 		  </CardContent>
@@ -360,17 +354,40 @@ const totalClientsByGenderOptions = {
 		  </CardContent>
 		</Card>
 	  </Grid>
+	 
+	  {/* Total Clients Card */}
+	  <Grid item xs={12} sm={6} md={3}>
+		<Card sx={{ borderRadius: 2 }}>
+		  <CardContent>
+			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
+			Clients
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			  <Box sx={{ flexGrow: 1 }}>
+				<Typography variant="h5" component="div" fontWeight="bold">
+				  {patients}
+				</Typography>
+			  </Box>
+			  <Box>
+			  <People sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} />
+				{/* <AttachMoneyIcon sx={{ fontSize: 48, bgcolor: '#dfdfec', p: 1, borderRadius: 8, color:'#002D5C' }} /> */}
+			  </Box>
+			</Box>
+		  </CardContent>
+		</Card>
+	  </Grid>
+	  
 	  {/* Upcoming Appointments Card */}
 	  <Grid item xs={12} sm={6} md={2}>
 		<Card sx={{ borderRadius: 2 }}>
 		  <CardContent>
 			<Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
-			Total New Clients
+			Total New Clients This  Month
 			</Typography>
 			<Box sx={{ display: 'flex', alignItems: 'center' }}>
 			  <Box sx={{ flexGrow: 1 }}>
 				<Typography variant="h5" fontWeight="bold" component="div">
-				{totalUpcomingAppointment}
+				{totalNewClient}
 				</Typography>
 			  </Box>
 			  <Box>
@@ -386,7 +403,7 @@ const totalClientsByGenderOptions = {
 		  <Card>
 			<CardContent>
 			  <Typography variant="h6" color="textSecondary" fontWeight="bold" gutterBottom>
-				Payment
+				Payment Mode
 			  </Typography>
 			  <Box sx={{ height: 300 }}>
         <ReactApexChart

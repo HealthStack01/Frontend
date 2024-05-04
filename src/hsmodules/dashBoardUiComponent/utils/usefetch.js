@@ -12,7 +12,7 @@ const useFetch = (service, query) => {
   useEffect(() => {
     service
       .find({
-        query: {...query, facility: facilityId, $limit: 100000},
+        query: {...query,  $limit: 0}, //facility: facilityId,
       })
       .then(result => {
         // Once both return, update the stat
@@ -20,11 +20,13 @@ const useFetch = (service, query) => {
         setIsPending(false);
         setData(result);
         setError(null);
+        console.log(result, service)
       })
       .catch(error => {
         setError(error);
       });
-    service.on("created", data => {});
+   // service.on("created", data => {});
+   
   }, [service, facilityId]);
 
   return {data, isPending, error};

@@ -34,6 +34,7 @@ const ClaimsListComponent = ({
 }) => {
   const claimsServer = client.service("claims");
   const [claims, setClaims] = useState([]);
+  const [claimsProv, setClaimsProv] = useState([]);
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -48,6 +49,14 @@ const ClaimsListComponent = ({
   const provider=useRef(false)
   const [assignModal, setAssignModal] = useState(false);
   const selectRef=useRef(false)
+  const [total, setTotal] = useState(0);
+  const limitRef =useRef(10)
+  const pageRef=useRef(1) 
+  const stateRef=useRef(0)
+  const provRef=useRef([])
+  const groupRef=useRef([])
+
+  let list=[]
 
   const handleCreateNew = async () => {
     showCreate();
@@ -57,7 +66,8 @@ const ClaimsListComponent = ({
     setChosen([])
     provider.current=false
   }
-  const handleRow = claim => {
+  const handleRow = async pa => {
+    const claim = await claimsServer.get(pa._id)
     setState(prev => ({
       ...prev,
       ClaimsModule: {
@@ -134,25 +144,52 @@ const ClaimsListComponent = ({
 
   }
 
-  const handleProvider=()=>{
+  const handleProvider= async()=>{
     //console.log(claims)
+    setLoading(true);
+   await  claimsServer.find({
+      query: {
+        "hmopayer._id": user.currentEmployee.facilityDetail._id,
+        $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName','provider._id' ], //,,'', ,'totalamount', 'services']
+       /*  $sort: {
+          createdAt: -1,
+        }, */
+      },
+      distinct: 'provider.facilityName'
+      
+    }).then(resp=>{
+   //   console.log("unique provider", resp)
+      provRef.current=resp.data
+      setClaimsProv(resp.data)
+      setLoading(false);
+
+  })
+    .catch(err=>console.log (err)) 
+
+
     let providers=[]
     provider.current=!provider.current
     setHold(claims)
 
     if(provider.current){
-      const uniqueArr = [...new Set(claims.map(data => data.provider._id))];
-     // toast.success("provider is currnet")
+   //   console.log(claimsProv)
+    //  console.log(provRef)
+      const uniqueArr = [...new Set(provRef.current.map(data => data.provider._id))];
+      //console.log("provider is current", uniqueArr)
       uniqueArr.forEach(el=>{
-           let prov= claims.find(item=>item.provider._id===el) 
-           //console.log("prov",prov)
-          let simpa= claims.filter(item=>item.provider._id===el)
+           let prov= provRef.current.find(item=>item.provider._id===el) 
+           console.log("prov",prov)
+          let simpa= provRef.current.filter(item=>item.provider._id===el)
           prov.provider.claims=simpa
            providers=[...providers, prov.provider]
+           groupRef.current=providers
         setProviderGroup(providers)
+
      }) 
      //console.log("facilities",uniqueArr)
      //console.log("providers",providers)
+     //console.log("providerGroups",providerGroup)
+     //console.log("providerGroups2", groupRef.current)
      setClaimType("Grouped")
     }else{
       setClaimType("New Claims")
@@ -163,19 +200,19 @@ const ClaimsListComponent = ({
 
 
   }
-
-  const getClaims = useCallback(async () => {
-    setLoading(true);
-    if (user.currentEmployee) {
+  const handleLoadMore = async ()=>{
+    //alert("clicked")
+     if (user.currentEmployee) {
       let query = {
         $or: [
           {"provider._id": user.currentEmployee.facilityDetail._id},
           {"hmopayer._id": user.currentEmployee.facilityDetail._id},
         ],
-         $limit: 100,
+         $limit: 10,
         $sort: {
           createdAt: -1,
         },
+        $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
       };
 
       if (client_id) {
@@ -185,10 +222,11 @@ const ClaimsListComponent = ({
             {"provider._id": user.currentEmployee.facilityDetail._id},
             {"hmopayer._id": user.currentEmployee.facilityDetail._id},
           ],
-          $limit: 100,
+          $limit: 10,
           $sort: {
             createdAt: -1,
           },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
         };
       }
 
@@ -204,15 +242,84 @@ const ClaimsListComponent = ({
           $sort: {
             createdAt: -1,
           },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+        };
+      }
+    await claimsServer.find({query: query})
+    .then((resp)=>{
+      console.log(resp.data,"resp")
+      list=[...claims,...resp.data]
+      console.log(list,"list")
+      stateRef.current=list.length
+      setClaims([...claims,...resp.data]);
+
+      setLoading(false);
+      pageRef.current++
+     
+    
+    })
+    .catch(err=>console.log(err))
+
+
+
+  }
+}
+
+
+  const getClaims = useCallback(async () => {
+    setLoading(true);
+    if (user.currentEmployee) {
+      let query = {
+        $or: [
+          {"provider._id": user.currentEmployee.facilityDetail._id},
+          {"hmopayer._id": user.currentEmployee.facilityDetail._id},
+        ],
+         $limit: 10,
+        $sort: {
+          createdAt: -1,
+        },
+        $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+      };
+
+      if (client_id) {
+        query = {
+          "beneficiary._id": client_id,
+          $or: [
+            {"provider._id": user.currentEmployee.facilityDetail._id},
+            {"hmopayer._id": user.currentEmployee.facilityDetail._id},
+          ],
+          $limit: 10,
+          $sort: {
+            createdAt: -1,
+          },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
         };
       }
 
+      if (corporate) {
+        query = {
+          "provider._id": user.currentEmployee.facilityDetail._id,
+          $or: [
+            {"sponsor.facilityName": corporate.facilityName},
+            {"sponsor._id": corporate._id},
+            {"hmopayer._id": corporate._id},
+          ],
+          //$limit: 100,
+          $sort: {
+            createdAt: -1,
+          },
+          $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+        };
+      }
+
+      query.$skip=pageRef.current*limitRef.current
       const resp = await claimsServer.find({query: query});
 
       setClaims(resp.data);
       setLoading(false);
       //console.log(resp);
-      
+      stateRef.current=resp.data.length
+      setTotal(resp.total)
       ////console.log(resp.data);
     } else {
       if (user.stacker) {
@@ -617,7 +724,7 @@ const ClaimsListComponent = ({
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Claims
+                 {provider.current?"List of Providers with Claims ": `List of Claims ${ stateRef.current}/${total}`}
               </h2>
             </div>
            {isHMO&&<> <Box  style={{
@@ -661,6 +768,11 @@ const ClaimsListComponent = ({
                 <GlobalCustomButton onClick={handleCreateNew}>
                   Add New Claim
                 </GlobalCustomButton>
+                <GlobalCustomButton sx={{marginLeft: "3px"}}
+                  onClick={handleLoadMore}
+                  color="primary"
+                  text="Load More"
+                />
               </Box>
 
             )}
@@ -710,7 +822,7 @@ const ClaimsListComponent = ({
                <CustomTable
               title={"List of Providers"}
               columns={providerColumns}
-              data={providerGroup}
+              data={groupRef.current} // providerGroup
               pointerOnHover
               highlightOnHover
               striped

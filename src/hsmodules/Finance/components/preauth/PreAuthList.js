@@ -28,12 +28,17 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-
+  const [total, setTotal] = useState(0);
+  const limitRef =useRef(10)
+  const pageRef=useRef(1) 
+  const stateRef=useRef(0)
+  let list=[]
   const handleCreateNew = async () => {
     showCreate();
   };
 
-  const handleRow = item => {
+  const handleRow =async pa => {
+    const item = await preAuthServer.get(pa._id)
     //return console.log(item);
     setState(prev => ({
       ...prev,
@@ -60,15 +65,20 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
     let query = {
       "provider._id": user.currentEmployee.facilityDetail._id,
 
-      $limit: 100,
+      $limit: 10,
        $sort: {
         createdAt: -1,
       }, 
+      $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
     };
+    
    await preAuthServer.find({query: query})
     .then((resp)=>{
       setPreAuths(resp.data);
       setLoading(false);
+      stateRef.current=resp.data.length
+      setTotal(resp.total)
+      
      /*  console.log(resp);
       console.log("finished",new Date()) */
     })
@@ -127,6 +137,32 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
       } */
     }
   }, []);
+
+  const handleLoadMore = async ()=>{
+    let query = {
+      "provider._id": user.currentEmployee.facilityDetail._id,
+      $skip:pageRef.current*limitRef.current,
+      $limit: 10,
+       $sort: {
+        createdAt: -1,
+      }, 
+      $select:['_id','createdAt','patientstate','status','totalamount','comments','services','beneficiary.lastname','beneficiary.firstname','task','sponsor.facilityName', 'provider.facilityName' ], //,,'', ,'totalamount', 'services']
+    };
+    await preAuthServer.find({query: query})
+    .then((resp)=>{
+      console.log(resp.data,"resp")
+      list=[...preAuths,...resp.data]
+      console.log(list,"list")
+      stateRef.current=list.length
+      setPreAuths([...preAuths,...resp.data]);
+
+      setLoading(false);
+      pageRef.current++
+     
+    
+    })
+    .catch(err=>console.log(err))
+  }
 
  /*  useEffect(() => {
     getPreAuth();
@@ -346,7 +382,7 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
                 </div>
               )}
               <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Preauthorizations
+                List of Preauthorizations { stateRef.current}/{total}
               </h2>
             </div>
             <Box>
@@ -381,6 +417,13 @@ const PreAuthsListComponent = ({showCreate, showDetail, client_id}) => {
           </Box>
         </PageWrapper>
       </div>
+      <div style={{display: "flex",  "justify-content": "flex-end"}}>
+                <GlobalCustomButton
+                  onClick={handleLoadMore}
+                  color="primary"
+                  text="Load More"
+                />
+        </div>
     </>
   );
 };
