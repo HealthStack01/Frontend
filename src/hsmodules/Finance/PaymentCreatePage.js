@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 // import {useFlutterwave, closePaymentModal} from "flutterwave-react-v3";
 // import {PaystackConsumer} from "react-paystack";
 import "./main.css"; /* 
@@ -8,8 +8,8 @@ import client from "../../feathers";
 /* import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form"; */
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
 /* import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation"; */
 
@@ -18,28 +18,30 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 //import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {Box, Button, Grid, Typography} from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import ModalBox from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {FlutterWaveIcon, PaystackIcon} from "./ui-components/Icons";
+import { FlutterWaveIcon, PaystackIcon } from "./ui-components/Icons";
 import WalletIcon from "@mui/icons-material/Wallet";
 import RadioButton from "../../components/inputs/basic/Radio";
 // import api from '../../utils/api';
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import PayWithWallet from "../PouchiiWallet/payWithWallet";
+import formatReceipt from "../../utils/formatReceipt";
+import connectToPrinter from "../../utils/usbPrinter";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreatePage({closeModal, handleGoBack}) {
+export default function PaymentCreatePage({ closeModal, handleGoBack }) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
@@ -50,9 +52,9 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   const SubwalletServ = client.service("subwallet");
   const OrderServ = client.service("order");
   const InvoiceServ = client.service("invoice");
-  const locationServ =client.service("location")
+  const locationServ = client.service("location");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Bill");
@@ -170,7 +172,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
   // const handleFlutterPayment = useFlutterwave(configfw);
 
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const inputEl = useRef(0);
   let calcamount1;
@@ -184,7 +186,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     // handleSearch(val)
   };
 
-  const handleChangeMode = async value => {
+  const handleChangeMode = async (value) => {
     ////console.log(value)
     await setPaymentMode(value);
   };
@@ -210,7 +212,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = async obj => {
+  const getSearchfacility = async (obj) => {
     await setObj(obj);
     if (!obj) {
       //"clear stuff"
@@ -240,7 +242,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     if (billMode.type === "HMO Cover") {
       //paymentmode
       let contract = contracts.filter(
-        el => el.source_org === billMode.detail.hmo
+        (el) => el.source_org === billMode.detail.hmo
       );
       //  //console.log(contract[0].price)
       setSellingPrice(contract[0].price);
@@ -249,7 +251,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     if (billMode.type === "Company Cover") {
       //paymentmode
       let contract = contracts.filter(
-        el => el.source_org === billMode.detail.company
+        (el) => el.source_org === billMode.detail.company
       );
       //   //console.log(contract[0].price)
       setSellingPrice(contract[0].price);
@@ -311,6 +313,10 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
   ////console.log(state.financeModule);
 
   useEffect(() => {
+    console.log("productItem updated:", productItem);
+  }, [productItem]);
+
+  useEffect(() => {
     setSource(
       medication?.participantInfo?.client?.firstname +
         " " +
@@ -323,25 +329,25 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     //let billme={}
     getFacilities();
 
-    return () => {};
+    // return () => {};
   }, [state.financeModule]);
 
   const getTotal = async () => {
     setTotalamount(0);
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (el.show === "none") {
         if (el.billing_status === "Unpaid") {
           setTotalamount(
-            prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
+            (prevtotal) => Number(prevtotal) + Number(el.serviceInfo.amount)
           );
         } else {
           setTotalamount(
-            prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
+            (prevtotal) => Number(prevtotal) + Number(el.paymentInfo.balance)
           );
         }
       }
       if (el.show === "flex") {
-        setTotalamount(prevtotal => Number(prevtotal) + Number(el.partPay));
+        setTotalamount((prevtotal) => Number(prevtotal) + Number(el.partPay));
       }
 
       //
@@ -358,17 +364,17 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication\\
-    findbranch()
+    findbranch();
     const today = new Date().toLocaleString();
     ////console.log(today)
     setDate(today);
     const invoiceNo = short.generate();
     setDocumentNo(invoiceNo);
     getFacilities();
-    SubwalletServ.on("created", obj => getFacilities());
-    SubwalletServ.on("updated", obj => getFacilities());
-    SubwalletServ.on("patched", obj => getFacilities());
-    SubwalletServ.on("removed", obj => getFacilities());
+    SubwalletServ.on("created", (obj) => getFacilities());
+    SubwalletServ.on("updated", (obj) => getFacilities());
+    SubwalletServ.on("patched", (obj) => getFacilities());
+    SubwalletServ.on("removed", (obj) => getFacilities());
 
     return async () => {
       const newProductEntryModule = {
@@ -376,7 +382,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
         selectedFinance: {},
         show: "create",
       };
-      await setState(prevstate => ({
+      await setState((prevstate) => ({
         ...prevstate,
         financeModule: newProductEntryModule,
       }));
@@ -388,14 +394,14 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     // //console.log(bill, e.target.value)
     if (e.target.value === "Part") {
       bill.show = "flex";
-      setPartPay(prev => prev.concat(bill));
-      setPartTable(prev => prev.concat(bill));
+      setPartPay((prev) => prev.concat(bill));
+      setPartTable((prev) => prev.concat(bill));
     }
 
     if (e.target.value === "Full") {
       bill.show = "none";
 
-      let item = await productItem.find(el => el._id === bill._id);
+      let item = await productItem.find((el) => el._id === bill._id);
       const payObj = {
         amount: item.paymentInfo.balance,
         mode: "Full",
@@ -411,12 +417,12 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       // item.paymentInfo.balance=item.paymentInfo.balance - item.paymentInfo.balance
       //  item.paymentInfo.paidup=Number(item.paymentInfo.paidup) + Number(payObj.amount)
       getTotal();
-      setPartPay(prev => prev.concat(bill));
-      setPartTable(prev => prev.filter(i => i._id !== bill._id));
+      setPartPay((prev) => prev.concat(bill));
+      setPartTable((prev) => prev.filter((i) => i._id !== bill._id));
     }
   };
 
-  const handleChangeFull = async e => {
+  const handleChangeFull = async (e) => {
     // //console.log(medication)
     if (e.target.value === "Part") {
       setPart(true);
@@ -437,9 +443,9 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       toast.error("Please enter an amount as part payment");
       return;
     }
-    let item = await productItem.find(el => el._id === bill._id);
+    let item = await productItem.find((el) => el._id === bill._id);
     item.partPay = partAmount;
-    setPartPay(prev => prev.concat(bill));
+    setPartPay((prev) => prev.concat(bill));
     //setProductItem(productItem)
   };
 
@@ -453,7 +459,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       return;
     }
     // //console.log(bill)
-    let item = await productItem.find(el => el._id === bill._id);
+    let item = await productItem.find((el) => el._id === bill._id);
 
     let partAmount = item.partPay;
 
@@ -472,7 +478,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     }
 
     getTotal();
-    setPartPay(prev => prev.concat(bill));
+    setPartPay((prev) => prev.concat(bill));
     toast.success("Part payment updated successfully");
   };
 
@@ -486,7 +492,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       return;
     }
 
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (!el.proposedpayment.amount) {
         toast.error("one or more bills do not have a payment method selected");
         return;
@@ -494,7 +500,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
     });
 
     //transform
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (el.show === "flex") {
         const payObj = {
           amount: el.proposedpayment.amount,
@@ -516,7 +522,7 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
 
     let allItems = productItem;
 
-    allItems.forEach(el => {
+    allItems.forEach((el) => {
       el.paymentInfo.balance = el.proposedpayment.balance;
       el.paymentInfo.paidup = el.proposedpayment.paidup;
       el.paymentInfo.amountpaid = el.proposedpayment.amount;
@@ -546,15 +552,15 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
       facilityName: user.employeeData[0].facilityDetail.facilityName,
       subwallet: subWallet,
       amountPaid: totalamount,
-      paylocationName:state.employeeLocation.locationName,
-      paylocationId:state.employeeLocation.locationId,
-      payBranch:branch,
+      paylocationName: state.employeeLocation.locationName,
+      paylocationId: state.employeeLocation.locationId,
+      payBranch: branch,
     };
 
     //console.log(obj)
 
     InvoiceServ.create(obj)
-      .then(async resp => {
+      .then(async (resp) => {
         setProductItem([]);
         toast.success("payment successful");
         const newProductEntryModule = {
@@ -562,30 +568,31 @@ export default function PaymentCreatePage({closeModal, handleGoBack}) {
           selectedFinance: {},
           show: "create",
         };
-        await setState(prevstate => ({
+        await setState((prevstate) => ({
           ...prevstate,
           finance: newProductEntryModule,
         }));
+        await handleUsbPrint();
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Error occurred with payment" + err);
       });
   };
 
-  const findbranch =async()=>{
-    if (!!state.employeeLocation.locationId){  
-    await locationServ.get(state.employeeLocation.locationId)
-    .then(resp=>{
-      setBranch(resp.branch)
-      console.log(resp.branch)
-    })
-    .catch(err=>console.log(err))
-  }
-}
-useEffect(()=>{
-  findbranch()
- 
-},[state.employeeLocation])
+  const findbranch = async () => {
+    if (!!state.employeeLocation.locationId) {
+      await locationServ
+        .get(state.employeeLocation.locationId)
+        .then((resp) => {
+          setBranch(resp.branch);
+          console.log(resp.branch);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+  useEffect(() => {
+    findbranch();
+  }, [state.employeeLocation]);
 
   const handleBulkPayment = async () => {
     //1. check if there is sufficient amount
@@ -611,7 +618,7 @@ useEffect(()=>{
       // //console.log(fraction)
       // //console.log(partBulk)
 
-      productItem.forEach(el => {
+      productItem.forEach((el) => {
         // //console.log(el)
 
         const payObj = {
@@ -638,7 +645,7 @@ useEffect(()=>{
       }
 
       //pay all bills in full
-      productItem.forEach(el => {
+      productItem.forEach((el) => {
         if (el.show === "flex") {
           const payObj = {
             amount: el.proposedpayment.amount,
@@ -661,7 +668,7 @@ useEffect(()=>{
 
     let allItems = productItem;
 
-    allItems.forEach(el => {
+    allItems.forEach((el) => {
       el.paymentInfo.balance = el.proposedpayment.balance;
       el.paymentInfo.paidup = el.proposedpayment.paidup;
       el.paymentInfo.amountpaid = el.proposedpayment.amount;
@@ -698,16 +705,16 @@ useEffect(()=>{
     //  //console.log(obj.amountPaid)
 
     InvoiceServ.create(obj)
-      .then(async resp => {
+      .then(async (resp) => {
         setProductItem([]);
         toast.success("payment successful");
-        printreceipt(obj)
+        printreceipt(obj);
         const newProductEntryModule = {
           selectedBills: [],
           selectedFinance: {},
           show: "create",
         };
-        await setState(prevstate => ({
+        await setState((prevstate) => ({
           ...prevstate,
           finance: newProductEntryModule,
         }));
@@ -715,7 +722,7 @@ useEffect(()=>{
         setPart(false);
         setIsPart(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Error occurred with payment" + err);
       });
 
@@ -730,82 +737,35 @@ useEffect(()=>{
     //2.4 mark bills as paid
   };
 
-  const handleBulkAmount = e => {
+  const handleBulkAmount = (e) => {
     setPartBulk(e.target.value);
   };
 
-  const printreceipt =(obj)=>{
+  const handleUsbPrint = async () => {
+    const dataToBePrinted = {
+      organizationName: user.employeeData[0].facilityDetail.facilityName,
+      address: user.employeeData[0].facilityDetail.facilityAddress,
+      location: productItem[0].orderInfo.orderObj.requestingdoctor_locationName,
+      currentUserName: user.firstname + " " + user.lastname,
+      patientName: source,
+      totalAmount: totalamount,
+      cartItems: productItem.map((item) => ({
+        category: item.orderInfo.orderObj.order_category,
+        description: item.serviceInfo.name,
+        amount: item.paymentInfo.amountDue.toFixed(2),
+      })),
+    };
 
-  }
-  async function connectToPrinter() {
-    try {
-      let devices = await navigator.usb.getDevices() //await navigator.serial.requestPort({ filtersq }) //await navigator.usb.getDevices()
-      console.log(devices)
-      const usbDevice = await navigator.usb.requestDevice( {filters});
-      await usbDevice.open();
-      await usbDevice.selectConfiguration(1); // Select the printer's configuration
-      await usbDevice.claimInterface(0); // Claim the interface for communication
-      console.log('Connected to printer:', usbDevice);
-      const ESC_POS_COMMANDS = `
-      \x1B\x40
-      \x1B\x61\x01 Your Title Here \n
-      This is a line of text.
-      This is another line of text.
-      \x1B\x64\x02
-      \x1D\x56\x41\x10
-      \x1D\x56\x41\x10 
-      \x1B\x40
-      \x1D\x56\x01
-      `;
-      const cutcom = `\x1D\x56\x41`;
-    const ESC_INIT = [0x1B, 0x40];
-
-    let data = printText("simpa")
-    let transformedImage = [];
-    transformedImage.push(...ESC_INIT);
-    let data1=new Uint8Array(transformedImage)
-    console.log(data1)
-   // data = [...data1,...data]
-   let data2= new Uint8Array([...ESC_INIT,"simpa"])
-   let encoder =new TextEncoder()
-   let data3 =encoder.encode(ESC_POS_COMMANDS)
-   let cutI =encoder.encode(cutcom)
-   const receiptData = new TextEncoder().encode(ESC_POS_COMMANDS);
-
-   // Send data to the printer
-   await usbDevice.transferOut(1, receiptData);
-   await usbDevice.transferOut(1, cutI);
-   await usbDevice.close();
-
-    console.log(receiptData)
-    console.log(cutI)
-      /* const writer = await usbDevice.transferOut(1,data3);
-      console.log('Print command sent:', writer); */
-    } catch (error) {
-      console.error('Error connecting to printer:', error);
-    }
-  }
-
-  function printText(text) {
-    return new Uint8Array(text.split('').map(char => char.charCodeAt(0)))
-}
-
-  const filters = [{
-    vendorId: 0x0483,// 1155, // Replace with your printer's Vendor ID
-    productId: 0x05743, //22339, // Replace with your printer's Product ID
-  }];
-
-   const filtersq = [{
-    usbVendorId: 1155, // Replace with your printer's Vendor ID
-    usbProductId: 22339, // Replace with your printer's Product ID
-  }];
+    const receiptText = formatReceipt(dataToBePrinted);
+    await connectToPrinter(receiptText);
+  };
   const paymentCreateSchema = [
     {
       name: "S/NO",
       width: "60px",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -814,7 +774,7 @@ useEffect(()=>{
       name: "Category",
       key: "category",
       description: "Enter Category",
-      selector: row => <b>{row.orderInfo.orderObj.order_category}</b>,
+      selector: (row) => <b>{row.orderInfo.orderObj.order_category}</b>,
       sortable: true,
       required: true,
       inputType: "SELECT_TYPE",
@@ -823,7 +783,7 @@ useEffect(()=>{
       name: "Description",
       key: "description",
       description: "Enter Description",
-      selector: row => row.serviceInfo.name,
+      selector: (row) => row.serviceInfo.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -835,29 +795,29 @@ useEffect(()=>{
       key: "sn",
       description: "Enter Type",
       selector: "row",
-      cell: row => (
+      cell: (row) => (
         <Box>
           <RadioButton
-            onChange={e => {
+            onChange={(e) => {
               handleChangePart(row, e);
             }}
             options={["Full", "Part"]}
             name={row._id}
           />
 
-          {partTable.find(i => i._id === row._id) && (
+          {partTable.find((i) => i._id === row._id) && (
             <div>
-              <div style={{marginBottom: "5px"}}>
+              <div style={{ marginBottom: "5px" }}>
                 <Input
                   type="text"
                   name={row._id}
                   placeholder="Amount"
                   value={partBulk}
-                  onChange={e => handlePartAmount(row, e)}
+                  onChange={(e) => handlePartAmount(row, e)}
                 />
               </div>
               <GlobalCustomButton
-                onClick={e => handleUpdate(row, e)}
+                onClick={(e) => handleUpdate(row, e)}
                 color="secondary"
               >
                 Update
@@ -875,18 +835,18 @@ useEffect(()=>{
       width: "200px",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => (
-        <div style={{display: "flex", flexDirection: "column"}}>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Balance Due:</b>{" "}
+      selector: (row) => (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", marginBottom: "8px" }}>
+            <b style={{ marginRight: "3px" }}>Balance Due:</b>{" "}
             {row.paymentInfo.balance.toFixed(2)}
           </div>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Paid up:</b>{" "}
+          <div style={{ display: "flex", marginBottom: "8px" }}>
+            <b style={{ marginRight: "3px" }}>Paid up:</b>{" "}
             {row.paymentInfo.paidup.toFixed(2)}
           </div>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Amount:</b>{" "}
+          <div style={{ display: "flex", marginBottom: "8px" }}>
+            <b style={{ marginRight: "3px" }}>Amount:</b>{" "}
             {row.paymentInfo.amountDue.toFixed(2)}
           </div>
         </div>
@@ -906,7 +866,7 @@ useEffect(()=>{
       >
         <PayWithWallet amount={part ? partBulk : totalamount} />
       </ModalBox>
-      <div style={{width: "100%"}}>
+      <div style={{ width: "100%" }}>
         <ModalBox
           open={depositModal}
           onClose={() => setDepositModal(false)}
@@ -927,13 +887,13 @@ useEffect(()=>{
           mb={2}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            <ArrowBackIcon fontSize="small" sx={{ marginRight: "5px" }} />
             Back
           </GlobalCustomButton>
-          <GlobalCustomButton onClick={connectToPrinter}>
-            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+          {/* <GlobalCustomButton onClick={connectToPrinter}>
+            <ArrowBackIcon fontSize="small" sx={{ marginRight: "5px" }} />
             Print
-          </GlobalCustomButton> 
+          </GlobalCustomButton> */}
 
           <Typography
             sx={{
@@ -956,7 +916,7 @@ useEffect(()=>{
 
           <Box>
             <GlobalCustomButton onClick={() => setDepositModal(true)}>
-              <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
+              <LocalAtmIcon fontSize="small" sx={{ marginRight: "5px" }} />
               Make Deposit
             </GlobalCustomButton>
           </Box>
@@ -965,12 +925,12 @@ useEffect(()=>{
         <Box pl={2} pr={2} mb={2}>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={7} lg={7}>
-              <Box sx={{display: "flex"}} gap={1} mb={1}>
+              <Box sx={{ display: "flex" }} gap={1} mb={1}>
                 <Box>
                   <RadioButton
                     name="fullPay"
                     options={["Full", "Part"]}
-                    onChange={e => {
+                    onChange={(e) => {
                       handleChangeFull(e);
                     }}
                     value={part ? "Part" : "Full"}
@@ -978,14 +938,14 @@ useEffect(()=>{
                 </Box>
 
                 {part && (
-                  <Box style={{marginLeft: "15px", width: "200px"}}>
+                  <Box style={{ marginLeft: "15px", width: "200px" }}>
                     <Input
                       label="Amount"
                       type="text"
                       name="bulkpa"
                       placeholder="Enter amount"
                       value={partBulk}
-                      onChange={e => handleBulkAmount(e)}
+                      onChange={(e) => handleBulkAmount(e)}
                     />
                   </Box>
                 )}
@@ -999,7 +959,7 @@ useEffect(()=>{
                 gap={1}
               >
                 <GlobalCustomButton onClick={handleBulkPayment}>
-                  <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                  <PaymentsIcon sx={{ marginRight: "5px" }} fontSize="small" />
                   Pay
                 </GlobalCustomButton>
 
@@ -1093,7 +1053,7 @@ useEffect(()=>{
                     padding: "0 15px",
                   }}
                 >
-                  <Typography sx={{display: "flex", alignItems: "center"}}>
+                  <Typography sx={{ display: "flex", alignItems: "center" }}>
                     <AccountBalanceWalletIcon color="primary" /> Total Amount
                     Due
                   </Typography>
@@ -1121,7 +1081,7 @@ useEffect(()=>{
                     padding: "0 15px",
                   }}
                 >
-                  <Typography sx={{display: "flex", alignItems: "center"}}>
+                  <Typography sx={{ display: "flex", alignItems: "center" }}>
                     <AccountBalanceIcon color="primary" /> Current Balance
                   </Typography>
                   <Typography
@@ -1162,7 +1122,7 @@ useEffect(()=>{
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={row => row}
+                onRowClicked={(row) => row}
                 progressPending={loading}
               />
               {/* 
@@ -1192,7 +1152,7 @@ useEffect(()=>{
               gap={1}
             >
               <GlobalCustomButton onClick={handlePayment} color="success">
-                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                <PaymentsIcon sx={{ marginRight: "5px" }} fontSize="small" />
                 Make Full Payment
               </GlobalCustomButton>
 

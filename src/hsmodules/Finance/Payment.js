@@ -1,23 +1,23 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {format} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { format } from "date-fns";
 import PaymentCreate from "./PaymentCreate";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
-import {TableMenu} from "../../ui/styled/global";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
-import {Box, Typography} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import PaymentCreatePage from "./PaymentCreatePage";
-import {FormsHeaderText} from "../../components/texts";
-import {ReceiptOutlined} from "@mui/icons-material";
+import { FormsHeaderText } from "../../components/texts";
+import { ReceiptOutlined } from "@mui/icons-material";
 import PaymentInvoice from "./PaymentInvoice";
 
 /* import {ProductCreate} from './Products' */
@@ -45,9 +45,9 @@ export default function FinancePayment() {
   // eslint-disable-next-line
   const [selectedOrders, setSelectedOrders] = useState([]); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("lists");
 
@@ -73,7 +73,7 @@ export default function FinancePayment() {
       )}
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
-        <Box sx={{width: "800px"}}>
+        <Box sx={{ width: "800px" }}>
           <PaymentCreate closeModal={handleCloseModal} />
         </Box>
       </ModalBox>
@@ -81,7 +81,7 @@ export default function FinancePayment() {
   );
 }
 
-export function BillingList({openModal, showCreateScreen}) {
+export function BillingList({ openModal, showCreateScreen }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -90,7 +90,7 @@ export function BillingList({openModal, showCreateScreen}) {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const BillServ = client.service("bills");
-  const locationServ =client.service("location")
+  const locationServ = client.service("location");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -100,9 +100,9 @@ export function BillingList({openModal, showCreateScreen}) {
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
@@ -110,35 +110,33 @@ export function BillingList({openModal, showCreateScreen}) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [branch, setBranch] = useState("");
- 
-	
 
-  const handleSelectedClient = async Client => {
+  const handleSelectedClient = async (Client) => {
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
-    console.log(Client)
+    console.log(Client);
   };
 
   const handlePay = async (client, i) => {
     setOldClient(client.clientname);
     let newClient = client.clientname;
     if (oldClient !== newClient) {
-      selectedOrders.forEach(el => (el.checked = ""));
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         financeModule: {
           ...prev.financeModule,
           selectedBills: [],
         },
       }));
-      console.log("Paynow",client)
+      console.log("Paynow", client);
     }
 
     // //console.log(e.target.checked)
@@ -146,9 +144,9 @@ export function BillingList({openModal, showCreateScreen}) {
     await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
     //handleMedicationRow(order)/
 
-    await client.bills.forEach(bill => {
+    await client.bills.forEach((bill) => {
       // //console.log(bill)
-      bill.order.forEach(order => {
+      bill.order.forEach((order) => {
         let medication = order;
         medication.show = "none";
         medication.checked = true;
@@ -168,7 +166,7 @@ export function BillingList({openModal, showCreateScreen}) {
           selectedBills: [],
         };
 
-        setState(prevstate => ({
+        setState((prevstate) => ({
           ...prevstate,
           financeModule: {
             ...newProductEntryModule,
@@ -176,7 +174,7 @@ export function BillingList({openModal, showCreateScreen}) {
           },
         }));
 
-        setSelectedOrders(prevstate => prevstate.concat(order));
+        setSelectedOrders((prevstate) => prevstate.concat(order));
       });
     });
 
@@ -200,7 +198,7 @@ export function BillingList({openModal, showCreateScreen}) {
       state: e.target.checked,
     };
 
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
@@ -215,27 +213,27 @@ export function BillingList({openModal, showCreateScreen}) {
         amount: medication.paymentInfo.balance,
       };
 
-      await setState(prev => ({
+      await setState((prev) => ({
         ...prev,
         financeModule: {
           ...prev.financeModule,
           selectedBills: prev.financeModule.selectedBills.concat(medication),
         },
       }));
-      await setSelectedOrders(prevstate => prevstate.concat(medication));
+      await setSelectedOrders((prevstate) => prevstate.concat(medication));
     } else {
-      await setState(prev => ({
+      await setState((prev) => ({
         ...prev,
         financeModule: {
           ...prev.financeModule,
           selectedBills: prev.financeModule.selectedBills.filter(
-            el => el._id !== order._id
+            (el) => el._id !== order._id
           ),
         },
       }));
 
-      setSelectedOrders(prevstate =>
-        prevstate.filter(el => el._id !== order._id)
+      setSelectedOrders((prevstate) =>
+        prevstate.filter((el) => el._id !== order._id)
       );
     }
 
@@ -265,59 +263,57 @@ export function BillingList({openModal, showCreateScreen}) {
       selectedDispense: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     ////console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     ////console.log(val)
-    
-   let   query= {
-        "participantInfo.paymentmode.detail.principalName": {
-          $regex: val,
-          $options: "i",
+
+    let query = {
+      "participantInfo.paymentmode.detail.principalName": {
+        $regex: val,
+        $options: "i",
+      },
+
+      $or: [
+        {
+          "participantInfo.paymentmode.type": "Cash",
         },
-
-        $or: [
-          {
-            "participantInfo.paymentmode.type": "Cash",
-          },
-          {
-            "participantInfo.paymentmode.type": "Family Cover",
-          },
-        ],
-        "participantInfo.billingFacility":
-          user.currentEmployee.facilityDetail._id,
-        billing_status: {
-          $ne: "Fully Paid",
-        }, //set to not equal to "fully paid" // need to set this finally
-        // storeId:state.StoreModule.selectedStore._id,
-        //facility:user.currentEmployee.facilityDetail._id || "",
-        $limit: 10,
-        $sort: {
-          createdAt: -1,
+        {
+          "participantInfo.paymentmode.type": "Family Cover",
         },
-      }
-      if (!!branch){
-        query['participantInfo.branch']=branch
-      }
+      ],
+      "participantInfo.billingFacility":
+        user.currentEmployee.facilityDetail._id,
+      billing_status: {
+        $ne: "Fully Paid",
+      }, //set to not equal to "fully paid" // need to set this finally
+      // storeId:state.StoreModule.selectedStore._id,
+      //facility:user.currentEmployee.facilityDetail._id || "",
+      $limit: 10,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    if (!!branch) {
+      query["participantInfo.branch"] = branch;
+    }
 
-
-      BillServ.find({
-        query:query
-
+    BillServ.find({
+      query: query,
     })
-      .then(res => {
+      .then((res) => {
         //console.log(res);
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -325,9 +321,9 @@ export function BillingList({openModal, showCreateScreen}) {
         setError(true);
       });
   };
-  const getFacilities = async () => {
+  const getFacilitiesold = async () => {
     // //console.log("here b4 server")
-    let query={
+    let query = {
       $or: [
         {
           "participantInfo.paymentmode.type": "Cash",
@@ -346,18 +342,17 @@ export function BillingList({openModal, showCreateScreen}) {
       // billing_status: "Unpaid", // need to set this finally
       //storeId:state.StoreModule.selectedStore._id,
       //clientId:state.ClientModule.selectedClient._id,
-      $limit: 100,
+      $limit: 50,
       $sort: {
         createdAt: -1,
-      }
-    }
-    if (!!branch){
-      query['participantInfo.branch']=branch
+      },
+    };
+    if (!!branch) {
+      query["participantInfo.branch"] = branch;
     }
     const findProductEntry = await BillServ.find({
-      query: query
-      },
-    );
+      query: query,
+    });
 
     //  //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
@@ -366,28 +361,63 @@ export function BillingList({openModal, showCreateScreen}) {
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
-  const findbranch =async()=>{
-    if (!!state.employeeLocation.locationId){  
-    await locationServ.get(state.employeeLocation.locationId)
-    .then(resp=>{
-      setBranch(resp.branch)
-      console.log(resp.branch)
-    })
-    .catch(err=>console.log(err))
-  }
-}
-useEffect(async()=>{
-  await findbranch()
- 
-},[state.employeeLocation])
+  const getFacilities = async () => {
+    // //console.log("here b4 server")
+    setLoading(true);
+    const findProductEntry = await BillServ.find({
+      query: {
+        $or: [
+          {
+            "participantInfo.paymentmode.type": "Cash",
+          },
+          {
+            "participantInfo.paymentmode.type": "Family Cover",
+          },
+        ],
+        "participantInfo.billingFacility":
+          user.currentEmployee.facilityDetail._id,
+        billing_status: {
+          $ne: "Fully Paid",
+        }, // need to set this finally
+        //storeId:state.StoreModule.selectedStore._id,
+        //clientId:state.ClientModule.selectedClient._id,
+        $limit: 50,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
 
-useEffect(async()=>{
+    //console.log(findProductEntry);
 
-  await getFacilities();
-},[branch])
+    // //console.log("updatedorder", findProductEntry.groupedOrder)
+    await setFacilities(findProductEntry.groupedOrder);
+    setLoading(false);
+    //console.log(findProductEntry.groupedOrder);
+    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
+  };
 
-   const onRowClicked = async (client, e) => {
-  //   console.log(client);
+  const findbranch = async () => {
+    if (!!state.employeeLocation.locationId) {
+      await locationServ
+        .get(state.employeeLocation.locationId)
+        .then((resp) => {
+          setBranch(resp.branch);
+          console.log(resp.branch);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+  useEffect(async () => {
+    await findbranch();
+  }, [state.employeeLocation]);
+
+  useEffect(async () => {
+    await getFacilities();
+  }, [branch]);
+
+  const onRowClicked = async (client, e) => {
+    //   console.log(client);
     if (selectedClient && selectedClient.client_id === client.client_id)
       return setSelectedClient(null);
 
@@ -397,9 +427,9 @@ useEffect(async()=>{
     let newClient = client.clientname;
 
     if (oldClient !== newClient) {
-      selectedOrders.forEach(el => (el.checked = ""));
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         financeModule: {
           ...prev.financeModule,
@@ -408,10 +438,10 @@ useEffect(async()=>{
       }));
     }
 
-    const clientOrders = client.bills.map(data => {
+    const clientOrders = client.bills.map((data) => {
       const allOrders = [];
 
-      data.order.map(order => {
+      data.order.map((order) => {
         const orderData = {
           date: order.createdAt,
           status: order.billing_status,
@@ -434,13 +464,13 @@ useEffect(async()=>{
   };
   //1.consider using props for global data
   useEffect(() => {
-    // //console.log("started")
-    findbranch()
+    //console.log("started")
+    findbranch();
     getFacilities();
-    BillServ.on("created", obj => getFacilities());
-    BillServ.on("updated", obj => getFacilities());
-    BillServ.on("patched", obj => getFacilities());
-    BillServ.on("removed", obj => getFacilities());
+    BillServ.on("created", (obj) => getFacilities());
+    BillServ.on("updated", (obj) => getFacilities());
+    BillServ.on("patched", (obj) => getFacilities());
+    BillServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -453,7 +483,7 @@ useEffect(async()=>{
 
   useEffect(() => {
     if (state.financeModule.show === "create") {
-      selectedOrders.forEach(el => (el.checked = ""));
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
     }
     return () => {};
@@ -462,20 +492,20 @@ useEffect(async()=>{
   useEffect(() => {
     const productItem = selectedOrders;
     setTotalAmount(0);
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (el.show === "none") {
         if (el.billing_status === "Unpaid") {
           setTotalAmount(
-            prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
+            (prevtotal) => Number(prevtotal) + Number(el.serviceInfo.amount)
           );
         } else {
           setTotalAmount(
-            prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
+            (prevtotal) => Number(prevtotal) + Number(el.paymentInfo.balance)
           );
         }
       }
       if (el.show === "flex") {
-        setTotalAmount(prevtotal => Number(prevtotal) + Number(el.partPay));
+        setTotalAmount((prevtotal) => Number(prevtotal) + Number(el.partPay));
       }
 
       //
@@ -487,12 +517,12 @@ useEffect(async()=>{
       name: "S/N",
       width: "60px",
       headerStyle: (selector, id) => {
-        return {textAlign: "center"}; // removed partial line here
+        return { textAlign: "center" }; // removed partial line here
       },
 
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -502,9 +532,9 @@ useEffect(async()=>{
       //width: "200px",
       key: "clientname",
       description: "Enter Name",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.clientname}
@@ -520,7 +550,7 @@ useEffect(async()=>{
       // width: "130px",
       key: "clientAmount",
       description: "Enter Grand Total",
-      selector: row => row.clientAmount.toFixed(2),
+      selector: (row) => row.clientAmount.toFixed(2),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -530,13 +560,13 @@ useEffect(async()=>{
       name: "Categories Total",
       key: "bills",
       description: "Enter Category Total",
-      selector: row => {
+      selector: (row) => {
         const bills = row.bills;
         return (
           <>
             {bills.map((category, i) => (
               <Typography
-                sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+                sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
                 data-tag="allowRowEvents"
                 key={i}
               >
@@ -559,13 +589,13 @@ useEffect(async()=>{
       name: "Action",
       key: "bills",
       description: "Enter Grand Total",
-      selector: row => (
+      selector: (row) => (
         <GlobalCustomButton
           onClick={() => {
             handlePay(row);
           }}
         >
-          <PaymentsIcon sx={{marginRight: "3px"}} fontSize="small" />
+          <PaymentsIcon sx={{ marginRight: "3px" }} fontSize="small" />
           Pay
         </GlobalCustomButton>
       ),
@@ -582,13 +612,13 @@ useEffect(async()=>{
       width: "70px",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => (
-        <div style={{display: "flex", alignItems: "center"}}>
+      selector: (row) => (
+        <div style={{ display: "flex", alignItems: "center" }}>
           <input
             type="checkbox"
             //name={order._id}
-            style={{marginRight: "3px"}}
-            onChange={e => handleChoseClient(selectedClient, e, row.order)}
+            style={{ marginRight: "3px" }}
+            onChange={(e) => handleChoseClient(selectedClient, e, row.order)}
             checked={row.order.checked}
           />
           {row.sn}
@@ -602,7 +632,7 @@ useEffect(async()=>{
       name: "Date",
       key: "date",
       description: "Enter Date",
-      selector: row => format(new Date(row.date), "dd-MM-yy"),
+      selector: (row) => format(new Date(row.date), "dd-MM-yy"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -611,7 +641,7 @@ useEffect(async()=>{
       name: "Category",
       key: "category",
       description: "Enter Category",
-      selector: row => row.category,
+      selector: (row) => row.category,
       sortable: true,
       required: true,
       inputType: "SELECT",
@@ -620,9 +650,9 @@ useEffect(async()=>{
       name: "Description",
       key: "description",
       description: "Enter Description",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.description}
@@ -636,7 +666,7 @@ useEffect(async()=>{
       name: "Status",
       key: "status",
       description: "Enter Status",
-      selector: row => row.status,
+      selector: (row) => row.status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -645,7 +675,7 @@ useEffect(async()=>{
       name: "Amount",
       key: "amount",
       description: "Enter Amount",
-      selector: row => row.amount,
+      selector: (row) => row.amount,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -655,7 +685,7 @@ useEffect(async()=>{
   // console.log(selectedClient)
   const conditionalRowStyles = [
     {
-      when: row => row.client_id === selectedClient?.client_id,
+      when: (row) => row.client_id === selectedClient?.client_id,
       style: {
         backgroundColor: "#4cc9f0",
         color: "white",
@@ -690,7 +720,7 @@ useEffect(async()=>{
         </ModalBox>
 
         <TableMenu>
-          <div style={{display: "flex", alignItems: "center"}}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
@@ -712,26 +742,26 @@ useEffect(async()=>{
           </div>
 
           {selectedOrders.length > 0 && (
-            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+            <h2 style={{ marginLeft: "10px", fontSize: "0.9rem" }}>
               Amount Due : <span>&#8358;</span>
               {totalAmount}
             </h2>
           )}
 
-          <Box sx={{display: "flex"}} gap={1.5}>
+          <Box sx={{ display: "flex" }} gap={1.5}>
             {selectedClient && (
               <GlobalCustomButton
                 onClick={() => setInvoiceModal(true)}
                 color="info"
               >
-                <ReceiptOutlined sx={{marginRight: "5px"}} fontSize="small" />
+                <ReceiptOutlined sx={{ marginRight: "5px" }} fontSize="small" />
                 Invoice
               </GlobalCustomButton>
             )}
 
             {selectedOrders.length > 0 && (
               <GlobalCustomButton onClick={showCreateScreen}>
-                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                <PaymentsIcon sx={{ marginRight: "5px" }} fontSize="small" />
                 Make Payment
               </GlobalCustomButton>
             )}
@@ -761,7 +791,7 @@ useEffect(async()=>{
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={row => onRowClicked(row)}
+              onRowClicked={(row) => onRowClicked(row)}
               progressPending={loading}
               conditionalRowStyles={conditionalRowStyles}
             />
@@ -792,5 +822,5 @@ useEffect(async()=>{
         </div>
       </div>
     </>
-  )
+  );
 }
