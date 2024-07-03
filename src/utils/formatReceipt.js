@@ -20,9 +20,9 @@ const formatReceipt = ({
   // Define column widths relative to the total width of 64 characters
   const maxLengths = {
     sn: 4, // 4 characters
-    category: 14, // 14 characters
-    description: 22, // 22 characters
-    amount: 8, // 8 characters
+    // category: 14, // 14 characters
+    description: 30, // 22 characters
+    amount: 14, // 8 characters
   };
 
   // Function to add padding to each column
@@ -35,20 +35,17 @@ const formatReceipt = ({
   Issued By: ${currentUserName}${NEW_LINE}
   Issued To: ${patientName}${NEW_LINE}
   ${NEW_LINE}  ${BOLD_ON}${padText("SN", maxLengths.sn)}${padText(
-    "Category",
-    maxLengths.category
-  )}${padText("Description", maxLengths.description)}${padText(
-    "Amount",
-    maxLengths.amount
-  )}${BOLD_OFF}${NEW_LINE}`;
+    "Description",
+    maxLengths.description
+  )}${padText("Amount", maxLengths.amount)}${BOLD_OFF}${NEW_LINE}`;
   cartItems.forEach((item, index) => {
     receiptText += `  ${LEFT_ALIGN}${padText(
       index + 1,
       maxLengths.sn
-    )}${padText(item.category, maxLengths.category)}${padText(
-      item.description,
-      maxLengths.description
-    )}${padText(item.amount, maxLengths.amount)}${NEW_LINE}`;
+    )}${padText(item.description, maxLengths.description)}${padText(
+      item.amount,
+      maxLengths.amount
+    )}${NEW_LINE}`;
   });
 
   receiptText += `-------------------------------${NEW_LINE}
