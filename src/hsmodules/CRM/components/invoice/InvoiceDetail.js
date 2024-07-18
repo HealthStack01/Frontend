@@ -1,6 +1,6 @@
-import {useContext, useEffect, useState, useCallback, useRef} from "react";
-import {Box} from "@mui/system";
-import {useForm} from "react-hook-form";
+import { useContext, useEffect, useState, useCallback, useRef } from "react";
+import { Box } from "@mui/system";
+import { useForm } from "react-hook-form";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import InvoiceDetailsTab from "./tabs/Details";
 import InvoicePlansTab from "./tabs/Plans";
@@ -10,12 +10,12 @@ import InvoiceDeclineReason from "./InvoiceDecline";
 import BlockIcon from "@mui/icons-material/Block";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import {Grid, IconButton, Typography} from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import OpenWithIcon from "@mui/icons-material/OpenWith";
-import ReactToPrint, {useReactToPrint} from "react-to-print";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import Drawer from "@mui/material/Drawer";
 
 import Badge from "@mui/material/Badge";
@@ -24,17 +24,17 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomTable from "../../../../components/customtable";
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
+import CustomerDetail, { PageCustomerDetail } from "../global/CustomerDetail";
 import Plans from "../../Plans";
 import moment from "moment";
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import Input from "../../../../components/inputs/basic/Input";
-import {ObjectContext, UserContext} from "../../../../context";
+import { ObjectContext, UserContext } from "../../../../context";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import client from "../../../../feathers";
-import {ModalCreatePlan} from "../plans/CreatePlan";
+import { ModalCreatePlan } from "../plans/CreatePlan";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import Watermark from "@uiw/react-watermark";
@@ -42,19 +42,21 @@ import InvoiceApproveReason from "./InvoiceApprove";
 import InvoiceReopenReason from "./invoiceReopen";
 import dayjs from "dayjs";
 import InvoiceChat from "./InvoiceChat";
+import Discount from "../../Discount";
 
-const InvoiceDetail = ({handleGoBack}) => {
+const InvoiceDetail = ({ handleGoBack }) => {
   const dealServer = client.service("deal");
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
-  const {register, reset, control, setValue, handleSubmit} = useForm();
+  const { user } = useContext(UserContext);
+  const { register, reset, control, setValue, handleSubmit } = useForm();
   const [viewInvoice, setViewInvoice] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
   const [approveModal, setApproveModal] = useState(false);
   const [reopenModal, setReopenModal] = useState(false);
   const [chat, setChat] = useState(false);
   const [plans, setPlans] = useState([]);
+  const [discount, setDiscount] = useState([]);
   const [planCreateModal, setPlanCreateModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [invoiceStatus, setInvoiceStatus] = useState("");
@@ -64,7 +66,7 @@ const InvoiceDetail = ({handleGoBack}) => {
 
   const invoiceRef = useRef(null);
 
-  const handleAddNewPlan = async plan => {
+  const handleAddNewPlan = async (plan) => {
     showActionLoader();
     //return toast.error("Unable to add new plan, not operational yet");
 
@@ -88,7 +90,7 @@ const InvoiceDetail = ({handleGoBack}) => {
 
     const prevInvoices = currentDeal.invoices;
 
-    const newInvoices = prevInvoices.map(item => {
+    const newInvoices = prevInvoices.map((item) => {
       if (item._id === newInvoiceDetail._id) {
         return newInvoiceDetail;
       } else {
@@ -99,13 +101,13 @@ const InvoiceDetail = ({handleGoBack}) => {
     //return console.log(newInvoices);
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
-      .then(res => {
+      .patch(documentId, { invoices: newInvoices })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
 
         setPlanCreateModal(false);
@@ -114,14 +116,55 @@ const InvoiceDetail = ({handleGoBack}) => {
 
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         hideActionLoader();
         toast.error(`Sorry, Failed to Add a new Plan. ${err}`);
       });
   };
 
-  const handleUpdateInvoiceDetail = async data => {
+  const handleCreateDiscount = async (discount) => {
+    showActionLoader();
+    const invoiceDetail = state.InvoiceModule.selectedInvoice;
+    const prevDiscounts = invoiceDetail.discount || [];
+    const currentDeal = state.DealModule.selectedDeal;
+
+    const newDiscounts = [discount, ...prevDiscounts];
+
+    const documentId = currentDeal._id;
+
+    const newInvoiceDetail = {
+      ...invoiceDetail,
+      discount: newDiscounts,
+    };
+
+    const prevInvoices = currentDeal.invoices;
+
+    const newInvoices = prevInvoices.map((item) => {
+      if (item._id === newInvoiceDetail._id) {
+        return newInvoiceDetail;
+      } else {
+        return item;
+      }
+    });
+
+    try {
+      const res = await dealServer.patch(documentId, { invoices: newInvoices });
+      hideActionLoader();
+      setState((prev) => ({
+        ...prev,
+        DealModule: { ...prev.DealModule, selectedDeal: res },
+      }));
+
+      setDiscount(newDiscounts);
+      toast.success(`You have successfully added a new discount`);
+    } catch (err) {
+      hideActionLoader();
+      toast.error(`Sorry, failed to add a new discount. ${err}`);
+    }
+  };
+
+  const handleUpdateInvoiceDetail = async (data) => {
     //showActionLoader();
     //return toast.error("Unable to add new plan, not operational yet");
 
@@ -135,7 +178,7 @@ const InvoiceDetail = ({handleGoBack}) => {
 
     const prevInvoices = currentDeal.invoices;
 
-    const newInvoices = prevInvoices.map(item => {
+    const newInvoices = prevInvoices.map((item) => {
       if (item._id === newInvoiceDetail._id) {
         return newInvoiceDetail;
       } else {
@@ -146,15 +189,15 @@ const InvoiceDetail = ({handleGoBack}) => {
     const documentId = currentDeal._id;
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
-      .then(res => {
+      .patch(documentId, { invoices: newInvoices })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           InvoiceModule: {
             ...prev.InvoiceModule,
@@ -166,7 +209,7 @@ const InvoiceDetail = ({handleGoBack}) => {
 
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         hideActionLoader();
         toast.error(`Sorry, Failed to updated the Invoice. ${err}`);
@@ -175,25 +218,26 @@ const InvoiceDetail = ({handleGoBack}) => {
 
   useEffect(() => {
     const invoice = state.InvoiceModule.selectedInvoice;
-    //console.log(invoice);
+    console.log(invoice);
 
     setPlans(invoice.plans || []);
+    setDiscount(invoice.discount || []);
     reset(invoice);
     setInvoiceStatus(invoice.status);
     setStatusHistory(invoice.statusHx || []);
     returnStatusMessage();
   }, [state.InvoiceModule]);
 
-  useEffect(() => {
-    //console.log(plans[0]);
-    const totalPlansSum = plans.reduce((accumulator, object) => {
-      return Number(accumulator) + Number(object.amount);
-    }, 0);
+  // useEffect(() => {
+  //   //console.log(plans[0]);
+  //   const totalPlansSum = plans.reduce((accumulator, object) => {
+  //     return Number(accumulator) + Number(object.amount);
+  //   }, 0);
 
-    setValue("total_amount", totalPlansSum);
+  //   setValue("total_amount", totalPlansSum);
 
-    //console.log(totalPlansSum);
-  }, [plans]);
+  //   //console.log(totalPlansSum);
+  // }, [plans]);
 
   const returnStatusMessage = () => {
     if (invoiceStatus.toLowerCase() === "pending") {
@@ -206,7 +250,7 @@ const InvoiceDetail = ({handleGoBack}) => {
     }
   };
 
-  const handleRow = row => {};
+  const handleRow = (row) => {};
 
   const historyColumns = [
     {
@@ -222,9 +266,9 @@ const InvoiceDetail = ({handleGoBack}) => {
       name: "Employee",
       key: "name",
       description: "Enter name of Company",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.updatedByName}
@@ -243,7 +287,7 @@ const InvoiceDetail = ({handleGoBack}) => {
       name: "Date & Time",
       key: "name",
       description: "Enter name of Company",
-      selector: row => dayjs(row.updatedAt).format("DD/MM/YYYY hh:mm A	"),
+      selector: (row) => dayjs(row.updatedAt).format("DD/MM/YYYY hh:mm A	"),
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -256,7 +300,7 @@ const InvoiceDetail = ({handleGoBack}) => {
       name: "Title",
       key: "name",
       description: "Enter name of Company",
-      selector: row => row.title,
+      selector: (row) => row.title,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -270,9 +314,9 @@ const InvoiceDetail = ({handleGoBack}) => {
       name: "Comment",
       key: "sn",
       description: "Enter name of Company",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.comment}
@@ -292,12 +336,12 @@ const InvoiceDetail = ({handleGoBack}) => {
     // console.log(userId);
     await dealServer
       .get(id)
-      .then(resp => {
+      .then((resp) => {
         const invoices = resp.invoices || [];
-        const selectedInvoice = invoices.find(item => item._id === invoiceId);
+        const selectedInvoice = invoices.find((item) => item._id === invoiceId);
 
         const msgs = selectedInvoice.chat || [];
-        msgs.map(msg => {
+        msgs.map((msg) => {
           if (
             msg.senderId === userId ||
             msg.seen.includes(userId) ||
@@ -305,11 +349,11 @@ const InvoiceDetail = ({handleGoBack}) => {
           ) {
             return;
           } else {
-            return setUnreadMsgs(prev => [msg._id, ...prev]);
+            return setUnreadMsgs((prev) => [msg._id, ...prev]);
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
@@ -318,16 +362,16 @@ const InvoiceDetail = ({handleGoBack}) => {
   useEffect(() => {
     getUnreadMessagesCount();
 
-    dealServer.on("created", obj => getUnreadMessagesCount());
-    dealServer.on("updated", obj => getUnreadMessagesCount());
-    dealServer.on("patched", obj => getUnreadMessagesCount());
-    dealServer.on("removed", obj => getUnreadMessagesCount());
+    dealServer.on("created", (obj) => getUnreadMessagesCount());
+    dealServer.on("updated", (obj) => getUnreadMessagesCount());
+    dealServer.on("patched", (obj) => getUnreadMessagesCount());
+    dealServer.on("removed", (obj) => getUnreadMessagesCount());
   }, [getUnreadMessagesCount]);
 
   return (
     <Watermark
       content={invoiceStatus.toLowerCase() === "pending" ? "" : invoiceStatus}
-      style={{background: "#ffffff"}}
+      style={{ background: "#ffffff" }}
       fontColor={
         invoiceStatus.toLowerCase() === "declined"
           ? "rgba(255, 0, 0, 0.3)"
@@ -351,7 +395,7 @@ const InvoiceDetail = ({handleGoBack}) => {
           p={2}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon fontSize="small" sx={{marginRight: "5px"}} />
+            <ArrowBackIcon fontSize="small" sx={{ marginRight: "5px" }} />
             Back
           </GlobalCustomButton>
 
@@ -364,52 +408,58 @@ const InvoiceDetail = ({handleGoBack}) => {
             <Badge
               badgeContent={unreadMsgs.length}
               color="secondary"
-              sx={{marginRight: "10px"}}
+              sx={{ marginRight: "10px" }}
             >
               <GlobalCustomButton onClick={() => setChat(true)}>
-                <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
+                <ChatIcon fontSize="small" sx={{ marginRight: "5px" }} />
                 Chat
               </GlobalCustomButton>
             </Badge>
 
-            {(user?.currentEmployee?.roles?.includes("Admin") ||
-              user?.currentEmployee?.roles?.includes("CRM Authorization")) && (
-              <>
-                {invoiceStatus.toLowerCase() === "declined" ||
-                invoiceStatus.toLowerCase() === "approved" ? (
-                  <GlobalCustomButton onClick={() => setReopenModal(true)}>
-                    <OpenWithIcon fontSize="small" sx={{marginRight: "5px"}} />
-                    Reopen Invoice
-                  </GlobalCustomButton>
-                ) : null}
-                {invoiceStatus.toLowerCase() !== "declined" &&
-                  invoiceStatus.toLowerCase() !== "approved" && (
-                    <GlobalCustomButton
-                      color="error"
-                      onClick={() => setDeclineModal(true)}
-                    >
-                      <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
-                      Decline
-                    </GlobalCustomButton>
-                  )}
-                {invoiceStatus.toLowerCase() !== "approved" &&
-                  invoiceStatus.toLowerCase() !== "declined" && (
-                    <GlobalCustomButton onClick={() => setApproveModal(true)}>
-                      <ApprovalIcon
+            {user?.currentEmployee?.roles?.includes("Admin") &&
+              user?.currentEmployee?.roles?.includes("CRM Authorization") && (
+                <>
+                  {invoiceStatus.toLowerCase() === "declined" ||
+                  invoiceStatus.toLowerCase() === "approved" ? (
+                    <GlobalCustomButton onClick={() => setReopenModal(true)}>
+                      <OpenWithIcon
                         fontSize="small"
-                        sx={{marginRight: "5px"}}
+                        sx={{ marginRight: "5px" }}
                       />
-                      Approve
+                      Reopen Invoice
                     </GlobalCustomButton>
-                  )}
-              </>
-            )}
+                  ) : null}
+                  {invoiceStatus.toLowerCase() !== "declined" &&
+                    invoiceStatus.toLowerCase() !== "approved" && (
+                      <GlobalCustomButton
+                        color="error"
+                        onClick={() => setDeclineModal(true)}
+                      >
+                        <BlockIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Decline
+                      </GlobalCustomButton>
+                    )}
+                  {invoiceStatus.toLowerCase() !== "approved" &&
+                    invoiceStatus.toLowerCase() !== "declined" && (
+                      <GlobalCustomButton onClick={() => setApproveModal(true)}>
+                        <ApprovalIcon
+                          fontSize="small"
+                          sx={{ marginRight: "5px" }}
+                        />
+                        Approve
+                      </GlobalCustomButton>
+                    )}
+                </>
+              )}
 
             <GlobalCustomButton
               color="secondary"
               onClick={() => setViewInvoice(true)}
             >
-              <ReceiptIcon fontSize="small" sx={{marginRight: "5px"}} />
+              <ReceiptIcon fontSize="small" sx={{ marginRight: "5px" }} />
               View Invoice
             </GlobalCustomButton>
 
@@ -425,16 +475,28 @@ const InvoiceDetail = ({handleGoBack}) => {
           </Box>
         </Box>
 
-        <Grid container spacing={2} p={2}>
+        <Grid
+          container
+          spacing={2}
+          p={2}
+          sx={{
+            width: "100%",
+            height: "80vh",
+            overflow: "auto",
+          }}
+        >
           <Grid item lg={12} md={12} sm={12}>
             <PageCustomerDetail />
           </Grid>
 
           <Grid item lg={12} md={12} sm={12}>
-            <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
+            <Box
+              mb={2}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
               <FormsHeaderText text="Invoice Information" />
 
-              <Box sx={{display: "flex"}} gap={2}>
+              <Box sx={{ display: "flex" }} gap={2}>
                 {edit ? (
                   <>
                     <GlobalCustomButton
@@ -451,14 +513,15 @@ const InvoiceDetail = ({handleGoBack}) => {
                     >
                       <SystemUpdateAltIcon
                         fontSize="small"
-                        sx={{marginRight: "3px"}}
+                        sx={{ marginRight: "3px" }}
                       />
                       Update
                     </GlobalCustomButton>
                   </>
                 ) : (
                   <GlobalCustomButton onClick={() => setEdit(true)}>
-                    <EditIcon fontSize="small" sx={{marginRight: "3px"}} /> Edit
+                    <EditIcon fontSize="small" sx={{ marginRight: "3px" }} />{" "}
+                    Edit
                   </GlobalCustomButton>
                 )}
               </Box>
@@ -477,14 +540,14 @@ const InvoiceDetail = ({handleGoBack}) => {
               <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Invoice Number"
-                  register={register("invoice_number", {required: true})}
+                  register={register("invoice_number", { required: true })}
                   disabled={true}
                 />
               </Grid>
               <Grid item lg={2} md={3} sm={4}>
                 <Input
                   label="Total Amount"
-                  register={register("total_amount", {required: true})}
+                  register={register("total_amount", { required: true })}
                   disabled={true}
                 />
               </Grid>
@@ -522,23 +585,31 @@ const InvoiceDetail = ({handleGoBack}) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <FormsHeaderText text="Invoice Plans List" />
 
               <GlobalCustomButton onClick={() => setPlanCreateModal(true)}>
-                <AddCircleOutline fontSize="small" sx={{marginRight: "3px"}} />
+                <AddCircleOutline
+                  fontSize="small"
+                  sx={{ marginRight: "3px" }}
+                />
                 Add New Plan
               </GlobalCustomButton>
             </Box>
             <Plans plans={plans} addNewPlan={handleAddNewPlan} omitCreate />
           </Grid>
-
           <Grid item xs={12}>
-            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <Discount
+              discount={discount}
+              createDiscount={handleCreateDiscount}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <FormsHeaderText text="Invoice History" />
             </Box>
 
-            <Box sx={{zIndex: "999999"}}>
+            <Box sx={{ zIndex: "999999" }}>
               <CustomTable
                 title={""}
                 columns={historyColumns}

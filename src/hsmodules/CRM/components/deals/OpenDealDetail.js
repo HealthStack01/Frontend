@@ -1,14 +1,14 @@
-import {useState, useEffect} from "react";
-import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
+import { useState, useEffect } from "react";
+import { Button, Grid, Box, Collapse, Typography } from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import moment from "moment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import ModalBox from "../../../../components/modal";
@@ -27,10 +27,10 @@ import AdditionalInformationCard, {
   CreateAdditionalInfo,
 } from "./AdditionalInfo";
 
-import {contactsData, additionalInformationData, staffsData} from "./data";
+import { contactsData, additionalInformationData, staffsData } from "./data";
 import ScheduleAppointment from "./ScheduleAppointment";
 import LeadUpload from "./LeadUpload";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import CrmAppointment from "../../Appointment";
 import CrmProposals from "../../Proposals";
 import Contact from "../../Contact";
@@ -43,10 +43,10 @@ import DealDetailView from "../global/DealDetail";
 import VideoConference from "../../../utils/VideoConference";
 
 export const LeadView = () => {
-  const {register, reset, control, handleSubmit} = useForm();
+  const { register, reset, control, handleSubmit } = useForm();
   const [editLead, setEditLead] = useState(false);
 
-  const udpateLead = data => {
+  const udpateLead = (data) => {
     toast.success("Lead Detail Updated");
     setEditLead(false);
   };
@@ -81,7 +81,7 @@ export const LeadView = () => {
           <Button
             variant="contained"
             size="small"
-            sx={{textTransform: "capitalize"}}
+            sx={{ textTransform: "capitalize" }}
             color="success"
             onClick={handleSubmit(udpateLead)}
           >
@@ -92,7 +92,7 @@ export const LeadView = () => {
           <Button
             variant="contained"
             size="small"
-            sx={{textTransform: "capitalize"}}
+            sx={{ textTransform: "capitalize" }}
             onClick={() => setEditLead(true)}
           >
             <ModeEditOutlineOutlinedIcon fontSize="small" /> Edit
@@ -103,7 +103,7 @@ export const LeadView = () => {
       <Grid container spacing={1}>
         <Grid item xs={3}>
           <Input
-            register={register("deal_probability", {required: true})}
+            register={register("deal_probability", { required: true })}
             label="Probability"
             disabled={!editLead}
             //placeholder="Enter customer name"
@@ -112,7 +112,7 @@ export const LeadView = () => {
 
         <Grid item xs={3}>
           <Input
-            register={register("deal_size", {required: true})}
+            register={register("deal_size", { required: true })}
             label="Size"
             disabled={!editLead}
             //placeholder="Enter customer number"
@@ -121,7 +121,7 @@ export const LeadView = () => {
 
         <Grid item xs={3}>
           <CustomSelect
-            register={register("deal_status", {required: true})}
+            register={register("deal_status", { required: true })}
             label="Status"
             options={["Open", "Closed", "Pending"]}
             disabled={!editLead}
@@ -132,7 +132,7 @@ export const LeadView = () => {
 
         <Grid item xs={3}>
           <Input
-            register={register("weight_forcast", {required: true})}
+            register={register("weight_forcast", { required: true })}
             label="Weight Forcast"
             disabled={!editLead}
             //placeholder="Enter customer number"
@@ -159,7 +159,7 @@ export const LeadView = () => {
 
         <Grid item xs={4}>
           <CustomSelect
-            register={register("deal_next_action", {required: true})}
+            register={register("deal_next_action", { required: true })}
             label="Next Action"
             options={["First", "Second", "Third", "Fourth"]}
             disabled={!editLead}
@@ -200,12 +200,12 @@ export const AdditionalInformationView = () => {
     ...additionalInformationData,
   ]);
 
-  const removeAdditionalInfo = info => {
-    setInformations(prev => prev.filter(item => item._id !== info._id));
+  const removeAdditionalInfo = (info) => {
+    setInformations((prev) => prev.filter((item) => item._id !== info._id));
   };
 
-  const addNewInfo = data => {
-    setInformations(prev => [data, ...prev]);
+  const addNewInfo = (data) => {
+    setInformations((prev) => [data, ...prev]);
   };
 
   return (
@@ -223,18 +223,18 @@ export const AdditionalInformationView = () => {
         <Button
           variant="contained"
           size="small"
-          sx={{textTransform: "capitalize"}}
+          sx={{ textTransform: "capitalize" }}
           onClick={() => setCreateModal(true)}
         >
-          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> Add
-          Information
+          <AddCircleOutlineOutlinedIcon sx={{ mr: "5px" }} fontSize="small" />{" "}
+          Add Information
         </Button>
       </Box>
 
       <Box>
         {informations.length > 0 ? (
           informations.map((info, index) => (
-            <Box sx={{mb: 2}}>
+            <Box sx={{ mb: 2 }}>
               <AdditionalInformationCard
                 data={info}
                 action={() => removeAdditionalInfo(info)}
@@ -250,7 +250,7 @@ export const AdditionalInformationView = () => {
               justifyContent: "center",
             }}
           >
-            <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+            <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
               You've not added any information
             </Typography>
           </Box>
@@ -275,17 +275,17 @@ export const StaffsListView = () => {
   const [staffs, setStaffs] = useState([...staffsData]);
   const [selectedStaff, setSelectedStaff] = useState(null);
 
-  const handleSelectedStaff = staff => {
+  const handleSelectedStaff = (staff) => {
     setSelectedStaff(staff);
   };
 
   const handleAddStaff = () => {
-    setStaffs(prev => [selectedStaff, ...prev]);
+    setStaffs((prev) => [selectedStaff, ...prev]);
     setSelectedStaff(null);
   };
 
-  const handleRemoveStaff = staff => {
-    setStaffs(prev => prev.filter(item => item._id !== staff._id));
+  const handleRemoveStaff = (staff) => {
+    setStaffs((prev) => prev.filter((item) => item._id !== staff._id));
   };
 
   const staffColumns = getStaffColumns(handleRemoveStaff, false);
@@ -305,11 +305,11 @@ export const StaffsListView = () => {
         <Button
           variant="contained"
           size="small"
-          sx={{textTransform: "capitalize"}}
+          sx={{ textTransform: "capitalize" }}
           onClick={handleAddStaff}
         >
           <AddCircleOutlineOutlinedIcon
-            sx={{marginRight: "5px"}}
+            sx={{ marginRight: "5px" }}
             fontSize="small"
           />
           Add Staff
@@ -343,8 +343,8 @@ export const UploadView = () => {
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
 
-  const handleAddUpload = data => {
-    setUploads(prev => [data, ...prev]);
+  const handleAddUpload = (data) => {
+    setUploads((prev) => [data, ...prev]);
   };
 
   const uploadColumns = getUploadColumns();
@@ -364,11 +364,11 @@ export const UploadView = () => {
         <Button
           variant="contained"
           size="small"
-          sx={{textTransform: "capitalize"}}
+          sx={{ textTransform: "capitalize" }}
           onClick={() => setUploadModal(true)}
         >
-          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> New
-          Upload
+          <AddCircleOutlineOutlinedIcon sx={{ mr: "5px" }} fontSize="small" />{" "}
+          New Upload
         </Button>
       </Box>
 
@@ -415,11 +415,11 @@ const ProposalsView = () => {
   );
 };
 
-const OpenDealDetail = ({handleGoBack}) => {
+const OpenDealDetail = ({ handleGoBack }) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
   const [activateCall, setActivateCall] = useState(false);
-  const handleSetCurrentView = view => {
+  const handleSetCurrentView = (view) => {
     setCurrentView(view);
   };
 
@@ -489,11 +489,15 @@ const OpenDealDetail = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Open Deal Details
+            Open Prospect Details
           </Typography>
         </Box>
 
-        <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+        <Box
+          sx={{ display: "flex", justifyContent: "flex-end" }}
+          mb={2}
+          gap={1}
+        >
           <Box>
             <VideoConference
               activateCall={activateCall}

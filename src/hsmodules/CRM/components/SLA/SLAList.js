@@ -203,7 +203,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       inputType: "TEXT",
     },
     {
-      name: "Deal Probability",
+      name: "Prospect Probability",
       key: "contact_position",
       description: "Enter bills",
       selector: row => (!isTab ? row.dealinfo.probability : deal?.probability),
@@ -212,7 +212,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       inputType: "TEXT",
     },
     {
-      name: "Deal Status",
+      name: "Prospect Status",
       key: "phone_No",
       description: "Enter name of Disease",
       selector: "currStatus",

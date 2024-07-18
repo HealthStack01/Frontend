@@ -46,7 +46,7 @@ const LeadDetailView = () => {
 
 	return (
 		<>
-	
+
 			<Box
 				sx={{
 					display: 'flex',
@@ -54,7 +54,7 @@ const LeadDetailView = () => {
 					justifyContent: 'space-between',
 				}}
 				mb={1}>
-				
+
 				<FormsHeaderText text='Lead Details' />
 
 				{editLead ? (
@@ -177,17 +177,20 @@ export const PageLeadDetailView = () => {
 	const [currentStatus, setCurrentStatus] = useState('');
 
 	const scoredetail= state.DealModule.selectedDeal.opportunityScore
-
+	const probabilitydetail= state.DealModule.selectedDeal.dealinfo
+	const probabilityScore = probabilitydetail && !isNaN(probabilitydetail.probability)
+    ? Number(probabilitydetail.probability).toFixed()
+    : '0';
 	const udpateLead = async data => {
 		showActionLoader();
 		const employee = user.currentEmployee;
 		const documentId = state.DealModule.selectedDeal._id;
 		const currentDeal = state.DealModule.selectedDeal;
 		const prevStatusHistory = state.DealModule.selectedDeal.statushx || [];
-		
+
 
 		const dealinfo = {
-			probability: data.probability,
+			probability: probabilityScore,
 			size: data.size,
 			currStatus: data.currStatus,
 			nextAction: data.nextAction,
@@ -211,8 +214,8 @@ export const PageLeadDetailView = () => {
 
 		const notificationObj = {
 			type: 'CRM',
-			title: 'Deal Status Updated',
-			description: `${employee.firstname} ${employee.lastname} Updates the status for Deal with ${currentDeal.type} ${currentDeal.name} from ${currentStatus} to ${data.currStatus} in CRM`,
+			title: 'Prospect Status Updated',
+			description: `${employee.firstname} ${employee.lastname} Updates the status for Prospect with ${currentDeal.type} ${currentDeal.name} from ${currentStatus} to ${data.currStatus} in CRM`,
 			facilityId: employee.facilityDetail._id,
 			sender: `${employee.firstname} ${employee.lastname}`,
 			senderId: employee._id,
@@ -234,7 +237,7 @@ export const PageLeadDetailView = () => {
 					}));
 
 					setEditLead(false);
-					toast.success(`Deal Details successfully updated!`);
+					toast.success(`Prospect Details successfully updated!`);
 				} else {
 					hideActionLoader();
 					setState(prev => ({
@@ -243,13 +246,13 @@ export const PageLeadDetailView = () => {
 					}));
 
 					setEditLead(false);
-					toast.success(`Deal Details successfully updated!`);
+					toast.success(`Prospect Details successfully updated!`);
 				}
 			})
 			.catch(err => {
 				hideActionLoader();
 				toast.error(
-					`Sorry, You weren't able to update the deal detail. ${err}`,
+					`Sorry, You weren't able to update the prospect detail. ${err}`,
 				);
 			});
 	};
@@ -288,33 +291,33 @@ export const PageLeadDetailView = () => {
 		reset(initFormValue);
 	}, []);
 
-	const probability = watch('probability');
-	const size = watch('size');
+	// const probability = watch('probability');
+	// const size = watch('size');
 
-	const calculateWeightForcast = useCallback(() => {
-		console.log('Hello');
-		const weightForecast = Number(probability) * Number(size);
-		console.log(weightForecast);
-		setValue('weightForecast', weightForecast);
-	}, [probability, size]);
+	// const calculateWeightForcast = useCallback(() => {
+	// 	console.log('Hello');
+	// 	const weightForecast = Number(probability) * Number(size);
+	// 	console.log(weightForecast);
+	// 	setValue('weightForecast', weightForecast);
+	// }, [probability, size]);
 
-	useEffect(() => {
-		calculateWeightForcast();
-	}, [calculateWeightForcast]);
+	// useEffect(() => {
+	// 	calculateWeightForcast();
+	// }, [calculateWeightForcast]);
 
-	const autoCloseDeal = useCallback(() => {
-		const currentDeal = state.DealModule.selectedDeal;
-		const closingDate = currentDeal.dealinfo.closingDate;
+	// const autoCloseDeal = useCallback(() => {
+	// 	const currentDeal = state.DealModule.selectedDeal;
+	// 	const closingDate = currentDeal.dealinfo.closingDate;
 
-		if (dayjs(closingDate).isBefore(dayjs(), 'day')) {
-			console.log('hello world');
-		}
-		//
-	}, []);
+	// 	if (dayjs(closingDate).isBefore(dayjs(), 'day')) {
+	// 		console.log('hello world');
+	// 	}
+	// 	//
+	// }, []);
 
-	useEffect(() => {
-		autoCloseDeal();
-	}, []);
+	// useEffect(() => {
+	// 	autoCloseDeal();
+	// }, []);
 
 	return (
 		<>
@@ -325,8 +328,8 @@ export const PageLeadDetailView = () => {
       >
         <Opportunity
           closeModal={() => setScore(false)}
-          //addInfo={addNewInfo}
-        /> 
+          //addInfo={addDeal}
+        />
       </ModalBox>
 			<Box
 				sx={{
@@ -335,7 +338,7 @@ export const PageLeadDetailView = () => {
 					justifyContent: 'space-between',
 				}}
 				mb={1}>
-				<FormsHeaderText text='Deal Details' />
+				<FormsHeaderText text='Prospect Details' />
 
 				<Box
 					sx={{display: 'flex'}}
@@ -380,15 +383,15 @@ export const PageLeadDetailView = () => {
 					sm={6}
 					xs={12}>
 					<Input
-						register={register('probability', {required: true})}
+						// register={register('probability', {required: true})}
 						label='Probability'
-						disabled={!editLead}
+						value={probabilityScore}
+						disabled={true}
 						type='number'
-						//placeholder="Enter customer name"
 					/>
 				</Grid>
 
-				<Grid
+				{/* <Grid
 					item
 					lg={2}
 					md={3}
@@ -401,7 +404,7 @@ export const PageLeadDetailView = () => {
 						type='number'
 						//placeholder="Enter customer number"
 					/>
-				</Grid>
+				</Grid> */}
 
 				<Grid
 					item
@@ -419,7 +422,7 @@ export const PageLeadDetailView = () => {
 					/>
 				</Grid>
 
-				<Grid
+				{/* <Grid
 					item
 					lg={3}
 					md={4}
@@ -431,8 +434,8 @@ export const PageLeadDetailView = () => {
 						disabled={true}
 						type='number'
 					/>
-					
-				</Grid>
+
+				</Grid> */}
 				<Grid
 					item
 					lg={3}
@@ -446,7 +449,7 @@ export const PageLeadDetailView = () => {
 						disabled={true}
 						type='number'
 					/>
-					
+
 				</Grid>
 				<Grid
 					item
@@ -461,7 +464,7 @@ export const PageLeadDetailView = () => {
 						disabled={true}
 						type='text'
 					/>
-					
+
 				</Grid>
 				<Grid
 					item
@@ -469,15 +472,15 @@ export const PageLeadDetailView = () => {
 					md={3}
 					sm={4}
 					xs={6}>
-					
+
 					<GlobalCustomButton
 						color='error'
 						onClick={() => setScore(true)}>
-						Opportunity Score 
+						Opportunity Score
 					</GlobalCustomButton>
 				</Grid>
 
-				<Grid
+				{/* <Grid
 					item
 					lg={3}
 					md={4}
@@ -489,9 +492,9 @@ export const PageLeadDetailView = () => {
 						control={control}
 						disabled={true}
 					/>
-				</Grid>
+				</Grid> */}
 
-				<Grid
+				{/* <Grid
 					item
 					lg={2}
 					md={3}
@@ -503,9 +506,9 @@ export const PageLeadDetailView = () => {
 						control={control}
 						disabled={!editLead}
 					/>
-				</Grid>
+				</Grid> */}
 
-				<Grid
+				{/* <Grid
 					item
 					lg={2}
 					md={3}
@@ -516,7 +519,7 @@ export const PageLeadDetailView = () => {
 						label='Next Action'
 						disabled={!editLead}
 					/>
-				</Grid>
+				</Grid> */}
 			</Grid>
 		</>
 	);
@@ -530,9 +533,11 @@ export const Opportunity = ({addInfo, closeModal}) => {
 	const {register, handleSubmit, control, reset} = useForm();
 	const [answers, setAnswers] = useState({});
 	const [total, setTotal] = useState(0);
+	const [probability, setProbability] = useState(0);
 	const [assessment, setAssessment] = useState("");
 	const totalRef=useRef(0)
-	const scoredetail= state.DealModule.selectedDeal.opportunityScore
+	// const scoredetail= state.DealModule.selectedDeal.opportunityScore
+
 	// const handleAddInfo = data => {
 	//   const newData = {
 	//     created_by: "Sulaimon Olaniran",
@@ -555,9 +560,9 @@ export const Opportunity = ({addInfo, closeModal}) => {
 	const updateScore = async data => {
 	  //if (total === 0) return toast.error("Please provide your information");
 	 // showActionLoader();
-  
+
 	  const employee = user.currentEmployee;
-  
+  console.log('Employee',employee)
 	  const newScore = {
 		total: total,
 		answer: answers,
@@ -565,22 +570,27 @@ export const Opportunity = ({addInfo, closeModal}) => {
 		date: new Date(),
 		employeename: `${employee.firstname} ${employee.lastname}`,
 	  };
-  
+	  const prevDealinfo = state.DealModule.selectedDeal.dealinfo
+	  const newDealInfo = {
+		...prevDealinfo,
+		probability: probability
+	  };
+
 	  const oldDealInfo = state.DealModule.selectedDeal.additionalInfo;
-  
+
 	  //const updatedDealInfo = [newInfo, ...oldDealInfo];
-  
+
 	  const documentId = state.DealModule.selectedDeal._id;
-  
+
 	  await dealServer
-		.patch(documentId, {opportunityScore: newScore})
+		.patch(documentId,{dealinfo:newDealInfo	,opportunityScore: newScore})
 		.then(res => {
 		  hideActionLoader();
 		  setState(prev => ({
 			...prev,
 			DealModule: {...prev.DealModule, selectedDeal: res},
 		  }));
-  
+
 		  reset({
 			info: "",
 		  });
@@ -811,13 +821,26 @@ export const Opportunity = ({addInfo, closeModal}) => {
 
 	  useEffect(() => {
 		let calculatedTotalScore = 0;
-		for (const questionId in answers) {
-		  const selectedOption = answers[questionId];
-		  const question = questions.find((q) => q.id.toString() === questionId);
-		  const option = question.options.find((opt) => opt.value === selectedOption);
-		  calculatedTotalScore += option ? option.score : 0;
-		}
-		setTotal(calculatedTotalScore);
+		let maxPossibleScore = 0;
+
+			for (const questionId in answers) {
+			  const selectedOption = answers[questionId];
+			  const question = questions.find((q) => q.id.toString() === questionId);
+
+			  if (question) {
+				const option = question.options.find((opt) => opt.value === selectedOption);
+				calculatedTotalScore += option ? option.score : 0;
+
+				const maxScoreOption = Math.max(...question.options.map(opt => opt.score));
+				maxPossibleScore += maxScoreOption;
+			  }
+			}
+
+			setTotal(calculatedTotalScore);
+
+			const calculatedProbability = (calculatedTotalScore / maxPossibleScore) * 100;
+			setProbability(calculatedProbability);
+
 		let newAssessment = '';
 			switch (true) {
 			case calculatedTotalScore >= 14:
@@ -826,9 +849,9 @@ export const Opportunity = ({addInfo, closeModal}) => {
 			case calculatedTotalScore >= 10:
 				newAssessment = 'Medium Priority';
 				break;
-			/* case calculatedTotalScore >= 0:
-				newAssessment = 'Average';
-				break; */
+			 case calculatedTotalScore >= 0:
+			 	newAssessment = 'Average';
+			break;
 			default:
 				newAssessment = 'Preserve for nurturing';
 			}
@@ -852,19 +875,19 @@ export const Opportunity = ({addInfo, closeModal}) => {
 			if (!!scoredetails.assessment){
 				setAssessment(scoredetails.assessment);
 			}
-			
+
 		}
 
 	/* 	if (!!scoredetails.total){
-		
+
 		}
 		if (!!scoredetails.assessment){
-    
+
 		} */
 		//setAssessment("Something to do")
 	  }, []);
-	
-	
+
+
 
 	return (
 	  <Box
@@ -873,11 +896,10 @@ export const Opportunity = ({addInfo, closeModal}) => {
 		}}
 	  >
 		<Box mb={2}>
-		
-		<p> 
+		<p>
 		 <strong>Total score: {total}</strong>
 		 </p>
-		 <p> 
+		 <p>
 		 <strong>Assessment:</strong> {assessment}
 		 </p>
 		 <h2>Questionaire</h2>
@@ -891,7 +913,7 @@ export const Opportunity = ({addInfo, closeModal}) => {
             <option value="">Select an answer</option>
             {question.options.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.value} 
+                {option.value}
               </option>
             ))}
           </select>
@@ -906,7 +928,7 @@ export const Opportunity = ({addInfo, closeModal}) => {
           ))}
         </ul> */}
 		</Box>
-  
+
 		<Box sx={{display: "flex"}}>
 		  <GlobalCustomButton
 			onClick={updateScore}
@@ -914,7 +936,7 @@ export const Opportunity = ({addInfo, closeModal}) => {
 		  >
 			Add Information
 		  </GlobalCustomButton>
-  
+
 		  <GlobalCustomButton onClick={closeModal} color="error">
 			Cancel
 		  </GlobalCustomButton>

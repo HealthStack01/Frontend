@@ -1,9 +1,9 @@
-import {Typography} from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
 import DataTable from "react-data-table-component";
 
 import EmptyData from "../empty";
-import {customStyles} from "./styles";
+import { customStyles } from "./styles";
 
 interface Props {
   title?: string;
@@ -41,9 +41,9 @@ const CustomLoader = () => (
     <img
       src="/loading.gif"
       alt="Loading"
-      style={{width: "200px", height: "auto", display: "block"}}
+      style={{ width: "200px", height: "auto", display: "block" }}
     />
-    <Typography sx={{marginTop: "-2rem", fontSize: "0.85rem"}}>
+    <Typography sx={{ marginTop: "-2rem", fontSize: "0.85rem" }}>
       Hold on, whilst we fetch your data...
     </Typography>
   </div>
@@ -76,7 +76,8 @@ const CustomTable: React.FC<Props> = ({
       title={title}
       columns={columns}
       data={
-        data && data?.map((obj, i) => ({...obj, sn: i + 1, id: `item-id-${i}`}))
+        data &&
+        data.map((obj, i) => ({ ...obj, sn: i + 1, id: `item-id-${i}` }))
       } //TODO: only add sn if it's in the schema, to improve performance here
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}

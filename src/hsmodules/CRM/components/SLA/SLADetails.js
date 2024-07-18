@@ -1,12 +1,12 @@
-import {useContext, useState, useEffect, useCallback} from "react";
-import {Box, Grid, Typography, IconButton} from "@mui/material";
+import { useContext, useState, useEffect, useCallback } from "react";
+import { Box, Grid, Typography, IconButton } from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import ModalBox from "../../../../components/modal";
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import SLADescription from "./SLADescription";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import {CKEditor} from "@ckeditor/ckeditor5-react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Badge from "@mui/material/Badge";
@@ -17,22 +17,22 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Drawer from "@mui/material/Drawer";
 import EmailIcon from "@mui/icons-material/Email";
 
-import {LeadView} from "../lead/LeadDetailView";
+import { LeadView } from "../lead/LeadDetailView";
 import ChatInterface from "../../../../components/chat/ChatInterface";
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
-import {ObjectContext, UserContext} from "../../../../context";
+import CustomerDetail, { PageCustomerDetail } from "../global/CustomerDetail";
+import { ObjectContext, UserContext } from "../../../../context";
 import dayjs from "dayjs";
-import {toast} from "react-toastify";
-import {PageLeadDetailView} from "../global/LeadDetail";
+import { toast } from "react-toastify";
+import { PageLeadDetailView } from "../global/LeadDetail";
 import CustomTable from "../../../../components/customtable";
 import SLAChat from "./SLAChat";
 import client from "../../../../feathers";
-import {ResendProposalOrSLA} from "../proposal/ProposalDetail";
+import { ResendProposalOrSLA } from "../proposal/ProposalDetail";
 
-const SLADetail = ({handleGoBack}) => {
+const SLADetail = ({ handleGoBack }) => {
   const dealServer = client.service("deal");
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
   const [description, setDescription] = useState("");
   const [chat, setChat] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
@@ -48,9 +48,9 @@ const SLADetail = ({handleGoBack}) => {
     setAttachedDocs(sla.attachedFiles || []);
 
     return () => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
-        SLAModule: {...prev.SLAModule, selectedSLA: {}},
+        SLAModule: { ...prev.SLAModule, selectedSLA: {} },
       }));
     };
   }, []);
@@ -74,7 +74,7 @@ const SLADetail = ({handleGoBack}) => {
       name: "Attached By",
       key: "filename",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <Typography
           sx={{
             fontSize: "0.8rem",
@@ -97,9 +97,9 @@ const SLADetail = ({handleGoBack}) => {
       name: "File Name",
       key: "filename",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2" }}
           data-tag="allowRowEvents"
         >
           {row.fileName}
@@ -115,7 +115,7 @@ const SLADetail = ({handleGoBack}) => {
       //style: {color: "#0364FF"},
       key: "date",
       description: "Enter Date",
-      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm  A "),
+      selector: (row) => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm  A "),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -125,7 +125,7 @@ const SLADetail = ({handleGoBack}) => {
       name: "File Type",
       key: "doc_type",
       description: "Enter Date",
-      selector: row => row.fileType,
+      selector: (row) => row.fileType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -136,12 +136,12 @@ const SLADetail = ({handleGoBack}) => {
 
     {
       name: "Comment",
-      style: {color: "#0364FF"},
+      style: { color: "#0364FF" },
       key: "doc_type",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.comment}
@@ -156,7 +156,7 @@ const SLADetail = ({handleGoBack}) => {
       name: "Action",
       key: "doc_type",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <IconButton size="small" color="error" onClick={handleDeleteFile}>
           <DeleteOutlineIcon fontSize="small" />
         </IconButton>
@@ -170,7 +170,7 @@ const SLADetail = ({handleGoBack}) => {
     },
   ];
 
-  const handleRow = doc => {
+  const handleRow = (doc) => {
     //console.log(doc);
     setSelectedDoc(doc);
     setDocviewModal(true);
@@ -184,12 +184,12 @@ const SLADetail = ({handleGoBack}) => {
     // console.log(userId);
     await dealServer
       .get(id)
-      .then(resp => {
+      .then((resp) => {
         const sla = resp.sla || [];
-        const selectedSLA = sla.find(item => item._id === slaId);
+        const selectedSLA = sla.find((item) => item._id === slaId);
 
         const msgs = selectedSLA.chat || [];
-        msgs.map(msg => {
+        msgs.map((msg) => {
           if (
             msg.senderId === userId ||
             msg.seen.includes(userId) ||
@@ -197,11 +197,11 @@ const SLADetail = ({handleGoBack}) => {
           ) {
             return;
           } else {
-            return setUnreadMsgs(prev => [msg._id, ...prev]);
+            return setUnreadMsgs((prev) => [msg._id, ...prev]);
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
@@ -210,10 +210,10 @@ const SLADetail = ({handleGoBack}) => {
   useEffect(() => {
     getUnreadMessagesCount();
 
-    dealServer.on("created", obj => getUnreadMessagesCount());
-    dealServer.on("updated", obj => getUnreadMessagesCount());
-    dealServer.on("patched", obj => getUnreadMessagesCount());
-    dealServer.on("removed", obj => getUnreadMessagesCount());
+    dealServer.on("created", (obj) => getUnreadMessagesCount());
+    dealServer.on("updated", (obj) => getUnreadMessagesCount());
+    dealServer.on("patched", (obj) => getUnreadMessagesCount());
+    dealServer.on("removed", (obj) => getUnreadMessagesCount());
   }, [getUnreadMessagesCount]);
 
   return (
@@ -227,17 +227,17 @@ const SLADetail = ({handleGoBack}) => {
         onClose={() => setDocviewModal(false)}
         header={`View Document ${selectedDoc?.fileName}`}
       >
-        <Box sx={{width: "85vw", height: "85vh", position: "relative"}}>
+        <Box sx={{ width: "85vw", height: "85vh", position: "relative" }}>
           {selectedDoc?.fileType === "pdf" ? (
             <iframe
               src={selectedDoc?.file}
               title={selectedDoc?.fileName}
-              style={{width: "100%", height: "100%"}}
+              style={{ width: "100%", height: "100%" }}
             />
           ) : (
             <iframe
               title={selectedDoc?.fileName}
-              style={{width: "100%", height: "100%"}}
+              style={{ width: "100%", height: "100%" }}
               src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
             />
           )}
@@ -297,10 +297,10 @@ const SLADetail = ({handleGoBack}) => {
           <Badge
             badgeContent={unreadMsgs.length}
             color="secondary"
-            sx={{marginRight: "10px"}}
+            sx={{ marginRight: "10px" }}
           >
             <GlobalCustomButton onClick={() => setChat(true)}>
-              <ChatIcon fontSize="small" sx={{marginRight: "5px"}} />
+              <ChatIcon fontSize="small" sx={{ marginRight: "5px" }} />
               Chats
             </GlobalCustomButton>
           </Badge>
@@ -309,8 +309,8 @@ const SLADetail = ({handleGoBack}) => {
             color="success"
             onClick={() => setResendModal(true)}
           >
-            <EmailIcon fontSize="small" sx={{marginRight: "5px"}} /> Resend SLA
-            Via Email
+            <EmailIcon fontSize="small" sx={{ marginRight: "5px" }} /> Resend
+            SLA Via Email
           </GlobalCustomButton>
         </Box>
       </Box>
@@ -329,7 +329,10 @@ const SLADetail = ({handleGoBack}) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Box sx={{display: "flex", justifyContent: "space-between"}} mb={1.5}>
+          <Box
+            sx={{ display: "flex", justifyContent: "space-between" }}
+            mb={1.5}
+          >
             <FormsHeaderText text="Attached Files" />
 
             {/* <GlobalCustomButton onClick={() => setAttachModal(true)}>

@@ -1,5 +1,5 @@
-import {lazy} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { lazy } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 const Documentation = lazy(() => import("../Documentation/Documentation"));
 const Leads = lazy(() => import("../CRM/Lead"));
@@ -40,7 +40,7 @@ export const crmRoutes = [
     Component: CrmAppointment,
   },
   {
-    path: "/app/crm/deal",
+    path: "/app/crm/prospect",
     Component: Deals,
   },
   {

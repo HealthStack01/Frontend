@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import CustomTable from "../../components/customtable";
 import CalendarGrid from "../../components/calender";
@@ -18,15 +18,15 @@ import LeadDetail from "./components/lead/LeadDetailView";
 //import OldLeadDetail from "./components/lead/LeadDetail";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import {Box, Typography} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import client from "../../feathers";
 import dayjs from "dayjs";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Leads() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
@@ -62,7 +62,7 @@ export default function Leads() {
   );
 }
 
-export function LeadList({openCreateModal, showCreate, showDetail}) {
+export function LeadList({ openCreateModal, showCreate, showDetail }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -76,10 +76,10 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const dealServer = client.service("deal");
@@ -90,17 +90,17 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
 
   const delId = "63a38c888348d400163e51a6";
 
-  const handleRow = async data => {
-    setState(prev => ({
+  const handleRow = async (data) => {
+    setState((prev) => ({
       ...prev,
-      DealModule: {...prev.DealModule, selectedDeal: data},
+      DealModule: { ...prev.DealModule, selectedDeal: data },
     }));
     showDetail();
     //dealServer.remove(delId);
     //console.log(data);
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     //console.log(val);
     dealServer
       .find({
@@ -176,11 +176,11 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         // toast.error(`Something went wrong!!!! ${err}`);
         console.log(err);
       });
@@ -188,40 +188,65 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
 
   const getFacilities = async () => {
     setLoading(true);
-    const testId = "60203e1c1ec8a00015baa357";
+
     const facId = user.currentEmployee.facilityDetail._id;
+    const employeeId = user.currentEmployee.userId;
 
-    const res = await dealServer.find({
-      query: {
-        facilityId: facId,
-       
-        $sort: {
-          createdAt: -1,
-        },
+    const isAdmin =
+      user?.currentEmployee?.roles?.includes("Admin") &&
+      user?.currentEmployee?.roles?.includes("CRM Authorization");
+
+    let query = {
+      facilityId: facId,
+      $sort: {
+        createdAt: -1,
       },
-    });
+      $or: [
+        {
+          createdby: employeeId,
+        },
+      ],
+    };
 
-    await setFacilities(res.data);
+    if (!isAdmin) {
+      query.$or = [
+        {
+          createdby: employeeId,
+        },
+      ];
+    }
+    const res = await dealServer.find({ query });
+
+    setFacilities(res.data);
 
     setLoading(false);
   };
 
   const updateFacilities = async () => {
-    const testId = "60203e1c1ec8a00015baa357";
+    // const testId = "60203e1c1ec8a00015baa357";
     const facId = user.currentEmployee.facilityDetail_id;
+    const employeeId = user.currentEmployee.userId;
 
-    //showActionLoader();
+    const isAdmin =
+      user?.currentEmployee?.roles?.includes("Admin") &&
+      user?.currentEmployee?.roles?.includes("CRM Authorization");
 
-    const res = await dealServer.find({
-      query: {
-        facilityId: facId,
-        $sort: {
-          createdAt: -1,
-        },
+    let query = {
+      facilityId: facId,
+      $sort: {
+        createdAt: -1,
       },
-    });
+    };
+    if (!isAdmin) {
+      query.$or = [
+        {
+          createdby: employeeId,
+        },
+      ];
+    }
+    const res = await dealServer.find({ query });
 
-    await setFacilities(res.data);
+    setFacilities(res.data);
     //console.log(res.data);
     //hideActionLoader();
   };
@@ -229,27 +254,31 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
   useEffect(() => {
     getFacilities();
 
-    dealServer.on("created", obj => updateFacilities());
-    dealServer.on("updated", obj => updateFacilities());
-    dealServer.on("patched", obj => updateFacilities());
-    dealServer.on("removed", obj => updateFacilities());
+    dealServer.on("created", (obj) => updateFacilities());
+    dealServer.on("updated", (obj) => updateFacilities());
+    dealServer.on("patched", (obj) => updateFacilities());
+    dealServer.on("removed", (obj) => updateFacilities());
   }, []);
 
-  const returnCell = status => {
+  const returnCell = (status) => {
     switch (status?.toLowerCase()) {
       case "open":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+        return <span style={{ color: "#17935C" }}>{status}</span>;
 
       case "suspended":
-        return <span style={{color: "orange"}}>{status}</span>;
+        return <span style={{ color: "orange" }}>{status}</span>;
 
       case "closed":
-        return <span style={{color: "red"}}>{status}</span>;
+        return <span style={{ color: "red" }}>{status}</span>;
+      case "convert to prospect":
+        return <span style={{ color: "yellowgreen" }}>{status}</span>;
 
       default:
         break;
     }
   };
+
+  console.log("Facilities", facilities);
 
   const LeadSchema = [
     {
@@ -265,9 +294,9 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Customer Name",
       key: "sn",
       description: "Enter name of Company",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row?.name}
@@ -285,7 +314,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Customer Type",
       key: "type",
       description: "Enter Telestaff name",
-      selector: row => row?.type,
+      selector: (row) => row?.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -298,7 +327,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Phone",
       key: "phone",
       description: "Enter name of Company",
-      selector: row => row?.phone,
+      selector: (row) => row?.phone,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -308,9 +337,9 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Email",
       key: "email",
       description: "Enter name of Company",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row?.email}
@@ -325,7 +354,18 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       name: "Probability",
       key: "probability",
       description: "Enter bills",
-      selector: row => row?.dealinfo?.probability,
+      selector: (row) => {
+        const probability = row?.dealinfo?.probability;
+        if (
+          probability !== undefined &&
+          probability !== null &&
+          !isNaN(probability)
+        ) {
+          return `${Number(probability).toFixed()}%`;
+        } else {
+          return "0%";
+        }
+      },
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -345,7 +385,7 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row?.dealinfo?.currStatus),
+      cell: (row) => returnCell(row?.dealinfo?.currStatus),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -358,9 +398,9 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => (
+      cell: (row) => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row?.dealinfo?.nextAction}
@@ -370,56 +410,58 @@ export function LeadList({openCreateModal, showCreate, showDetail}) {
       required: true,
       inputType: "TEXT",
     },
-    {
-      name: "Size",
-      key: "dealinfo",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => row?.dealinfo?.size,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Size",
+    //   key: "dealinfo",
+    //   description: "Enter bills",
+    //   selector: "status",
+    //   cell: row => row?.dealinfo?.size,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
 
-    {
-      name: "Weight Forecast",
-      key: "dealinfo",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => row?.dealinfo?.weightForecast,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Weight Forecast",
+    //   key: "dealinfo",
+    //   description: "Enter bills",
+    //   selector: "status",
+    //   cell: row => row?.dealinfo?.weightForecast,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
   ];
 
   return (
     <>
       <div className="level">
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
           <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Leads</h2>
+              <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>Leads</h2>
             </div>
 
             <GlobalCustomButton onClick={handleCreateNew}>
-              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              <AddCircleOutline fontSize="small" sx={{ marginRight: "5px" }} />
               Add new Lead
             </GlobalCustomButton>
           </TableMenu>
 
           <div
-          className="level"
-          style={{
-            height: "calc(100vh - 180px)",
-            overflowY: "scroll",
-          }}
-        >
+            className="level"
+            style={{
+              height: "calc(100vh - 180px)",
+              overflowY: "scroll",
+            }}
+          >
             <CustomTable
               title={""}
               columns={LeadSchema}

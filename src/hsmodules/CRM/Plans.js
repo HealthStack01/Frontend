@@ -1,15 +1,15 @@
 /* eslint-disable */
-import React, {useState, useContext, useRef} from "react";
+import React, { useState, useContext, useRef } from "react";
 import Slide from "@mui/material/Slide";
 
-import {UserContext, ObjectContext} from "../../context";
+import { UserContext, ObjectContext } from "../../context";
 import ModalBox from "../../components/modal";
 import InvoiceCreate from "./components/invoice/InvoiceCreate";
 import InvoiceDetail from "./components/invoice/InvoiceDetail";
 import InvoiceList from "./components/invoice/InvoiceList";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import PlansList from "./components/plans/PlansList";
-import {ModalCreatePlan} from "./components/plans/CreatePlan";
+import { ModalCreatePlan } from "./components/plans/CreatePlan";
 import PlanDetail from "./components/plans/PlanDetail";
 
 // eslint-disable-next-line
@@ -22,16 +22,16 @@ const Plans = ({
   updatePlan,
   omitCreate,
 }) => {
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [detailModal, setDetailModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  const handleRow = plan => {
+  const handleRow = (plan) => {
     //setSelectedPlan(plan);
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      InvoiceModule: {...prev.InvoiceModule, selectedPlan: plan},
+      InvoiceModule: { ...prev.InvoiceModule, selectedPlan: plan },
     }));
     setDetailModal(true);
   };

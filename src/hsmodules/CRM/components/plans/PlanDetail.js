@@ -1,28 +1,28 @@
-import {useState, useEffect, useContext} from "react";
-import {Button, Grid} from "@mui/material";
-import {Box} from "@mui/system";
+import { useState, useEffect, useContext } from "react";
+import { Button, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
-import {useForm} from "react-hook-form";
-import {toast} from "react-toastify";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
-import {ObjectContext, UserContext} from "../../../../context";
+import { ObjectContext, UserContext } from "../../../../context";
 import client from "../../../../feathers";
 
-const PlanDetail = ({updatePlan, closeModal}) => {
+const PlanDetail = ({ updatePlan, closeModal }) => {
   const dealServer = client.service("deal");
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
-  const {register, handleSubmit, control, getValues, reset} = useForm();
+  const { user } = useContext(UserContext);
+  const { register, handleSubmit, control, getValues, reset } = useForm();
   const [edit, setEdit] = useState(false);
 
-  const handleUpdatePlan = async data => {
+  const handleUpdatePlan = async (data) => {
     showActionLoader();
     const employee = user.currentEmployee;
     const invoiceDetail = state.InvoiceModule.selectedInvoice;
@@ -30,7 +30,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
     const currentDeal = state.DealModule.selectedDeal;
     const selectedPlan = state.InvoiceModule.selectedPlan;
 
-    const newPlans = prevPlans.map(item => {
+    const newPlans = prevPlans.map((item) => {
       if (item._id === selectedPlan._id) {
         return {
           ...item,
@@ -58,7 +58,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
 
     //console.log(prevInvoices);
 
-    const newInvoices = prevInvoices.map(item => {
+    const newInvoices = prevInvoices.map((item) => {
       if (item._id === newInvoiceDetail._id) {
         return newInvoiceDetail;
       } else {
@@ -71,16 +71,16 @@ const PlanDetail = ({updatePlan, closeModal}) => {
     const documentId = currentDeal._id;
 
     await dealServer
-      .patch(documentId, {invoices: newInvoices})
-      .then(res => {
+      .patch(documentId, { invoices: newInvoices })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
 
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           InvoiceModule: {
             ...prev.InvoiceModule,
@@ -92,7 +92,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
 
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         hideActionLoader();
         toast.error(`Sorry, Failed to Update the Plan. ${err}`);
@@ -113,7 +113,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
       >
         <Box
           mb={1.5}
-          sx={{display: "flex", justifyContent: "flex-end"}}
+          sx={{ display: "flex", justifyContent: "flex-end" }}
           gap={1}
         >
           {edit ? (
@@ -131,7 +131,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
             </>
           ) : (
             <GlobalCustomButton onClick={() => setEdit(true)}>
-              <EditIcon fontSize="small" sx={{marginRight: "5px"}} />
+              <EditIcon fontSize="small" sx={{ marginRight: "5px" }} />
               Edit Plan
             </GlobalCustomButton>
           )}
@@ -150,7 +150,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("premium", {required: true})}
+              register={register("premium", { required: true })}
               label="Premium"
               type="number"
               disabled={!edit}
@@ -159,7 +159,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("heads", {required: true})}
+              register={register("heads", { required: true })}
               label="No of Heads"
               type="number"
               disabled={!edit}
@@ -179,7 +179,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("length", {required: true})}
+              register={register("length", { required: true })}
               label="Duration Legnth"
               type="number"
               disabled={!edit}
@@ -189,7 +189,7 @@ const PlanDetail = ({updatePlan, closeModal}) => {
 
           <Grid item lg={6} md={6} sm={6}>
             <Input
-              register={register("amount", {required: true})}
+              register={register("amount", { required: true })}
               label="Amount"
               type="NUMBER"
               disabled={!edit}

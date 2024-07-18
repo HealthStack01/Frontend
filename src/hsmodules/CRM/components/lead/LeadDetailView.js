@@ -1,7 +1,7 @@
-import {useState, useEffect, useContext, useCallback} from "react";
-import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
+import { useState, useEffect, useContext, useCallback } from "react";
+import { Button, Grid, Box, Collapse, Typography } from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -12,9 +12,9 @@ import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
 import Drawer from "@mui/material/Drawer";
 import LinkIcon from "@mui/icons-material/Link";
-import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import ModalBox from "../../../../components/modal";
@@ -33,20 +33,20 @@ import AdditionalInformationCard, {
   CreateAdditionalInfo,
 } from "./AdditionalInfo";
 
-import {contactsData, additionalInformationData, staffsData} from "./data";
+import { contactsData, additionalInformationData, staffsData } from "./data";
 import ScheduleAppointment from "./ScheduleAppointment";
 import LeadUpload from "./LeadUpload";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import CrmAppointment from "../../Appointment";
 import CrmProposals from "../../Proposals";
 import Contact from "../../Contact";
 import RadioButton from "../../../../components/inputs/basic/Radio";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CRMTasks from "../../Tasks";
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
-import LeadDetailView, {PageLeadDetailView} from "../global/LeadDetail";
+import CustomerDetail, { PageCustomerDetail } from "../global/CustomerDetail";
+import LeadDetailView, { PageLeadDetailView } from "../global/LeadDetail";
 import VideoConference from "../../../utils/VideoConference";
-import {ObjectContext, UserContext} from "../../../../context";
+import { ObjectContext, UserContext } from "../../../../context";
 import client from "../../../../feathers";
 import CustomConfirmationDialog from "../../../../components/confirm-dialog/confirm-dialog";
 import StaffDetail from "../assigned-staffs/StaffDetail";
@@ -56,12 +56,13 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 import GlobalDealChat from "../global/DealChat";
 import dayjs from "dayjs";
 import SendLinkViaEmail from "../deals/SendLink";
+import Discount from "../../Discount";
 
 export const LeadView = () => {
-  const {register, reset, control, handleSubmit} = useForm();
+  const { register, reset, control, handleSubmit } = useForm();
   const [editLead, setEditLead] = useState(false);
 
-  const udpateLead = data => {
+  const udpateLead = (data) => {
     toast.success("Lead Detail Updated");
     setEditLead(false);
   };
@@ -96,7 +97,7 @@ export const LeadView = () => {
           <Button
             variant="contained"
             size="small"
-            sx={{textTransform: "capitalize"}}
+            sx={{ textTransform: "capitalize" }}
             color="success"
             onClick={handleSubmit(udpateLead)}
           >
@@ -107,7 +108,7 @@ export const LeadView = () => {
           <Button
             variant="contained"
             size="small"
-            sx={{textTransform: "capitalize"}}
+            sx={{ textTransform: "capitalize" }}
             onClick={() => setEditLead(true)}
           >
             <ModeEditOutlineOutlinedIcon fontSize="small" /> Edit
@@ -118,7 +119,7 @@ export const LeadView = () => {
       <Grid container spacing={1}>
         <Grid item xs={3}>
           <Input
-            register={register("deal_probability", {required: true})}
+            register={register("deal_probability", { required: true })}
             label="Probability"
             disabled={!editLead}
             //placeholder="Enter customer name"
@@ -127,7 +128,7 @@ export const LeadView = () => {
 
         <Grid item xs={3}>
           <Input
-            register={register("deal_size", {required: true})}
+            register={register("deal_size", { required: true })}
             label="Size"
             disabled={!editLead}
             //placeholder="Enter customer number"
@@ -136,7 +137,7 @@ export const LeadView = () => {
 
         <Grid item xs={3}>
           <CustomSelect
-            register={register("deal_status", {required: true})}
+            register={register("deal_status", { required: true })}
             label="Status"
             options={["Open", "Closed", "Pending"]}
             disabled={!editLead}
@@ -147,7 +148,7 @@ export const LeadView = () => {
 
         <Grid item xs={3}>
           <Input
-            register={register("weight_forcast", {required: true})}
+            register={register("weight_forcast", { required: true })}
             label="Weight Forcast"
             disabled={!editLead}
             //placeholder="Enter customer number"
@@ -174,7 +175,7 @@ export const LeadView = () => {
 
         <Grid item xs={4}>
           <CustomSelect
-            register={register("deal_next_action", {required: true})}
+            register={register("deal_next_action", { required: true })}
             label="Next Action"
             options={["First", "Second", "Third", "Fourth"]}
             disabled={!editLead}
@@ -214,7 +215,7 @@ export const DetailView = () => {
 
 export const AdditionalInformationView = () => {
   const dealServer = client.service("deal");
-  const {state, setState, hideActionLoader, showActionLoader} =
+  const { state, setState, hideActionLoader, showActionLoader } =
     useContext(ObjectContext);
   const [createModal, setCreateModal] = useState(false);
   const [informations, setInformations] = useState([]);
@@ -226,31 +227,31 @@ export const AdditionalInformationView = () => {
   });
   //const [informations, setInformations] = useState([]);
 
-  const removeAdditionalInfo = info => {
-    setInformations(prev => prev.filter(item => item._id !== info._id));
+  const removeAdditionalInfo = (info) => {
+    setInformations((prev) => prev.filter((item) => item._id !== info._id));
   };
 
-  const deleteAdditionalInfo = async info => {
+  const deleteAdditionalInfo = async (info) => {
     showActionLoader();
 
     const oldDealInfo = state.DealModule.selectedDeal.additionalInfo || [];
 
-    const updatedDealInfo = oldDealInfo.filter(item => item._id !== info._id);
+    const updatedDealInfo = oldDealInfo.filter((item) => item._id !== info._id);
 
     const documentId = state.DealModule.selectedDeal._id;
 
     await dealServer
-      .patch(documentId, {additionalInfo: updatedDealInfo})
-      .then(res => {
+      .patch(documentId, { additionalInfo: updatedDealInfo })
+      .then((res) => {
         hideActionLoader();
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
         cancelConfirm();
         toast.success(`You have successfully Deleted Addtional Information!`);
       })
-      .catch(err => {
+      .catch((err) => {
         hideActionLoader();
         toast.error(
           `Sorry, You weren't able to Delete the Addtional Information!. ${err}`
@@ -258,7 +259,7 @@ export const AdditionalInformationView = () => {
       });
   };
 
-  const confirmDelete = info => {
+  const confirmDelete = (info) => {
     setConfirmDialog({
       open: true,
       message:
@@ -305,18 +306,18 @@ export const AdditionalInformationView = () => {
         <Button
           variant="contained"
           size="small"
-          sx={{textTransform: "capitalize"}}
+          sx={{ textTransform: "capitalize" }}
           onClick={() => setCreateModal(true)}
         >
-          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> Add
-          Information
+          <AddCircleOutlineOutlinedIcon sx={{ mr: "5px" }} fontSize="small" />{" "}
+          Add Information
         </Button>
       </Box>
 
       <Box>
         {informations.length > 0 ? (
           informations.map((info, index) => (
-            <Box sx={{mb: 2}}>
+            <Box sx={{ mb: 2 }}>
               <AdditionalInformationCard
                 data={info}
                 action={() => confirmDelete(info)}
@@ -332,7 +333,7 @@ export const AdditionalInformationView = () => {
               justifyContent: "center",
             }}
           >
-            <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+            <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
               You've not added any information
             </Typography>
           </Box>
@@ -355,9 +356,9 @@ export const AdditionalInformationView = () => {
 
 export const StaffsListView = () => {
   const dealServer = client.service("deal");
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [staffs, setStaffs] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(false);
@@ -369,7 +370,7 @@ export const StaffsListView = () => {
     setStaffs(state.DealModule.selectedDeal.assignStaff);
   }, [state.DealModule]);
 
-  const handleSelectedStaff = staff => {
+  const handleSelectedStaff = (staff) => {
     setSelectedStaff(staff);
   };
 
@@ -392,27 +393,27 @@ export const StaffsListView = () => {
     const newStaffs = [staffDetail, ...staffs];
     const documentId = state.DealModule.selectedDeal._id;
     await dealServer
-      .patch(documentId, {assignStaff: newStaffs})
-      .then(res => {
+      .patch(documentId, { assignStaff: newStaffs })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
         setStaffs(newStaffs);
         toast.success(`You have successfully added a new Staff!`);
         setSuccess(true);
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         hideActionLoader();
         toast.error(`Sorry, You weren't able to add a new Staff!. ${err}`);
       });
   };
 
-  const confirmRemoveStaff = staff => {
+  const confirmRemoveStaff = (staff) => {
     //console.log(staff);
     setStaffToDel(staff);
     setConfirmDialog(true);
@@ -420,23 +421,23 @@ export const StaffsListView = () => {
 
   const handleRemoveStaff = async () => {
     showActionLoader();
-    const newStaffs = staffs.filter(item => item._id !== staffToDel._id);
+    const newStaffs = staffs.filter((item) => item._id !== staffToDel._id);
     const documentId = state.DealModule.selectedDeal._id;
     await dealServer
-      .patch(documentId, {assignStaff: newStaffs})
-      .then(res => {
+      .patch(documentId, { assignStaff: newStaffs })
+      .then((res) => {
         hideActionLoader();
         //setContacts(res.contacts);
         setConfirmDialog(false);
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: res},
+          DealModule: { ...prev.DealModule, selectedDeal: res },
         }));
         setStaffs(newStaffs);
         toast.success(`You have successfully Deleted Staff!`);
         //setReset(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //setReset(false);
         setConfirmDialog(false);
         hideActionLoader();
@@ -446,10 +447,10 @@ export const StaffsListView = () => {
 
   const staffColumns = getStaffColumns(confirmRemoveStaff, false);
 
-  const handleRow = row => {
-    setState(prev => ({
+  const handleRow = (row) => {
+    setState((prev) => ({
       ...prev,
-      StaffModule: {...prev.StaffModule, selectedStaff: row},
+      StaffModule: { ...prev.StaffModule, selectedStaff: row },
     }));
 
     setDetailModal(true);
@@ -457,7 +458,7 @@ export const StaffsListView = () => {
 
   const conditionalRowStyles = [
     {
-      when: row => row.active === false,
+      when: (row) => row.active === false,
       style: {
         backgroundColor: "pink",
         color: "white",
@@ -494,7 +495,7 @@ export const StaffsListView = () => {
           user?.currentEmployee?.roles?.includes("CRM Assign Staff")) && (
           <GlobalCustomButton onClick={handleAddStaff}>
             <AddCircleOutlineOutlinedIcon
-              sx={{marginRight: "5px"}}
+              sx={{ marginRight: "5px" }}
               fontSize="small"
             />
             Add Staff
@@ -535,7 +536,7 @@ export const StaffsListView = () => {
 
 export const StatusHistoryView = () => {
   const dealServer = client.service("deal");
-  const {state, setState, hideActionLoader, showActionLoader} =
+  const { state, setState, hideActionLoader, showActionLoader } =
     useContext(ObjectContext);
   const [histories, setHistories] = useState([]);
 
@@ -597,7 +598,7 @@ export const StatusHistoryView = () => {
 
   return (
     <Box>
-      <FormsHeaderText text="Deal's Status History" />
+      <FormsHeaderText text="Prospect's Status History" />
       <Box mt={1} mb={1}>
         <CustomTable
           title={"Contact List"}
@@ -607,7 +608,7 @@ export const StatusHistoryView = () => {
           highlightOnHover
           striped
           onRowClicked={handleRow}
-          CustomEmptyData="No Status History for this Deal yet..."
+          CustomEmptyData="No Status History for this Prospect yet..."
           progressPending={false}
           //conditionalRowStyles={conditionalRowStyles}
         />
@@ -620,7 +621,7 @@ export const UploadView = () => {
   const dealServer = client.service("deal");
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   const [viewModal, setViewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
@@ -636,44 +637,44 @@ export const UploadView = () => {
     setUploads(currentDeal.uploads || []);
   }, [state.DealModule]);
 
-  const handleRow = doc => {
+  const handleRow = (doc) => {
     console.log(doc);
     setSelectedDoc(doc);
     setViewModal(true);
   };
 
-  const handleDelete = async item => {
+  const handleDelete = async (item) => {
     showActionLoader();
 
     const currentDeal = state.DealModule.selectedDeal;
 
     const prevUploads = currentDeal.uploads || [];
 
-    const newUploads = prevUploads.filter(upload => upload._id !== item._id);
+    const newUploads = prevUploads.filter((upload) => upload._id !== item._id);
 
     const documentId = currentDeal._id;
 
     await dealServer
-      .patch(documentId, {uploads: newUploads})
-      .then(resp => {
+      .patch(documentId, { uploads: newUploads })
+      .then((resp) => {
         hideActionLoader();
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          DealModule: {...prev.DealModule, selectedDeal: resp},
+          DealModule: { ...prev.DealModule, selectedDeal: resp },
         }));
 
         handleCancelConfirm();
 
         toast.success("Document has been sucessfully Deleted");
       })
-      .catch(error => {
+      .catch((error) => {
         hideActionLoader();
         toast.error(`An error occured whilst Deleting your Document ${error}`);
         console.error(error);
       });
   };
 
-  const handleConfirmDelete = item => {
+  const handleConfirmDelete = (item) => {
     setConfirmDialog({
       open: true,
       type: "danger",
@@ -707,22 +708,22 @@ export const UploadView = () => {
         onClose={() => setViewModal(false)}
         header={`View Document ${selectedDoc?.name}`}
       >
-        <Box sx={{width: "85vw", height: "85vh"}}>
+        <Box sx={{ width: "85vw", height: "85vh" }}>
           {selectedDoc?.type === "image" ? (
             <iframe
-              style={{width: "100%", height: "100%"}}
+              style={{ width: "100%", height: "100%" }}
               src={selectedDoc?.uploadUrl}
             />
           ) : (
             <>
               {selectedDoc?.fileType === "pdf" ? (
                 <iframe
-                  style={{width: "100%", height: "100%"}}
+                  style={{ width: "100%", height: "100%" }}
                   src={selectedDoc?.uploadUrl}
                 />
               ) : (
                 <iframe
-                  style={{width: "100%", height: "100%"}}
+                  style={{ width: "100%", height: "100%" }}
                   src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.uploadUrl}`}
                 />
               )}
@@ -742,11 +743,11 @@ export const UploadView = () => {
         <Button
           variant="contained"
           size="small"
-          sx={{textTransform: "capitalize"}}
+          sx={{ textTransform: "capitalize" }}
           onClick={() => setUploadModal(true)}
         >
-          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> New
-          Upload
+          <AddCircleOutlineOutlinedIcon sx={{ mr: "5px" }} fontSize="small" />{" "}
+          New Upload
         </Button>
       </Box>
 
@@ -774,10 +775,9 @@ export const UploadView = () => {
   );
 };
 
-const LeadDetail = ({handleGoBack}) => {
+const LeadDetail = ({ handleGoBack }) => {
   const dealServer = client.service("deal");
-  const {state} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
   const [activateCall, setActivateCall] = useState(false);
@@ -785,10 +785,69 @@ const LeadDetail = ({handleGoBack}) => {
   const [unreadMsgs, setUnreadMsgs] = useState([]);
   const [dealStatus, setDealStatus] = useState("");
   const [sendLinkModal, setSendLinkModal] = useState(false);
+  const [discountModal, setDiscountModal] = useState(false);
   const [numOfMsg, setNumOfMsg] = useState(0);
+  const { register, handleSubmit, control } = useForm();
+  const { state, setState, showActionLoader, hideActionLoader } =
+    useContext(ObjectContext);
 
-  const handleSetCurrentView = view => {
+  const userId = user.currentEmployee.facilityDetail?._id;
+  console.log(userId, "userId");
+  const emId = user.currentEmployee;
+  console.log("employee", emId);
+
+  const handleSetCurrentView = (view) => {
     setCurrentView(view);
+  };
+
+  const ConvertToProspect = async () => {
+    showActionLoader();
+    const employee = user.currentEmployee;
+    const documentId = state.DealModule.selectedDeal._id;
+    const currentDeal = state.DealModule.selectedDeal.dealinfo;
+    const prevStatusHistory = state.DealModule.selectedDeal.statushx || [];
+
+    const dealinfo = {
+      ...currentDeal,
+      currStatus: "Convert to prospect",
+    };
+
+    const statusHistoryObj = {
+      date: new Date(),
+      employeename: `${employee.firstname} ${employee.lastname}`,
+      employeeId: employee.userId,
+      status: "Convert to prospect",
+    };
+
+    const newStatusHistory =
+      currentDeal?.currStatus !== dealStatus
+        ? [statusHistoryObj, ...prevStatusHistory]
+        : [...prevStatusHistory];
+
+    await dealServer
+      .patch(documentId, { dealinfo: dealinfo, statushx: newStatusHistory })
+      .then(async (res) => {
+        if (currentDeal?.currStatus !== dealStatus) {
+          hideActionLoader();
+          setState((prev) => ({
+            ...prev,
+            DealModule: { ...prev.DealModule, selectedDeal: res },
+          }));
+          toast.success(`Convert to prospect successfully!`);
+        } else {
+          hideActionLoader();
+          setState((prev) => ({
+            ...prev,
+            DealModule: { ...prev.DealModule, selectedDeal: res },
+          }));
+
+          toast.success(`Convert to prospect successfully!!`);
+        }
+      })
+      .catch((err) => {
+        hideActionLoader();
+        toast.error(`Sorry, You weren't able to convert to prospect. ${err}`);
+      });
   };
 
   const getUnReadMessages = useCallback(async () => {
@@ -803,7 +862,7 @@ const LeadDetail = ({handleGoBack}) => {
         //_id: id,
         // $select: ["chat"],
         //lga: "Ikeja",
-        "chat.seen": {$in: [userId]},
+        "chat.seen": { $in: [userId] },
       },
     });
 
@@ -824,11 +883,11 @@ const LeadDetail = ({handleGoBack}) => {
           $select: ["chat"],
         },
       })
-      .then(resp => {
+      .then((resp) => {
         const data = resp.data[0];
         const msgs = data.chat;
         console.log(msgs);
-        msgs.map(msg => {
+        msgs.map((msg) => {
           if (
             msg.senderId === userId ||
             msg.seen.includes(userId) ||
@@ -836,11 +895,11 @@ const LeadDetail = ({handleGoBack}) => {
           ) {
             return;
           } else {
-            return setUnreadMsgs(prev => [msg._id, ...prev]);
+            return setUnreadMsgs((prev) => [msg._id, ...prev]);
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         // toast.error("There was an error getting messages for this chat");
         console.log(err);
       });
@@ -851,10 +910,10 @@ const LeadDetail = ({handleGoBack}) => {
   }, []);
 
   useEffect(() => {
-    dealServer.on("created", obj => getUnreadMessagesCount());
-    dealServer.on("updated", obj => getUnreadMessagesCount());
-    dealServer.on("patched", obj => getUnreadMessagesCount());
-    dealServer.on("removed", obj => getUnreadMessagesCount());
+    dealServer.on("created", (obj) => getUnreadMessagesCount());
+    dealServer.on("updated", (obj) => getUnreadMessagesCount());
+    dealServer.on("patched", (obj) => getUnreadMessagesCount());
+    dealServer.on("removed", (obj) => getUnreadMessagesCount());
   }, []);
 
   useEffect(() => {
@@ -863,7 +922,7 @@ const LeadDetail = ({handleGoBack}) => {
     setDealStatus(deal.currStatus);
   }, [state.DealModule]);
 
-  console.log("invoices",state.DealModule.selectedDeal);
+  console.log("invoices", state.DealModule.selectedDeal);
 
   return (
     <Box
@@ -898,7 +957,7 @@ const LeadDetail = ({handleGoBack}) => {
           gap={1}
         >
           <GlobalCustomButton onClick={handleGoBack}>
-            <ArrowBackIcon sx={{marginRight: "3px"}} fontSize="small" />
+            <ArrowBackIcon sx={{ marginRight: "3px" }} fontSize="small" />
             Back
           </GlobalCustomButton>
 
@@ -908,7 +967,7 @@ const LeadDetail = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Deal Details
+            Prospect Details
           </Typography>
         </Box>
 
@@ -927,17 +986,18 @@ const LeadDetail = ({handleGoBack}) => {
               color="info"
               onClick={() => setSendLinkModal(true)}
             >
-              <LinkIcon fontSize="small" sx={{marginRight: "2px"}} /> Send Link
+              <LinkIcon fontSize="small" sx={{ marginRight: "2px" }} /> Send
+              Link
             </GlobalCustomButton>
           )}
 
           <Badge
             badgeContent={unreadMsgs.length}
             color="secondary"
-            sx={{marginRight: "10px"}}
+            sx={{ marginRight: "10px" }}
           >
             <GlobalCustomButton onClick={() => setChat(true)}>
-              <ChatIcon fontSize="small" sx={{marginRight: "2px"}} />
+              <ChatIcon fontSize="small" sx={{ marginRight: "2px" }} />
               Chats
             </GlobalCustomButton>
           </Badge>
@@ -1116,6 +1176,13 @@ const LeadDetail = ({handleGoBack}) => {
             }
           >
             contacts
+          </GlobalCustomButton>
+          <GlobalCustomButton
+            disabled={dealStatus === "Convert to prospect"}
+            color="secondary"
+            onClick={ConvertToProspect}
+          >
+            Convert to Prospect
           </GlobalCustomButton>
         </Box>
       </Box>

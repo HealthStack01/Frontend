@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useCallback} from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../../../context";
+import { UserContext, ObjectContext } from "../../../../context";
 import "react-datepicker/dist/react-datepicker.css";
 import PendingIcon from "@mui/icons-material/Pending";
 
-import {PageWrapper} from "../../../../ui/styled/styles";
-import {TableMenu} from "../../../../ui/styled/global";
+import { PageWrapper } from "../../../../ui/styled/styles";
+import { TableMenu } from "../../../../ui/styled/global";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
 import CustomTable from "../../../../components/customtable";
 
@@ -16,8 +16,8 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import LockIcon from "@mui/icons-material/Lock";
 import client from "../../../../feathers";
 import dayjs from "dayjs";
-import {Typography} from "@mui/material";
-import {Box} from "@mui/system";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -27,37 +27,42 @@ const OpenDealsList = ({
   showSuspendedDeals,
 }) => {
   // eslint-disable-next-line
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [openDeals, setOpenDeals] = useState([]);
   const dealServer = client.service("deal");
 
   const getFacilities = useCallback(async () => {
+    setLoading(true);
     const testId = "60203e1c1ec8a00015baa357";
     const facId = user.currentEmployee.facilityDetail._id;
-    setLoading(true);
+    const employeeId = user.currentEmployee.userId;
 
-    const res = await dealServer.find({
-      query: {
-        facilityId: facId,
-        $sort: {
-          createdAt: -1,
-        },
-        $or: [
-          {
-            "dealinfo.currStatus": "open",
-          },
-          {
-            "dealinfo.currStatus": "Open",
-          },
-        ],
+    const isAdmin =
+      user?.currentEmployee?.roles?.includes("Admin") &&
+      user?.currentEmployee?.roles?.includes("CRM Authorization");
+
+    let query = {
+      facilityId: facId,
+      $sort: {
+        createdAt: -1,
       },
-    });
-    await setOpenDeals(res.data);
+      $or: [
+        { "dealinfo.currStatus": "open" },
+        { "dealinfo.currStatus": "Open" },
+      ],
+    };
+
+    if (!isAdmin) {
+      query.createdby = employeeId;
+    }
+    const res = await dealServer.find({ query });
+
+    setOpenDeals(res.data);
     //console.log(res.data);
     setLoading(false);
   }, []);
@@ -74,23 +79,23 @@ const OpenDealsList = ({
     showSuspendedDeals();
   };
 
-  const handleRow = async data => {
-    setState(prev => ({
+  const handleRow = async (data) => {
+    setState((prev) => ({
       ...prev,
-      DealModule: {...prev.DealModule, selectedDeal: data},
+      DealModule: { ...prev.DealModule, selectedDeal: data },
     }));
     setDealDetail("detail");
   };
 
-  const handleSearch = val => {};
+  const handleSearch = (val) => {};
 
-  const returnCell = status => {
+  const returnCell = (status) => {
     switch (status.toLowerCase()) {
       case "open":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+        return <span style={{ color: "#17935C" }}>{status}</span>;
 
       case "pending":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+        return <span style={{ color: "#0364FF" }}>{status}</span>;
 
       default:
         break;
@@ -111,9 +116,9 @@ const OpenDealsList = ({
       name: "Customer Name",
       key: "sn",
       description: "Enter name of Company",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row?.name}
@@ -131,7 +136,7 @@ const OpenDealsList = ({
       name: "Customer Type",
       key: "type",
       description: "Enter Telestaff name",
-      selector: row => row?.type,
+      selector: (row) => row?.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -144,7 +149,7 @@ const OpenDealsList = ({
       name: "Phone",
       key: "phone",
       description: "Enter name of Company",
-      selector: row => row?.phone,
+      selector: (row) => row?.phone,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -154,9 +159,9 @@ const OpenDealsList = ({
       name: "Email",
       key: "email",
       description: "Enter name of Company",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row?.email}
@@ -179,7 +184,18 @@ const OpenDealsList = ({
       name: "Probability",
       key: "probability",
       description: "Enter bills",
-      selector: row => row?.dealinfo?.probability,
+      selector: (row) => {
+        const probability = row?.dealinfo?.probability;
+        if (
+          probability !== undefined &&
+          probability !== null &&
+          !isNaN(probability)
+        ) {
+          return `${Number(probability).toFixed()}%`;
+        } else {
+          return "0%";
+        }
+      },
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -199,7 +215,7 @@ const OpenDealsList = ({
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => returnCell(row?.dealinfo?.currStatus),
+      cell: (row) => returnCell(row?.dealinfo?.currStatus),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -212,9 +228,9 @@ const OpenDealsList = ({
       key: "dealinfo",
       description: "Enter bills",
       selector: "status",
-      cell: row => (
+      cell: (row) => (
         <Typography
-          sx={{fontSize: "0.75rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.75rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row?.dealinfo?.nextAction}
@@ -224,65 +240,69 @@ const OpenDealsList = ({
       required: true,
       inputType: "TEXT",
     },
-    {
-      name: "Size",
-      key: "dealinfo",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => row?.dealinfo?.size,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Size",
+    //   key: "dealinfo",
+    //   description: "Enter bills",
+    //   selector: "status",
+    //   cell: (row) => row?.dealinfo?.size,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
 
-    {
-      name: "Weight Forecast",
-      key: "dealinfo",
-      description: "Enter bills",
-      selector: "status",
-      cell: row => row?.dealinfo?.weightForecast,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
+    // {
+    //   name: "Weight Forecast",
+    //   key: "dealinfo",
+    //   description: "Enter bills",
+    //   selector: "status",
+    //   cell: (row) => row?.dealinfo?.weightForecast,
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
   ];
 
   return (
     <>
       <div className="level">
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
           <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                List of Open Deals
+              <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                List of Open Prospects
               </h2>
             </div>
 
-            <Box sx={{display: "flex"}} gap={2}>
+            <Box sx={{ display: "flex" }} gap={2}>
               <GlobalCustomButton onClick={handleShowClosedDeals} color="error">
-                <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Closed Deals
+                <LockIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                View Closed Prospects
               </GlobalCustomButton>
 
               <GlobalCustomButton
                 onClick={handleShowSuspendedDeals}
                 color="warning"
               >
-                <PendingIcon fontSize="small" sx={{marginRight: "5px"}} />
-                View Suspended Deals
+                <PendingIcon fontSize="small" sx={{ marginRight: "5px" }} />
+                View Suspended Prospects
               </GlobalCustomButton>
             </Box>
           </TableMenu>
-          <div style={{
-          width: "100%", 
-          overflow: "auto",
-          height:"calc(100vh - 180px)"
-          }}>
+          <div
+            style={{
+              width: "100%",
+              overflow: "auto",
+              height: "calc(100vh - 180px)",
+            }}
+          >
             <CustomTable
               title={""}
               columns={dealsColumns}

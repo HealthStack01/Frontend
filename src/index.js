@@ -1,4 +1,4 @@
-import React,  { Profiler }  from "react";
+import React  from "react";
 import ErrorBoundary from "./ErrorBoundary";
 //  import { createRoot } from 'react-dom/client';
 import ReactDOM from "react-dom";
