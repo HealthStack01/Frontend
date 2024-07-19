@@ -1,38 +1,51 @@
 import { Box, Typography, Card, CardContent, Grid } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
-import { ObjectContext } from "../../../context";
-import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
+import { ObjectContext, UserContext } from "../../../context";
 import TotalRevenueIcon from "@mui/icons-material/AttachMoney";
-import TotalMoneyCollectedIcon from "@mui/icons-material/MonetizationOn";
-import PendingBillsIcon from "@mui/icons-material/ReceiptLong";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 
 import client from "../../../feathers";
 
 import {
-  DashboardContainer,
   DashboardPageWrapper,
-  StartCardWapper,
 } from "../core-ui/styles";
 import { userDetails } from "../utils/fetchUserDetails";
 
 import { TotalModeltDataForPresent } from "../utils/chartData/queryHandler";
 
 import {
-  FetchTotalRevenue,
-  FetchTotalBalance,
   FetchTotalMoneyCollectedWithInPresentRange,
-  FetchTotalPendingBills,
-  FetchTotalMoneyCollected,
   ModelResult,
 } from "../utils/chartData/chartDataHandler";
-import is from "date-fns/esm/locale/is/index.js";
 import { PageWrapper } from "../../../ui/styled/styles";
 import { TableMenu } from "../../../ui/styled/global";
 import CustomTable from "../../../components/customtable";
 import { financeRevenueData } from "../../Finance/schema";
 import FilterMenu from "../../../components/utilities/FilterMenu";
-import MuiClearDatePicker from "../../../components/inputs/Date/MuiClearDatePicker";
+import { processFinanceRevenueData } from "../utils/aggOrderCategory";
+import { toast } from "bulma-toast";
+import { calculateTotalRevenuePresent } from "../utils/aggOrder";
+import ExcelExport from "../../Finance/ui-components/DownloadExcelButton";
+import { set } from "date-fns";
+
+const CustomLoader = () => (
+  <div
+    style={{
+      padding: "24px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <img
+      src="/loading.gif"
+      style={{width: "200px", height: "auto", display: "block"}}
+    />
+    <Typography sx={{marginTop: "-2rem", fontSize: "0.85rem"}}>
+      Hold on, whilst we fetch your data...
+    </Typography>
+  </div>
+);
 
 const FinanceDashboard = () => {
   const { showActionLoader, hideActionLoader } = useContext(ObjectContext);
@@ -42,20 +55,13 @@ const FinanceDashboard = () => {
   const inventoryService = client.service("inventory");
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-
-  //query function
-  const { fetchTotalRevenue } = FetchTotalRevenue(billsService);
-  const { fetchTotalBalance } = FetchTotalBalance(billsService);
-  const { fetchTotalPendingBills } = FetchTotalPendingBills(billsService);
-  const { fetchTotalMoneyCollected } = FetchTotalMoneyCollected(billsService);
-
-  const {
-    totalPresentDataObject: fetchTotalMoneyCollectedPresentDataObject,
-    isLoading,
-  } = TotalModeltDataForPresent(
-    billsService,
-    FetchTotalMoneyCollectedWithInPresentRange
-  );
+  const InventoryServ = client.service("subwallettransactions");
+  const [revenueData, setRevenueData] = useState([]);
+  const { user } = useContext(UserContext); //,setUser
+  const [searchTerm, setSearchTerm] = useState("");
+  const [presentOrderData, setPresentOrderData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
 
   const { modelResult } = ModelResult(billsService);
 
@@ -65,10 +71,59 @@ const FinanceDashboard = () => {
     setFacilityName(facilityFullName);
   }, []);
 
-  console.log("fetchTotalMoneyCollectedPresentDataObject", {
-    fetchTotalMoneyCollectedPresentDataObject,
-    isLoading,
-  });
+  useEffect(() => {
+    getRevenuedetails();
+    return () => {};
+  }, []);
+
+
+  const getRevenuedetails = () => {  
+    return InventoryServ.find({
+      query: {
+        facility: user.currentEmployee.facilityDetail._id,
+        category: "debit",
+        // 'info.orderInfo.orderObj.order_category': "Prescription",  // Filter for Prescription order category
+        createdAt: {
+          $gte: new Date(new Date().getFullYear(), 0, 1).toISOString(), // Start of current year
+          $lte: new Date().toISOString() // Current date and time
+        },
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    }).then((res) => {
+          const processedData = processFinanceRevenueData(res.data);
+          const presentOrderDetails = calculateTotalRevenuePresent(res.data);
+          setRevenueData(processedData);
+          setPresentOrderData(presentOrderDetails);
+          toast({
+            message: "Revenue details details succesful",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log("====>>>> ERROR <<<<<====",{
+            error: err
+          })
+          toast({
+            message: "Error getting revenue details " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    };
+
+  const handleSearch = (searchValue) => {
+      setSearchTerm(searchValue);
+   };
+
+   const filteredRevenueData = revenueData.filter(item =>
+    item.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const FinanceRevenueSchema = [
     {
@@ -80,15 +135,6 @@ const FinanceDashboard = () => {
       inputType: "HIDDEN",
     },
     {
-      name: "Date",
-      key: "createdAt",
-      description: "Enter Date",
-      selector: (row) => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-    {
       name: "Category",
       key: "category",
       description: "category",
@@ -96,6 +142,15 @@ const FinanceDashboard = () => {
       sortable: true,
       required: true,
       inputType: "TEXT",
+    },
+    {
+      name: "Revenue(day)",
+      key: "revenueWeek",
+      description: "Revenue Per day",
+      selector: (row) => row.revenueDay,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
     },
     {
       name: "Revenue(week)",
@@ -110,7 +165,7 @@ const FinanceDashboard = () => {
       name: "Revenue(month)",
       key: "revenueWeek",
       description: "Revenue Per Week",
-      selector: (row) => row.revenueWeek,
+      selector: (row) => row.revenueMonth,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -124,20 +179,27 @@ const FinanceDashboard = () => {
       required: true,
       inputType: "NUMBER",
     },
-    {
-      name: "Total Revenue",
-      key: "totalRevenue",
-      description: "Total Revenue",
-      selector: (row) => row.totalRevenue,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
   ];
 
   const onRowClicked = () => {};
 
-  const handleSearch = (searchValue) => {};
+
+  if (isLoading) {
+    return(
+          <Box
+    sx={{
+      width: "100%",
+      height: "calc(100% - 104px)",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <CustomLoader />
+  </Box>
+    )
+
+  }
+
 
   return (
     <DashboardPageWrapper>
@@ -155,6 +217,40 @@ const FinanceDashboard = () => {
           alignItems="center"
           style={{ marginTop: "20px" }}
         >
+   {/* Money Collected Card in a day */}
+   <Grid item xs={12} md={3}>
+            <Card sx={{ borderRadius: 2 }}>
+              <CardContent>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  fontWeight="bold"
+                  gutterBottom
+                >
+                  Total Revenue (day)
+                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography variant="h5" fontWeight="bold" component="div">
+                      {`₦${presentOrderData.revenueDay.toFixed(0)}`}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <TotalRevenueIcon
+                      sx={{
+                        fontSize: 48,
+                        bgcolor: "#dfdfec",
+                        p: 1,
+                        borderRadius: 8,
+                        color: "#002D5C",
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
           {/* Money Collected Card in a week */}
           <Grid item xs={12} md={3}>
             <Card sx={{ borderRadius: 2 }}>
@@ -170,7 +266,7 @@ const FinanceDashboard = () => {
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box sx={{ flexGrow: 1 }}>
                     <Typography variant="h5" fontWeight="bold" component="div">
-                      {`₦${fetchTotalMoneyCollectedPresentDataObject.totalInPresentWeek}`}
+                      {`₦${presentOrderData.revenueWeek.toFixed(0)}`}
                     </Typography>
                   </Box>
                   <Box>
@@ -204,7 +300,7 @@ const FinanceDashboard = () => {
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box sx={{ flexGrow: 1 }}>
                     <Typography variant="h5" fontWeight="bold" component="div">
-                      {`₦${fetchTotalMoneyCollectedPresentDataObject.totalInPresentMonth}`}
+                      {`₦${presentOrderData.revenueMonth.toFixed(0)}`} 
                     </Typography>
                   </Box>
                   <Box>
@@ -238,7 +334,7 @@ const FinanceDashboard = () => {
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box sx={{ flexGrow: 1 }}>
                     <Typography variant="h5" fontWeight="bold" component="div">
-                      {`₦${fetchTotalMoneyCollectedPresentDataObject.totalInPresentYear}`}
+                      {`₦${presentOrderData.revenueYear.toFixed(0)}`}
                     </Typography>
                   </Box>
                   <Box>
@@ -349,26 +445,30 @@ const FinanceDashboard = () => {
             }}
           >
             <TableMenu style={{ marginTop: "10px" }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              <div style={{ display: "flex", alignItems: "center",
+
+                flexDirection: "row",
+                gap: "10px",
+               }}>
+                {/* <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   Service Revenue
-                </h2>
-              </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
+                </h2> */}
+                <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
-                    <FilterMenu onSearch={handleSearch} />
+                  <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
                 <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                  Search Revenue
+                  Search Revenue by Category
                 </h2>
-                <MuiClearDatePicker
-                  value={startDate}
-                  setValue={setStartDate}
-                  label="Filter By Date"
-                  format="dd/MM/yyyy"
-                />
+              </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                  Download Revenue Data
+                </h2>
+                <ExcelExport data={filteredRevenueData} fileName="revenue data" />
               </div>
             </TableMenu>
 
@@ -376,7 +476,7 @@ const FinanceDashboard = () => {
               <CustomTable
                 title={""}
                 columns={FinanceRevenueSchema}
-                data={financeRevenueData}
+                data={filteredRevenueData}
                 pointerOnHover
                 highlightOnHover
                 striped

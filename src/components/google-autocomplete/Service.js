@@ -29,7 +29,7 @@ const useGooglePlaceAutoComplete = () => {
       if (componentType === "street_number") {
         address = component.long_name;
       }
-      if (componentType === "route") {
+      if (componentType === "") {
         address = `${address || ""} ${component.long_name}`;
       }
       if (componentType === "locality") {
