@@ -152,22 +152,22 @@ const SLADetail = ({ handleGoBack }) => {
       inputType: "TEXT",
     },
 
-    {
-      name: "Action",
-      key: "doc_type",
-      description: "Enter Date",
-      selector: (row) => (
-        <IconButton size="small" color="error" onClick={handleDeleteFile}>
-          <DeleteOutlineIcon fontSize="small" />
-        </IconButton>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-      style: {
-        textTransform: "uppercase",
-      },
-    },
+    // {
+    //   name: "Action",
+    //   key: "doc_type",
+    //   description: "Enter Date",
+    //   selector: (row) => (
+    //     <IconButton size="small" color="error" onClick={handleDeleteFile}>
+    //       <DeleteOutlineIcon fontSize="small" />
+    //     </IconButton>
+    //   ),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    //   style: {
+    //     textTransform: "uppercase",
+    //   },
+    // },
   ];
 
   const handleRow = (doc) => {

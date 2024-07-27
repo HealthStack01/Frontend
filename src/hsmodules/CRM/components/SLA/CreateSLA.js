@@ -23,6 +23,7 @@ import { ObjectContext, UserContext } from "../../../../context";
 import {
   ProposalAttachDocument,
   SendProposalOrSLA,
+  ProposalSignedAttachDocument,
 } from "../proposal/ProposalCreate";
 import CustomTable from "../../../../components/customtable";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -44,6 +45,7 @@ const CreateSLA = ({ handleGoBack }) => {
   const [attachModal, setAttachModal] = useState(false);
   const [attachSignedFileModal, setAttachSignedFileModal] = useState(false);
   const [attachedDocs, setAttachedDocs] = useState([]);
+  const [attachedSignedDocs, setAttachedSignedDocs] = useState([]);
   const [draftedSLA, setDraftedSLA] = useState(null);
   const [docViewModal, setDocviewModal] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState({});
@@ -67,10 +69,6 @@ const CreateSLA = ({ handleGoBack }) => {
   }, []);
 
   const handleAttachDoc = (document) => {
-    setAttachedDocs((prev) => [document, ...prev]);
-  };
-
-  const handleAttachSignedDoc = (document) => {
     setAttachedDocs((prev) => [document, ...prev]);
   };
 
@@ -99,7 +97,7 @@ const CreateSLA = ({ handleGoBack }) => {
           }}
           data-tag="allowRowEvents"
         >
-          {row.createdByName}
+          {row.createdByName || row.updatedByName}
         </Typography>
       ),
       sortable: true,
@@ -170,13 +168,10 @@ const CreateSLA = ({ handleGoBack }) => {
       name: "Doc Status",
       key: "doc_type",
       description: "Enter Date",
-      selector: (row) => row.fileType,
+      selector: (row) => row.docStatus || "Not Approved",
       sortable: true,
       required: true,
       inputType: "TEXT",
-      style: {
-        textTransform: "uppercase",
-      },
     },
 
     {
@@ -193,7 +188,7 @@ const CreateSLA = ({ handleGoBack }) => {
           }}
           data-tag="allowRowEvents"
         >
-          {row.createdByName}
+          {row.updatedByName || "Not Approved"}
         </Typography>
       ),
       sortable: true,
@@ -202,22 +197,22 @@ const CreateSLA = ({ handleGoBack }) => {
       // width: '100px',
     },
 
-    {
-      name: "Action",
-      key: "doc_type",
-      description: "Enter Date",
-      selector: (row) => (
-        <IconButton size="small" color="error">
-          <DeleteOutlineIcon fontSize="small" />
-        </IconButton>
-      ),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-      style: {
-        textTransform: "uppercase",
-      },
-    },
+    // {
+    //   name: "Action",
+    //   key: "doc_type",
+    //   description: "Enter Date",
+    //   selector: (row) => (
+    //     <IconButton size="small" color="error">
+    //       <DeleteOutlineIcon fontSize="small" />
+    //     </IconButton>
+    //   ),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    //   style: {
+    //     textTransform: "uppercase",
+    //   },
+    // },
   ];
 
   const handleCreateSLA = async (status) => {
@@ -388,6 +383,72 @@ const CreateSLA = ({ handleGoBack }) => {
           }
         });
     }
+  };
+
+  const approvedAttachSignDoc = async () => {
+    const currentDeal = state.DealModule.selectedDeal;
+    showActionLoader();
+    if (attachedSignedDocs.length > 0) {
+      const promises = attachedSignedDocs.map(async (doc) => {
+        if (doc.isUploaded) {
+          return doc;
+        } else {
+          const fileUrl = await getUploadUrl(doc.file);
+          return {
+            ...doc,
+            file: fileUrl,
+            isUploaded: true,
+          };
+        }
+      });
+      console.log(promises);
+      const attachments = await Promise.all(promises);
+      const prevSLA = currentDeal.sla || [];
+      const isDraft = Object.keys(draftedSLA).length > 0;
+
+      const newSLA = isDraft
+        ? prevSLA.map((item) => {
+            if (item._id === draftedSLA._id) {
+              return {
+                ...item,
+                attachedFiles: attachments,
+                updatedAt: new Date(),
+              };
+            } else {
+              return item;
+            }
+          })
+        : prevSLA;
+      // console.log(attachedDocs);
+      if (isDraft) {
+        const documentId = currentDeal._id;
+        await dealServer
+          .patch(documentId, { sla: newSLA })
+          .then((res) => {
+            hideActionLoader();
+            setState((prev) => ({
+              ...prev,
+              DealModule: { ...prev.DealModule, selectedDeal: res },
+            }));
+
+            setAttachedDocs(attachments);
+            setDescription("");
+            setAttachSignedFileModal(false);
+            toast.success("SLA document was successfully signed");
+          })
+          .catch((err) => {
+            hideActionLoader();
+            toast.error(`Sorry, failed to sign SLA document. ${err}`);
+          });
+      } else {
+        hideActionLoader();
+        toast.error("No draft SLA document found to update.");
+      }
+    }
+  };
+
+  const handleAttachSignedDoc = (document) => {
+    setAttachedSignedDocs((prev) => [document, ...prev]);
   };
 
   const handleSendSLA = async (emailData) => {
@@ -655,7 +716,10 @@ const CreateSLA = ({ handleGoBack }) => {
             Save as Draft
           </GlobalCustomButton>
 
-          <GlobalCustomButton onClick={showSendModal}>
+          <GlobalCustomButton
+            onClick={showSendModal}
+            disabled={attachedDocs.docStatus === "Not Approved"}
+          >
             <OutboxIcon fontSize="small" sx={{ marginRight: "5px" }} />
             Send SLA
           </GlobalCustomButton>
@@ -688,7 +752,7 @@ const CreateSLA = ({ handleGoBack }) => {
                 Attach New File
               </GlobalCustomButton>
 
-              {/* {user?.currentEmployee?.roles?.includes("Admin") &&
+              {user?.currentEmployee?.roles?.includes("Admin") &&
                 user?.currentEmployee?.roles?.includes("CRM Authorization") && (
                   <GlobalCustomButton
                     onClick={() => setAttachSignedFileModal(true)}
@@ -696,7 +760,7 @@ const CreateSLA = ({ handleGoBack }) => {
                     <AttachFileIcon fontSize="small" />
                     Attach Signed File
                   </GlobalCustomButton>
-                )} */}
+                )}
             </Box>
           </Box>
 
@@ -758,16 +822,17 @@ const CreateSLA = ({ handleGoBack }) => {
           addAttachedFile={handleAttachDoc}
         />
       </ModalBox>
-      {/* <ModalBox
+      <ModalBox
         open={attachSignedFileModal}
         onClose={() => setAttachSignedFileModal(false)}
         header="Attach Signed File to SLA"
       >
-        <ProposalAttachDocument
-          closeModal={() => setAttachSignedFileModal(false)}
+        <ProposalSignedAttachDocument
+          // closeModal={() => setAttachSignedFileModal(false)}
           addAttachedFile={handleAttachSignedDoc}
+          handleUploadFile={approvedAttachSignDoc}
         />
-      </ModalBox> */}
+      </ModalBox>
     </Box>
   );
 };

@@ -215,7 +215,8 @@ const ClosedDealsList = ({
 
       case "closed":
         return <span style={{ color: "red" }}>{status}</span>;
-
+      case "convert to prospect":
+        return <span style={{ color: "yellowgreen" }}>{status}</span>;
       default:
         break;
     }

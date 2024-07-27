@@ -1,43 +1,43 @@
-import {useContext, useState, useEffect} from "react";
-import {Box, Grid, IconButton, Typography} from "@mui/material";
+import { useContext, useState, useEffect } from "react";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import ModalBox from "../../../../components/modal";
-import {FormsHeaderText} from "../../../../components/texts";
+import { FormsHeaderText } from "../../../../components/texts";
 import ProposalDescription from "./ProposalDescription";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import {CKEditor} from "@ckeditor/ckeditor5-react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {LeadView} from "../lead/LeadDetailView";
+import { LeadView } from "../lead/LeadDetailView";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import ArticleIcon from "@mui/icons-material/Article";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import {FileUploader} from "react-drag-drop-files";
+import { FileUploader } from "react-drag-drop-files";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SendIcon from "@mui/icons-material/Send";
 
-import CustomerDetail, {PageCustomerDetail} from "../global/CustomerDetail";
-import {PageLeadDetailView} from "../global/LeadDetail";
+import CustomerDetail, { PageCustomerDetail } from "../global/CustomerDetail";
+import { PageLeadDetailView } from "../global/LeadDetail";
 import Textarea from "../../../../components/inputs/basic/Textarea";
-import {ObjectContext, UserContext} from "../../../../context";
-import {v4 as uuidv4} from "uuid";
+import { ObjectContext, UserContext } from "../../../../context";
+import { v4 as uuidv4 } from "uuid";
 import CustomTable from "../../../../components/customtable";
 import dayjs from "dayjs";
-import {getBase64} from "../../../helpers/getBase64";
+import { getBase64 } from "../../../helpers/getBase64";
 import axios from "axios";
-import {getUploadUrl} from "../../../helpers/getUploadUrl";
+import { getUploadUrl } from "../../../helpers/getUploadUrl";
 import client from "../../../../feathers";
-import {toast} from "react-toastify";
-import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
+import { toast } from "react-toastify";
+import { ContactsEmailSource, EmailsSourceList } from "../deals/SendLink";
 
-const CreateProposal = ({handleGoBack}) => {
+const CreateProposal = ({ handleGoBack }) => {
   const dealServer = client.service("deal");
   const emailServer = client.service("email");
-  const {user} = useContext(UserContext);
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { user } = useContext(UserContext);
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
   const [description, setDescription] = useState("");
   const [attachModal, setAttachModal] = useState(false);
@@ -56,16 +56,16 @@ const CreateProposal = ({handleGoBack}) => {
     setAttachedDocs(proposal.attachedFiles || []);
 
     return () => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
-        ProposalModule: {...prev.ProposalModule, selectedProposal: {}},
+        ProposalModule: { ...prev.ProposalModule, selectedProposal: {} },
       }));
       setDraftProposal({});
     };
   }, []);
 
-  const handleAttachDoc = document => {
-    setAttachedDocs(prev => [document, ...prev]);
+  const handleAttachDoc = (document) => {
+    setAttachedDocs((prev) => [document, ...prev]);
   };
 
   const attachedFileColumns = [
@@ -83,7 +83,7 @@ const CreateProposal = ({handleGoBack}) => {
       name: "Attached By",
       key: "filename",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <Typography
           sx={{
             fontSize: "0.8rem",
@@ -106,9 +106,9 @@ const CreateProposal = ({handleGoBack}) => {
       name: "File Name",
       key: "filename",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2" }}
           data-tag="allowRowEvents"
         >
           {row.fileName}
@@ -124,7 +124,7 @@ const CreateProposal = ({handleGoBack}) => {
       //style: {color: "#0364FF"},
       key: "date",
       description: "Enter Date",
-      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm  A "),
+      selector: (row) => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm  A "),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -134,7 +134,7 @@ const CreateProposal = ({handleGoBack}) => {
       name: "File Type",
       key: "doc_type",
       description: "Enter Date",
-      selector: row => row.fileType,
+      selector: (row) => row.fileType,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -145,12 +145,12 @@ const CreateProposal = ({handleGoBack}) => {
 
     {
       name: "Comment",
-      style: {color: "#0364FF"},
+      style: { color: "#0364FF" },
       key: "doc_type",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.comment}
@@ -165,7 +165,7 @@ const CreateProposal = ({handleGoBack}) => {
       name: "Action",
       key: "doc_type",
       description: "Enter Date",
-      selector: row => (
+      selector: (row) => (
         <IconButton size="small" color="error">
           <DeleteOutlineIcon fontSize="small" />
         </IconButton>
@@ -179,7 +179,7 @@ const CreateProposal = ({handleGoBack}) => {
     },
   ];
 
-  const handleCreateProposal = async status => {
+  const handleCreateProposal = async (status) => {
     if (description === "" && attachedDocs.length === 0)
       return toast.error("You cannot send/save an empty Proposal");
 
@@ -188,7 +188,7 @@ const CreateProposal = ({handleGoBack}) => {
     const currentDeal = state.DealModule.selectedDeal;
 
     if (attachedDocs.length > 0) {
-      const promises = attachedDocs.map(async doc => {
+      const promises = attachedDocs.map(async (doc) => {
         if (doc.isUploaded) {
           return doc;
         } else {
@@ -227,7 +227,7 @@ const CreateProposal = ({handleGoBack}) => {
       const isDraft = Object.keys(draftProposal).length > 0;
 
       const newProposals = isDraft
-        ? prevProposals.map(item => {
+        ? prevProposals.map((item) => {
             if (item._id === draftProposal._id) {
               return {
                 ...item,
@@ -246,12 +246,12 @@ const CreateProposal = ({handleGoBack}) => {
 
       const documentId = currentDeal._id;
       await dealServer
-        .patch(documentId, {proposal: newProposals})
-        .then(res => {
+        .patch(documentId, { proposal: newProposals })
+        .then((res) => {
           hideActionLoader();
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
-            DealModule: {...prev.DealModule, selectedDeal: res},
+            DealModule: { ...prev.DealModule, selectedDeal: res },
           }));
 
           setAttachedDocs([]);
@@ -264,7 +264,7 @@ const CreateProposal = ({handleGoBack}) => {
             toast.success(`Proposal was sent succesfully`);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           hideActionLoader();
           if (status === "Draft") {
             toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
@@ -297,7 +297,7 @@ const CreateProposal = ({handleGoBack}) => {
       const isDraft = Object.keys(draftProposal).length > 0;
 
       const newProposals = isDraft
-        ? prevProposals.map(item => {
+        ? prevProposals.map((item) => {
             if (item._id === draftProposal._id) {
               return {
                 ...item,
@@ -314,12 +314,12 @@ const CreateProposal = ({handleGoBack}) => {
 
       const documentId = currentDeal._id;
       await dealServer
-        .patch(documentId, {proposal: newProposals})
-        .then(res => {
+        .patch(documentId, { proposal: newProposals })
+        .then((res) => {
           hideActionLoader();
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
-            DealModule: {...prev.DealModule, selectedDeal: res},
+            DealModule: { ...prev.DealModule, selectedDeal: res },
           }));
 
           setAttachedDocs([]);
@@ -332,7 +332,7 @@ const CreateProposal = ({handleGoBack}) => {
             toast.success(`Proposal was sent succesfully`);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           hideActionLoader();
           if (status === "Draft") {
             toast.error(`Sorry, Failed to Save Proposal as Draft. ${err}`);
@@ -343,14 +343,14 @@ const CreateProposal = ({handleGoBack}) => {
     }
   };
 
-  const handleSendProposal = async emailData => {
+  const handleSendProposal = async (emailData) => {
     showActionLoader();
     const employee = user.currentEmployee;
     const currentDeal = state.DealModule.selectedDeal;
     const facility = user.currentEmployee.facilityDetail;
 
     if (attachedDocs.length > 0) {
-      const promises = attachedDocs.map(async doc => {
+      const promises = attachedDocs.map(async (doc) => {
         if (doc.isUploaded) {
           return doc;
         } else {
@@ -385,7 +385,7 @@ const CreateProposal = ({handleGoBack}) => {
       };
 
       const attachedHTML = `<br> <p>Find Below Attached Documents to this Email:   ${attachments.map(
-        item => `<br> <a href=${item.file}>${item.fileName}</a> `
+        (item) => `<br> <a href=${item.file}>${item.fileName}</a> `
       )}  </p>`;
 
       const emailDocument = {
@@ -408,7 +408,7 @@ const CreateProposal = ({handleGoBack}) => {
       const isDraft = Object.keys(draftProposal).length > 0;
 
       const newProposals = isDraft
-        ? prevProposals.map(item => {
+        ? prevProposals.map((item) => {
             if (item._id === draftProposal._id) {
               return {
                 ...item,
@@ -427,13 +427,13 @@ const CreateProposal = ({handleGoBack}) => {
 
       const documentId = currentDeal._id;
       await dealServer
-        .patch(documentId, {proposal: newProposals})
-        .then(res => {
-          return emailServer.create(emailDocument).then(resp => {
+        .patch(documentId, { proposal: newProposals })
+        .then((res) => {
+          return emailServer.create(emailDocument).then((resp) => {
             hideActionLoader();
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
-              DealModule: {...prev.DealModule, selectedDeal: res},
+              DealModule: { ...prev.DealModule, selectedDeal: res },
             }));
 
             setAttachedDocs([]);
@@ -442,7 +442,7 @@ const CreateProposal = ({handleGoBack}) => {
             toast.success(`Proposal was sent succesfully`);
           });
         })
-        .catch(err => {
+        .catch((err) => {
           hideActionLoader();
           toast.error(`Sorry, Failed to send Proposal. ${err}`);
         });
@@ -480,7 +480,7 @@ const CreateProposal = ({handleGoBack}) => {
       const isDraft = Object.keys(draftProposal).length > 0;
 
       const newProposals = isDraft
-        ? prevProposals.map(item => {
+        ? prevProposals.map((item) => {
             if (item._id === draftProposal._id) {
               return {
                 ...item,
@@ -497,13 +497,13 @@ const CreateProposal = ({handleGoBack}) => {
 
       const documentId = currentDeal._id;
       await dealServer
-        .patch(documentId, {proposal: newProposals})
-        .then(res => {
-          return emailServer.create(emailDocument).then(resp => {
+        .patch(documentId, { proposal: newProposals })
+        .then((res) => {
+          return emailServer.create(emailDocument).then((resp) => {
             hideActionLoader();
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
-              DealModule: {...prev.DealModule, selectedDeal: res},
+              DealModule: { ...prev.DealModule, selectedDeal: res },
             }));
 
             setAttachedDocs([]);
@@ -512,14 +512,14 @@ const CreateProposal = ({handleGoBack}) => {
             toast.success(`Proposal was sent succesfully`);
           });
         })
-        .catch(err => {
+        .catch((err) => {
           hideActionLoader();
           toast.error(`Sorry, Failed to send Proposal. ${err}`);
         });
     }
   };
 
-  const handleRow = doc => {
+  const handleRow = (doc) => {
     console.log(doc);
     setSelectedDoc(doc);
     setDocviewModal(true);
@@ -549,17 +549,17 @@ const CreateProposal = ({handleGoBack}) => {
         onClose={() => setDocviewModal(false)}
         header={`View Document ${selectedDoc?.fileName}`}
       >
-        <Box sx={{width: "85vw", height: "85vh"}}>
+        <Box sx={{ width: "85vw", height: "85vh" }}>
           {selectedDoc?.fileType === "pdf" ? (
             <iframe
               src={selectedDoc?.file}
               title={selectedDoc?.fileName}
-              style={{width: "100%", height: "100%"}}
+              style={{ width: "100%", height: "100%" }}
             />
           ) : (
             <iframe
               title={selectedDoc?.fileName}
-              style={{width: "100%", height: "100%"}}
+              style={{ width: "100%", height: "100%" }}
               src={`https://view.officeapps.live.com/op/embed.aspx?src=${selectedDoc?.file}`}
             />
           )}
@@ -605,10 +605,10 @@ const CreateProposal = ({handleGoBack}) => {
         >
           <GlobalCustomButton
             color="info"
-            sx={{marginRight: "10px"}}
+            sx={{ marginRight: "10px" }}
             onClick={() => handleCreateProposal("Draft")}
           >
-            <SaveAsIcon fontSize="small" sx={{marginRight: "5px"}} />
+            <SaveAsIcon fontSize="small" sx={{ marginRight: "5px" }} />
             Save as Draft
           </GlobalCustomButton>
 
@@ -618,7 +618,7 @@ const CreateProposal = ({handleGoBack}) => {
           </GlobalCustomButton> */}
 
           <GlobalCustomButton onClick={showSendModal}>
-            <OutboxIcon fontSize="small" sx={{marginRight: "5px"}} />
+            <OutboxIcon fontSize="small" sx={{ marginRight: "5px" }} />
             Send Proposal
           </GlobalCustomButton>
         </Box>
@@ -638,7 +638,10 @@ const CreateProposal = ({handleGoBack}) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Box sx={{display: "flex", justifyContent: "space-between"}} mb={1.5}>
+          <Box
+            sx={{ display: "flex", justifyContent: "space-between" }}
+            mb={1.5}
+          >
             <FormsHeaderText text="Attached Files" />
 
             <GlobalCustomButton onClick={() => setAttachModal(true)}>
@@ -740,17 +743,18 @@ const UploadComponent = ({}) => {
       }}
     >
       <FileUploadOutlinedIcon />
-      <Typography sx={{fontSize: "0.8rem"}}>
+      <Typography sx={{ fontSize: "0.8rem" }}>
         Select File or Drag and Drop here
       </Typography>
     </Box>
   );
 };
 
-export const SendProposalOrSLA = ({handleSend}) => {
+export const SendProposalOrSLA = ({ handleSend }) => {
   const emailServer = client.service("email");
-  const {user} = useContext(UserContext);
-  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, showActionLoader, hideActionLoader } =
+    useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [selectedEmail, setSelectedEmail] = useState("");
   const [destinationEmail, setDestinationEmail] = useState(
@@ -763,7 +767,7 @@ export const SendProposalOrSLA = ({handleSend}) => {
     setValue,
     reset,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -776,16 +780,16 @@ export const SendProposalOrSLA = ({handleSend}) => {
     });
   }, [selectedEmail, destinationEmail]);
 
-  const handleSelectEmail = email => {
+  const handleSelectEmail = (email) => {
     setSelectedEmail(email);
     setEmailModals(false);
   };
 
-  const handleSendProposalOrSLA = data => {
+  const handleSendProposalOrSLA = (data) => {
     handleSend(data);
   };
 
-  const handleSelectDestinationEmail = email => {
+  const handleSelectDestinationEmail = (email) => {
     setDestinationEmail(email);
     setToEmailModal(false);
   };
@@ -813,13 +817,13 @@ export const SendProposalOrSLA = ({handleSend}) => {
       </ModalBox>
 
       <Box
-        sx={{display: "flex", justifyContent: "flex-end"}}
+        sx={{ display: "flex", justifyContent: "flex-end" }}
         mb={2}
         mt={-1}
         gap={1.5}
       >
         <GlobalCustomButton
-          sx={{marginTop: "5px"}}
+          sx={{ marginTop: "5px" }}
           color="success"
           onClick={() => setEmailModals(true)}
         >
@@ -827,7 +831,7 @@ export const SendProposalOrSLA = ({handleSend}) => {
         </GlobalCustomButton>
 
         <GlobalCustomButton
-          sx={{marginTop: "5px"}}
+          sx={{ marginTop: "5px" }}
           color="secondary"
           onClick={() => setToEmailModal(true)}
         >
@@ -840,7 +844,7 @@ export const SendProposalOrSLA = ({handleSend}) => {
           <Input
             important
             label="Name"
-            register={register("name", {require: "Please enter Name"})}
+            register={register("name", { require: "Please enter Name" })}
             errorText={errors?.name?.message}
           />
         </Grid>
@@ -849,7 +853,7 @@ export const SendProposalOrSLA = ({handleSend}) => {
           <Input
             important
             label="Subject"
-            register={register("subject", {require: "Please enter Subject"})}
+            register={register("subject", { require: "Please enter Subject" })}
             errorText={errors?.subject?.message}
           />
         </Grid>
@@ -858,7 +862,7 @@ export const SendProposalOrSLA = ({handleSend}) => {
           <Input
             important
             label="From"
-            register={register("from", {require: "Please Add Source Email"})}
+            register={register("from", { require: "Please Add Source Email" })}
             errorText={errors?.from?.message}
             disabled
           />
@@ -879,32 +883,32 @@ export const SendProposalOrSLA = ({handleSend}) => {
       <Box>
         <GlobalCustomButton onClick={handleSubmit(handleSendProposalOrSLA)}>
           Send Document
-          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
+          <SendIcon fontSize="small" sx={{ marginLeft: "4px" }} />
         </GlobalCustomButton>
       </Box>
     </Box>
   );
 };
 
-export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
+export const ProposalAttachDocument = ({ closeModal, addAttachedFile }) => {
   const [file, setFile] = useState(null);
   const [base64, setBase64] = useState(null);
-  const {register, reset, handleSubmit} = useForm();
-  const {user} = useContext(UserContext);
+  const { register, reset, handleSubmit } = useForm();
+  const { user } = useContext(UserContext);
 
-  const handleChange = file => {
+  const handleChange = (file) => {
     getBase64(file[0])
-      .then(res => {
+      .then((res) => {
         // console.log(file);
         setFile(file);
         setBase64(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleAttachFile = data => {
+  const handleAttachFile = (data) => {
     const employee = user.currentEmployee;
     const document = {
       createdBy: employee.userId,
@@ -923,7 +927,7 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
   };
 
   return (
-    <Box sx={{width: "600px"}}>
+    <Box sx={{ width: "600px" }}>
       <FileUploader
         multiple={true}
         handleChange={handleChange}
@@ -933,10 +937,10 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
       />
 
       <Box
-        sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
         mt={2}
       >
-        <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+        <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
           {file
             ? `File name: ${file[0].name}`
             : "You haven't selected any file"}
@@ -951,7 +955,7 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
         />
       </Box>
 
-      <Box sx={{display: "flex"}} gap={2} mt={2}>
+      <Box sx={{ display: "flex" }} gap={2} mt={2}>
         <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
@@ -961,6 +965,98 @@ export const ProposalAttachDocument = ({closeModal, addAttachedFile}) => {
           onClick={handleSubmit(handleAttachFile)}
         >
           Attach File
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};
+
+export const ProposalSignedAttachDocument = ({
+  addAttachedFile,
+  handleUploadFile,
+  closeModal,
+}) => {
+  const [file, setFile] = useState(null);
+  const [base64, setBase64] = useState(null);
+  const { register, reset, handleSubmit } = useForm();
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
+
+  const handleChange = (file) => {
+    getBase64(file[0])
+      .then((res) => {
+        // console.log(file);
+        setFile(file);
+        setBase64(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleAttachFile = (data) => {
+    const employee = user.currentEmployee;
+
+    const newFile = {
+      updatedBy: employee.userId,
+      updatedByName: `${employee.firstname} ${employee.lastname}`,
+      updatedAt: new Date(),
+      fileName: file[0].name,
+      fileType: file[0].name.split(".").pop(),
+      file: base64,
+      docStatus: "Approved",
+      comment: data.comment,
+    };
+
+    addAttachedFile(newFile);
+    toast.success("SLA signed document was attached");
+  };
+
+  return (
+    <Box sx={{ width: "600px" }}>
+      <FileUploader
+        multiple={true}
+        handleChange={handleChange}
+        name="upload"
+        types={["pdf", "docx", "doc"]}
+        children={<UploadComponent />}
+      />
+
+      <Box
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        mt={2}
+      >
+        <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
+          {file
+            ? `File name: ${file[0].name}`
+            : "You haven't selected any file"}
+        </Typography>
+      </Box>
+
+      <Box mt={2}>
+        <Textarea
+          label="Comments"
+          placeholder="write here...."
+          register={register("comment")}
+        />
+      </Box>
+
+      <Box sx={{ display: "flex" }} gap={2} mt={2}>
+        <GlobalCustomButton color="error" onClick={closeModal}>
+          Cancel
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
+          disabled={file === null || base64 === null}
+          onClick={handleSubmit(handleAttachFile)}
+        >
+          Attach File
+        </GlobalCustomButton>
+        <GlobalCustomButton
+          disabled={file === null || base64 === null}
+          onClick={handleUploadFile}
+        >
+          Approved File
         </GlobalCustomButton>
       </Box>
     </Box>

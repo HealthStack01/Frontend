@@ -136,17 +136,17 @@ export default function DiscountDetails({ closeModal }) {
           />
         </Grid>
       </Grid>
-      {/* {user?.currentEmployee?.roles?.includes("Admin") &&
-        user?.currentEmployee?.roles?.includes("CRM Authorization") && ( */}
-      <Button
-        sx={{ textTransform: "capitalize", my: "10px" }}
-        variant="contained"
-        onClick={handleSubmit(handleApprovedDiscount)}
-        size="small"
-      >
-        Approve Discount
-      </Button>
-      {/* )} */}
+      {user?.currentEmployee?.roles?.includes("Admin") &&
+        user?.currentEmployee?.roles?.includes("CRM Authorization") && (
+          <Button
+            sx={{ textTransform: "capitalize", my: "10px" }}
+            variant="contained"
+            onClick={handleSubmit(handleApprovedDiscount)}
+            size="small"
+          >
+            Approve Discount
+          </Button>
+        )}
     </Box>
   );
 }

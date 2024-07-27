@@ -1,24 +1,24 @@
-import {useContext, useState, useEffect, useCallback} from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CustomTable from "../../../../components/customtable";
 import FilterMenu from "../../../../components/utilities/FilterMenu";
-import {TableMenu} from "../../../../ui/styled/global";
-import {PageWrapper} from "../../../../ui/styled/styles";
-import {ObjectContext, UserContext} from "../../../../context";
+import { TableMenu } from "../../../../ui/styled/global";
+import { PageWrapper } from "../../../../ui/styled/styles";
+import { ObjectContext, UserContext } from "../../../../context";
 import dayjs from "dayjs";
 import client from "../../../../feathers";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
-export function SLAList({showDetail, showCreate, isTab}) {
+export function SLAList({ showDetail, showCreate, isTab }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const dealServer = client.service("deal");
   const [loading, setLoading] = useState(false);
-  const {state, setState, showActionLoader, hideActionLoader} =
+  const { state, setState, showActionLoader, hideActionLoader } =
     useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [slaList, setSLAList] = useState([]);
   const [deal, setDeal] = useState({});
 
@@ -37,12 +37,12 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
     // console.log(deals);
 
-    const promises = deals.map(async deal => deal.sla || []);
+    const promises = deals.map(async (deal) => deal.sla || []);
 
     const sla = await Promise.all(promises);
 
-    const finalSLA = sla.flat(1).map(item => {
-      const deal = deals.find(deal => deal._id === item.dealId);
+    const finalSLA = sla.flat(1).map((item) => {
+      const deal = deals.find((deal) => deal._id === item.dealId);
       return {
         ...item,
         dealinfo: deal.dealinfo,
@@ -82,10 +82,10 @@ export function SLAList({showDetail, showCreate, isTab}) {
     showCreate();
   };
 
-  const handleRow2 = data => {
-    setState(prev => ({
+  const handleRow2 = (data) => {
+    setState((prev) => ({
       ...prev,
-      SLAModule: {...prev.SLAModule, selectedSLA: data},
+      SLAModule: { ...prev.SLAModule, selectedSLA: data },
     }));
 
     if (data.status === "Draft") {
@@ -95,11 +95,11 @@ export function SLAList({showDetail, showCreate, isTab}) {
     }
   };
 
-  const handleRow = async data => {
+  const handleRow = async (data) => {
     if (isTab) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
-        SLAModule: {...prev.SLAModule, selectedSLA: data},
+        SLAModule: { ...prev.SLAModule, selectedSLA: data },
       }));
 
       if (data.status === "Draft") {
@@ -111,11 +111,11 @@ export function SLAList({showDetail, showCreate, isTab}) {
       const id = data.dealId;
       await dealServer
         .get(id)
-        .then(resp => {
-          setState(prev => ({
+        .then((resp) => {
+          setState((prev) => ({
             ...prev,
-            DealModule: {...prev.DealModule, selectedDeal: resp},
-            SLAModule: {...prev.SLAModule, selectedSLA: data},
+            DealModule: { ...prev.DealModule, selectedDeal: resp },
+            SLAModule: { ...prev.SLAModule, selectedSLA: data },
           }));
           if (data.status === "Draft") {
             showCreate();
@@ -123,7 +123,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
             showDetail();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           toast.error("An error occured trying to view details of SLA");
           console.log(err);
         });
@@ -132,13 +132,13 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
   const handleSearch = () => {};
 
-  const returnCell = status => {
+  const returnCell = (status) => {
     switch (status.toLowerCase()) {
       case "active":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+        return <span style={{ color: "#17935C" }}>{status}</span>;
 
       case "inactive":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
+        return <span style={{ color: "#0364FF" }}>{status}</span>;
 
       default:
         break;
@@ -147,16 +147,18 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
   // const deal = state.DealModule.selectedDeal.dealinfo;
 
-  const returnStatus = status => {
+  const returnStatus = (status) => {
     switch (status?.toLowerCase()) {
       case "open":
-        return <span style={{color: "#004b23"}}>{status}</span>;
+        return <span style={{ color: "#004b23" }}>{status}</span>;
 
       case "suspended":
-        return <span style={{color: "orange"}}>{status}</span>;
+        return <span style={{ color: "orange" }}>{status}</span>;
 
       case "closed":
-        return <span style={{color: "red"}}>{status}</span>;
+        return <span style={{ color: "red" }}>{status}</span>;
+      case "convert to prospect":
+        return <span style={{ color: "yellowgreen" }}>{status}</span>;
 
       default:
         break;
@@ -179,7 +181,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Customer Name",
       key: "company_name",
       description: "Enter name of Company",
-      selector: row => row.customerName,
+      selector: (row) => row.customerName,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -188,7 +190,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Customer Email",
       key: "contact_person",
       description: "Enter Telestaff name",
-      selector: row => row.customerEmail,
+      selector: (row) => row.customerEmail,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -197,7 +199,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Customer Phone",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => row.customerPhone,
+      selector: (row) => row.customerPhone,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -206,7 +208,20 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Prospect Probability",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => (!isTab ? row.dealinfo.probability : deal?.probability),
+      selector: (row) => {
+        const probability = !isTab
+          ? row.dealinfo.probability
+          : deal?.probability;
+        if (
+          probability !== undefined &&
+          probability !== null &&
+          !isNaN(probability)
+        ) {
+          return `${Number(probability).toFixed()}%`;
+        } else {
+          return "0%";
+        }
+      },
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -216,7 +231,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       key: "phone_No",
       description: "Enter name of Disease",
       selector: "currStatus",
-      cell: row =>
+      cell: (row) =>
         returnStatus(!isTab ? row.dealinfo.currStatus : deal?.currStatus),
       // selector: (row, i) =>
       //   !isTab ? row.dealinfo.currStatus : deal?.currStatus,
@@ -231,7 +246,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Date",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm A"),
+      selector: (row) => dayjs(row.createdAt).format("DD/MM/YYYY hh:mm A"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -240,7 +255,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       name: "Creator",
       key: "contact_position",
       description: "Enter bills",
-      selector: row => row.createdByName,
+      selector: (row) => row.createdByName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -254,7 +269,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
       key: "status",
       description: "Enter bills",
       selector: "status",
-      cell: row => row.status,
+      cell: (row) => row.status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -263,7 +278,7 @@ export function SLAList({showDetail, showCreate, isTab}) {
 
   const conditionalRowStyles = [
     {
-      when: row => row.status === "Sent",
+      when: (row) => row.status === "Sent",
       style: {
         backgroundColor: "#d8f3dc",
         color: "white",
@@ -277,26 +292,31 @@ export function SLAList({showDetail, showCreate, isTab}) {
   return (
     <>
       <div className="level">
-        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
           <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>SLA</h2>
+              <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>SLA</h2>
             </div>
 
             {isTab && (
               <GlobalCustomButton onClick={handleCreateNew}>
-                <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+                <AddCircleOutline
+                  fontSize="small"
+                  sx={{ marginRight: "5px" }}
+                />
                 Create New SLA
               </GlobalCustomButton>
             )}
           </TableMenu>
 
-          <Box style={{width: "100%", overflow: "auto"}}>
+          <Box style={{ width: "100%", overflow: "auto" }}>
             <CustomTable
               title={""}
               columns={SLAColumns}
