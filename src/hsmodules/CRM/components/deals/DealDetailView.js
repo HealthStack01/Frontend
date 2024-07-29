@@ -136,7 +136,7 @@ export const DealDetailView = () => {
           <CustomSelect
             register={register("deal_status", { required: true })}
             label="Status"
-            options={["Open", "Closed", "Pending"]}
+            options={["Open", "Closed", "Pending","Converted to prospect"]}
             disabled={!editLead}
             defaultValue="Open"
             // placeholder="Enter customer name"

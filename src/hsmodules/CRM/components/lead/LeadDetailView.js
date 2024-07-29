@@ -139,7 +139,7 @@ export const LeadView = () => {
           <CustomSelect
             register={register("deal_status", { required: true })}
             label="Status"
-            options={["Open", "Closed", "Pending"]}
+            options={["Open", "Closed", "Pending","Converted to prospect"]}
             disabled={!editLead}
             defaultValue="Open"
             // placeholder="Enter customer name"
@@ -809,14 +809,14 @@ const LeadDetail = ({ handleGoBack }) => {
 
     const dealinfo = {
       ...currentDeal,
-      currStatus: "Convert to prospect",
+      currStatus: "Converted to prospect",
     };
 
     const statusHistoryObj = {
       date: new Date(),
       employeename: `${employee.firstname} ${employee.lastname}`,
       employeeId: employee.userId,
-      status: "Convert to prospect",
+      status: "Converted to prospect",
     };
 
     const newStatusHistory =
@@ -833,7 +833,7 @@ const LeadDetail = ({ handleGoBack }) => {
             ...prev,
             DealModule: { ...prev.DealModule, selectedDeal: res },
           }));
-          toast.success(`Convert to prospect successfully!`);
+          toast.success(`Converted to prospect successfully!`);
         } else {
           hideActionLoader();
           setState((prev) => ({
@@ -841,12 +841,12 @@ const LeadDetail = ({ handleGoBack }) => {
             DealModule: { ...prev.DealModule, selectedDeal: res },
           }));
 
-          toast.success(`Convert to prospect successfully!!`);
+          toast.success(`Converted to prospect successfully!!`);
         }
       })
       .catch((err) => {
         hideActionLoader();
-        toast.error(`Sorry, You weren't able to convert to prospect. ${err}`);
+        toast.error(`Sorry, You weren't able to converted to prospect. ${err}`);
       });
   };
 
@@ -1178,7 +1178,7 @@ const LeadDetail = ({ handleGoBack }) => {
             contacts
           </GlobalCustomButton>
           <GlobalCustomButton
-            disabled={dealStatus === "Convert to prospect"}
+            disabled={dealStatus === "Converted to prospect"}
             color="secondary"
             onClick={ConvertToProspect}
           >

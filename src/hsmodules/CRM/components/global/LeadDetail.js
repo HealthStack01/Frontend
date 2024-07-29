@@ -97,7 +97,7 @@ const LeadDetailView = () => {
         <Grid item xs={3}>
           <CustomSelect
             label="Status"
-            options={["Open", "Closed", "Pending"]}
+            options={["Open", "Closed", "Pending","Converted to prospect"]}
             control={control}
             name="currStatus"
             disabled={!editLead}
@@ -381,7 +381,7 @@ export const PageLeadDetailView = () => {
         <Grid item lg={2} md={3} sm={4} xs={6}>
           <CustomSelect
             label="Status"
-            options={["Open", "Closed", "Suspended", "Convert to prospect"]}
+            options={["Open", "Closed", "Suspended", "Converted to prospect"]}
             disabled={!editLead}
             control={control}
             name="currStatus"
