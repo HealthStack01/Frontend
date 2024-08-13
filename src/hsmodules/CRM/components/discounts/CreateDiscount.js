@@ -39,9 +39,9 @@ export default function CreateDiscount({ closeModal, createDiscount }) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Input
-            label="Percent"
+            label="% discount"
             type="number"
-            placeholder="Enter Percent"
+            placeholder="Enter percentage discount"
             register={register("percent", { required: true })}
           />
         </Grid>

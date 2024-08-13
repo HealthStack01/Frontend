@@ -1,12 +1,12 @@
-import {useRef, forwardRef} from "react";
-import {Avatar, Divider, Typography} from "@mui/material";
-import {Box, fontWeight} from "@mui/system";
+import { useRef, forwardRef } from "react";
+import { Avatar, Divider, Typography } from "@mui/material";
+import { Box, fontWeight } from "@mui/system";
 import dayjs from "dayjs";
-import {useContext, useState, useEffect} from "react";
+import { useContext, useState, useEffect } from "react";
 import CustomTable from "../../../../components/customtable";
 import ModalBox from "../../../../components/modal";
-import {ObjectContext, UserContext} from "../../../../context";
-import ReactToPrint, {useReactToPrint} from "react-to-print";
+import { ObjectContext, UserContext } from "../../../../context";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 
 const customStyles = {
@@ -58,9 +58,9 @@ const columns = [
     name: "Type",
     key: "file_name",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.type === "hmo" ? "HMO" : row.type}
@@ -77,12 +77,12 @@ const columns = [
 
   {
     name: "Date",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "created_at",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {dayjs(row.created_at).format("DD/MM/YYYY")}
@@ -97,12 +97,12 @@ const columns = [
 
   {
     name: "Duration",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "no_of_months",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.length} {row.calendrical}
@@ -117,12 +117,12 @@ const columns = [
 
   {
     name: "Premium",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "premium",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.premium}
@@ -135,12 +135,12 @@ const columns = [
 
   {
     name: "Number of Heads",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "no_of_heads",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.heads}
@@ -154,12 +154,12 @@ const columns = [
 
   {
     name: "Amount(₦)",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "amount",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.amount}
@@ -172,7 +172,7 @@ const columns = [
   },
 ];
 
-const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
+const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
   //const {state} = useContext(ObjectContext);
   //const {user} = useContext(UserContext);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -207,10 +207,10 @@ const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
         }}
       >
         <Box>
-          <Box sx={{display: "flex", alignItems: "center"}}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             {organization.facilitylogo ? (
               <Avatar
-                sx={{width: 40, height: 40, marginRight: "5px"}}
+                sx={{ width: 40, height: 40, marginRight: "5px" }}
                 src={organization.facilitylogo}
                 alt="logo"
               />
@@ -227,7 +227,7 @@ const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
                   marginRight: "5px",
                 }}
               >
-                <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
                   Logo
                 </Typography>
               </Box>
@@ -446,6 +446,19 @@ const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
       </Box>
 
       <Box>
+        <Typography
+          sx={{
+            fontSize: "0.65rem",
+            fontWeight: "600",
+          }}
+        >
+          This invoice was raised for the{" "}
+          {invoice?.plans?.type === "hmo" ? "HMO" : invoice?.plans?.type} for
+          the amount of {invoice?.plans?.amount}
+        </Typography>
+      </Box>
+
+      <Box>
         <CustomTable
           columns={columns}
           data={invoice.plans}
@@ -485,7 +498,7 @@ const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
               color: "#0364FF",
             }}
           >
-            Subtotal
+            Total
           </Typography>
           <Typography
             sx={{
@@ -514,7 +527,7 @@ const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
               color: "#0364FF",
             }}
           >
-            Total
+            Discount
           </Typography>
 
           <Typography
@@ -524,7 +537,36 @@ const CRMInvoiceDesign = forwardRef(({state, user}, ref) => {
               color: "#000000",
             }}
           >
-            {totalAmount}
+            {totalAmount || 0}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            borderBottom: "1px solid #CCCCCC",
+            width: "200px",
+            justifyContent: "space-between",
+            paddingBottom: "5px",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "0.75rem",
+              fontWeight: "600",
+              color: "#0364FF",
+            }}
+          >
+            Grand Total
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: "0.75rem",
+              fontWeight: "600",
+              color: "#000000",
+            }}
+          >
+            {totalAmount || 0}
           </Typography>
         </Box>
       </Box>
