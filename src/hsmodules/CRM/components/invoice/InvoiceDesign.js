@@ -55,7 +55,7 @@ const customStyles = {
 
 const columns = [
   {
-    name: "Type",
+    name: "Typesss",
     key: "file_name",
     description: "Enter Date",
     selector: (row) => (
@@ -180,6 +180,8 @@ const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
   const customer = state.DealModule.selectedDeal;
+  const discount = state.InvoiceModule.selectedInvoice.discount || [];
+  const plan = state.InvoiceModule.selectedInvoice?.plans?.map((data) => data);
   const account = state.InvoiceModule.selectedBankAccount;
 
   useEffect(() => {
@@ -445,18 +447,24 @@ const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
         </Box>
       </Box>
 
-      <Box>
-        <Typography
+      {plan.map((item, index) => (
+        <Box
+          key={index}
           sx={{
-            fontSize: "0.65rem",
-            fontWeight: "600",
+            marginBlock: "1rem",
           }}
         >
-          This invoice was raised for the{" "}
-          {invoice?.plans?.type === "hmo" ? "HMO" : invoice?.plans?.type} for
-          the amount of {invoice?.plans?.amount}
-        </Typography>
-      </Box>
+          <Typography
+            sx={{
+              fontSize: "0.65rem",
+              fontWeight: "400",
+            }}
+          >
+            This invoice was raised for the {item.type} and the total amount is{" "}
+            {item.amount}
+          </Typography>
+        </Box>
+      ))}
 
       <Box>
         <CustomTable
@@ -489,36 +497,6 @@ const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
             justifyContent: "space-between",
             paddingBottom: "5px",
           }}
-          mb={1}
-        >
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              fontWeight: "600",
-              color: "#0364FF",
-            }}
-          >
-            Total
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.75rem",
-              fontWeight: "600",
-              color: "#000000",
-            }}
-          >
-            {totalAmount}
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            borderBottom: "1px solid #CCCCCC",
-            width: "200px",
-            justifyContent: "space-between",
-            paddingBottom: "5px",
-          }}
         >
           <Typography
             sx={{
@@ -537,7 +515,7 @@ const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
               color: "#000000",
             }}
           >
-            {totalAmount || 0}
+            {discount[0]?.percent || 0}%
           </Typography>
         </Box>
         <Box
@@ -566,7 +544,7 @@ const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
               color: "#000000",
             }}
           >
-            {totalAmount || 0}
+            {totalAmount}
           </Typography>
         </Box>
       </Box>
@@ -714,6 +692,32 @@ const CRMInvoiceDesign = forwardRef(({ state, user }, ref) => {
             </Typography>
           </Box>
         </Box>
+      </Box>
+      <Box
+        sx={{
+          marginBlock: "1rem",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.65rem",
+            fontWeight: "600",
+          }}
+        >
+          This invoice was created by {invoice.createdByName} at{" "}
+          {dayjs(invoice?.createdAt).format("DD/MM/YYYY")}
+        </Typography>
+        {invoice.status === "Approved" && (
+          <Typography
+            sx={{
+              fontSize: "0.65rem",
+              fontWeight: "600",
+            }}
+          >
+            This invoice was approved by {invoice?.statusHx[0].updatedByName} at{" "}
+            {dayjs(invoice?.statusHx[0].updatedAt).format("DD/MM/YYYY")}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

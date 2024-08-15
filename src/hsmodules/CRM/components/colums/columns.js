@@ -199,7 +199,7 @@ export const getDiscountColumns = (action, disableAction, omit) => {
       inputType: "DATE",
     },
     {
-      name: "Percent(%)",
+      name: "Discount %",
       key: "precent",
       description: "Enter Date",
       selector: (row) => row.percent,

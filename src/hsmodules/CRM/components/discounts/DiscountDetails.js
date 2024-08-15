@@ -113,7 +113,7 @@ export default function DiscountDetails({ closeModal }) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Input
-            label="% discount"
+            label="Discount %"
             type="number"
            placeholder="Enter percentage discount"
             register={register("percent", { required: true })}
@@ -136,8 +136,8 @@ export default function DiscountDetails({ closeModal }) {
           />
         </Grid>
       </Grid>
-      {user?.currentEmployee?.roles?.includes("Admin") &&
-        user?.currentEmployee?.roles?.includes("CRM Authorization") && (
+      {/* {user?.currentEmployee?.roles?.includes("Admin") &&
+        user?.currentEmployee?.roles?.includes("CRM Authorization") && ( */}
           <Button
             sx={{ textTransform: "capitalize", my: "10px" }}
             variant="contained"
@@ -146,7 +146,7 @@ export default function DiscountDetails({ closeModal }) {
           >
             Authorize
           </Button>
-        )}
+        {/* )} */}
     </Box>
   );
 }

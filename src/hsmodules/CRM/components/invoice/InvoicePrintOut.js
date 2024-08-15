@@ -1,22 +1,22 @@
-import {useRef} from "react";
-import {Avatar, Divider, Grid, Typography} from "@mui/material";
-import {Box, fontWeight, height} from "@mui/system";
+import { useRef } from "react";
+import { Avatar, Divider, Grid, Typography } from "@mui/material";
+import { Box, fontWeight, height } from "@mui/system";
 import dayjs from "dayjs";
-import {useContext, useState, useEffect} from "react";
+import { useContext, useState, useEffect } from "react";
 import CustomTable from "../../../../components/customtable";
 import ModalBox from "../../../../components/modal";
-import {ObjectContext, UserContext} from "../../../../context";
-import ReactToPrint, {useReactToPrint} from "react-to-print";
+import { ObjectContext, UserContext } from "../../../../context";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
-import CRMInvoiceDesign, {CRMEmailTemplate} from "./InvoiceDesign";
-import {ContactsEmailSource, EmailsSourceList} from "../deals/SendLink";
+import CRMInvoiceDesign, { CRMEmailTemplate } from "./InvoiceDesign";
+import { ContactsEmailSource, EmailsSourceList } from "../deals/SendLink";
 import client from "../../../../feathers";
-import {toast} from "react-toastify";
-import {useForm} from "react-hook-form";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 import Input from "../../../../components/inputs/basic/Input";
 import EmailIcon from "@mui/icons-material/Email";
 import SendIcon from "@mui/icons-material/Send";
-import {renderToStaticMarkup} from "react-dom/server";
+import { renderToStaticMarkup } from "react-dom/server";
 import html2canvas from "html2canvas";
 import axios from "axios";
 
@@ -219,7 +219,7 @@ const invoiceFormat = (invoice, plans) => {
 				</tr>
 
         ${plans.map(
-          plan =>
+          (plan) =>
             `
         <tr class="item">
 					<td>${plan.type}</td>
@@ -305,9 +305,9 @@ const columns = [
     name: "Type",
     key: "file_name",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.type === "hmo" ? "HMO" : row.type}
@@ -324,12 +324,12 @@ const columns = [
 
   {
     name: "Date",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "created_at",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {dayjs(row.created_at).format("DD/MM/YYYY")}
@@ -344,12 +344,12 @@ const columns = [
 
   {
     name: "Duration",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "no_of_months",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.length} {row.calendrical}
@@ -364,12 +364,12 @@ const columns = [
 
   {
     name: "Premium",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "premium",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.premium}
@@ -383,12 +383,12 @@ const columns = [
 
   {
     name: "Heads",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "no_of_heads",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.heads}
@@ -402,12 +402,12 @@ const columns = [
 
   {
     name: "Amount(₦)",
-    style: {color: "#0364FF"},
+    style: { color: "#0364FF" },
     key: "amount",
     description: "Enter Date",
-    selector: row => (
+    selector: (row) => (
       <Typography
-        sx={{fontSize: "0.69rem", whiteSpace: "normal"}}
+        sx={{ fontSize: "0.69rem", whiteSpace: "normal" }}
         data-tag="allowRowEvents"
       >
         {row.amount}
@@ -420,9 +420,9 @@ const columns = [
   },
 ];
 
-const InvoicePrintOut = ({closeModal}) => {
-  const {state} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+const InvoicePrintOut = ({ closeModal }) => {
+  const { state } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectAccountModal, setSelectAccountModal] = useState(true);
   const [emailModal, setEmailModal] = useState(false);
@@ -435,7 +435,10 @@ const InvoicePrintOut = ({closeModal}) => {
   const organization = user.currentEmployee.facilityDetail;
   const invoice = state.InvoiceModule.selectedInvoice;
   const customer = state.DealModule.selectedDeal;
+  const discount = state.InvoiceModule.selectedInvoice.discount || [];
   const account = state.InvoiceModule.selectedBankAccount;
+  const plan = state.InvoiceModule.selectedInvoice?.plans?.map((data) => data);
+  console.log(invoice, "invoice");
 
   useEffect(() => {
     //console.log(plans[0]);
@@ -448,7 +451,7 @@ const InvoicePrintOut = ({closeModal}) => {
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
-    print: async printIframe => {
+    print: async (printIframe) => {
       //console.log(printIframe);
       setInvoiceData(printIframe);
       setEmailModal(true);
@@ -539,10 +542,10 @@ const InvoicePrintOut = ({closeModal}) => {
           }}
         >
           <Box>
-            <Box sx={{display: "flex", alignItems: "center"}}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               {organization.facilitylogo ? (
                 <Avatar
-                  sx={{width: 40, height: 40, marginRight: "5px"}}
+                  sx={{ width: 40, height: 40, marginRight: "5px" }}
                   src={organization.facilitylogo}
                   alt="logo"
                 />
@@ -564,7 +567,7 @@ const InvoicePrintOut = ({closeModal}) => {
                     marginRight: "5px",
                   }}
                 >
-                  <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                  <Typography sx={{ fontSize: "0.75rem", color: "#000000" }}>
                     Logo
                   </Typography>
                 </Box>
@@ -781,6 +784,24 @@ const InvoicePrintOut = ({closeModal}) => {
             </Box>
           </Box>
         </Box>
+        {plan.map((item, index) => (
+          <Box
+            key={index}
+            sx={{
+              marginBlock: "1rem",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "0.65rem",
+                fontWeight: "400",
+              }}
+            >
+              This invoice was raised for the {item.type} and the total amount
+              is {item.amount}
+            </Typography>
+          </Box>
+        ))}
 
         <Box>
           <CustomTable
@@ -813,7 +834,6 @@ const InvoicePrintOut = ({closeModal}) => {
               justifyContent: "space-between",
               paddingBottom: "5px",
             }}
-            mb={1}
           >
             <Typography
               sx={{
@@ -822,8 +842,9 @@ const InvoicePrintOut = ({closeModal}) => {
                 color: "#0364FF",
               }}
             >
-              Subtotal
+              Discount
             </Typography>
+
             <Typography
               sx={{
                 fontSize: "0.75rem",
@@ -831,10 +852,9 @@ const InvoicePrintOut = ({closeModal}) => {
                 color: "#000000",
               }}
             >
-              {totalAmount}
+              {discount[0]?.percent || 0}%
             </Typography>
           </Box>
-
           <Box
             sx={{
               display: "flex",
@@ -851,7 +871,7 @@ const InvoicePrintOut = ({closeModal}) => {
                 color: "#0364FF",
               }}
             >
-              Total
+              Grand Total
             </Typography>
 
             <Typography
@@ -1012,22 +1032,49 @@ const InvoicePrintOut = ({closeModal}) => {
           </Box>
         </Box>
       </Box>
+
+      <Box
+        sx={{
+          marginBlock: "1rem",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.65rem",
+            fontWeight: "600",
+          }}
+        >
+          This invoice was created by {invoice.createdByName} at{" "}
+          {dayjs(invoice?.createdAt).format("DD/MM/YYYY")}
+        </Typography>
+        {invoice.status === "Approved" && (
+          <Typography
+            sx={{
+              fontSize: "0.65rem",
+              fontWeight: "600",
+            }}
+          >
+            This invoice was approved by {invoice?.statusHx[0].updatedByName} at{" "}
+            {dayjs(invoice?.statusHx[0].updatedAt).format("DD/MM/YYYY")}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 };
 
 export default InvoicePrintOut;
 
-const OrganizationAccountList = ({closeModal}) => {
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+const OrganizationAccountList = ({ closeModal }) => {
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
 
   const bankColumns = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
       width: "60px",
@@ -1036,9 +1083,9 @@ const OrganizationAccountList = ({closeModal}) => {
       name: "Bank Name",
       key: "bank_name",
       description: "Bank Name",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2" }}
           data-tag="allowRowEvents"
         >
           {row.bankname}
@@ -1052,9 +1099,9 @@ const OrganizationAccountList = ({closeModal}) => {
       name: "Account Name",
       key: "account_name",
       description: "Account Name",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal", color: "#1976d2" }}
           data-tag="allowRowEvents"
         >
           {row.accountname}
@@ -1068,7 +1115,7 @@ const OrganizationAccountList = ({closeModal}) => {
       name: "Account Number",
       key: "account_number",
       description: "Account Number",
-      selector: row => row.accountnumber,
+      selector: (row) => row.accountnumber,
       sortable: true,
       inputType: "TEXT",
       width: "150px",
@@ -1077,7 +1124,7 @@ const OrganizationAccountList = ({closeModal}) => {
       name: "Branch",
       key: "branch",
       description: "Branch",
-      selector: row => row.branch,
+      selector: (row) => row.branch,
       sortable: true,
       inputType: "TEXT",
       width: "150px",
@@ -1086,7 +1133,7 @@ const OrganizationAccountList = ({closeModal}) => {
       name: "Sort Code",
       key: "sort_code",
       description: "Sort Code",
-      selector: row => row.sortcode,
+      selector: (row) => row.sortcode,
       sortable: true,
       inputType: "TEXT",
       width: "120px",
@@ -1095,9 +1142,9 @@ const OrganizationAccountList = ({closeModal}) => {
       name: "Comments",
       key: "sort_code",
       description: "Sort Code",
-      selector: row => (
+      selector: (row) => (
         <Typography
-          sx={{fontSize: "0.8rem", whiteSpace: "normal"}}
+          sx={{ fontSize: "0.8rem", whiteSpace: "normal" }}
           data-tag="allowRowEvents"
         >
           {row.comment ? row.comment : "----------"}
@@ -1108,16 +1155,16 @@ const OrganizationAccountList = ({closeModal}) => {
     },
   ];
 
-  const handleRow = account => {
-    setState(prev => ({
+  const handleRow = (account) => {
+    setState((prev) => ({
       ...prev,
-      InvoiceModule: {...prev.InvoiceModule, selectedBankAccount: account},
+      InvoiceModule: { ...prev.InvoiceModule, selectedBankAccount: account },
     }));
     closeModal();
   };
 
   return (
-    <Box sx={{width: "85vw"}}>
+    <Box sx={{ width: "85vw" }}>
       <Box>
         <CustomTable
           title={""}
@@ -1128,7 +1175,7 @@ const OrganizationAccountList = ({closeModal}) => {
           striped
           onRowClicked={handleRow}
           CustomEmptyData={
-            <Typography sx={{fontSize: "0.8rem"}}>
+            <Typography sx={{ fontSize: "0.8rem" }}>
               You haven't added a bank account to your Organization yet...
             </Typography>
           }
@@ -1138,10 +1185,11 @@ const OrganizationAccountList = ({closeModal}) => {
   );
 };
 
-export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
+export const SendInvoiceViaEmail = ({ closeModal, screenshot }) => {
   const emailServer = client.service("email");
-  const {user} = useContext(UserContext);
-  const {state, showActionLoader, hideActionLoader} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, showActionLoader, hideActionLoader } =
+    useContext(ObjectContext);
   const [emailsModal, setEmailModals] = useState(true);
   const [selectedEmail, setSelectedEmail] = useState("");
   const [destinationEmail, setDestinationEmail] = useState(
@@ -1154,7 +1202,7 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
     setValue,
     reset,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -1167,17 +1215,17 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
     });
   }, [selectedEmail, destinationEmail]);
 
-  const handleSelectEmail = email => {
+  const handleSelectEmail = (email) => {
     setSelectedEmail(email);
     setEmailModals(false);
   };
 
-  const handleSelectDestinationEmail = email => {
+  const handleSelectDestinationEmail = (email) => {
     setDestinationEmail(email);
     setToEmailModal(false);
   };
 
-  const handleSendEmail = async data => {
+  const handleSendEmail = async (data) => {
     //const html = renderToStaticMarkup(<CRMEmailTemplate />);
     //return console.log(screenshot);
     const facility = user.currentEmployee.facilityDetail;
@@ -1187,10 +1235,10 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
     axios
       .post(
         "https://hsbackend.azurewebsites.net/upload",
-        {uri: screenshot},
-        {headers: {Authorization: `Bearer ${token}`}}
+        { uri: screenshot },
+        { headers: { Authorization: `Bearer ${token}` } }
       )
-      .then(async res => {
+      .then(async (res) => {
         const imageUrl = res.data.url;
 
         const document = {
@@ -1205,18 +1253,18 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
 
         await emailServer
           .create(document)
-          .then(res => {
+          .then((res) => {
             hideActionLoader();
             closeModal();
             toast.success(`The Invoice was sent successfully`);
           })
-          .catch(err => {
+          .catch((err) => {
             hideActionLoader();
             console.log(err);
             toast.error(`Sorry, Failed to send Invoice ${err}`);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error(`Sorry, failed to send Invoice ${err}`);
       });
 
@@ -1246,13 +1294,13 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
       </ModalBox>
 
       <Box
-        sx={{display: "flex", justifyContent: "flex-end"}}
+        sx={{ display: "flex", justifyContent: "flex-end" }}
         mb={2}
         mt={-1}
         gap={1.5}
       >
         <GlobalCustomButton
-          sx={{marginTop: "5px"}}
+          sx={{ marginTop: "5px" }}
           color="success"
           onClick={() => setEmailModals(true)}
         >
@@ -1260,7 +1308,7 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
         </GlobalCustomButton>
 
         <GlobalCustomButton
-          sx={{marginTop: "5px"}}
+          sx={{ marginTop: "5px" }}
           color="secondary"
           onClick={() => setToEmailModal(true)}
         >
@@ -1273,7 +1321,7 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
           <Input
             important
             label="Name"
-            register={register("name", {require: "Please enter Name"})}
+            register={register("name", { require: "Please enter Name" })}
             errorText={errors?.name?.message}
           />
         </Grid>
@@ -1282,7 +1330,7 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
           <Input
             important
             label="Subject"
-            register={register("subject", {require: "Please enter Subject"})}
+            register={register("subject", { require: "Please enter Subject" })}
             errorText={errors?.subject?.message}
           />
         </Grid>
@@ -1291,7 +1339,7 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
           <Input
             important
             label="From"
-            register={register("from", {require: "Please Add Source Email"})}
+            register={register("from", { require: "Please Add Source Email" })}
             errorText={errors?.from?.message}
             disabled
           />
@@ -1312,7 +1360,7 @@ export const SendInvoiceViaEmail = ({closeModal, screenshot}) => {
       <Box>
         <GlobalCustomButton onClick={handleSubmit(handleSendEmail)}>
           Send Invoice Via Email
-          <SendIcon fontSize="small" sx={{marginLeft: "4px"}} />
+          <SendIcon fontSize="small" sx={{ marginLeft: "4px" }} />
         </GlobalCustomButton>
       </Box>
     </Box>
